@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: shoplinkk-web
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run db:generate && npm run build
+    startCommand: npm run db:deploy && npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shoplinkk-postgres
+          property: connectionString
+      - key: NEXTAUTH_URL
+        sync: false
+      - key: NEXT_PUBLIC_APP_URL
+        sync: false
+      - key: NEXTAUTH_SECRET
+        generateValue: true
+
+databases:
+  - name: shoplinkk-postgres
+    plan: starter

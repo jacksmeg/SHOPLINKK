@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: shoplinkk-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: shoplinkk
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - shoplinkk_pgdata:/var/lib/postgresql/data
+
+volumes:
+  shoplinkk_pgdata:

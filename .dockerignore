@@ -1,0 +1,10 @@
+node_modules
+.next
+.npm-cache
+public/uploads
+.env
+.env.*
+!.env.example
+npm-debug.log*
+Dockerfile
+README.md

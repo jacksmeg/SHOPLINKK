@@ -52,6 +52,9 @@ export default async function FavoritesPage() {
   const products = favorites.map((favorite) => ({
     ...favorite.product,
     price: Number(favorite.product.price),
+    salePrice: favorite.product.salePrice ? Number(favorite.product.salePrice) : null,
+    saleStartsAt: favorite.product.saleStartsAt?.toISOString() ?? null,
+    saleEndsAt: favorite.product.saleEndsAt?.toISOString() ?? null,
   }));
 
   return (

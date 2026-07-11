@@ -6,6 +6,8 @@ import { savePlatformConfig } from "@/lib/platform-settings";
 import { getIntegrationConfig } from "@/lib/integration-settings";
 
 const schema = z.object({
+  brandName: z.string().min(2).max(40),
+  logoUrl: z.union([z.url(), z.string().regex(/^\/(brand|uploads)\/.+/)]),
   supportEmail: z.email(), supportPhone: z.string().min(7), defaultTown: z.string().min(2),
   listingApproval: z.boolean(), allowRegistration: z.boolean(), requireEmailVerification: z.boolean(), requirePhoneVerification: z.boolean(), maintenanceMode: z.boolean(),
   safetyBanner: z.string().min(10).max(240), listingExpiryDays: z.number().int().min(7).max(365), maxProductImages: z.number().int().min(1).max(12),

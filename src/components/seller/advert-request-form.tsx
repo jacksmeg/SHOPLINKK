@@ -58,15 +58,17 @@ export function AdvertRequestForm({
 
     startTransition(async () => {
       const packageId = String(form.get("packageId") ?? "");
+      const durationDays = Number(form.get("durationDays") || "7");
+      const placement = String(form.get("placement") || "HOMEPAGE");
       const response = await fetch(`/api/products/${productId}/boost`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          placement: form.get("placement"),
+          placement: placement === "MARKETPLACE" ? "MARKETPLACE" : "HOMEPAGE",
           packageId,
-          headline: form.get("headline"),
-          durationDays: Number(form.get("durationDays")),
-          note: form.get("note"),
+          headline: String(form.get("headline") ?? "").trim(),
+          durationDays: Number.isFinite(durationDays) ? durationDays : 7,
+          note: String(form.get("note") ?? "").trim(),
           imageUrls,
         }),
       });

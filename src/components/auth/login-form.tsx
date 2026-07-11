@@ -5,7 +5,7 @@ import { getSession, signIn } from "next-auth/react";
 import { AlertCircle, ArrowRight, CheckCircle2, LockKeyhole, UserRound } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
-import { AuthPanel, GoogleIcon } from "@/components/auth/auth-panel";
+import { AuthLogoMark, AuthPanel, GoogleIcon } from "@/components/auth/auth-panel";
 import { Button } from "@/components/ui/button";
 
 export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
@@ -90,6 +90,9 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
   return (
     <AuthPanel mode="login">
       <div>
+        <div className="mb-5 flex justify-center lg:hidden">
+          <AuthLogoMark compact />
+        </div>
         <h1 className="text-xl font-black text-[var(--ink)]">Welcome back</h1>
         <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Sign in with your username, email, or phone.</p>
         {registrationNotice ? (
@@ -109,11 +112,6 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
             {verifiedStatus === "expired" ? "That verification link has expired. Sign in if your account is already verified, or request a new link from Account Security." : "That verification link is not valid. Please use the latest email from ShopLinkk."}
           </p>
         ) : null}
-
-        <label className="mt-4 flex cursor-pointer items-start gap-2.5 rounded-[7px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 text-[0.68rem] leading-5 text-[var(--muted)]">
-          <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} className="mt-0.5 size-4 shrink-0 accent-[var(--brand)]" />
-          <span>I agree to the <Link href="/terms" target="_blank" className="font-bold text-[var(--brand-dark)]">Terms</Link>, <Link href="/privacy" target="_blank" className="font-bold text-[var(--brand-dark)]">Privacy Policy</Link>, and <Link href="/license-agreement" target="_blank" className="font-bold text-[var(--brand-dark)]">License Agreement</Link>.</span>
-        </label>
 
         <button
           type="button"
@@ -168,6 +166,10 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
                 className="form-control w-full pl-10 pr-3 text-sm"
               />
             </span>
+          </label>
+          <label className="flex cursor-pointer items-start gap-2.5 rounded-[7px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 text-[0.68rem] leading-5 text-[var(--muted)]">
+            <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} className="mt-0.5 size-4 shrink-0 accent-[var(--brand)]" />
+            <span>I agree to the <Link href="/terms" target="_blank" className="font-bold text-[var(--brand-dark)]">Terms</Link>, <Link href="/privacy" target="_blank" className="font-bold text-[var(--brand-dark)]">Privacy Policy</Link>, and <Link href="/license-agreement" target="_blank" className="font-bold text-[var(--brand-dark)]">License Agreement</Link>.</span>
           </label>
           {error ? (
             <p className="flex items-start gap-2 rounded-[8px] bg-red-50 p-3 text-sm font-semibold text-red-700">

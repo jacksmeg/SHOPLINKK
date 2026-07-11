@@ -22,6 +22,9 @@ export type PublicProduct = {
   description: string;
   listingType?: ListingType | string;
   price: number;
+  salePrice?: number | null;
+  saleStartsAt?: Date | string | null;
+  saleEndsAt?: Date | string | null;
   quantity?: number;
   condition: ProductCondition | string;
   location: string;
@@ -160,6 +163,7 @@ function normalizeProduct(product: Prisma.ProductGetPayload<{ include: typeof pr
   return {
     ...product,
     price: Number(product.price),
+    salePrice: product.salePrice ? Number(product.salePrice) : null,
   };
 }
 
@@ -343,6 +347,28 @@ export async function getFeaturedProducts() {
 
 export async function getLatestProducts() {
   return getPublicProducts({ take: 8 });
+}
+
+export async function getFlashSaleProducts() {
+  try {
+    const now = new Date();
+    const products = await prisma.product.findMany({
+      where: {
+        listingStatus: "APPROVED",
+        stockStatus: { not: "SOLD" },
+        salePrice: { not: null },
+        saleStartsAt: { lte: now },
+        saleEndsAt: { gt: now },
+      },
+      include: productInclude,
+      orderBy: [{ saleEndsAt: "asc" }, { createdAt: "desc" }],
+      take: 12,
+    });
+
+    return products.map(normalizeProduct).filter((product) => Number(product.salePrice ?? 0) < product.price);
+  } catch {
+    return [];
+  }
 }
 
 export async function getHomepageAdverts(): Promise<PublicHomepageAdvert[]> {

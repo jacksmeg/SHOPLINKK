@@ -26,7 +26,7 @@ function escapeHtml(value: string) {
 }
 
 export function brandedEmail(input: BrandedEmailInput) {
-  const logoUrl = appUrl("/brand/shoplinkk-mark.webp");
+  const logoUrl = appUrl("/api/platform/logo");
   const safeCtaUrl = input.ctaUrl ? escapeHtml(input.ctaUrl) : "";
   const safeBody = input.body ? escapeHtml(input.body).replace(/\n/g, "<br>") : "";
   const cta = input.ctaLabel && input.ctaUrl

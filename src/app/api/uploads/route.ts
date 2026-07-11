@@ -3,7 +3,7 @@ import { enforceRateLimit, jsonError, requireApiSession } from "@/lib/api";
 import { uploadImageAsset, uploadPurposes, uploadVideoAsset, type UploadPurpose } from "@/lib/storage";
 
 const sellerPurposes: UploadPurpose[] = ["store-logo", "store-cover", "advert", "product", "seller-document", "product-video"];
-const adminOnlyPurposes: UploadPurpose[] = ["category"];
+const adminOnlyPurposes: UploadPurpose[] = ["category", "platform-logo"];
 
 export async function POST(request: Request) {
   const limited = enforceRateLimit(request, "uploads", 30, 60_000);

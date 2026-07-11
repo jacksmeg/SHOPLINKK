@@ -29,6 +29,12 @@ export function AppChrome({ children }: { children: React.ReactNode }) {
       .catch(() => null);
   }, [pathname, router]);
 
+  useEffect(() => {
+    if (!marketplacePage || !showSafety || !safetyBanner) return;
+    const timeout = window.setTimeout(() => setShowSafety(false), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [marketplacePage, safetyBanner, showSafety]);
+
   return (
     <div className="shoplinkk-shell flex min-h-screen flex-col">
       {authPage ? null : <NavBar />}

@@ -6,7 +6,7 @@ const styles = {
   base: "uiverse-sheen relative isolate inline-flex min-h-10 items-center justify-center gap-2 overflow-hidden rounded-[7px] px-4 text-xs font-semibold transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-60",
   variants: {
     primary:
-      "button-sheen-light bg-[var(--brand)] text-white shadow-sm hover:-translate-y-px hover:bg-[var(--brand-dark)] hover:shadow-lg focus-visible:outline-[var(--brand)] active:translate-y-0",
+      "button-sheen-light bg-[var(--button-primary)] text-white shadow-sm hover:-translate-y-px hover:bg-[var(--button-primary-hover)] hover:shadow-lg focus-visible:outline-[var(--brand)] active:translate-y-0",
     secondary:
       "button-sheen-blue border border-[var(--line-strong)] bg-white text-[var(--ink)] hover:-translate-y-px hover:border-[var(--brand)] hover:text-[var(--brand-dark)] active:translate-y-0",
     dark: "bg-[var(--ink)] text-white hover:-translate-y-px hover:bg-black active:translate-y-0",

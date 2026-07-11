@@ -17,6 +17,9 @@ type ProductFormValue = {
   description?: string;
   categoryId?: string;
   price?: number | string;
+  salePrice?: number | string | null;
+  saleStartsAt?: Date | string | null;
+  saleEndsAt?: Date | string | null;
   quantity?: number | string;
   condition?: string;
   location?: string;
@@ -32,6 +35,14 @@ type ProductFormValue = {
   seoDescription?: string | null;
   images?: { url: string; alt?: string | null }[];
 };
+
+function datetimeLocal(value?: Date | string | null) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000);
+  return local.toISOString().slice(0, 16);
+}
 
 export function ProductForm({
   categories,
@@ -98,6 +109,9 @@ export function ProductForm({
           description: formData.get("description"),
           categoryId: formData.get("categoryId"),
           price: formData.get("price"),
+          salePrice: formData.get("salePrice") || null,
+          saleStartsAt: formData.get("saleStartsAt") || null,
+          saleEndsAt: formData.get("saleEndsAt") || null,
           quantity: formData.get("quantity"),
           condition: formData.get("condition"),
           location: formData.get("location"),
@@ -191,6 +205,29 @@ export function ProductForm({
               Price
               <input name="price" type="number" min="1" defaultValue={product?.price ? Number(product.price) : ""} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
             </label>
+          </div>
+          <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <p className="text-sm font-black text-[var(--ink)]">Flash sale</p>
+                <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Optional. Add a lower price with a start and end time.</p>
+              </div>
+              <span className="rounded-full bg-[var(--flash-yellow)] px-2.5 py-1 text-[0.68rem] font-black text-slate-950">SALE</span>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <label className="text-xs font-bold text-[var(--ink)]">
+                Sale price
+                <input name="salePrice" type="number" min="1" defaultValue={product?.salePrice ? Number(product.salePrice) : ""} placeholder="Optional" className="form-control mt-1.5 w-full px-3 text-xs" />
+              </label>
+              <label className="text-xs font-bold text-[var(--ink)]">
+                Starts
+                <input name="saleStartsAt" type="datetime-local" defaultValue={datetimeLocal(product?.saleStartsAt)} className="form-control mt-1.5 w-full px-3 text-xs" />
+              </label>
+              <label className="text-xs font-bold text-[var(--ink)]">
+                Ends
+                <input name="saleEndsAt" type="datetime-local" defaultValue={datetimeLocal(product?.saleEndsAt)} className="form-control mt-1.5 w-full px-3 text-xs" />
+              </label>
+            </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-4">
             <label className="text-sm font-bold text-[var(--ink)]">

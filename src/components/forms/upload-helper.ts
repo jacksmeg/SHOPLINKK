@@ -39,6 +39,7 @@ export async function prepareImage(file: File, purpose: Exclude<UploadPurpose, "
     profile: { width: 800, height: 800, crop: true },
     "store-cover": { width: 1600, height: 900, crop: true },
     category: { width: 900, height: 700, crop: true },
+    "platform-logo": { width: 800, height: 800, crop: true },
     product: { width: 1600, height: 1200, crop: false },
     advert: { width: 1200, height: 760, crop: true },
     chat: { width: 1280, height: 1280, crop: false },

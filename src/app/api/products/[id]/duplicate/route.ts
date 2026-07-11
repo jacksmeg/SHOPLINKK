@@ -28,10 +28,15 @@ export async function POST(
       sellerId: product.sellerId,
       storeId: product.storeId,
       categoryId: product.categoryId,
+      listingType: product.listingType,
       title: `${product.title} copy`,
       slug: uniqueSlug(`${product.title} copy`),
       description: product.description,
       price: product.price,
+      salePrice: product.salePrice,
+      saleStartsAt: product.saleStartsAt,
+      saleEndsAt: product.saleEndsAt,
+      quantity: product.quantity,
       condition: product.condition,
       location: product.location,
       area: product.area,
@@ -56,4 +61,3 @@ export async function POST(
 
   return NextResponse.json(copy, { status: 201 });
 }
-

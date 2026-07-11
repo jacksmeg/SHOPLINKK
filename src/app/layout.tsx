@@ -15,9 +15,9 @@ export const metadata: Metadata = {
   applicationName: "ShopLinkk",
   manifest: "/manifest.webmanifest",
   icons: {
-    icon: "/brand/shoplinkk-mark.webp",
-    shortcut: "/brand/shoplinkk-mark.webp",
-    apple: "/brand/shoplinkk-mark.webp",
+    icon: "/api/platform/logo",
+    shortcut: "/api/platform/logo",
+    apple: "/api/platform/logo",
   },
   appleWebApp: {
     capable: true,

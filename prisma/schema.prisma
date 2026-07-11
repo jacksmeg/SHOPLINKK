@@ -321,6 +321,9 @@ model Product {
   slug            String                @unique
   description     String
   price           Decimal               @db.Decimal(12, 2)
+  salePrice       Decimal?              @db.Decimal(12, 2)
+  saleStartsAt    DateTime?
+  saleEndsAt      DateTime?
   quantity        Int                   @default(1)
   condition       ProductCondition      @default(USED)
   location        String                @default("Dunkwa-on-Offin")
@@ -367,6 +370,7 @@ model Product {
   @@index([listingType])
   @@index([listingPaymentStatus])
   @@index([isFeatured, featuredUntil])
+  @@index([saleStartsAt, saleEndsAt])
   @@index([expiresAt])
 }
 

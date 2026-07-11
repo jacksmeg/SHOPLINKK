@@ -16,7 +16,10 @@ export async function POST(
 
   const { id } = await context.params;
   const parsed = boostRequestSchema.safeParse(await request.json().catch(() => null));
-  if (!parsed.success) return jsonError(parsed.error.issues[0]?.message ?? "Check the advert request details");
+  if (!parsed.success) {
+    const details = parsed.error.issues.map((issue) => issue.message).filter(Boolean).join(" ");
+    return jsonError(details || "Check the advert request details");
+  }
   const activeAdvertPackages = await prisma.billingPackage.count({
     where: { type: "ADVERT", isActive: true },
   });

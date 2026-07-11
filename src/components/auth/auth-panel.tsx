@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import {
   BadgeCheck,
   MapPin,
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 
 type AuthMode = "login" | "register";
+const fallbackLogo = "/brand/shoplinkk-mark.webp";
 
 const content = {
   login: {
@@ -60,20 +62,35 @@ const content = {
 };
 
 export function AuthLogoMark({ compact = false }: { compact?: boolean }) {
+  const [brand, setBrand] = useState({ brandName: "ShopLinkk", logoUrl: fallbackLogo });
+
+  useEffect(() => {
+    fetch("/api/platform")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((config) => {
+        if (!config) return;
+        setBrand({ brandName: config.brandName || "ShopLinkk", logoUrl: config.logoUrl || fallbackLogo });
+      })
+      .catch(() => null);
+  }, []);
+
+  const customLogo = brand.logoUrl !== fallbackLogo;
+
   return (
     <div className="inline-flex items-center gap-2">
       <span className="grid size-10 place-items-center overflow-hidden rounded-[8px] bg-[var(--brand-soft)] shadow-sm ring-1 ring-blue-100">
         <Image
-          src="/brand/shoplinkk-mark.webp"
+          src={brand.logoUrl}
           alt=""
           width={256}
           height={256}
-          className="scale-[1.38] object-contain"
+          className={customLogo ? "object-contain" : "scale-[1.38] object-contain"}
           priority
+          unoptimized
         />
       </span>
       <span className={compact ? "text-lg font-black text-[var(--brand-dark)]" : "text-2xl font-black text-[var(--brand-dark)]"}>
-        ShopLinkk
+        {brand.brandName}
       </span>
     </div>
   );

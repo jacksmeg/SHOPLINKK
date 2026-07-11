@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Boxes, MapPin, MessageCircle, PackageCheck, Phone, Share2, ShieldAlert, ShieldCheck, Store, Tag, Wrench } from "lucide-react";
+import { Boxes, Flame, MapPin, MessageCircle, PackageCheck, Phone, Share2, ShieldAlert, ShieldCheck, Store, Tag, Wrench } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactSellerButton } from "@/components/marketplace/contact-seller-button";
@@ -18,6 +18,7 @@ import { getCurrentSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
 import { appUrl } from "@/lib/email";
 import { formatGhanaPhone, whatsappLink } from "@/lib/ghana";
+import { getActiveSalePrice, saleEndsInLabel } from "@/lib/pricing";
 import { formatCurrency, titleCase } from "@/lib/utils";
 
 export async function generateMetadata({
@@ -93,6 +94,9 @@ export default async function ProductDetailPage({
     ? whatsappLink(sellerWhatsapp, `Hello, I saw ${product.title} on ShopLinkk. Is it still available?`)
     : "";
   const productUrl = `${appUrl()}/products/${product.slug}`;
+  const salePrice = getActiveSalePrice(product);
+  const visiblePrice = salePrice ?? product.price;
+  const saleLabel = saleEndsInLabel(product.saleEndsAt);
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -102,7 +106,7 @@ export default async function ProductDetailPage({
     category: product.category.name,
     offers: {
       "@type": "Offer",
-      price: product.price,
+      price: visiblePrice,
       priceCurrency: "GHS",
       availability: product.stockStatus === "SOLD" ? "https://schema.org/SoldOut" : "https://schema.org/InStock",
       url: productUrl,
@@ -124,13 +128,22 @@ export default async function ProductDetailPage({
         <aside className="self-start rounded-[8px] border border-[var(--line)] bg-white p-4 shadow-sm sm:p-5 lg:sticky lg:top-20">
           <div className="flex flex-wrap gap-2">
             <Badge tone="green">{titleCase(String(product.stockStatus))}</Badge>
+            {salePrice ? <Badge tone="red"><Flame size={12} /> Flash sale</Badge> : null}
             {product.listingType === "SERVICE" ? <Badge tone="blue"><Wrench size={12} /> Service</Badge> : <Badge tone="blue">Product</Badge>}
             <Badge tone="neutral">{titleCase(String(product.condition))}</Badge>
             <Badge tone="blue">{product.category.name}</Badge>
             {product.negotiable ? <Badge tone="gold">Negotiable</Badge> : null}
           </div>
           <h1 className="mt-4 text-xl font-black leading-tight text-[var(--ink)]">{product.title}</h1>
-          <p className="mt-2 text-xl font-black text-[var(--brand-dark)]">{formatCurrency(product.price)}</p>
+          <div className="mt-2">
+            <p className={salePrice ? "text-xl font-black text-red-600" : "text-xl font-black text-[var(--brand-dark)]"}>{formatCurrency(visiblePrice)}</p>
+            {salePrice ? (
+              <p className="mt-1 flex flex-wrap items-center gap-2 text-xs font-bold text-[var(--muted)]">
+                <span className="line-through">{formatCurrency(product.price)}</span>
+                {saleLabel ? <span className="rounded-full bg-red-50 px-2 py-1 text-red-700">{saleLabel}</span> : null}
+              </p>
+            ) : null}
+          </div>
           <div className="mt-4 grid gap-2 text-xs text-[var(--muted)]">
             <span className="inline-flex items-center gap-2"><MapPin size={16} /> {product.area ? `${product.area}, ${product.location}` : product.location}</span>
             <span className="inline-flex items-center gap-2"><Tag size={16} /> {product.category.name}</span>
@@ -156,7 +169,7 @@ export default async function ProductDetailPage({
             ) : null}
             <FavoriteButton productId={product.id} />
             <CompareButton productId={product.id} />
-            <PriceAlertButton productId={product.id} currentPrice={product.price} />
+            <PriceAlertButton productId={product.id} currentPrice={visiblePrice} />
             <ReportButton productId={product.id} reportedUserId={product.seller.id} />
             <BlockUserButton userId={product.seller.id} />
             <ButtonLink href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`} target="_blank" rel="noreferrer" variant="ghost">

@@ -13,13 +13,13 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: "portrait",
     icons: [
       {
-        src: "/brand/shoplinkk-mark.webp",
+        src: "/api/platform/logo",
         sizes: "256x256",
         type: "image/webp",
         purpose: "any",
       },
       {
-        src: "/brand/shoplinkk-mark.webp",
+        src: "/api/platform/logo",
         sizes: "256x256",
         type: "image/webp",
         purpose: "maskable",

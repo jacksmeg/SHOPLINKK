@@ -49,6 +49,11 @@ export async function sendEmail(input: EmailInput) {
 }
 
 export function appUrl(path = "") {
-  const base = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || "http://localhost:3000";
-  return `${base.replace(/\/$/, "")}${path}`;
+  const configured = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || "";
+  const localBase = process.env.NODE_ENV === "production" ? "https://www.shoplinkk.com" : "http://localhost:3004";
+  const unsafeProductionBase = process.env.NODE_ENV === "production" && /localhost|127\.0\.0\.1/i.test(configured);
+  const base = configured && !unsafeProductionBase ? configured : localBase;
+  const normalizedPath = path ? (path.startsWith("/") ? path : `/${path}`) : "";
+
+  return `${base.replace(/\/$/, "")}${normalizedPath}`;
 }

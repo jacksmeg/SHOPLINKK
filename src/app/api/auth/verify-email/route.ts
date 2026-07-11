@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { appUrl } from "@/lib/email";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -7,7 +8,7 @@ export async function GET(request: Request) {
   const email = url.searchParams.get("email")?.toLowerCase();
 
   if (!token || !email) {
-    return NextResponse.redirect(new URL("/login?verified=invalid", request.url));
+    return NextResponse.redirect(appUrl("/login?verified=invalid"));
   }
 
   const record = await prisma.verificationToken.findUnique({
@@ -20,7 +21,7 @@ export async function GET(request: Request) {
   });
 
   if (!record || record.expires < new Date()) {
-    const redirectUrl = new URL("/login", request.url);
+    const redirectUrl = new URL(appUrl("/login"));
     redirectUrl.searchParams.set("verified", "expired");
     redirectUrl.searchParams.set("email", email);
     return NextResponse.redirect(redirectUrl);
@@ -35,7 +36,7 @@ export async function GET(request: Request) {
     .catch(() => null);
 
   if (!user) {
-    return NextResponse.redirect(new URL("/login?verified=invalid", request.url));
+    return NextResponse.redirect(appUrl("/login?verified=invalid"));
   }
 
   await prisma.verificationToken.delete({
@@ -47,7 +48,7 @@ export async function GET(request: Request) {
     },
   });
 
-  const redirectUrl = new URL("/login", request.url);
+  const redirectUrl = new URL(appUrl("/login"));
   redirectUrl.searchParams.set("verified", "success");
   redirectUrl.searchParams.set("email", email);
   redirectUrl.searchParams.set("next", user.role === "SELLER" ? "seller" : user.role === "ADMIN" ? "admin" : "buyer");

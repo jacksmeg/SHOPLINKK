@@ -15,6 +15,16 @@ const mediaValue = z.union([
   z.string().regex(/^\/uploads\/.+/, "Upload media first"),
 ]);
 
+const optionalPriceSchema = z.preprocess(
+  (value) => (value === "" ? null : value),
+  z.union([z.coerce.number().positive(), z.null()]).optional(),
+);
+
+const optionalDateSchema = z.preprocess(
+  (value) => (value === "" ? null : value),
+  z.union([z.coerce.date(), z.null()]).optional(),
+);
+
 export const ghanaPhoneSchema = z.preprocess(
   (value) => (typeof value === "string" ? value.replace(/[\s-]/g, "") : value),
   z
@@ -102,6 +112,9 @@ export const productSchema = z.object({
   description: z.string().min(20),
   categoryId: z.string().min(1),
   price: z.coerce.number().positive(),
+  salePrice: optionalPriceSchema,
+  saleStartsAt: optionalDateSchema,
+  saleEndsAt: optionalDateSchema,
   quantity: z.coerce.number().int().min(0).max(999999).default(1),
   condition: z.enum(["NEW", "USED", "REFURBISHED"]).default("USED"),
   location: z.string().min(2).default("Dunkwa-on-Offin"),
@@ -116,6 +129,15 @@ export const productSchema = z.object({
   seoTitle: z.string().max(80).optional().or(z.literal("")),
   seoDescription: z.string().max(160).optional().or(z.literal("")),
   imageUrls: z.array(imageValue).min(1, "Add at least one product image").max(12),
+}).refine((value) => !value.salePrice || value.salePrice < value.price, {
+  message: "Flash sale price must be lower than the normal price",
+  path: ["salePrice"],
+}).refine((value) => !value.salePrice || (value.saleStartsAt && value.saleEndsAt), {
+  message: "Add flash sale start and end dates",
+  path: ["saleStartsAt"],
+}).refine((value) => !value.saleStartsAt || !value.saleEndsAt || value.saleEndsAt > value.saleStartsAt, {
+  message: "Flash sale end time must be after the start time",
+  path: ["saleEndsAt"],
 });
 
 export const productFilterSchema = z.object({

@@ -7,12 +7,12 @@ import { HomeAdvertRail } from "@/components/marketplace/home-advert-rail";
 import { NearbyTownMap } from "@/components/marketplace/nearby-town-map";
 import { ProductRail } from "@/components/marketplace/product-rail";
 import { HomepageSearch } from "@/components/marketplace/search/homepage-search";
-import { getCategories, getFeaturedProducts, getHomepageAdverts, getLatestProducts, getPlatformStats, getPublicTowns } from "@/lib/marketplace";
+import { getCategories, getFeaturedProducts, getFlashSaleProducts, getHomepageAdverts, getLatestProducts, getPlatformStats, getPublicTowns } from "@/lib/marketplace";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [categories, featured, latest, stats, adverts, towns] = await Promise.all([getCategories(), getFeaturedProducts(), getLatestProducts(), getPlatformStats(), getHomepageAdverts(), getPublicTowns()]);
+  const [categories, featured, latest, flashSales, stats, adverts, towns] = await Promise.all([getCategories(), getFeaturedProducts(), getLatestProducts(), getFlashSaleProducts(), getPlatformStats(), getHomepageAdverts(), getPublicTowns()]);
   const picks = featured.length ? featured : latest.slice(0, 8);
 
   return (
@@ -37,6 +37,12 @@ export default async function Home() {
       </section>
 
       <HomeAdvertRail adverts={adverts} />
+
+      {flashSales.length ? (
+        <section className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
+          <ProductRail products={flashSales} title="Flash sales ending soon" eyebrow="Hot deals" href="/marketplace?sort=newest" />
+        </section>
+      ) : null}
 
       <section className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
         <ProductRail products={picks.slice(0, 8)} title="Featured near you" eyebrow="Local picks" href="/marketplace?sort=featured" />

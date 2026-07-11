@@ -2,6 +2,8 @@ import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 
 export type PlatformConfig = {
+  brandName: string;
+  logoUrl: string;
   supportEmail: string;
   supportPhone: string;
   defaultTown: string;
@@ -16,6 +18,8 @@ export type PlatformConfig = {
 };
 
 export const defaultPlatformConfig: PlatformConfig = {
+  brandName: "ShopLinkk",
+  logoUrl: "/brand/shoplinkk-mark.webp",
   supportEmail: "hello@shoplinkk.com",
   supportPhone: "+233240000000",
   defaultTown: "Dunkwa-on-Offin",

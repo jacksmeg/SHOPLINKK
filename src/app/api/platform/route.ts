@@ -5,5 +5,11 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const config = await getPlatformConfig();
-  return NextResponse.json({ maintenanceMode: config.maintenanceMode, safetyBanner: config.safetyBanner, defaultTown: config.defaultTown });
+  return NextResponse.json({
+    brandName: config.brandName,
+    logoUrl: config.logoUrl,
+    maintenanceMode: config.maintenanceMode,
+    safetyBanner: config.safetyBanner,
+    defaultTown: config.defaultTown,
+  });
 }

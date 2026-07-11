@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Boxes, MapPin, ShieldCheck, Store, Video, Wrench } from "lucide-react";
+import { Boxes, Flame, MapPin, ShieldCheck, Store, Video, Wrench } from "lucide-react";
 import type { PublicProduct } from "@/lib/marketplace";
+import { getActiveSalePrice, saleEndsInLabel } from "@/lib/pricing";
 import { formatCurrency, titleCase } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { FavoriteButton } from "@/components/marketplace/favorite-button";
@@ -14,6 +15,8 @@ export function ProductCard({
   priority?: boolean;
 }) {
   const cover = product.images[0]?.url ?? "/window.svg";
+  const salePrice = getActiveSalePrice(product);
+  const saleLabel = saleEndsInLabel(product.saleEndsAt);
 
   return (
     <article className="market-card group overflow-hidden rounded-[8px] border border-[var(--line)] bg-white transition duration-200 hover:-translate-y-0.5 hover:border-[var(--line-strong)] hover:shadow-xl">
@@ -28,6 +31,7 @@ export function ProductCard({
           unoptimized
         />
         <div className="absolute left-3 top-3 flex flex-wrap gap-2">
+          {salePrice ? <Badge tone="red"><Flame size={11} /> Flash sale</Badge> : null}
           {product.listingType === "SERVICE" ? <Badge tone="blue"><Wrench size={11} /> Service</Badge> : null}
           {product.isFeatured ? <Badge tone="gold">Featured</Badge> : null}
           {product.negotiable ? <Badge tone="blue">Negotiable</Badge> : null}
@@ -48,8 +52,15 @@ export function ProductCard({
               {product.title}
             </h3>
           </Link>
-          <span className="whitespace-nowrap text-sm font-black text-[var(--brand-dark)]">
-            {formatCurrency(product.price)}
+          <span className="whitespace-nowrap text-left text-sm font-black text-[var(--brand-dark)] sm:text-right">
+            {salePrice ? (
+              <>
+                <span className="block text-red-600">{formatCurrency(salePrice)}</span>
+                <span className="block text-[0.68rem] font-bold text-[var(--muted)] line-through">{formatCurrency(product.price)}</span>
+              </>
+            ) : (
+              formatCurrency(product.price)
+            )}
           </span>
         </div>
         <p className="mt-2 line-clamp-2 text-xs leading-5 text-[var(--muted)]">
@@ -77,6 +88,7 @@ export function ProductCard({
               {product.quantity} unit{product.quantity === 1 ? "" : "s"} left
             </span>
           ) : null}
+          {salePrice && saleLabel ? <span className="font-black text-red-600">{saleLabel}</span> : null}
         </div>
       </div>
     </article>

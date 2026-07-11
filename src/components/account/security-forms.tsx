@@ -2,7 +2,7 @@
 
 import { KeyRound, Mail, Phone, ShieldCheck, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useTransition, type FormEvent } from "react";
+import { useEffect, useState, useTransition, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 
 type SecurityFormsProps = {
@@ -18,6 +18,15 @@ export function SecurityForms({ email, phone, emailVerified, phoneVerified }: Se
   const [messageIsError, setMessageIsError] = useState(false);
   const [pending, startTransition] = useTransition();
 
+  useEffect(() => {
+    if (!message) return;
+    const timer = window.setTimeout(() => {
+      setMessage("");
+      setMessageIsError(false);
+    }, 5000);
+    return () => window.clearTimeout(timer);
+  }, [message]);
+
   function post(path: string, data?: Record<string, FormDataEntryValue | string | null>) {
     startTransition(async () => {
       const response = await fetch(path, {
@@ -28,6 +37,10 @@ export function SecurityForms({ email, phone, emailVerified, phoneVerified }: Se
       const result = await response.json().catch(() => null);
       setMessage(result?.message ?? (response.ok ? "Done." : "Could not complete this action."));
       setMessageIsError(!response.ok);
+      if (response.ok && path === "/api/account/change-password") {
+        const form = document.querySelector<HTMLFormElement>("[data-change-password-form='true']");
+        form?.reset();
+      }
       router.refresh();
     });
   }
@@ -123,7 +136,7 @@ export function SecurityForms({ email, phone, emailVerified, phoneVerified }: Se
         </div>
       </section>
 
-      <form method="post" onSubmit={changePassword} className="rounded-[8px] border border-[var(--line)] bg-white p-5 shadow-sm">
+      <form method="post" onSubmit={changePassword} data-change-password-form="true" className="rounded-[8px] border border-[var(--line)] bg-white p-5 shadow-sm">
         <h2 className="flex items-center gap-2 text-sm font-black text-[var(--ink)]"><KeyRound size={18} /> Change password</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <input name="currentPassword" type="password" placeholder="Current password" required className="form-control w-full px-3 text-sm" />

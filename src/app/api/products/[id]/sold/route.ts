@@ -19,14 +19,19 @@ export async function POST(
 
   const updated = await prisma.product.update({
     where: { id },
-    data: { stockStatus: "SOLD" },
+    data: {
+      stockStatus: "SOLD",
+      listingStatus: "REMOVED",
+      isFeatured: false,
+      featuredUntil: null,
+    },
   });
 
   await notifyUser({
     userId: product.sellerId,
     type: "LISTING",
     title: "Product marked sold",
-    body: `${product.title} is now marked as sold.`,
+    body: `${product.title} is now marked as sold and removed from public browsing.`,
     href: "/seller",
   });
 

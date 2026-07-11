@@ -2,24 +2,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { enforceRateLimit, jsonError, requireApiSession } from "@/lib/api";
 import { appUrl, sendEmail } from "@/lib/email";
+import { brandedEmail } from "@/lib/email-template";
 import { notifyUser } from "@/lib/notifications";
 import { triggerConversationEvent } from "@/lib/realtime";
 import { deliverPushToUser } from "@/lib/web-push";
 import { messageSchema } from "@/lib/validators";
-
-function escapeHtml(value: string) {
-  return value.replace(
-    /[&<>"']/g,
-    (character) =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;",
-      })[character] ?? character,
-  );
-}
 
 async function getConversationForUser(id: string, userId: string) {
   return prisma.conversation.findFirst({
@@ -148,9 +135,30 @@ export async function POST(
   });
 
   const recipientId = conversation.buyerId === session.user.id ? conversation.sellerId : conversation.buyerId;
-  const recipient = await prisma.user.findUnique({
-    where: { id: recipientId },
-    select: { email: true, emailAlertsEnabled: true },
+  const [recipient, sender] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: recipientId },
+      select: { email: true, emailAlertsEnabled: true },
+    }),
+    prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { email: true, emailAlertsEnabled: true },
+    }),
+  ]);
+  const chatUrl = appUrl(`/chat/${id}`);
+  const recipientEmail = brandedEmail({
+    title: "New ShopLinkk message",
+    intro: `You have a new message about ${conversation.product.title}.`,
+    body: parsed.data.body.slice(0, 220),
+    ctaLabel: "Open chat",
+    ctaUrl: chatUrl,
+  });
+  const senderEmail = brandedEmail({
+    title: "Your ShopLinkk message was sent",
+    intro: `Your message about ${conversation.product.title} was delivered in chat.`,
+    body: parsed.data.body.slice(0, 220),
+    ctaLabel: "View chat",
+    ctaUrl: chatUrl,
   });
   await Promise.all([
     notifyUser({
@@ -170,7 +178,16 @@ export async function POST(
       ? sendEmail({
           to: recipient.email,
           subject: "New ShopLinkk message",
-          html: `<p>You have a new message about ${escapeHtml(conversation.product.title)}.</p><p>${escapeHtml(parsed.data.body.slice(0, 200))}</p><p><a href="${appUrl(`/chat/${id}`)}">Open chat</a></p>`,
+          html: recipientEmail.html,
+          text: recipientEmail.text,
+        }).catch(() => null)
+      : Promise.resolve(),
+    sender?.email && sender.emailAlertsEnabled
+      ? sendEmail({
+          to: sender.email,
+          subject: "Your ShopLinkk message was sent",
+          html: senderEmail.html,
+          text: senderEmail.text,
         }).catch(() => null)
       : Promise.resolve(),
     triggerConversationEvent(id, "chat:message", { messageId: message.id }).catch(() => null),

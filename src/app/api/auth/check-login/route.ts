@@ -6,6 +6,15 @@ import { formatGhanaPhone } from "@/lib/ghana";
 import { getPlatformConfig } from "@/lib/platform-settings";
 import { loginSchema } from "@/lib/validators";
 
+async function findUserForLogin(identifier: string) {
+  const value = identifier.trim().toLowerCase();
+  if (value.includes("@")) return prisma.user.findUnique({ where: { email: value } });
+  if (/^(\+233|0)?[235][0-9]{8}$/.test(value.replace(/[\s-]/g, ""))) {
+    return prisma.user.findUnique({ where: { phone: formatGhanaPhone(value) } });
+  }
+  return prisma.user.findUnique({ where: { username: value } });
+}
+
 export async function POST(request: Request) {
   const limited = enforceRateLimit(request, "check-login", 10, 60_000);
   if (limited) return limited;
@@ -14,17 +23,14 @@ export async function POST(request: Request) {
   const parsed = loginSchema.safeParse(body);
 
   if (!parsed.success) {
-    return jsonError("Enter your email or phone number and password.", 400);
+    return jsonError("Enter your username, email or phone number and password.", 400);
   }
 
-  const identifier = parsed.data.identifier.trim();
-  const user = identifier.includes("@")
-    ? await prisma.user.findUnique({ where: { email: identifier.toLowerCase() } })
-    : await prisma.user.findUnique({ where: { phone: formatGhanaPhone(identifier) } });
+  const user = await findUserForLogin(parsed.data.identifier);
 
   if (!user) {
     return NextResponse.json(
-      { ok: false, message: "No ShopLinkk account was found with that email or phone number." },
+      { ok: false, message: "No ShopLinkk account was found with that username, email, or phone number." },
       { status: 401 },
     );
   }

@@ -91,7 +91,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
     <AuthPanel mode="login">
       <div>
         <h1 className="text-xl font-black text-[var(--ink)]">Welcome back</h1>
-        <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Sign in to your ShopLinkk account.</p>
+        <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Sign in with your username, email, or phone.</p>
         {registrationNotice ? (
           <p className="mt-3 rounded-[7px] bg-[var(--brand-soft)] p-3 text-xs font-semibold leading-5 text-[var(--brand-dark)]">
             Account created. Open the verification link sent to your email, then sign in.
@@ -119,7 +119,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
           type="button"
           onClick={() => {
             if (!accepted) { setError("Tick the agreement box before continuing with Google."); return; }
-            if (googleEnabled) signIn("google", { callbackUrl });
+            if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?callback=${encodeURIComponent(callbackUrl)}` });
           }}
           disabled={!googleEnabled}
           className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[7px] border border-[var(--line-strong)] bg-white px-5 text-xs font-semibold text-[var(--ink)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
@@ -137,14 +137,14 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
 
         <form method="post" onSubmit={handleLogin} className="grid gap-3.5">
           <label className="text-xs font-semibold text-[var(--ink)]">
-            Email or phone number
+            Username, email, or phone number
             <span className="relative mt-2 block">
               <UserRound className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
               <input
                 name="identifier"
                 type="text"
                 autoComplete="username"
-                placeholder="name@email.com or 024..."
+                placeholder="username, name@email.com, or 024..."
                 defaultValue={verifiedEmail}
                 required
                 className="form-control w-full pl-10 pr-3 text-sm"

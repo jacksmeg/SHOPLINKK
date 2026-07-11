@@ -30,12 +30,12 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
 
   async function upload(target: "logo" | "cover", file?: File) {
     if (!file) return;
-    setMessage("Uploading image...");
+    setMessage("Preparing and uploading image...");
     try {
       const url = await uploadImage(file, target === "logo" ? "store-logo" : "store-cover");
       if (target === "logo") setLogoUrl(url);
       if (target === "cover") setCoverUrl(url);
-      setMessage("Image uploaded. Save store to keep it.");
+      setMessage("Image cropped/resized and uploaded. Save store to keep it.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Upload failed");
     }

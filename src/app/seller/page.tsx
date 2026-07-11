@@ -35,6 +35,7 @@ export default async function SellerDashboardPage() {
       description="Manage your store, listings, stock, and buyer messages."
       links={[
         { href: "/seller", label: "Overview", icon: Store },
+        { href: "/seller/store", label: "Store management", icon: Settings },
         { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
         { href: "/seller/products/bulk", label: "Bulk upload", icon: PackagePlus },
         { href: "/chat", label: "Buyer messages", icon: MessageCircle },

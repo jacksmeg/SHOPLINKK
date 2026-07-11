@@ -36,6 +36,18 @@ export function NotificationHub() {
   const [pushMessage, setPushMessage] = useState("");
 
   useEffect(() => {
+    if (!notice) return;
+    const timer = window.setTimeout(() => setNotice(null), 5000);
+    return () => window.clearTimeout(timer);
+  }, [notice]);
+
+  useEffect(() => {
+    if (!pushMessage) return;
+    const timer = window.setTimeout(() => setPushMessage(""), 5000);
+    return () => window.clearTimeout(timer);
+  }, [pushMessage]);
+
+  useEffect(() => {
     if (status !== "authenticated" || !session.user?.id) return;
     void fetch("/api/security/login-alert", {
       method: "POST",

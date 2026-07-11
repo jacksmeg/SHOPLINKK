@@ -25,6 +25,13 @@ export const ghanaPhoneSchema = z.preprocess(
 
 export const registerSchema = z.object({
   name: z.string().min(2, "Enter your full name"),
+  username: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .min(3, "Use at least 3 characters")
+    .max(30, "Use 30 characters or fewer")
+    .regex(/^[a-z0-9_]+$/, "Use only letters, numbers, and underscore"),
   email: z.email("Enter a valid email address"),
   password: z.string().min(8, "Use at least 8 characters"),
   role: z.enum(["BUYER", "SELLER"]).default("BUYER"),
@@ -34,7 +41,7 @@ export const registerSchema = z.object({
 });
 
 export const loginSchema = z.object({
-  identifier: z.string().min(5, "Enter your email address or Ghana phone number"),
+  identifier: z.string().min(3, "Enter your username, email address, or Ghana phone number"),
   password: z.string().min(1, "Enter your password"),
   termsAccepted: acceptedTermsSchema,
 });

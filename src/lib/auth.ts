@@ -10,6 +10,16 @@ import { getIntegrationConfig } from "@/lib/integration-settings";
 import { getPlatformConfig } from "@/lib/platform-settings";
 import { TERMS_VERSION } from "@/lib/legal";
 
+async function findUserForLogin(identifier: string) {
+  const value = identifier.trim().toLowerCase();
+  if (value.includes("@")) return prisma.user.findUnique({ where: { email: value } });
+  const phone = formatGhanaPhone(value);
+  if (/^(\+233|0)?[235][0-9]{8}$/.test(value.replace(/[\s-]/g, ""))) {
+    return prisma.user.findUnique({ where: { phone } });
+  }
+  return prisma.user.findUnique({ where: { username: value } });
+}
+
 function createAuthOptions(google?: { clientId: string; clientSecret: string }): NextAuthOptions {
   return {
   adapter: PrismaAdapter(prisma as never),
@@ -43,10 +53,7 @@ function createAuthOptions(google?: { clientId: string; clientSecret: string }):
           return null;
         }
 
-        const identifier = parsed.data.identifier.trim();
-        const user = identifier.includes("@")
-          ? await prisma.user.findUnique({ where: { email: identifier.toLowerCase() } })
-          : await prisma.user.findUnique({ where: { phone: formatGhanaPhone(identifier) } });
+        const user = await findUserForLogin(parsed.data.identifier);
 
         const platform = await getPlatformConfig();
         if (!user?.passwordHash || user.isBlocked || (platform.requireEmailVerification && !user.emailVerified)) {
@@ -75,6 +82,7 @@ function createAuthOptions(google?: { clientId: string; clientSecret: string }):
           role: user.role,
           phone: user.phone,
           location: user.location,
+          username: user.username,
         };
       },
     }),
@@ -102,6 +110,7 @@ function createAuthOptions(google?: { clientId: string; clientSecret: string }):
         token.role = user.role ?? "BUYER";
         token.phone = user.phone;
         token.location = user.location;
+        token.username = user.username;
       }
 
       if (token.email) {
@@ -114,6 +123,7 @@ function createAuthOptions(google?: { clientId: string; clientSecret: string }):
             location: true,
             image: true,
             name: true,
+            username: true,
           },
         });
 
@@ -124,6 +134,7 @@ function createAuthOptions(google?: { clientId: string; clientSecret: string }):
           token.location = dbUser.location;
           token.picture = dbUser.image;
           token.name = dbUser.name;
+          token.username = dbUser.username;
         }
       }
 
@@ -135,6 +146,7 @@ function createAuthOptions(google?: { clientId: string; clientSecret: string }):
         session.user.role = token.role ?? "BUYER";
         session.user.phone = token.phone;
         session.user.location = token.location;
+        session.user.username = token.username;
       }
 
       return session;

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { enforceRateLimit } from "@/lib/api";
 import { appUrl, sendEmail } from "@/lib/email";
+import { brandedEmail } from "@/lib/email-template";
 import { forgotPasswordSchema } from "@/lib/validators";
 
 export async function POST(request: Request) {
@@ -24,17 +25,19 @@ export async function POST(request: Request) {
         },
       });
 
+      const resetUrl = appUrl(`/reset-password?token=${token}&email=${encodeURIComponent(email)}`);
+      const emailContent = brandedEmail({
+        title: "Reset your ShopLinkk password",
+        intro: "Use this secure link to create a new password for your ShopLinkk account.",
+        body: "This link expires in 30 minutes. If you did not request it, you can ignore this email.",
+        ctaLabel: "Reset password",
+        ctaUrl: resetUrl,
+      });
       await sendEmail({
         to: email,
         subject: "Reset your ShopLinkk password",
-        text: `Reset your password: ${appUrl(`/reset-password?token=${token}&email=${encodeURIComponent(email)}`)}`,
-        html: `
-          <div style="font-family:Arial,sans-serif;line-height:1.6;color:#18231f">
-            <h2>Reset your password</h2>
-            <p>This link expires in 30 minutes.</p>
-            <p><a href="${appUrl(`/reset-password?token=${token}&email=${encodeURIComponent(email)}`)}">Reset password</a></p>
-          </div>
-        `,
+        text: emailContent.text,
+        html: emailContent.html,
       });
     } catch {
       // Keep response generic so account existence is not exposed.

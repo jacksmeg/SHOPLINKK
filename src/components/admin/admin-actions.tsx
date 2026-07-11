@@ -2,7 +2,7 @@
 
 import { Check, ShieldCheck, Sparkles, Trash2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 
 export function ProductModerationActions({ productId, featured = false }: { productId: string; featured?: boolean }) {
@@ -11,6 +11,12 @@ export function ProductModerationActions({ productId, featured = false }: { prod
   const [note, setNote] = useState("");
   const [message, setMessage] = useState("");
   const [pending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (!message) return;
+    const timeout = window.setTimeout(() => setMessage(""), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [message]);
 
   function run(action: "approve" | "reject" | "delete" | "feature") {
     startTransition(async () => {

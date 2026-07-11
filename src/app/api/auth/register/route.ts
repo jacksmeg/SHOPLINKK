@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { enforceRateLimit, jsonError } from "@/lib/api";
 import { appUrl, sendEmail } from "@/lib/email";
+import { brandedEmail } from "@/lib/email-template";
 import { slugify, uniqueSlug } from "@/lib/slug";
 import { registerSchema } from "@/lib/validators";
 import { formatGhanaPhone } from "@/lib/ghana";
@@ -15,6 +16,7 @@ function registrationErrorMessage(issues: { path: PropertyKey[]; message: string
   const field = String(first?.path?.[0] ?? "");
   const labels: Record<string, string> = {
     name: "Full name",
+    username: "Username",
     email: "Email",
     password: "Password",
     phone: "Phone number",
@@ -23,6 +25,7 @@ function registrationErrorMessage(issues: { path: PropertyKey[]; message: string
   };
 
   if (field === "email") return "Email: enter a valid email address.";
+  if (field === "username") return "Username: use 3-30 letters, numbers, or underscore.";
   if (field === "phone") return "Phone number: use a valid Ghana number, for example 024 000 0000.";
   if (field === "password") return "Password: use at least 8 characters.";
 
@@ -43,11 +46,12 @@ export async function POST(request: Request) {
   }
 
   const email = parsed.data.email.toLowerCase();
+  const username = parsed.data.username.toLowerCase();
   const phone = formatGhanaPhone(parsed.data.phone);
-  const existing = await prisma.user.findFirst({ where: { OR: [{ email }, { phone }] } });
+  const existing = await prisma.user.findFirst({ where: { OR: [{ email }, { phone }, { username }] } });
 
   if (existing) {
-    return jsonError("An account already exists with this email or phone number", 409);
+    return jsonError("An account already exists with this email, username, or phone number", 409);
   }
 
   const passwordHash = await bcrypt.hash(parsed.data.password, 12);
@@ -56,6 +60,7 @@ export async function POST(request: Request) {
     data: {
       name: parsed.data.name,
       email,
+      username,
       passwordHash,
       role: parsed.data.role,
       phone,
@@ -89,17 +94,18 @@ export async function POST(request: Request) {
   });
 
   try {
+    const verifyUrl = appUrl(`/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`);
+    const emailContent = brandedEmail({
+      title: "Welcome to ShopLinkk",
+      intro: "Your account is ready. Verify your email to improve account trust and keep your marketplace account secure.",
+      ctaLabel: "Verify email",
+      ctaUrl: verifyUrl,
+    });
     await sendEmail({
       to: email,
       subject: "Welcome to ShopLinkk",
-      text: `Welcome to ShopLinkk. Verify your email: ${appUrl(`/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`)}`,
-      html: `
-        <div style="font-family:Arial,sans-serif;line-height:1.6;color:#18231f">
-          <h2>Welcome to ShopLinkk</h2>
-          <p>Your account is ready. Verify your email to improve account trust.</p>
-          <p><a href="${appUrl(`/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`)}">Verify email</a></p>
-        </div>
-      `,
+      text: emailContent.text,
+      html: emailContent.html,
     });
   } catch {
     // The account is valid even if the welcome provider is temporarily unavailable.

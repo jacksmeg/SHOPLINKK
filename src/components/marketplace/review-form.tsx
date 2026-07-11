@@ -2,15 +2,17 @@
 
 import { Star } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useTransition, type FormEvent } from "react";
+import { useEffect, useState, useTransition, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 
 export function ReviewForm({
   sellerId,
   storeId,
+  productId,
 }: {
   sellerId: string;
   storeId?: string;
+  productId?: string;
 }) {
   const router = useRouter();
   const [message, setMessage] = useState("");
@@ -27,6 +29,7 @@ export function ReviewForm({
         body: JSON.stringify({
           sellerId,
           storeId,
+          productId,
           rating: formData.get("rating"),
           comment: formData.get("comment"),
         }),
@@ -39,6 +42,12 @@ export function ReviewForm({
       router.refresh();
     });
   }
+
+  useEffect(() => {
+    if (!message) return;
+    const timeout = window.setTimeout(() => setMessage(""), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [message]);
 
   return (
     <form onSubmit={submit} className="rounded-[8px] border border-[var(--line)] bg-white p-5 shadow-sm">
@@ -61,4 +70,3 @@ export function ReviewForm({
     </form>
   );
 }
-

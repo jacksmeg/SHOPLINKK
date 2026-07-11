@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { enforceRateLimit, jsonError, requireApiSession } from "@/lib/api";
 import { prisma } from "@/lib/db";
 import { appUrl, sendEmail } from "@/lib/email";
+import { brandedEmail } from "@/lib/email-template";
 import { emailVerificationRequestSchema } from "@/lib/validators";
 
 export async function POST(request: Request) {
@@ -52,11 +53,18 @@ export async function POST(request: Request) {
   });
 
   try {
+    const verifyUrl = appUrl(`/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`);
+    const emailContent = brandedEmail({
+      title: "Verify your ShopLinkk email",
+      intro: "Confirm this email address so your ShopLinkk account stays trusted and secure.",
+      ctaLabel: "Verify email",
+      ctaUrl: verifyUrl,
+    });
     await sendEmail({
       to: email,
       subject: "Verify your ShopLinkk email",
-      text: `Verify your email: ${appUrl(`/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`)}`,
-      html: `<p>Verify your ShopLinkk email address by <a href="${appUrl(`/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`)}">opening this link</a>.</p>`,
+      text: emailContent.text,
+      html: emailContent.html,
     });
   } catch {
     await prisma.$transaction([
@@ -69,5 +77,5 @@ export async function POST(request: Request) {
     return jsonError("We could not send the verification email. Please try again shortly.", 502);
   }
 
-  return NextResponse.json({ ok: true, message: "Verification email sent. Open the link in your inbox to finish." });
+  return NextResponse.json({ ok: true, message: "Verification email sent. Open your inbox and click the Verify email button." });
 }

@@ -20,6 +20,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
   function handleRegister(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const username = String(formData.get("username") ?? "").trim().toLowerCase();
     const email = String(formData.get("email") ?? "").trim().toLowerCase();
     const password = String(formData.get("password") ?? "");
     const confirmPassword = String(formData.get("confirmPassword") ?? "");
@@ -43,6 +44,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             name: String(formData.get("name") ?? "").trim(),
+            username,
             email,
             password,
             phone: String(formData.get("phone") ?? "").trim(),
@@ -149,6 +151,14 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
             <span className="relative mt-2 block">
               <UserRound className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
               <input name="name" autoComplete="name" required className="form-control w-full pl-10 pr-3 text-sm" />
+            </span>
+          </label>
+
+          <label className="text-xs font-semibold text-[var(--ink)]">
+            Username
+            <span className="relative mt-2 block">
+              <UserRound className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
+              <input name="username" autoComplete="username" required minLength={3} pattern="[A-Za-z0-9_]{3,30}" placeholder="jackstudios" className="form-control w-full pl-10 pr-3 text-sm" />
             </span>
           </label>
 

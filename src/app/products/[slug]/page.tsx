@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -9,9 +8,11 @@ import { ContactSellerButton } from "@/components/marketplace/contact-seller-but
 import { BlockUserButton } from "@/components/marketplace/block-user-button";
 import { CompareButton } from "@/components/marketplace/compare-button";
 import { FavoriteButton } from "@/components/marketplace/favorite-button";
+import { ProductImageGallery } from "@/components/marketplace/product-image-gallery";
 import { ProductRail } from "@/components/marketplace/product-rail";
 import { PriceAlertButton } from "@/components/marketplace/price-alert-button";
 import { ReportButton } from "@/components/marketplace/report-button";
+import { ReviewForm } from "@/components/marketplace/review-form";
 import { getProductBySlug, getProductSeoBySlug, getRelatedProducts } from "@/lib/marketplace";
 import { getCurrentSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
@@ -117,27 +118,7 @@ export default async function ProductDetailPage({
       />
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
         <div>
-          <div className="overflow-hidden rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)]">
-            <div className="relative aspect-[4/3]">
-              <Image
-                src={product.images[0]?.url ?? "/window.svg"}
-                alt={product.images[0]?.alt ?? product.title}
-                fill
-                priority
-                className="object-cover"
-                unoptimized
-              />
-            </div>
-          </div>
-          {product.images.length > 1 ? (
-            <div className="mt-3 grid grid-cols-4 gap-3">
-              {product.images.slice(1, 5).map((image) => (
-                <div key={image.url} className="relative aspect-square overflow-hidden rounded-[8px] border border-[var(--line)] bg-white">
-                  <Image src={image.url} alt={image.alt ?? product.title} fill className="object-cover" unoptimized />
-                </div>
-              ))}
-            </div>
-          ) : null}
+          <ProductImageGallery title={product.title} images={product.images} />
         </div>
 
         <aside className="self-start rounded-[8px] border border-[var(--line)] bg-white p-4 shadow-sm sm:p-5 lg:sticky lg:top-20">
@@ -233,6 +214,12 @@ export default async function ProductDetailPage({
               Open product video
             </ButtonLink>
           )}
+        </section>
+      ) : null}
+
+      {session?.user.id && session.user.id !== product.seller.id ? (
+        <section className="mt-8 border-t border-[var(--line)] pt-6">
+          <ReviewForm sellerId={product.seller.id} storeId={product.store?.id} productId={product.id} />
         </section>
       ) : null}
 

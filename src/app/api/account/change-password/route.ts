@@ -43,6 +43,5 @@ export async function POST(request: Request) {
     href: "/account/security",
   });
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, message: "Password changed successfully." });
 }
-

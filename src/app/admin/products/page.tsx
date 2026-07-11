@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { ListingStatus, Prisma } from "@/generated/prisma/client";
 import { ProductModerationActions } from "@/components/admin/admin-actions";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
@@ -52,6 +53,7 @@ export default async function AdminProductsPage({
     include: {
       seller: { select: { name: true, email: true } },
       category: true,
+      images: { orderBy: { sortOrder: "asc" }, take: 1 },
     },
     orderBy: [{ listingStatus: "asc" }, { createdAt: "desc" }],
   });
@@ -99,9 +101,9 @@ export default async function AdminProductsPage({
       <div className="grid gap-3 md:hidden">
         {products.map((product) => (
           <article key={product.id} className="app-panel p-4">
-            <div className="flex items-start justify-between gap-3"><div className="min-w-0"><Link href={`/products/${product.slug}`} className="line-clamp-2 text-sm font-black text-[var(--ink)]">{product.title}</Link><p className="mt-1 truncate text-xs text-[var(--muted)]">{product.seller.name ?? product.seller.email}</p></div><Badge tone={product.listingStatus === "APPROVED" ? "green" : product.listingStatus === "REJECTED" ? "red" : "gold"}>{titleCase(product.listingStatus)}</Badge></div>
+            <div className="flex items-start justify-between gap-3"><div className="flex min-w-0 gap-3"><div className="relative size-14 shrink-0 overflow-hidden rounded-[8px] bg-[var(--surface-muted)]"><Image src={product.images[0]?.url ?? "/window.svg"} alt={product.title} fill className="object-cover" unoptimized /></div><div className="min-w-0"><Link href={`/admin/products/${product.id}`} className="line-clamp-2 text-sm font-black text-[var(--ink)]">{product.title}</Link><p className="mt-1 truncate text-xs text-[var(--muted)]">{product.seller.name ?? product.seller.email}</p></div></div><Badge tone={product.listingStatus === "APPROVED" ? "green" : product.listingStatus === "REJECTED" ? "red" : "gold"}>{titleCase(product.listingStatus)}</Badge></div>
             <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-[var(--muted)]"><span>{product.category.name}</span><span>{formatCurrency(Number(product.price))}</span><span>{product.viewCount} views</span></div>
-            <div className="mt-3 border-t border-[var(--line)] pt-3"><ProductModerationActions productId={product.id} featured={product.isFeatured} /></div>
+            <div className="mt-3 border-t border-[var(--line)] pt-3"><div className="mb-2"><Link href={`/admin/products/${product.id}`} className="text-xs font-black text-[var(--brand-dark)]">View before approval</Link></div><ProductModerationActions productId={product.id} featured={product.isFeatured} /></div>
           </article>
         ))}
       </div>
@@ -123,9 +125,17 @@ export default async function AdminProductsPage({
               {products.map((product) => (
                 <tr key={product.id}>
                   <td className="px-4 py-4">
-                    <Link href={`/products/${product.slug}`} className="font-black text-[var(--ink)] hover:text-[var(--brand)]">
-                      {product.title}
-                    </Link>
+                    <div className="flex items-center gap-3">
+                      <div className="relative size-12 shrink-0 overflow-hidden rounded-[8px] bg-[var(--surface-muted)]">
+                        <Image src={product.images[0]?.url ?? "/window.svg"} alt={product.title} fill className="object-cover" unoptimized />
+                      </div>
+                      <div>
+                        <Link href={`/admin/products/${product.id}`} className="font-black text-[var(--ink)] hover:text-[var(--brand)]">
+                          {product.title}
+                        </Link>
+                        <p className="mt-1 text-[0.7rem] font-bold text-[var(--brand-dark)]">View before approval</p>
+                      </div>
+                    </div>
                   </td>
                   <td className="px-4 py-4 text-[var(--muted)]">{product.seller.name ?? product.seller.email}</td>
                   <td className="px-4 py-4 text-[var(--muted)]">{product.category.name}</td>

@@ -22,7 +22,7 @@ git push -u origin main
 The included Render settings are:
 
 ```txt
-Build command: npm ci && npm run db:generate && npm run build
+Build command: npm ci --include=dev && npm run db:generate && npm run build
 Pre-deploy command: npm run db:deploy
 Start command: npm run start
 Health check: /api/health

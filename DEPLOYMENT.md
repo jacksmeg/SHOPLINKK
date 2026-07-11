@@ -16,7 +16,7 @@ git push -u origin main
 3. Connect the GitHub repo `jacksmeg/SHOPLINKK`.
 4. Render will read `render.yaml` and create:
    - `shoplinkk-web`
-   - `shoplinkk-postgres`
+   - `shoplinkk-postgres` on Render's current `basic-256mb` database plan
    - the `www.shoplinkk.com` custom domain entry
 
 The included Render settings are:

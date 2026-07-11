@@ -30,13 +30,14 @@ async function main() {
   const generatedPassword = !configuredPassword && !existingAdmin?.passwordHash ? randomBytes(18).toString("base64url") : "";
   const adminPassword = configuredPassword || generatedPassword;
   const adminPasswordHash = adminPassword ? await bcrypt.hash(adminPassword, 12) : null;
+  const shouldSetAdminPassword = Boolean(adminPasswordHash && !existingAdmin?.passwordHash);
 
   const admin = await prisma.user.upsert({
     where: { email: adminEmail },
     update: {
       name: "ShopLinkk Admin",
       role: "ADMIN",
-      ...(adminPasswordHash ? { passwordHash: adminPasswordHash } : {}),
+      ...(shouldSetAdminPassword ? { passwordHash: adminPasswordHash } : {}),
       emailVerified: new Date(),
       phoneVerifiedAt: new Date(),
       location: "Dunkwa-on-Offin",

@@ -116,6 +116,8 @@ npm run db:seed:demo
 
 ## Production Environment
 
+For the full `www.shoplinkk.com` Cloudflare/Render launch checklist, see [DEPLOYMENT.md](./DEPLOYMENT.md).
+
 Generate a strong secret:
 
 ```bash

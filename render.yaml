@@ -3,9 +3,13 @@ services:
     name: shoplinkk-web
     runtime: node
     plan: starter
+    region: frankfurt
     buildCommand: npm ci && npm run db:generate && npm run build
-    startCommand: npm run db:deploy && npm run start
+    preDeployCommand: npm run db:deploy
+    startCommand: npm run start
     healthCheckPath: /api/health
+    domains:
+      - www.shoplinkk.com
     envVars:
       - key: NODE_ENV
         value: production
@@ -14,12 +18,19 @@ services:
           name: shoplinkk-postgres
           property: connectionString
       - key: NEXTAUTH_URL
-        sync: false
+        value: https://www.shoplinkk.com
       - key: NEXT_PUBLIC_APP_URL
-        sync: false
+        value: https://www.shoplinkk.com
       - key: NEXTAUTH_SECRET
         generateValue: true
+      - key: INTEGRATION_ENCRYPTION_KEY
+        generateValue: true
+      - key: SHOPLINKK_ADMIN_EMAIL
+        sync: false
+      - key: SHOPLINKK_ADMIN_PASSWORD
+        sync: false
 
 databases:
   - name: shoplinkk-postgres
     plan: starter
+    region: frankfurt

@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Globe2, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Globe2, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 
 const copyrightYear = 2026;
@@ -16,7 +17,7 @@ export function Footer() {
           <div className="mt-5 flex items-center gap-3 text-[var(--brand)]">
             <Globe2 size={19} />
             <MessageCircle size={19} />
-            <Mail size={19} />
+            <Image src="/brand/gmail-mark.svg" alt="Gmail" width={22} height={16} />
           </div>
         </div>
 
@@ -44,16 +45,16 @@ export function Footer() {
         </div>
 
         <div>
-          <h3 className="text-xs font-bold uppercase tracking-[0.1em] text-[var(--ink)]">Dunkwa hub</h3>
+          <h3 className="text-xs font-bold uppercase tracking-[0.1em] text-[var(--ink)]">JACK STUDIOS</h3>
           <div className="mt-4 grid gap-3 text-sm text-[var(--muted)]">
-            <span className="inline-flex gap-2"><MapPin size={17} /> Dunkwa-on-Offin, Ghana</span>
-            <span className="inline-flex gap-2"><Phone size={17} /> +233 24 000 0000</span>
-            <span className="inline-flex gap-2"><Mail size={17} /> hello@shoplinkk.com</span>
+            <span className="inline-flex gap-2"><MapPin size={17} /> Dunkwa-on-Offin, Central Region Ghana</span>
+            <span className="inline-flex gap-2"><Phone size={17} /> 0549896901</span>
+            <span className="inline-flex gap-2"><Image src="/brand/gmail-mark.svg" alt="Gmail" width={18} height={14} /> jacksmeg99@gmail.com</span>
           </div>
         </div>
       </div>
       <div className="border-t border-[var(--line)] px-4 py-4 text-center text-xs text-[var(--muted)]">
-        Copyright {copyrightYear} ShopLinkk. No online payments yet. Buyers and sellers should inspect, chat, and agree safely.
+        Copyright {copyrightYear} ShopLinkk.
       </div>
     </footer>
   );

@@ -178,6 +178,12 @@ export const boostRequestSchema = z.object({
   headline: z.string().min(4, "Write a short advert headline").max(70),
   durationDays: z.coerce.number().int().min(3).max(30).default(7),
   note: z.string().max(500).optional().or(z.literal("")),
+  imageUrls: z.array(imageValue).max(8).optional().default([]),
+});
+
+export const advertExtensionSchema = z.object({
+  days: z.coerce.number().int().min(3, "Request at least 3 days").max(30, "Request 30 days or fewer"),
+  note: z.string().max(500).optional().or(z.literal("")),
 });
 
 export const reviewSchema = z.object({

@@ -107,6 +107,7 @@ export type PublicHomepageAdvert = {
   id: string;
   headline: string;
   endsAt: Date | string;
+  images: { url: string; alt?: string | null }[];
   product: PublicProduct;
 };
 
@@ -334,7 +335,13 @@ export async function getHomepageAdverts(): Promise<PublicHomepageAdvert[]> {
         endsAt: { gt: now },
         product: { listingStatus: "APPROVED", stockStatus: { not: "SOLD" } },
       },
-      include: { product: { include: productInclude } },
+      include: {
+        product: { include: productInclude },
+        images: {
+          orderBy: { sortOrder: "asc" },
+          select: { url: true, alt: true },
+        },
+      },
       orderBy: [{ startsAt: "desc" }, { createdAt: "desc" }],
       take: 12,
     });
@@ -343,6 +350,7 @@ export async function getHomepageAdverts(): Promise<PublicHomepageAdvert[]> {
       id: advert.id,
       headline: advert.headline || advert.product.title,
       endsAt: advert.endsAt!,
+      images: advert.images,
       product: normalizeProduct(advert.product),
     }));
   } catch {

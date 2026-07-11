@@ -29,11 +29,13 @@ export type AggregateProductBoostRequest = {
 export type ProductBoostRequestAvgAggregateOutputType = {
   durationDays: number | null
   feeAmount: runtime.Decimal | null
+  extensionDays: number | null
 }
 
 export type ProductBoostRequestSumAggregateOutputType = {
   durationDays: number | null
   feeAmount: runtime.Decimal | null
+  extensionDays: number | null
 }
 
 export type ProductBoostRequestMinAggregateOutputType = {
@@ -51,6 +53,11 @@ export type ProductBoostRequestMinAggregateOutputType = {
   startsAt: Date | null
   endsAt: Date | null
   note: string | null
+  extensionStatus: $Enums.AdvertExtensionStatus | null
+  extensionDays: number | null
+  extensionNote: string | null
+  extensionRequestedAt: Date | null
+  extensionReviewedAt: Date | null
   reviewedById: string | null
   reviewedAt: Date | null
   createdAt: Date | null
@@ -72,6 +79,11 @@ export type ProductBoostRequestMaxAggregateOutputType = {
   startsAt: Date | null
   endsAt: Date | null
   note: string | null
+  extensionStatus: $Enums.AdvertExtensionStatus | null
+  extensionDays: number | null
+  extensionNote: string | null
+  extensionRequestedAt: Date | null
+  extensionReviewedAt: Date | null
   reviewedById: string | null
   reviewedAt: Date | null
   createdAt: Date | null
@@ -93,6 +105,11 @@ export type ProductBoostRequestCountAggregateOutputType = {
   startsAt: number
   endsAt: number
   note: number
+  extensionStatus: number
+  extensionDays: number
+  extensionNote: number
+  extensionRequestedAt: number
+  extensionReviewedAt: number
   reviewedById: number
   reviewedAt: number
   createdAt: number
@@ -104,11 +121,13 @@ export type ProductBoostRequestCountAggregateOutputType = {
 export type ProductBoostRequestAvgAggregateInputType = {
   durationDays?: true
   feeAmount?: true
+  extensionDays?: true
 }
 
 export type ProductBoostRequestSumAggregateInputType = {
   durationDays?: true
   feeAmount?: true
+  extensionDays?: true
 }
 
 export type ProductBoostRequestMinAggregateInputType = {
@@ -126,6 +145,11 @@ export type ProductBoostRequestMinAggregateInputType = {
   startsAt?: true
   endsAt?: true
   note?: true
+  extensionStatus?: true
+  extensionDays?: true
+  extensionNote?: true
+  extensionRequestedAt?: true
+  extensionReviewedAt?: true
   reviewedById?: true
   reviewedAt?: true
   createdAt?: true
@@ -147,6 +171,11 @@ export type ProductBoostRequestMaxAggregateInputType = {
   startsAt?: true
   endsAt?: true
   note?: true
+  extensionStatus?: true
+  extensionDays?: true
+  extensionNote?: true
+  extensionRequestedAt?: true
+  extensionReviewedAt?: true
   reviewedById?: true
   reviewedAt?: true
   createdAt?: true
@@ -168,6 +197,11 @@ export type ProductBoostRequestCountAggregateInputType = {
   startsAt?: true
   endsAt?: true
   note?: true
+  extensionStatus?: true
+  extensionDays?: true
+  extensionNote?: true
+  extensionRequestedAt?: true
+  extensionReviewedAt?: true
   reviewedById?: true
   reviewedAt?: true
   createdAt?: true
@@ -276,6 +310,11 @@ export type ProductBoostRequestGroupByOutputType = {
   startsAt: Date | null
   endsAt: Date | null
   note: string | null
+  extensionStatus: $Enums.AdvertExtensionStatus
+  extensionDays: number | null
+  extensionNote: string | null
+  extensionRequestedAt: Date | null
+  extensionReviewedAt: Date | null
   reviewedById: string | null
   reviewedAt: Date | null
   createdAt: Date
@@ -320,6 +359,11 @@ export type ProductBoostRequestWhereInput = {
   startsAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   note?: Prisma.StringNullableFilter<"ProductBoostRequest"> | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFilter<"ProductBoostRequest"> | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.IntNullableFilter<"ProductBoostRequest"> | number | null
+  extensionNote?: Prisma.StringNullableFilter<"ProductBoostRequest"> | string | null
+  extensionRequestedAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
+  extensionReviewedAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   reviewedById?: Prisma.StringNullableFilter<"ProductBoostRequest"> | string | null
   reviewedAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ProductBoostRequest"> | Date | string
@@ -327,6 +371,7 @@ export type ProductBoostRequestWhereInput = {
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reviewedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  images?: Prisma.AdvertImageListRelationFilter
 }
 
 export type ProductBoostRequestOrderByWithRelationInput = {
@@ -344,6 +389,11 @@ export type ProductBoostRequestOrderByWithRelationInput = {
   startsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   endsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  extensionStatus?: Prisma.SortOrder
+  extensionDays?: Prisma.SortOrderInput | Prisma.SortOrder
+  extensionNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  extensionRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  extensionReviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewedById?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -351,6 +401,7 @@ export type ProductBoostRequestOrderByWithRelationInput = {
   product?: Prisma.ProductOrderByWithRelationInput
   seller?: Prisma.UserOrderByWithRelationInput
   reviewedBy?: Prisma.UserOrderByWithRelationInput
+  images?: Prisma.AdvertImageOrderByRelationAggregateInput
 }
 
 export type ProductBoostRequestWhereUniqueInput = Prisma.AtLeast<{
@@ -371,6 +422,11 @@ export type ProductBoostRequestWhereUniqueInput = Prisma.AtLeast<{
   startsAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   note?: Prisma.StringNullableFilter<"ProductBoostRequest"> | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFilter<"ProductBoostRequest"> | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.IntNullableFilter<"ProductBoostRequest"> | number | null
+  extensionNote?: Prisma.StringNullableFilter<"ProductBoostRequest"> | string | null
+  extensionRequestedAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
+  extensionReviewedAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   reviewedById?: Prisma.StringNullableFilter<"ProductBoostRequest"> | string | null
   reviewedAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ProductBoostRequest"> | Date | string
@@ -378,6 +434,7 @@ export type ProductBoostRequestWhereUniqueInput = Prisma.AtLeast<{
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reviewedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  images?: Prisma.AdvertImageListRelationFilter
 }, "id">
 
 export type ProductBoostRequestOrderByWithAggregationInput = {
@@ -395,6 +452,11 @@ export type ProductBoostRequestOrderByWithAggregationInput = {
   startsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   endsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  extensionStatus?: Prisma.SortOrder
+  extensionDays?: Prisma.SortOrderInput | Prisma.SortOrder
+  extensionNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  extensionRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  extensionReviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewedById?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -424,6 +486,11 @@ export type ProductBoostRequestScalarWhereWithAggregatesInput = {
   startsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ProductBoostRequest"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ProductBoostRequest"> | Date | string | null
   note?: Prisma.StringNullableWithAggregatesFilter<"ProductBoostRequest"> | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusWithAggregatesFilter<"ProductBoostRequest"> | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.IntNullableWithAggregatesFilter<"ProductBoostRequest"> | number | null
+  extensionNote?: Prisma.StringNullableWithAggregatesFilter<"ProductBoostRequest"> | string | null
+  extensionRequestedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ProductBoostRequest"> | Date | string | null
+  extensionReviewedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ProductBoostRequest"> | Date | string | null
   reviewedById?: Prisma.StringNullableWithAggregatesFilter<"ProductBoostRequest"> | string | null
   reviewedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ProductBoostRequest"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ProductBoostRequest"> | Date | string
@@ -443,12 +510,18 @@ export type ProductBoostRequestCreateInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   product: Prisma.ProductCreateNestedOneWithoutBoostRequestsInput
   seller: Prisma.UserCreateNestedOneWithoutBoostRequestsInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedBoostRequestsInput
+  images?: Prisma.AdvertImageCreateNestedManyWithoutBoostRequestInput
 }
 
 export type ProductBoostRequestUncheckedCreateInput = {
@@ -466,10 +539,16 @@ export type ProductBoostRequestUncheckedCreateInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  images?: Prisma.AdvertImageUncheckedCreateNestedManyWithoutBoostRequestInput
 }
 
 export type ProductBoostRequestUpdateInput = {
@@ -485,12 +564,18 @@ export type ProductBoostRequestUpdateInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneRequiredWithoutBoostRequestsNestedInput
   seller?: Prisma.UserUpdateOneRequiredWithoutBoostRequestsNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedBoostRequestsNestedInput
+  images?: Prisma.AdvertImageUpdateManyWithoutBoostRequestNestedInput
 }
 
 export type ProductBoostRequestUncheckedUpdateInput = {
@@ -508,10 +593,16 @@ export type ProductBoostRequestUncheckedUpdateInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.AdvertImageUncheckedUpdateManyWithoutBoostRequestNestedInput
 }
 
 export type ProductBoostRequestCreateManyInput = {
@@ -529,6 +620,11 @@ export type ProductBoostRequestCreateManyInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
@@ -548,6 +644,11 @@ export type ProductBoostRequestUpdateManyMutationInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -568,6 +669,11 @@ export type ProductBoostRequestUncheckedUpdateManyInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -599,6 +705,11 @@ export type ProductBoostRequestCountOrderByAggregateInput = {
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  extensionStatus?: Prisma.SortOrder
+  extensionDays?: Prisma.SortOrder
+  extensionNote?: Prisma.SortOrder
+  extensionRequestedAt?: Prisma.SortOrder
+  extensionReviewedAt?: Prisma.SortOrder
   reviewedById?: Prisma.SortOrder
   reviewedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -608,6 +719,7 @@ export type ProductBoostRequestCountOrderByAggregateInput = {
 export type ProductBoostRequestAvgOrderByAggregateInput = {
   durationDays?: Prisma.SortOrder
   feeAmount?: Prisma.SortOrder
+  extensionDays?: Prisma.SortOrder
 }
 
 export type ProductBoostRequestMaxOrderByAggregateInput = {
@@ -625,6 +737,11 @@ export type ProductBoostRequestMaxOrderByAggregateInput = {
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  extensionStatus?: Prisma.SortOrder
+  extensionDays?: Prisma.SortOrder
+  extensionNote?: Prisma.SortOrder
+  extensionRequestedAt?: Prisma.SortOrder
+  extensionReviewedAt?: Prisma.SortOrder
   reviewedById?: Prisma.SortOrder
   reviewedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -646,6 +763,11 @@ export type ProductBoostRequestMinOrderByAggregateInput = {
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  extensionStatus?: Prisma.SortOrder
+  extensionDays?: Prisma.SortOrder
+  extensionNote?: Prisma.SortOrder
+  extensionRequestedAt?: Prisma.SortOrder
+  extensionReviewedAt?: Prisma.SortOrder
   reviewedById?: Prisma.SortOrder
   reviewedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -655,6 +777,12 @@ export type ProductBoostRequestMinOrderByAggregateInput = {
 export type ProductBoostRequestSumOrderByAggregateInput = {
   durationDays?: Prisma.SortOrder
   feeAmount?: Prisma.SortOrder
+  extensionDays?: Prisma.SortOrder
+}
+
+export type ProductBoostRequestScalarRelationFilter = {
+  is?: Prisma.ProductBoostRequestWhereInput
+  isNot?: Prisma.ProductBoostRequestWhereInput
 }
 
 export type ProductBoostRequestCreateNestedManyWithoutSellerInput = {
@@ -795,6 +923,24 @@ export type EnumAdvertPaymentStatusFieldUpdateOperationsInput = {
   set?: $Enums.AdvertPaymentStatus
 }
 
+export type EnumAdvertExtensionStatusFieldUpdateOperationsInput = {
+  set?: $Enums.AdvertExtensionStatus
+}
+
+export type ProductBoostRequestCreateNestedOneWithoutImagesInput = {
+  create?: Prisma.XOR<Prisma.ProductBoostRequestCreateWithoutImagesInput, Prisma.ProductBoostRequestUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.ProductBoostRequestCreateOrConnectWithoutImagesInput
+  connect?: Prisma.ProductBoostRequestWhereUniqueInput
+}
+
+export type ProductBoostRequestUpdateOneRequiredWithoutImagesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProductBoostRequestCreateWithoutImagesInput, Prisma.ProductBoostRequestUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.ProductBoostRequestCreateOrConnectWithoutImagesInput
+  upsert?: Prisma.ProductBoostRequestUpsertWithoutImagesInput
+  connect?: Prisma.ProductBoostRequestWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProductBoostRequestUpdateToOneWithWhereWithoutImagesInput, Prisma.ProductBoostRequestUpdateWithoutImagesInput>, Prisma.ProductBoostRequestUncheckedUpdateWithoutImagesInput>
+}
+
 export type ProductBoostRequestCreateWithoutSellerInput = {
   id?: string
   status?: $Enums.ProductBoostStatus
@@ -808,11 +954,17 @@ export type ProductBoostRequestCreateWithoutSellerInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   product: Prisma.ProductCreateNestedOneWithoutBoostRequestsInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedBoostRequestsInput
+  images?: Prisma.AdvertImageCreateNestedManyWithoutBoostRequestInput
 }
 
 export type ProductBoostRequestUncheckedCreateWithoutSellerInput = {
@@ -829,10 +981,16 @@ export type ProductBoostRequestUncheckedCreateWithoutSellerInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  images?: Prisma.AdvertImageUncheckedCreateNestedManyWithoutBoostRequestInput
 }
 
 export type ProductBoostRequestCreateOrConnectWithoutSellerInput = {
@@ -858,11 +1016,17 @@ export type ProductBoostRequestCreateWithoutReviewedByInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   product: Prisma.ProductCreateNestedOneWithoutBoostRequestsInput
   seller: Prisma.UserCreateNestedOneWithoutBoostRequestsInput
+  images?: Prisma.AdvertImageCreateNestedManyWithoutBoostRequestInput
 }
 
 export type ProductBoostRequestUncheckedCreateWithoutReviewedByInput = {
@@ -880,9 +1044,15 @@ export type ProductBoostRequestUncheckedCreateWithoutReviewedByInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  images?: Prisma.AdvertImageUncheckedCreateNestedManyWithoutBoostRequestInput
 }
 
 export type ProductBoostRequestCreateOrConnectWithoutReviewedByInput = {
@@ -929,6 +1099,11 @@ export type ProductBoostRequestScalarWhereInput = {
   startsAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   note?: Prisma.StringNullableFilter<"ProductBoostRequest"> | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFilter<"ProductBoostRequest"> | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.IntNullableFilter<"ProductBoostRequest"> | number | null
+  extensionNote?: Prisma.StringNullableFilter<"ProductBoostRequest"> | string | null
+  extensionRequestedAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
+  extensionReviewedAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   reviewedById?: Prisma.StringNullableFilter<"ProductBoostRequest"> | string | null
   reviewedAt?: Prisma.DateTimeNullableFilter<"ProductBoostRequest"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ProductBoostRequest"> | Date | string
@@ -964,11 +1139,17 @@ export type ProductBoostRequestCreateWithoutProductInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   seller: Prisma.UserCreateNestedOneWithoutBoostRequestsInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedBoostRequestsInput
+  images?: Prisma.AdvertImageCreateNestedManyWithoutBoostRequestInput
 }
 
 export type ProductBoostRequestUncheckedCreateWithoutProductInput = {
@@ -985,10 +1166,16 @@ export type ProductBoostRequestUncheckedCreateWithoutProductInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  images?: Prisma.AdvertImageUncheckedCreateNestedManyWithoutBoostRequestInput
 }
 
 export type ProductBoostRequestCreateOrConnectWithoutProductInput = {
@@ -1017,6 +1204,126 @@ export type ProductBoostRequestUpdateManyWithWhereWithoutProductInput = {
   data: Prisma.XOR<Prisma.ProductBoostRequestUpdateManyMutationInput, Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductInput>
 }
 
+export type ProductBoostRequestCreateWithoutImagesInput = {
+  id?: string
+  status?: $Enums.ProductBoostStatus
+  placement?: $Enums.AdvertPlacement
+  requestedFor?: string | null
+  headline?: string | null
+  durationDays?: number
+  feeAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentStatus?: $Enums.AdvertPaymentStatus
+  feeReference?: string | null
+  startsAt?: Date | string | null
+  endsAt?: Date | string | null
+  note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  product: Prisma.ProductCreateNestedOneWithoutBoostRequestsInput
+  seller: Prisma.UserCreateNestedOneWithoutBoostRequestsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedBoostRequestsInput
+}
+
+export type ProductBoostRequestUncheckedCreateWithoutImagesInput = {
+  id?: string
+  productId: string
+  sellerId: string
+  status?: $Enums.ProductBoostStatus
+  placement?: $Enums.AdvertPlacement
+  requestedFor?: string | null
+  headline?: string | null
+  durationDays?: number
+  feeAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentStatus?: $Enums.AdvertPaymentStatus
+  feeReference?: string | null
+  startsAt?: Date | string | null
+  endsAt?: Date | string | null
+  note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProductBoostRequestCreateOrConnectWithoutImagesInput = {
+  where: Prisma.ProductBoostRequestWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProductBoostRequestCreateWithoutImagesInput, Prisma.ProductBoostRequestUncheckedCreateWithoutImagesInput>
+}
+
+export type ProductBoostRequestUpsertWithoutImagesInput = {
+  update: Prisma.XOR<Prisma.ProductBoostRequestUpdateWithoutImagesInput, Prisma.ProductBoostRequestUncheckedUpdateWithoutImagesInput>
+  create: Prisma.XOR<Prisma.ProductBoostRequestCreateWithoutImagesInput, Prisma.ProductBoostRequestUncheckedCreateWithoutImagesInput>
+  where?: Prisma.ProductBoostRequestWhereInput
+}
+
+export type ProductBoostRequestUpdateToOneWithWhereWithoutImagesInput = {
+  where?: Prisma.ProductBoostRequestWhereInput
+  data: Prisma.XOR<Prisma.ProductBoostRequestUpdateWithoutImagesInput, Prisma.ProductBoostRequestUncheckedUpdateWithoutImagesInput>
+}
+
+export type ProductBoostRequestUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumProductBoostStatusFieldUpdateOperationsInput | $Enums.ProductBoostStatus
+  placement?: Prisma.EnumAdvertPlacementFieldUpdateOperationsInput | $Enums.AdvertPlacement
+  requestedFor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationDays?: Prisma.IntFieldUpdateOperationsInput | number
+  feeAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentStatus?: Prisma.EnumAdvertPaymentStatusFieldUpdateOperationsInput | $Enums.AdvertPaymentStatus
+  feeReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  product?: Prisma.ProductUpdateOneRequiredWithoutBoostRequestsNestedInput
+  seller?: Prisma.UserUpdateOneRequiredWithoutBoostRequestsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedBoostRequestsNestedInput
+}
+
+export type ProductBoostRequestUncheckedUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  sellerId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumProductBoostStatusFieldUpdateOperationsInput | $Enums.ProductBoostStatus
+  placement?: Prisma.EnumAdvertPlacementFieldUpdateOperationsInput | $Enums.AdvertPlacement
+  requestedFor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationDays?: Prisma.IntFieldUpdateOperationsInput | number
+  feeAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentStatus?: Prisma.EnumAdvertPaymentStatusFieldUpdateOperationsInput | $Enums.AdvertPaymentStatus
+  feeReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ProductBoostRequestCreateManySellerInput = {
   id?: string
   productId: string
@@ -1031,6 +1338,11 @@ export type ProductBoostRequestCreateManySellerInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
@@ -1052,6 +1364,11 @@ export type ProductBoostRequestCreateManyReviewedByInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1070,11 +1387,17 @@ export type ProductBoostRequestUpdateWithoutSellerInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneRequiredWithoutBoostRequestsNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedBoostRequestsNestedInput
+  images?: Prisma.AdvertImageUpdateManyWithoutBoostRequestNestedInput
 }
 
 export type ProductBoostRequestUncheckedUpdateWithoutSellerInput = {
@@ -1091,10 +1414,16 @@ export type ProductBoostRequestUncheckedUpdateWithoutSellerInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.AdvertImageUncheckedUpdateManyWithoutBoostRequestNestedInput
 }
 
 export type ProductBoostRequestUncheckedUpdateManyWithoutSellerInput = {
@@ -1111,6 +1440,11 @@ export type ProductBoostRequestUncheckedUpdateManyWithoutSellerInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1130,11 +1464,17 @@ export type ProductBoostRequestUpdateWithoutReviewedByInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneRequiredWithoutBoostRequestsNestedInput
   seller?: Prisma.UserUpdateOneRequiredWithoutBoostRequestsNestedInput
+  images?: Prisma.AdvertImageUpdateManyWithoutBoostRequestNestedInput
 }
 
 export type ProductBoostRequestUncheckedUpdateWithoutReviewedByInput = {
@@ -1152,9 +1492,15 @@ export type ProductBoostRequestUncheckedUpdateWithoutReviewedByInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.AdvertImageUncheckedUpdateManyWithoutBoostRequestNestedInput
 }
 
 export type ProductBoostRequestUncheckedUpdateManyWithoutReviewedByInput = {
@@ -1172,6 +1518,11 @@ export type ProductBoostRequestUncheckedUpdateManyWithoutReviewedByInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1191,6 +1542,11 @@ export type ProductBoostRequestCreateManyProductInput = {
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   note?: string | null
+  extensionStatus?: $Enums.AdvertExtensionStatus
+  extensionDays?: number | null
+  extensionNote?: string | null
+  extensionRequestedAt?: Date | string | null
+  extensionReviewedAt?: Date | string | null
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   createdAt?: Date | string
@@ -1210,11 +1566,17 @@ export type ProductBoostRequestUpdateWithoutProductInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seller?: Prisma.UserUpdateOneRequiredWithoutBoostRequestsNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedBoostRequestsNestedInput
+  images?: Prisma.AdvertImageUpdateManyWithoutBoostRequestNestedInput
 }
 
 export type ProductBoostRequestUncheckedUpdateWithoutProductInput = {
@@ -1231,10 +1593,16 @@ export type ProductBoostRequestUncheckedUpdateWithoutProductInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.AdvertImageUncheckedUpdateManyWithoutBoostRequestNestedInput
 }
 
 export type ProductBoostRequestUncheckedUpdateManyWithoutProductInput = {
@@ -1251,12 +1619,46 @@ export type ProductBoostRequestUncheckedUpdateManyWithoutProductInput = {
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionStatus?: Prisma.EnumAdvertExtensionStatusFieldUpdateOperationsInput | $Enums.AdvertExtensionStatus
+  extensionDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  extensionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extensionRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  extensionReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type ProductBoostRequestCountOutputType
+ */
+
+export type ProductBoostRequestCountOutputType = {
+  images: number
+}
+
+export type ProductBoostRequestCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  images?: boolean | ProductBoostRequestCountOutputTypeCountImagesArgs
+}
+
+/**
+ * ProductBoostRequestCountOutputType without action
+ */
+export type ProductBoostRequestCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProductBoostRequestCountOutputType
+   */
+  select?: Prisma.ProductBoostRequestCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ProductBoostRequestCountOutputType without action
+ */
+export type ProductBoostRequestCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AdvertImageWhereInput
+}
 
 
 export type ProductBoostRequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1274,6 +1676,11 @@ export type ProductBoostRequestSelect<ExtArgs extends runtime.Types.Extensions.I
   startsAt?: boolean
   endsAt?: boolean
   note?: boolean
+  extensionStatus?: boolean
+  extensionDays?: boolean
+  extensionNote?: boolean
+  extensionRequestedAt?: boolean
+  extensionReviewedAt?: boolean
   reviewedById?: boolean
   reviewedAt?: boolean
   createdAt?: boolean
@@ -1281,6 +1688,8 @@ export type ProductBoostRequestSelect<ExtArgs extends runtime.Types.Extensions.I
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.ProductBoostRequest$reviewedByArgs<ExtArgs>
+  images?: boolean | Prisma.ProductBoostRequest$imagesArgs<ExtArgs>
+  _count?: boolean | Prisma.ProductBoostRequestCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productBoostRequest"]>
 
 export type ProductBoostRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1298,6 +1707,11 @@ export type ProductBoostRequestSelectCreateManyAndReturn<ExtArgs extends runtime
   startsAt?: boolean
   endsAt?: boolean
   note?: boolean
+  extensionStatus?: boolean
+  extensionDays?: boolean
+  extensionNote?: boolean
+  extensionRequestedAt?: boolean
+  extensionReviewedAt?: boolean
   reviewedById?: boolean
   reviewedAt?: boolean
   createdAt?: boolean
@@ -1322,6 +1736,11 @@ export type ProductBoostRequestSelectUpdateManyAndReturn<ExtArgs extends runtime
   startsAt?: boolean
   endsAt?: boolean
   note?: boolean
+  extensionStatus?: boolean
+  extensionDays?: boolean
+  extensionNote?: boolean
+  extensionRequestedAt?: boolean
+  extensionReviewedAt?: boolean
   reviewedById?: boolean
   reviewedAt?: boolean
   createdAt?: boolean
@@ -1346,17 +1765,24 @@ export type ProductBoostRequestSelectScalar = {
   startsAt?: boolean
   endsAt?: boolean
   note?: boolean
+  extensionStatus?: boolean
+  extensionDays?: boolean
+  extensionNote?: boolean
+  extensionRequestedAt?: boolean
+  extensionReviewedAt?: boolean
   reviewedById?: boolean
   reviewedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProductBoostRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "sellerId" | "status" | "placement" | "requestedFor" | "headline" | "durationDays" | "feeAmount" | "paymentStatus" | "feeReference" | "startsAt" | "endsAt" | "note" | "reviewedById" | "reviewedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["productBoostRequest"]>
+export type ProductBoostRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "sellerId" | "status" | "placement" | "requestedFor" | "headline" | "durationDays" | "feeAmount" | "paymentStatus" | "feeReference" | "startsAt" | "endsAt" | "note" | "extensionStatus" | "extensionDays" | "extensionNote" | "extensionRequestedAt" | "extensionReviewedAt" | "reviewedById" | "reviewedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["productBoostRequest"]>
 export type ProductBoostRequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.ProductBoostRequest$reviewedByArgs<ExtArgs>
+  images?: boolean | Prisma.ProductBoostRequest$imagesArgs<ExtArgs>
+  _count?: boolean | Prisma.ProductBoostRequestCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProductBoostRequestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -1375,6 +1801,7 @@ export type $ProductBoostRequestPayload<ExtArgs extends runtime.Types.Extensions
     product: Prisma.$ProductPayload<ExtArgs>
     seller: Prisma.$UserPayload<ExtArgs>
     reviewedBy: Prisma.$UserPayload<ExtArgs> | null
+    images: Prisma.$AdvertImagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1391,6 +1818,11 @@ export type $ProductBoostRequestPayload<ExtArgs extends runtime.Types.Extensions
     startsAt: Date | null
     endsAt: Date | null
     note: string | null
+    extensionStatus: $Enums.AdvertExtensionStatus
+    extensionDays: number | null
+    extensionNote: string | null
+    extensionRequestedAt: Date | null
+    extensionReviewedAt: Date | null
     reviewedById: string | null
     reviewedAt: Date | null
     createdAt: Date
@@ -1792,6 +2224,7 @@ export interface Prisma__ProductBoostRequestClient<T, Null = never, ExtArgs exte
   product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   seller<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   reviewedBy<T extends Prisma.ProductBoostRequest$reviewedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductBoostRequest$reviewedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  images<T extends Prisma.ProductBoostRequest$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductBoostRequest$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdvertImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1835,6 +2268,11 @@ export interface ProductBoostRequestFieldRefs {
   readonly startsAt: Prisma.FieldRef<"ProductBoostRequest", 'DateTime'>
   readonly endsAt: Prisma.FieldRef<"ProductBoostRequest", 'DateTime'>
   readonly note: Prisma.FieldRef<"ProductBoostRequest", 'String'>
+  readonly extensionStatus: Prisma.FieldRef<"ProductBoostRequest", 'AdvertExtensionStatus'>
+  readonly extensionDays: Prisma.FieldRef<"ProductBoostRequest", 'Int'>
+  readonly extensionNote: Prisma.FieldRef<"ProductBoostRequest", 'String'>
+  readonly extensionRequestedAt: Prisma.FieldRef<"ProductBoostRequest", 'DateTime'>
+  readonly extensionReviewedAt: Prisma.FieldRef<"ProductBoostRequest", 'DateTime'>
   readonly reviewedById: Prisma.FieldRef<"ProductBoostRequest", 'String'>
   readonly reviewedAt: Prisma.FieldRef<"ProductBoostRequest", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"ProductBoostRequest", 'DateTime'>
@@ -2256,6 +2694,30 @@ export type ProductBoostRequest$reviewedByArgs<ExtArgs extends runtime.Types.Ext
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
+}
+
+/**
+ * ProductBoostRequest.images
+ */
+export type ProductBoostRequest$imagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdvertImage
+   */
+  select?: Prisma.AdvertImageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AdvertImage
+   */
+  omit?: Prisma.AdvertImageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdvertImageInclude<ExtArgs> | null
+  where?: Prisma.AdvertImageWhereInput
+  orderBy?: Prisma.AdvertImageOrderByWithRelationInput | Prisma.AdvertImageOrderByWithRelationInput[]
+  cursor?: Prisma.AdvertImageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AdvertImageScalarFieldEnum | Prisma.AdvertImageScalarFieldEnum[]
 }
 
 /**

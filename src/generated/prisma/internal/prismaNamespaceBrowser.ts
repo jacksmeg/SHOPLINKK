@@ -78,6 +78,7 @@ export const ModelName = {
   Town: 'Town',
   TownArea: 'TownArea',
   ProductBoostRequest: 'ProductBoostRequest',
+  AdvertImage: 'AdvertImage',
   RecentlyViewed: 'RecentlyViewed',
   ProductView: 'ProductView',
   AdminNote: 'AdminNote',
@@ -517,6 +518,11 @@ export const ProductBoostRequestScalarFieldEnum = {
   startsAt: 'startsAt',
   endsAt: 'endsAt',
   note: 'note',
+  extensionStatus: 'extensionStatus',
+  extensionDays: 'extensionDays',
+  extensionNote: 'extensionNote',
+  extensionRequestedAt: 'extensionRequestedAt',
+  extensionReviewedAt: 'extensionReviewedAt',
   reviewedById: 'reviewedById',
   reviewedAt: 'reviewedAt',
   createdAt: 'createdAt',
@@ -524,6 +530,18 @@ export const ProductBoostRequestScalarFieldEnum = {
 } as const
 
 export type ProductBoostRequestScalarFieldEnum = (typeof ProductBoostRequestScalarFieldEnum)[keyof typeof ProductBoostRequestScalarFieldEnum]
+
+
+export const AdvertImageScalarFieldEnum = {
+  id: 'id',
+  boostRequestId: 'boostRequestId',
+  url: 'url',
+  alt: 'alt',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+} as const
+
+export type AdvertImageScalarFieldEnum = (typeof AdvertImageScalarFieldEnum)[keyof typeof AdvertImageScalarFieldEnum]
 
 
 export const RecentlyViewedScalarFieldEnum = {

@@ -39,6 +39,8 @@ export default async function AdvertiseProductPage({
       description="Ask admin to run this product in the homepage advert trail or featured marketplace placement."
       links={[
         { href: "/seller", label: "Overview", icon: Store },
+        { href: "/seller/store", label: "Store management", icon: Store },
+        { href: "/seller/adverts", label: "Adverts", icon: Megaphone },
         { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
         { href: "/chat", label: "Buyer messages", icon: MessageCircle },
         { href: "/profile", label: "Profile", icon: UserRound },

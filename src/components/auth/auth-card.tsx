@@ -23,7 +23,7 @@ export function AuthCard({
         transition={{ duration: 0.45, ease: "easeOut" }}
         className={cn("w-full", wide ? "max-w-[1128px]" : "max-w-[430px]")}
       >
-        <div className="mb-5 flex items-center justify-between gap-4">
+        <div className="mb-5 hidden items-center justify-between gap-4 lg:flex">
           <Logo />
           <Link
             href="/marketplace"

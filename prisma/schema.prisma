@@ -130,6 +130,13 @@ enum AdvertPaymentStatus {
   REFUNDED
 }
 
+enum AdvertExtensionStatus {
+  NONE
+  REQUESTED
+  APPROVED
+  REJECTED
+}
+
 model User {
   id                       String                   @id @default(cuid())
   name                     String?
@@ -616,6 +623,11 @@ model ProductBoostRequest {
   startsAt      DateTime?
   endsAt        DateTime?
   note          String?
+  extensionStatus        AdvertExtensionStatus @default(NONE)
+  extensionDays          Int?
+  extensionNote          String?
+  extensionRequestedAt   DateTime?
+  extensionReviewedAt    DateTime?
   reviewedById  String?
   reviewedAt    DateTime?
   createdAt     DateTime            @default(now())
@@ -623,10 +635,23 @@ model ProductBoostRequest {
   product       Product             @relation(fields: [productId], references: [id], onDelete: Cascade)
   seller        User                @relation("BoostRequester", fields: [sellerId], references: [id], onDelete: Cascade)
   reviewedBy    User?               @relation("BoostReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  images        AdvertImage[]
 
   @@index([status, createdAt])
   @@index([placement, status, startsAt, endsAt])
   @@index([productId])
+}
+
+model AdvertImage {
+  id            String              @id @default(cuid())
+  boostRequestId String
+  url           String
+  alt           String?
+  sortOrder     Int                 @default(0)
+  createdAt     DateTime            @default(now())
+  boostRequest  ProductBoostRequest @relation(fields: [boostRequestId], references: [id], onDelete: Cascade)
+
+  @@index([boostRequestId, sortOrder])
 }
 
 model RecentlyViewed {

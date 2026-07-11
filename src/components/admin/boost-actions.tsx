@@ -2,7 +2,7 @@
 
 import { Check, CircleDollarSign, Save, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 
 type PaymentStatus = "PENDING" | "CONFIRMED" | "WAIVED";
@@ -55,6 +55,12 @@ export function BoostActions({
     });
   }
 
+  useEffect(() => {
+    if (!message) return;
+    const timeout = window.setTimeout(() => setMessage(""), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [message]);
+
   return (
     <div className="mt-4 border-t border-[var(--line)] pt-4">
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -69,7 +75,7 @@ export function BoostActions({
         <Button type="button" disabled={pending} onClick={() => run("approve")}><Check size={14} /> Run advert</Button>
         <Button type="button" variant="danger" disabled={pending} onClick={() => run("reject")}><X size={14} /> Reject</Button>
       </div>
-      <p className="mt-3 flex items-start gap-2 text-[0.68rem] leading-5 text-[var(--muted)]"><CircleDollarSign className="mt-0.5 shrink-0" size={14} /> No online payment is taken here. Confirm a seller&apos;s offline advert fee or waive it before selecting Run advert.</p>
+      <p className="mt-3 flex items-start gap-2 text-[0.68rem] leading-5 text-[var(--muted)]"><CircleDollarSign className="mt-0.5 shrink-0" size={14} /> Confirm the seller&apos;s advert fee record or waive it before selecting Run advert.</p>
       {message ? <p className={`mt-2 text-xs font-semibold ${isError ? "text-red-700" : "text-cyan-800"}`}>{message}</p> : null}
     </div>
   );

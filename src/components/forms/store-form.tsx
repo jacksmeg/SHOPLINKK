@@ -3,9 +3,10 @@
 import Image from "next/image";
 import { Camera, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useTransition, type FormEvent } from "react";
+import { useEffect, useState, useTransition, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/components/forms/upload-helper";
+import { ImageCropper } from "@/components/forms/image-cropper";
 import { dunkwaAreas } from "@/lib/ghana";
 
 type StoreFormValue = {
@@ -25,6 +26,7 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
   const router = useRouter();
   const [logoUrl, setLogoUrl] = useState(store?.logoUrl ?? "");
   const [coverUrl, setCoverUrl] = useState(store?.coverUrl ?? "");
+  const [coverFile, setCoverFile] = useState<File | null>(null);
   const [message, setMessage] = useState("");
   const [pending, startTransition] = useTransition();
 
@@ -36,6 +38,18 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
       if (target === "logo") setLogoUrl(url);
       if (target === "cover") setCoverUrl(url);
       setMessage("Image cropped/resized and uploaded. Save store to keep it.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Upload failed");
+    }
+  }
+
+  async function uploadCroppedCover(file: File) {
+    setCoverFile(null);
+    setMessage("Uploading your exact 1600 x 900 cover...");
+    try {
+      const url = await uploadImage(file, "store-cover");
+      setCoverUrl(url);
+      setMessage("Cover cropped and uploaded. Save store to keep it.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Upload failed");
     }
@@ -67,15 +81,25 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
     });
   }
 
+  useEffect(() => {
+    if (!message) return;
+    const timeout = window.setTimeout(() => setMessage(""), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [message]);
+
   return (
     <form method="post" onSubmit={submit} className="rounded-[8px] border border-[var(--line)] bg-white p-6 shadow-sm">
-      <div className="relative h-44 overflow-hidden rounded-[8px] bg-blue-50">
+      <div className="relative aspect-[16/9] overflow-hidden rounded-[8px] bg-blue-50">
         {coverUrl ? <Image src={coverUrl} alt="Store cover" fill className="object-cover" unoptimized /> : null}
         <label className="absolute bottom-3 right-3 inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-[7px] bg-white px-4 text-xs font-semibold shadow">
           <Camera size={16} />
-          Cover
-          <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" className="sr-only" onChange={(event) => upload("cover", event.target.files?.[0])} />
+          Cover photo
+          <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" className="sr-only" onChange={(event) => setCoverFile(event.target.files?.[0] ?? null)} />
         </label>
+      </div>
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-[0.68rem] text-[var(--muted)]">
+        <span>Recommended cover size: <strong className="text-[var(--ink)]">1600 x 900 px</strong> (16:9)</span>
+        <span>JPEG, PNG, WebP or GIF / max 5MB</span>
       </div>
 
       <div className="mt-5 flex items-center gap-4">
@@ -139,6 +163,7 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
         <Save size={17} />
         {pending ? "Saving..." : "Save store"}
       </Button>
+      {coverFile ? <ImageCropper file={coverFile} width={1600} height={900} title="Crop store cover photo" onCancel={() => setCoverFile(null)} onComplete={(file) => void uploadCroppedCover(file)} /> : null}
     </form>
   );
 }

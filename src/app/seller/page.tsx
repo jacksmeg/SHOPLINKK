@@ -1,6 +1,5 @@
-import { Boxes, Eye, MessageCircle, PackagePlus, Settings, ShieldCheck, Store, UserRound } from "lucide-react";
+import { Boxes, Eye, Megaphone, MessageCircle, PackagePlus, Settings, ShieldCheck, Store, UserRound } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
-import { StoreForm } from "@/components/forms/store-form";
 import { SellerProductActions } from "@/components/seller/product-actions";
 import { VerificationForm } from "@/components/seller/verification-form";
 import { StatCard } from "@/components/ui/stat-card";
@@ -36,6 +35,7 @@ export default async function SellerDashboardPage() {
       links={[
         { href: "/seller", label: "Overview", icon: Store },
         { href: "/seller/store", label: "Store management", icon: Settings },
+        { href: "/seller/adverts", label: "Adverts", icon: Megaphone },
         { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
         { href: "/seller/products/bulk", label: "Bulk upload", icon: PackagePlus },
         { href: "/chat", label: "Buyer messages", icon: MessageCircle },
@@ -136,13 +136,6 @@ export default async function SellerDashboardPage() {
         </div>
       </div>
 
-      <div className="mt-8">
-        <div className="mb-4 flex items-center gap-2">
-          <Settings className="text-[var(--brand)]" size={21} />
-          <h2 className="text-sm font-black text-[var(--ink)]">Store profile</h2>
-        </div>
-        <StoreForm store={store} />
-      </div>
       <div className="mt-6">
         <VerificationForm defaultName={store?.name} />
       </div>

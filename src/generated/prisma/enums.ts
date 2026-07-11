@@ -175,3 +175,13 @@ export const AdvertPaymentStatus = {
 } as const
 
 export type AdvertPaymentStatus = (typeof AdvertPaymentStatus)[keyof typeof AdvertPaymentStatus]
+
+
+export const AdvertExtensionStatus = {
+  NONE: 'NONE',
+  REQUESTED: 'REQUESTED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type AdvertExtensionStatus = (typeof AdvertExtensionStatus)[keyof typeof AdvertExtensionStatus]

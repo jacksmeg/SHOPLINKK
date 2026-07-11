@@ -94,7 +94,7 @@ export function AuthSidePanel({ mode }: { mode: AuthMode }) {
   const data = content[mode];
 
   return (
-    <aside className="relative overflow-hidden border-b border-[var(--line)] bg-white p-5 sm:p-7 lg:border-b-0 lg:border-r lg:p-8 xl:p-10">
+    <aside className="relative hidden overflow-hidden border-b border-[var(--line)] bg-white p-5 sm:p-7 lg:block lg:border-b-0 lg:border-r lg:p-8 xl:p-10">
       <div className="relative z-10 flex h-full flex-col">
         <AuthLogoMark />
         <div className="mt-7 max-w-[350px]">
@@ -148,9 +148,9 @@ export function AuthPanel({
 }) {
   return (
     <div className="overflow-hidden rounded-[8px] border border-[var(--line)] bg-white shadow-xl">
-      <div className="grid min-h-[520px] lg:grid-cols-[0.95fr_1.05fr]">
+      <div className="grid min-h-0 lg:min-h-[520px] lg:grid-cols-[0.95fr_1.05fr]">
         <AuthSidePanel mode={mode} />
-        <section className="flex items-center p-5 sm:p-7 lg:p-10">
+        <section className="flex items-center p-4 sm:p-6 lg:p-10">
           <div className="mx-auto w-full max-w-[520px]">{children}</div>
         </section>
       </div>

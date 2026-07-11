@@ -8,6 +8,8 @@ import { NearbyTownMap } from "@/components/marketplace/nearby-town-map";
 import { ProductRail } from "@/components/marketplace/product-rail";
 import { getCategories, getFeaturedProducts, getHomepageAdverts, getLatestProducts, getPlatformStats, getPublicTowns } from "@/lib/marketplace";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const [categories, featured, latest, stats, adverts, towns] = await Promise.all([getCategories(), getFeaturedProducts(), getLatestProducts(), getPlatformStats(), getHomepageAdverts(), getPublicTowns()]);
   const picks = featured.length ? featured : latest.slice(0, 8);

@@ -56,6 +56,7 @@ export async function POST(
       durationDays: parsed.data.durationDays,
       note: parsed.data.note || null,
       paymentStatus: "PENDING",
+      images: parsed.data.imageUrls.length ? { create: parsed.data.imageUrls.map((url, sortOrder) => ({ url, sortOrder })) } : undefined,
     },
   });
 

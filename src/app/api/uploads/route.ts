@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { enforceRateLimit, jsonError, requireApiSession } from "@/lib/api";
 import { uploadImageAsset, uploadPurposes, uploadVideoAsset, type UploadPurpose } from "@/lib/storage";
 
-const sellerPurposes: UploadPurpose[] = ["store-logo", "store-cover", "product", "seller-document", "product-video"];
+const sellerPurposes: UploadPurpose[] = ["store-logo", "store-cover", "advert", "product", "seller-document", "product-video"];
+const adminOnlyPurposes: UploadPurpose[] = ["category"];
 
 export async function POST(request: Request) {
   const limited = enforceRateLimit(request, "uploads", 30, 60_000);
@@ -27,6 +28,10 @@ export async function POST(request: Request) {
   const uploadPurpose = purpose as UploadPurpose;
   if (sellerPurposes.includes(uploadPurpose) && !["SELLER", "ADMIN"].includes(session.user.role)) {
     return jsonError("Only sellers can upload this type of media", 403);
+  }
+
+  if (adminOnlyPurposes.includes(uploadPurpose) && session.user.role !== "ADMIN") {
+    return jsonError("Only admins can upload this type of media", 403);
   }
 
   if (type === "video" && uploadPurpose !== "product-video") {

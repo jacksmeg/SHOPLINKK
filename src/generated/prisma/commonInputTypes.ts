@@ -467,6 +467,13 @@ export type EnumAdvertPaymentStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumAdvertPaymentStatusFilter<$PrismaModel> | $Enums.AdvertPaymentStatus
 }
 
+export type EnumAdvertExtensionStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.AdvertExtensionStatus | Prisma.EnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AdvertExtensionStatus[] | Prisma.ListEnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AdvertExtensionStatus[] | Prisma.ListEnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAdvertExtensionStatusFilter<$PrismaModel> | $Enums.AdvertExtensionStatus
+}
+
 export type EnumProductBoostStatusWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ProductBoostStatus | Prisma.EnumProductBoostStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ProductBoostStatus[] | Prisma.ListEnumProductBoostStatusFieldRefInput<$PrismaModel>
@@ -495,6 +502,16 @@ export type EnumAdvertPaymentStatusWithAggregatesFilter<$PrismaModel = never> = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAdvertPaymentStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAdvertPaymentStatusFilter<$PrismaModel>
+}
+
+export type EnumAdvertExtensionStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AdvertExtensionStatus | Prisma.EnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AdvertExtensionStatus[] | Prisma.ListEnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AdvertExtensionStatus[] | Prisma.ListEnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAdvertExtensionStatusWithAggregatesFilter<$PrismaModel> | $Enums.AdvertExtensionStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAdvertExtensionStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAdvertExtensionStatusFilter<$PrismaModel>
 }
 
 export type EnumAuditActionFilter<$PrismaModel = never> = {
@@ -1111,6 +1128,13 @@ export type NestedEnumAdvertPaymentStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumAdvertPaymentStatusFilter<$PrismaModel> | $Enums.AdvertPaymentStatus
 }
 
+export type NestedEnumAdvertExtensionStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.AdvertExtensionStatus | Prisma.EnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AdvertExtensionStatus[] | Prisma.ListEnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AdvertExtensionStatus[] | Prisma.ListEnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAdvertExtensionStatusFilter<$PrismaModel> | $Enums.AdvertExtensionStatus
+}
+
 export type NestedEnumProductBoostStatusWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ProductBoostStatus | Prisma.EnumProductBoostStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ProductBoostStatus[] | Prisma.ListEnumProductBoostStatusFieldRefInput<$PrismaModel>
@@ -1139,6 +1163,16 @@ export type NestedEnumAdvertPaymentStatusWithAggregatesFilter<$PrismaModel = nev
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAdvertPaymentStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAdvertPaymentStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumAdvertExtensionStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AdvertExtensionStatus | Prisma.EnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AdvertExtensionStatus[] | Prisma.ListEnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AdvertExtensionStatus[] | Prisma.ListEnumAdvertExtensionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAdvertExtensionStatusWithAggregatesFilter<$PrismaModel> | $Enums.AdvertExtensionStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAdvertExtensionStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAdvertExtensionStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumAuditActionFilter<$PrismaModel = never> = {

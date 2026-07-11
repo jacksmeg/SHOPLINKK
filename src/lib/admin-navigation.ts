@@ -16,7 +16,7 @@ export const adminLinks = [
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/products", label: "Products", icon: Boxes },
   { href: "/admin/reports", label: "Reports", icon: Flag },
-  { href: "/admin/boosts", label: "Boosts", icon: Rocket },
+  { href: "/admin/boosts", label: "Adverts", icon: Rocket },
   { href: "/admin/categories", label: "Categories", icon: Tags },
   { href: "/admin/towns", label: "Towns", icon: MapPinned },
   { href: "/admin/integrations", label: "API connections", icon: PlugZap },

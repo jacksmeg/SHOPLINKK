@@ -57,7 +57,7 @@ export default async function AdminDashboardPage() {
         <StatCard label="Products" value={products} icon={Boxes} helper="All listing states" />
         <StatCard label="Pending listings" value={pending} icon={ShieldCheck} helper="Need approval" />
         <StatCard label="Open reports" value={reports} icon={Flag} helper="Need review" />
-        <StatCard label="Boost requests" value={boosts} icon={Rocket} helper="Awaiting decision" />
+        <StatCard label="Advert requests" value={boosts} icon={Rocket} helper="Awaiting decision" />
         <StatCard label="Verified stores" value={verifiedSellers} icon={ShieldCheck} helper="Trusted sellers" />
         <StatCard label="API connections" value={`${connectedIntegrations}/${integrations.length}`} icon={PlugZap} helper="Enabled providers" />
       </div>
@@ -67,7 +67,7 @@ export default async function AdminDashboardPage() {
           <div className="mt-4 grid gap-2 sm:grid-cols-3">
             <ButtonLink href="/admin/products?status=PENDING" variant="secondary" className="justify-between">{pending} listings <Boxes size={15} /></ButtonLink>
             <ButtonLink href="/admin/reports?status=OPEN" variant="secondary" className="justify-between">{reports} reports <Flag size={15} /></ButtonLink>
-            <ButtonLink href="/admin/boosts" variant="secondary" className="justify-between">{boosts} boosts <Rocket size={15} /></ButtonLink>
+            <ButtonLink href="/admin/boosts" variant="secondary" className="justify-between">{boosts} adverts <Rocket size={15} /></ButtonLink>
           </div>
         </section>
         <section className="app-panel p-4 sm:p-5">

@@ -97,10 +97,12 @@ export const storeSchema = z.object({
 });
 
 export const productSchema = z.object({
+  listingType: z.enum(["PRODUCT", "SERVICE"]).default("PRODUCT"),
   title: z.string().min(4),
   description: z.string().min(20),
   categoryId: z.string().min(1),
   price: z.coerce.number().positive(),
+  quantity: z.coerce.number().int().min(0).max(999999).default(1),
   condition: z.enum(["NEW", "USED", "REFURBISHED"]).default("USED"),
   location: z.string().min(2).default("Dunkwa-on-Offin"),
   area: z.string().max(80).optional().or(z.literal("")),
@@ -175,10 +177,31 @@ export const typingStatusSchema = z.object({
 
 export const boostRequestSchema = z.object({
   placement: z.enum(["HOMEPAGE", "MARKETPLACE"]).default("HOMEPAGE"),
+  packageId: z.string().optional().or(z.literal("")),
   headline: z.string().min(4, "Write a short advert headline").max(70),
   durationDays: z.coerce.number().int().min(3).max(30).default(7),
   note: z.string().max(500).optional().or(z.literal("")),
   imageUrls: z.array(imageValue).max(8).optional().default([]),
+});
+
+export const billingPackageSchema = z.object({
+  name: z.string().min(3, "Name the package"),
+  description: z.string().max(500).optional().or(z.literal("")),
+  type: z.enum(["PRODUCT_LISTING", "ADVERT"]),
+  price: z.coerce.number().min(0, "Price cannot be negative"),
+  currency: z.string().min(3).max(3).default("GHS"),
+  durationDays: z.coerce.number().int().min(1).max(365).optional().or(z.literal("")),
+  listingCount: z.coerce.number().int().min(1).max(1000).optional().or(z.literal("")),
+  placement: z.enum(["HOMEPAGE", "MARKETPLACE"]).optional().or(z.literal("")),
+  isActive: z.coerce.boolean().default(true),
+  sortOrder: z.coerce.number().int().min(0).max(9999).default(0),
+});
+
+export const checkoutSchema = z.object({
+  packageId: z.string().min(1),
+  productId: z.string().optional(),
+  boostRequestId: z.string().optional(),
+  provider: z.enum(["PAYSTACK", "KORA"]).optional(),
 });
 
 export const advertExtensionSchema = z.object({

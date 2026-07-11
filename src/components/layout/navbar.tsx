@@ -20,6 +20,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Logo } from "@/components/layout/logo";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -86,6 +87,7 @@ export function NavBar() {
           </nav>
 
           <div className="hidden items-center gap-1.5 lg:flex">
+            <ThemeToggle />
             <ButtonLink href="/marketplace" variant="ghost" aria-label="Search marketplace">
               <Search size={16} />
               Search
@@ -113,6 +115,7 @@ export function NavBar() {
           </div>
 
           <div className="flex items-center gap-1 lg:hidden">
+            <ThemeToggle />
             <Link href="/marketplace" className="grid size-10 place-items-center rounded-[7px] text-[var(--muted)]" aria-label="Search marketplace">
               <Search size={19} />
             </Link>

@@ -35,6 +35,17 @@ const envValues: Record<IntegrationProviderKey, ProviderValues> = {
   GOOGLE_MAPS: {
     apiKey: process.env.GOOGLE_MAPS_API_KEY ?? process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
   },
+  PAYSTACK: {
+    publicKey: process.env.PAYSTACK_PUBLIC_KEY ?? "",
+    secretKey: process.env.PAYSTACK_SECRET_KEY ?? "",
+    webhookSecret: process.env.PAYSTACK_WEBHOOK_SECRET ?? "",
+  },
+  KORA: {
+    publicKey: process.env.KORA_PUBLIC_KEY ?? "",
+    secretKey: process.env.KORA_SECRET_KEY ?? "",
+    webhookSecret: process.env.KORA_WEBHOOK_SECRET ?? "",
+    baseUrl: process.env.KORA_BASE_URL ?? "https://api.korapay.com/merchant/api/v1",
+  },
   WEB_PUSH: {
     publicKey: process.env.WEB_PUSH_PUBLIC_KEY ?? "",
     privateKey: process.env.WEB_PUSH_PRIVATE_KEY ?? "",

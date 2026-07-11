@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, ShieldCheck, Store, Video } from "lucide-react";
+import { Boxes, MapPin, ShieldCheck, Store, Video, Wrench } from "lucide-react";
 import type { PublicProduct } from "@/lib/marketplace";
 import { formatCurrency, titleCase } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +28,7 @@ export function ProductCard({
           unoptimized
         />
         <div className="absolute left-3 top-3 flex flex-wrap gap-2">
+          {product.listingType === "SERVICE" ? <Badge tone="blue"><Wrench size={11} /> Service</Badge> : null}
           {product.isFeatured ? <Badge tone="gold">Featured</Badge> : null}
           {product.negotiable ? <Badge tone="blue">Negotiable</Badge> : null}
           {product.videoUrl ? <Badge tone="blue"><Video size={11} /> Video</Badge> : null}
@@ -70,6 +71,12 @@ export function ProductCard({
             </Link>
           ) : null}
           {product.store?.trustScore ? <span>Trust {product.store.trustScore}%</span> : null}
+          {typeof product.quantity === "number" && product.listingType !== "SERVICE" ? (
+            <span className="inline-flex items-center gap-1">
+              <Boxes size={14} />
+              {product.quantity} unit{product.quantity === 1 ? "" : "s"} left
+            </span>
+          ) : null}
         </div>
       </div>
     </article>

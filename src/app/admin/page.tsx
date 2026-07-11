@@ -52,14 +52,14 @@ export default async function AdminDashboardPage() {
       links={adminLinks}
     >
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Users" value={users} icon={Users} helper="All roles" />
-        <StatCard label="Sellers" value={sellers} icon={Store} helper="Seller accounts" />
-        <StatCard label="Products" value={products} icon={Boxes} helper="All listing states" />
-        <StatCard label="Pending listings" value={pending} icon={ShieldCheck} helper="Need approval" />
-        <StatCard label="Open reports" value={reports} icon={Flag} helper="Need review" />
-        <StatCard label="Advert requests" value={boosts} icon={Rocket} helper="Awaiting decision" />
-        <StatCard label="Verified stores" value={verifiedSellers} icon={ShieldCheck} helper="Trusted sellers" />
-        <StatCard label="API connections" value={`${connectedIntegrations}/${integrations.length}`} icon={PlugZap} helper="Enabled providers" />
+        <StatCard label="Users" value={users} icon={Users} helper="All roles" tone="sea" />
+        <StatCard label="Sellers" value={sellers} icon={Store} helper="Seller accounts" tone="pink" />
+        <StatCard label="Products" value={products} icon={Boxes} helper="All listing states" tone="yellow" />
+        <StatCard label="Pending listings" value={pending} icon={ShieldCheck} helper="Need approval" tone="red" />
+        <StatCard label="Open reports" value={reports} icon={Flag} helper="Need review" tone="purple" />
+        <StatCard label="Advert requests" value={boosts} icon={Rocket} helper="Awaiting decision" tone="blue" />
+        <StatCard label="Verified stores" value={verifiedSellers} icon={ShieldCheck} helper="Trusted sellers" tone="sea" />
+        <StatCard label="API connections" value={`${connectedIntegrations}/${integrations.length}`} icon={PlugZap} helper="Enabled providers" tone="pink" />
       </div>
       <div className="mt-5 grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
         <section className="app-panel p-4 sm:p-5">

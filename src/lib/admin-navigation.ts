@@ -1,6 +1,7 @@
 import {
   Boxes,
   ClipboardList,
+  CreditCard,
   Flag,
   MapPinned,
   PlugZap,
@@ -17,6 +18,7 @@ export const adminLinks = [
   { href: "/admin/products", label: "Products", icon: Boxes },
   { href: "/admin/reports", label: "Reports", icon: Flag },
   { href: "/admin/boosts", label: "Adverts", icon: Rocket },
+  { href: "/admin/billing", label: "Billing", icon: CreditCard },
   { href: "/admin/categories", label: "Categories", icon: Tags },
   { href: "/admin/towns", label: "Towns", icon: MapPinned },
   { href: "/admin/integrations", label: "API connections", icon: PlugZap },

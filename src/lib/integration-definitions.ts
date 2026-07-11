@@ -6,6 +6,8 @@ export const integrationProviders = [
   "ARKESEL",
   "PUSHER",
   "GOOGLE_MAPS",
+  "PAYSTACK",
+  "KORA",
   "WEB_PUSH",
   "MONITORING",
 ] as const;
@@ -112,6 +114,31 @@ export const integrationDefinitions: IntegrationDefinition[] = [
         secret: true,
         help: "Restrict this key to Maps JavaScript API, Geocoding API, and your approved website domains.",
       },
+    ],
+  },
+  {
+    provider: "PAYSTACK",
+    name: "Paystack payments",
+    category: "Payments",
+    description: "Collect seller listing and advert fees through Paystack, then auto-approve paid products or campaigns.",
+    docsUrl: "https://paystack.com/docs/payments/accept-payments/",
+    fields: [
+      { key: "publicKey", label: "Public key", placeholder: "pk_live_..." },
+      { key: "secretKey", label: "Secret key", placeholder: "sk_live_...", secret: true },
+      { key: "webhookSecret", label: "Webhook secret", placeholder: "Optional Paystack webhook secret", secret: true },
+    ],
+  },
+  {
+    provider: "KORA",
+    name: "Kora payments",
+    category: "Payments",
+    description: "Collect seller listing and advert fees through Kora, with payment confirmation tied to exact ShopLinkk records.",
+    docsUrl: "https://developers.korapay.com/",
+    fields: [
+      { key: "publicKey", label: "Public key", placeholder: "Kora public key" },
+      { key: "secretKey", label: "Secret key", placeholder: "Kora secret key", secret: true },
+      { key: "webhookSecret", label: "Webhook secret", placeholder: "Optional Kora webhook secret", secret: true },
+      { key: "baseUrl", label: "API base URL", placeholder: "https://api.korapay.com/merchant/api/v1", help: "Leave this as the default unless Kora gives you a different live endpoint." },
     ],
   },
   {

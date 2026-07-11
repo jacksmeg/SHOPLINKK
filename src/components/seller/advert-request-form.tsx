@@ -10,9 +10,11 @@ import { Button } from "@/components/ui/button";
 export function AdvertRequestForm({
   productId,
   productTitle,
+  advertPackages = [],
 }: {
   productId: string;
   productTitle: string;
+  advertPackages?: { id: string; name: string; description?: string | null; price: number; currency: string; durationDays?: number | null; placement?: string | null }[];
 }) {
   const router = useRouter();
   const [message, setMessage] = useState("");
@@ -55,11 +57,13 @@ export function AdvertRequestForm({
     setSuccess(false);
 
     startTransition(async () => {
+      const packageId = String(form.get("packageId") ?? "");
       const response = await fetch(`/api/products/${productId}/boost`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           placement: form.get("placement"),
+          packageId,
           headline: form.get("headline"),
           durationDays: Number(form.get("durationDays")),
           note: form.get("note"),
@@ -70,6 +74,21 @@ export function AdvertRequestForm({
 
       if (!response.ok) {
         setMessage(result?.message ?? "The advert request could not be sent.");
+        return;
+      }
+
+      if (packageId) {
+        const checkout = await fetch("/api/billing/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ packageId, boostRequestId: result?.id }),
+        });
+        const checkoutData = await checkout.json().catch(() => null);
+        if (checkout.ok && checkoutData?.checkoutUrl) {
+          window.location.href = checkoutData.checkoutUrl;
+          return;
+        }
+        setMessage(checkoutData?.message ?? "Advert request saved, but payment checkout could not start.");
         return;
       }
 
@@ -106,6 +125,19 @@ export function AdvertRequestForm({
           </select>
         </label>
       </div>
+      {advertPackages.length ? (
+        <label className="mt-4 block text-xs font-bold text-[var(--ink)]">
+          Advert package
+          <select name="packageId" required className="form-control mt-1.5 w-full bg-white px-3 text-xs">
+            <option value="">Choose package</option>
+            {advertPackages.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name} - GH₵ {item.price.toFixed(2)}{item.durationDays ? ` / ${item.durationDays} days` : ""}
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : null}
       <label className="mt-4 block text-xs font-bold text-[var(--ink)]">
         Advert headline
         <input

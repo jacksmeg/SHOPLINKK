@@ -19,6 +19,25 @@
   --shadow: 0 14px 40px rgba(7, 19, 45, 0.08);
 }
 
+[data-theme="dark"] {
+  --background: #07111f;
+  --foreground: #e5eefb;
+  --brand: #5ea5ff;
+  --brand-dark: #dbeafe;
+  --brand-soft: #10233f;
+  --gold: #22d3ee;
+  --gold-soft: #102a34;
+  --coral: #fb7185;
+  --ink: #f8fafc;
+  --muted: #a8b3c7;
+  --muted-strong: #c8d2e4;
+  --line: #223149;
+  --line-strong: #33445f;
+  --surface: #0d1829;
+  --surface-muted: #111f33;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -82,6 +101,27 @@ textarea::placeholder {
 
 .shoplinkk-shell {
   background: #ffffff;
+}
+
+[data-theme="dark"] .shoplinkk-shell,
+[data-theme="dark"] body {
+  background: var(--background);
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--surface) !important;
+}
+
+[data-theme="dark"] .bg-white\/95,
+[data-theme="dark"] .bg-white\/96 {
+  background-color: rgba(13, 24, 41, 0.95) !important;
+}
+
+[data-theme="dark"] .shadow-sm,
+[data-theme="dark"] .shadow-lg,
+[data-theme="dark"] .shadow-xl,
+[data-theme="dark"] .shadow-2xl {
+  box-shadow: var(--shadow);
 }
 
 .page-enter {

@@ -1,6 +1,8 @@
 import type {
   Category,
+  ListingPaymentStatus,
   ListingStatus,
+  ListingType,
   Prisma,
   ProductCondition,
   StockStatus,
@@ -11,20 +13,23 @@ import { demoCategories, demoProducts, demoStores, townCoordinates, townLocation
 export type PublicCategory = Pick<
   Category,
   "id" | "name" | "slug" | "description" | "icon"
->;
+> & { productCount?: number };
 
 export type PublicProduct = {
   id: string;
   title: string;
   slug: string;
   description: string;
+  listingType?: ListingType | string;
   price: number;
+  quantity?: number;
   condition: ProductCondition | string;
   location: string;
   area?: string | null;
   pickupNote?: string | null;
   stockStatus: StockStatus | string;
   listingStatus: ListingStatus | string;
+  listingPaymentStatus?: ListingPaymentStatus | string;
   negotiable?: boolean;
   allowCalls?: boolean;
   allowWhatsapp?: boolean;
@@ -220,7 +225,7 @@ function filterDemoProducts(filters?: {
 
 export async function getCategories(): Promise<PublicCategory[]> {
   try {
-    return await prisma.category.findMany({
+    const categories = await prisma.category.findMany({
       orderBy: { name: "asc" },
       select: {
         id: true,
@@ -228,10 +233,27 @@ export async function getCategories(): Promise<PublicCategory[]> {
         slug: true,
         description: true,
         icon: true,
+        _count: {
+          select: {
+            products: {
+              where: {
+                listingStatus: "APPROVED",
+                stockStatus: { not: "SOLD" },
+              },
+            },
+          },
+        },
       },
     });
+    return categories.map(({ _count, ...category }) => ({
+      ...category,
+      productCount: _count.products,
+    }));
   } catch {
-    return demoCategories;
+    return demoCategories.map((category) => ({
+      ...category,
+      productCount: demoProducts.filter((product) => product.category.slug === category.slug).length,
+    }));
   }
 }
 

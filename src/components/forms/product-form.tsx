@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowDown, ArrowUp, ImagePlus, Save, Send, Trash2, Video } from "lucide-react";
+import { ArrowDown, ArrowUp, CreditCard, ImagePlus, Save, Send, Trash2, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import type { PublicCategory } from "@/lib/marketplace";
@@ -12,10 +12,12 @@ import { formatCurrency } from "@/lib/utils";
 
 type ProductFormValue = {
   id?: string;
+  listingType?: string;
   title?: string;
   description?: string;
   categoryId?: string;
   price?: number | string;
+  quantity?: number | string;
   condition?: string;
   location?: string;
   area?: string | null;
@@ -34,10 +36,12 @@ type ProductFormValue = {
 export function ProductForm({
   categories,
   product,
+  listingPackages = [],
   maxImages = 8,
 }: {
   categories: PublicCategory[];
   product?: ProductFormValue | null;
+  listingPackages?: { id: string; name: string; description?: string | null; price: number; currency: string }[];
   maxImages?: number;
 }) {
   const router = useRouter();
@@ -84,14 +88,17 @@ export function ProductForm({
     setMessage("");
 
     startTransition(async () => {
+      const packageId = String(formData.get("packageId") ?? "");
       const response = await fetch(product?.id ? `/api/products/${product.id}` : "/api/products", {
         method: product?.id ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          listingType: formData.get("listingType"),
           title: formData.get("title"),
           description: formData.get("description"),
           categoryId: formData.get("categoryId"),
           price: formData.get("price"),
+          quantity: formData.get("quantity"),
           condition: formData.get("condition"),
           location: formData.get("location"),
           area: formData.get("area"),
@@ -105,12 +112,29 @@ export function ProductForm({
           seoTitle: formData.get("seoTitle"),
           seoDescription: formData.get("seoDescription"),
           imageUrls: images,
+          packageId,
         }),
       });
 
       if (!response.ok) {
         const data = await response.json().catch(() => null);
         setMessage(data?.message ?? "Could not save product.");
+        return;
+      }
+
+      const savedProduct = await response.json().catch(() => null);
+      if (!product?.id && listingStatus !== "DRAFT" && packageId) {
+        const checkout = await fetch("/api/billing/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ packageId, productId: savedProduct?.id }),
+        });
+        const checkoutData = await checkout.json().catch(() => null);
+        if (checkout.ok && checkoutData?.checkoutUrl) {
+          window.location.href = checkoutData.checkoutUrl;
+          return;
+        }
+        setMessage(checkoutData?.message ?? "Listing saved, but payment checkout could not start.");
         return;
       }
 
@@ -134,10 +158,19 @@ export function ProductForm({
     <form method="post" onSubmit={submit} className="rounded-[8px] border border-[var(--line)] bg-white p-6 shadow-sm">
       <div className="grid gap-4 lg:grid-cols-[1fr_330px]">
         <div className="grid gap-4">
-          <label className="text-sm font-bold text-[var(--ink)]">
-            Product title
-            <input name="title" defaultValue={product?.title ?? ""} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
-          </label>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Listing type
+              <select name="listingType" defaultValue={product?.listingType ?? "PRODUCT"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
+                <option value="PRODUCT">Product</option>
+                <option value="SERVICE">Service</option>
+              </select>
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)] sm:col-span-2">
+              Product title or service name
+              <input name="title" defaultValue={product?.title ?? ""} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+          </div>
           <label className="text-sm font-bold text-[var(--ink)]">
             Description
             <textarea name="description" defaultValue={product?.description ?? ""} required rows={6} className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
@@ -159,7 +192,11 @@ export function ProductForm({
               <input name="price" type="number" min="1" defaultValue={product?.price ? Number(product.price) : ""} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
             </label>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-4">
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Quantity
+              <input name="quantity" type="number" min="0" defaultValue={product?.quantity ?? 1} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
             <label className="text-sm font-bold text-[var(--ink)]">
               Condition
               <select name="condition" defaultValue={product?.condition ?? "USED"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
@@ -218,6 +255,25 @@ export function ProductForm({
               {videoUrl ? <button type="button" onClick={() => setVideoUrl("")} className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-red-700 hover:underline"><Trash2 size={13} /> Remove product video</button> : null}
             </label>
           </div>
+          {!product?.id && listingPackages.length ? (
+            <div className="rounded-[8px] border border-cyan-200 bg-cyan-50 p-4">
+              <label className="text-sm font-bold text-cyan-950">
+                Listing payment package
+                <select name="packageId" required className="form-control mt-2 w-full bg-white px-3 text-xs">
+                  <option value="">Choose package</option>
+                  {listingPackages.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name} - {formatCurrency(item.price)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <p className="mt-2 flex items-start gap-2 text-xs leading-5 text-cyan-950">
+                <CreditCard className="mt-0.5 shrink-0" size={15} />
+                After saving, ShopLinkk opens the active payment gateway. A successful payment can approve the listing automatically.
+              </p>
+            </div>
+          ) : null}
           <label className="text-sm font-bold text-[var(--ink)]">
             Pickup or delivery discussion
             <textarea name="pickupNote" defaultValue={product?.pickupNote ?? ""} rows={3} placeholder="Example: Pickup around Dunkwa Market. Delivery can be discussed in chat." className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />

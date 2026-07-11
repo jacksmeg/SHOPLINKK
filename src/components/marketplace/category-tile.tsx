@@ -65,6 +65,9 @@ export function CategoryTile({ category }: { category: PublicCategory }) {
         <p className="mt-1 line-clamp-2 text-xs leading-5 text-[var(--muted)]">
           {category.description}
         </p>
+        <p className="mt-3 inline-flex rounded-full bg-[var(--brand-soft)] px-2.5 py-1 text-[0.68rem] font-bold text-[var(--brand-dark)]">
+          {category.productCount ?? 0} listing{(category.productCount ?? 0) === 1 ? "" : "s"}
+        </p>
       </div>
     </Link>
   );

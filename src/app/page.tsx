@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/marketplace/product-card";
 import { HomeAdvertRail } from "@/components/marketplace/home-advert-rail";
 import { NearbyTownMap } from "@/components/marketplace/nearby-town-map";
 import { ProductRail } from "@/components/marketplace/product-rail";
+import { HomepageSearch } from "@/components/marketplace/search/homepage-search";
 import { getCategories, getFeaturedProducts, getHomepageAdverts, getLatestProducts, getPlatformStats, getPublicTowns } from "@/lib/marketplace";
 
 export const dynamic = "force-dynamic";
@@ -27,10 +28,7 @@ export default async function Home() {
             <div className="flex gap-2"><ButtonLink href="/marketplace" variant="secondary"><Search size={15} /> Browse all</ButtonLink><ButtonLink href="/register"><Store size={15} /> Start selling</ButtonLink></div>
           </div>
 
-          <form action="/marketplace" className="mt-6 flex max-w-4xl gap-2 rounded-[8px] border border-[var(--line-strong)] bg-white p-2 shadow-lg">
-            <label className="relative min-w-0 flex-1"><span className="sr-only">Search ShopLinkk</span><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={17} /><input name="q" placeholder="What are you looking for?" className="min-h-11 w-full rounded-[6px] border-0 bg-[var(--surface-muted)] pl-10 pr-3 text-sm outline-none focus:bg-white focus:ring-2 focus:ring-[var(--brand)]/15" /></label>
-            <button className="min-h-11 rounded-[7px] bg-[var(--brand)] px-5 text-xs font-bold text-white transition hover:bg-[var(--brand-dark)]">Search</button>
-          </form>
+          <HomepageSearch />
 
           <div className="hide-scrollbar mt-5 flex gap-2 overflow-x-auto pb-1">
             {categories.slice(0, 10).map((category) => <Link key={category.slug} href={`/marketplace?category=${category.slug}`} className="shrink-0 rounded-full border border-[var(--line)] bg-white px-3 py-2 text-xs font-semibold text-[var(--muted)] transition hover:border-[var(--brand)] hover:text-[var(--brand-dark)]">{category.name}</Link>)}

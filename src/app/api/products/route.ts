@@ -30,6 +30,7 @@ export async function POST(request: Request) {
     return jsonError(parsed.error.issues[0]?.message ?? "Invalid product data");
   }
 
+  const packageId = typeof body?.packageId === "string" ? body.packageId.trim() : "";
   const store = await prisma.store.findUnique({
     where: { ownerId: session.user.id },
   });
@@ -40,8 +41,21 @@ export async function POST(request: Request) {
     if (!user?.phoneVerifiedAt) return jsonError("Verify your phone number before publishing a listing", 403);
   }
   const requestedStatus = parsed.data.listingStatus ?? "PENDING";
+  const activeListingPackages = await prisma.billingPackage.count({
+    where: { type: "PRODUCT_LISTING", isActive: true },
+  });
+  const paidPackage = packageId
+    ? await prisma.billingPackage.findFirst({
+        where: { id: packageId, type: "PRODUCT_LISTING", isActive: true },
+      })
+    : null;
+  if (session.user.role !== "ADMIN" && requestedStatus !== "DRAFT" && activeListingPackages > 0 && !paidPackage) {
+    return jsonError("Choose a listing package before submitting this listing.");
+  }
   const listingStatus =
-    requestedStatus === "DRAFT"
+    paidPackage
+      ? "PENDING"
+      : requestedStatus === "DRAFT"
       ? "DRAFT"
         : session.user.role === "ADMIN"
         ? requestedStatus
@@ -56,16 +70,19 @@ export async function POST(request: Request) {
       sellerId: session.user.id,
       storeId: store?.id,
       categoryId: parsed.data.categoryId,
+      listingType: parsed.data.listingType,
       title: parsed.data.title,
       slug: uniqueSlug(parsed.data.title),
       description: parsed.data.description,
       price: parsed.data.price,
+      quantity: parsed.data.quantity,
       condition: parsed.data.condition,
       location: parsed.data.location,
       area: parsed.data.area || null,
       pickupNote: parsed.data.pickupNote || null,
       stockStatus: parsed.data.stockStatus,
       listingStatus: finalListingStatus,
+      listingPaymentStatus: paidPackage ? "PENDING" : "NOT_REQUIRED",
       approvalNote: scan.flagged
         ? `Auto-flagged for admin review: ${scan.matches.join(", ")}`
         : null,

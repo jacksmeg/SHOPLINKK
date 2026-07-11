@@ -7,6 +7,7 @@ import type { PublicCategory } from "@/lib/marketplace";
 import { townLocations } from "@/lib/demo-data";
 import { dunkwaAreas } from "@/lib/ghana";
 import { Button } from "@/components/ui/button";
+import { SearchSuggestBox } from "@/components/marketplace/search/search-suggest-box";
 
 export function SearchFilters({ categories }: { categories: PublicCategory[] }) {
   const searchParams = useSearchParams();
@@ -31,7 +32,7 @@ export function SearchFilters({ categories }: { categories: PublicCategory[] }) 
   return (
     <form onSubmit={applyFilters} className="rounded-[8px] border border-[var(--line)] bg-white p-3 shadow-sm sm:p-4">
       <div className="flex gap-2">
-        <label className="relative min-w-0 flex-1"><span className="sr-only">Search products</span><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} /><input value={q} onChange={(event) => setQ(event.target.value)} placeholder="Search products..." className="form-control w-full pl-9 pr-3 text-sm" /></label>
+        <SearchSuggestBox value={q} onChange={setQ} className="min-w-0 flex-1" placeholder="Search products, services, stores..." />
         <Button type="submit" className="px-4"><Search size={15} /><span className="hidden sm:inline">Search</span></Button>
         <Button type="button" variant="secondary" onClick={() => setAdvanced((value) => !value)} className="lg:hidden" aria-expanded={advanced}>{advanced ? <X size={15} /> : <SlidersHorizontal size={15} />}<span className="hidden sm:inline">Filters</span></Button>
       </div>

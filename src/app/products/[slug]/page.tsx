@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { MapPin, MessageCircle, PackageCheck, Phone, Share2, ShieldAlert, ShieldCheck, Store, Tag } from "lucide-react";
+import { Boxes, MapPin, MessageCircle, PackageCheck, Phone, Share2, ShieldAlert, ShieldCheck, Store, Tag, Wrench } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactSellerButton } from "@/components/marketplace/contact-seller-button";
@@ -124,6 +124,7 @@ export default async function ProductDetailPage({
         <aside className="self-start rounded-[8px] border border-[var(--line)] bg-white p-4 shadow-sm sm:p-5 lg:sticky lg:top-20">
           <div className="flex flex-wrap gap-2">
             <Badge tone="green">{titleCase(String(product.stockStatus))}</Badge>
+            {product.listingType === "SERVICE" ? <Badge tone="blue"><Wrench size={12} /> Service</Badge> : <Badge tone="blue">Product</Badge>}
             <Badge tone="neutral">{titleCase(String(product.condition))}</Badge>
             <Badge tone="blue">{product.category.name}</Badge>
             {product.negotiable ? <Badge tone="gold">Negotiable</Badge> : null}
@@ -134,6 +135,9 @@ export default async function ProductDetailPage({
             <span className="inline-flex items-center gap-2"><MapPin size={16} /> {product.area ? `${product.area}, ${product.location}` : product.location}</span>
             <span className="inline-flex items-center gap-2"><Tag size={16} /> {product.category.name}</span>
             <span className="inline-flex items-center gap-2"><PackageCheck size={16} /> {titleCase(String(product.stockStatus))}</span>
+            {typeof product.quantity === "number" && product.listingType !== "SERVICE" ? (
+              <span className="inline-flex items-center gap-2"><Boxes size={16} /> {product.quantity} unit{product.quantity === 1 ? "" : "s"} left</span>
+            ) : null}
           </div>
 
           <div className="mt-5 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">

@@ -17,16 +17,23 @@ export default async function AdvertiseProductPage({
 }) {
   const session = await requireRole(["SELLER", "ADMIN"]);
   const { id } = await params;
-  const product = await prisma.product.findFirst({
-    where: {
-      id,
-      ...(session.user.role === "ADMIN" ? {} : { sellerId: session.user.id }),
-    },
-    include: {
-      category: true,
-      images: { orderBy: { sortOrder: "asc" }, take: 1 },
-    },
-  });
+  const [product, advertPackages] = await Promise.all([
+    prisma.product.findFirst({
+      where: {
+        id,
+        ...(session.user.role === "ADMIN" ? {} : { sellerId: session.user.id }),
+      },
+      include: {
+        category: true,
+        images: { orderBy: { sortOrder: "asc" }, take: 1 },
+      },
+    }),
+    prisma.billingPackage.findMany({
+      where: { type: "ADVERT", isActive: true },
+      orderBy: [{ sortOrder: "asc" }, { price: "asc" }],
+      select: { id: true, name: true, description: true, price: true, currency: true, durationDays: true, placement: true },
+    }),
+  ]);
 
   if (!product) {
     notFound();
@@ -68,7 +75,11 @@ export default async function AdvertiseProductPage({
           </div>
         </article>
         {product.listingStatus === "APPROVED" && product.stockStatus === "AVAILABLE" ? (
-          <AdvertRequestForm productId={product.id} productTitle={product.title} />
+          <AdvertRequestForm
+            productId={product.id}
+            productTitle={product.title}
+            advertPackages={advertPackages.map((item) => ({ ...item, price: Number(item.price) }))}
+          />
         ) : (
           <div className="app-panel p-5">
             <div className="grid size-11 place-items-center rounded-[8px] bg-[var(--brand-soft)] text-[var(--brand)]">

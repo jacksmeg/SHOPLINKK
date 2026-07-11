@@ -94,6 +94,16 @@ export async function POST(_request: Request, context: { params: Promise<{ provi
       message = ok
         ? "Google Maps accepted the key. Town maps and nearest-place browsing are ready."
         : result?.error_message || "Google Maps rejected the key. Check API restrictions and enabled APIs.";
+    } else if (provider === "PAYSTACK") {
+      const response = await fetch("https://api.paystack.co/balance", {
+        headers: { Authorization: `Bearer ${config.values.secretKey}` },
+        cache: "no-store",
+      });
+      ok = response.ok;
+      message = ok ? "Paystack accepted the secret key. Seller checkout can use Paystack." : "Paystack rejected the secret key.";
+    } else if (provider === "KORA") {
+      ok = /^https:\/\/.+/i.test(config.values.baseUrl || "") && Boolean(config.values.secretKey);
+      message = ok ? "Kora settings are saved and ready for a live checkout test." : "Kora needs a live API base URL and secret key.";
     } else if (provider === "WEB_PUSH") {
       const publicKey = config.values.publicKey;
       const privateKey = config.values.privateKey;

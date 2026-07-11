@@ -3,6 +3,13 @@ import { withAuth } from "next-auth/middleware";
 
 export default withAuth(
   function middleware(req) {
+    const host = req.headers.get("host")?.toLowerCase();
+    if (host === "shoplinkk.com") {
+      const url = req.nextUrl.clone();
+      url.hostname = "www.shoplinkk.com";
+      return NextResponse.redirect(url, 308);
+    }
+
     const token = req.nextauth.token;
     const pathname = req.nextUrl.pathname;
 
@@ -31,5 +38,7 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/buyer/:path*", "/seller/:path*", "/admin/:path*", "/profile/:path*", "/chat/:path*", "/favorites/:path*", "/notifications/:path*", "/account/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|brand|uploads|.*\\..*).*)",
+  ],
 };

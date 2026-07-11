@@ -17,6 +17,18 @@ export async function POST(
   const { id } = await context.params;
   const parsed = boostRequestSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return jsonError(parsed.error.issues[0]?.message ?? "Check the advert request details");
+  const activeAdvertPackages = await prisma.billingPackage.count({
+    where: { type: "ADVERT", isActive: true },
+  });
+  const packageId = parsed.data.packageId?.trim();
+  const advertPackage = packageId
+    ? await prisma.billingPackage.findFirst({
+        where: { id: packageId, type: "ADVERT", isActive: true },
+      })
+    : null;
+  if (session.user.role !== "ADMIN" && activeAdvertPackages > 0 && !advertPackage) {
+    return jsonError("Choose an advert package before requesting promotion.");
+  }
   const product = await prisma.product.findFirst({
     where: {
       id,
@@ -53,7 +65,9 @@ export async function POST(
       placement: parsed.data.placement,
       requestedFor: parsed.data.placement === "HOMEPAGE" ? "Animated homepage product advert" : "Featured marketplace placement",
       headline: parsed.data.headline,
-      durationDays: parsed.data.durationDays,
+      durationDays: advertPackage?.durationDays ?? parsed.data.durationDays,
+      feeAmount: advertPackage?.price,
+      billingPackageId: advertPackage?.id,
       note: parsed.data.note || null,
       paymentStatus: "PENDING",
       images: parsed.data.imageUrls.length ? { create: parsed.data.imageUrls.map((url, sortOrder) => ({ url, sortOrder })) } : undefined,

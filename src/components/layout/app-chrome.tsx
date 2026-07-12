@@ -6,6 +6,7 @@ import { ShieldAlert, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Footer } from "@/components/layout/footer";
 import { InstallAppButton } from "@/components/layout/install-app-button";
+import { MobileSplashScreen } from "@/components/layout/mobile-splash-screen";
 import { NavBar } from "@/components/layout/navbar";
 import { NotificationHub } from "@/components/notifications/notification-hub";
 
@@ -38,6 +39,7 @@ export function AppChrome({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="shoplinkk-shell flex min-h-screen flex-col">
+      <MobileSplashScreen />
       {authPage ? null : <NavBar />}
       <main className={authPage ? "flex-1" : "mobile-safe-bottom flex-1"}>
         {!authPage && marketplacePage && showSafety && safetyBanner ? (

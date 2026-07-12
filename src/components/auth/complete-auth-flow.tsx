@@ -24,6 +24,7 @@ export function CompleteAuthFlow() {
   const [pending, startTransition] = useTransition();
 
   const requestedRole = params.get("role") === "SELLER" ? "SELLER" : "BUYER";
+  const requestedStoreKind = params.get("storeKind") === "FOOD" ? "FOOD" : "GENERAL";
   const callback = params.get("callback");
   const safeCallback = callback?.startsWith("/") ? callback : null;
 
@@ -61,7 +62,7 @@ export function CompleteAuthFlow() {
         const sellerResponse = await fetch("/api/account/complete-role", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ role: "SELLER" }),
+          body: JSON.stringify({ role: "SELLER", storeKind: requestedStoreKind }),
         });
 
         if (!active) return;
@@ -110,6 +111,7 @@ export function CompleteAuthFlow() {
           password,
           phone: form.get("phone"),
           role: requestedRole,
+          storeKind: requestedStoreKind,
         }),
       });
       const result = await response.json().catch(() => null);
@@ -137,6 +139,16 @@ export function CompleteAuthFlow() {
             Choose your username and password so you can also sign in without Google.
           </p>
           <div className="mt-5 grid gap-3">
+            {requestedRole === "SELLER" ? (
+              <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-3">
+                <p className="text-xs font-black text-[var(--ink)]">
+                  Seller type: {requestedStoreKind === "FOOD" ? "Food seller" : "Products and services"}
+                </p>
+                <p className="mt-1 text-[0.68rem] leading-5 text-[var(--muted)]">
+                  You can change store details later in Store management.
+                </p>
+              </div>
+            ) : null}
             <label className="text-xs font-bold text-[var(--ink)]">
               Username
               <div className="mt-1.5 flex min-h-11 items-center gap-2 rounded-[8px] border border-[var(--line)] px-3 focus-within:border-[var(--brand)] focus-within:ring-4 focus-within:ring-blue-100">

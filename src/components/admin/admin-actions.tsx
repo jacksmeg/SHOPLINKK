@@ -5,6 +5,59 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 
+export function FoodModerationActions({ itemId }: { itemId: string }) {
+  const router = useRouter();
+  const [mode, setMode] = useState<"approve" | "reject" | null>(null);
+  const [reason, setReason] = useState("");
+  const [message, setMessage] = useState("");
+  const [pending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (!message) return;
+    const timeout = window.setTimeout(() => setMessage(""), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [message]);
+
+  function run(action: "approve" | "reject") {
+    startTransition(async () => {
+      const response = await fetch(`/api/admin/food/${itemId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          status: action === "approve" ? "APPROVED" : "REJECTED",
+          reason: action === "reject" ? reason || "Food menu item needs changes before approval." : "",
+        }),
+      });
+      const result = await response.json().catch(() => null);
+      setMessage(response.ok ? "Food item updated." : result?.message ?? "Action failed.");
+      if (response.ok) {
+        setMode(null);
+        setReason("");
+        router.refresh();
+      }
+    });
+  }
+
+  if (mode === "reject") {
+    return (
+      <div className="grid min-w-[230px] gap-2">
+        <textarea value={reason} onChange={(event) => setReason(event.target.value)} rows={2} placeholder="Reason for rejection" className="form-control w-full resize-none px-2.5 py-2 text-xs" />
+        <div className="flex gap-2"><Button type="button" variant="danger" disabled={pending} onClick={() => run("reject")}><X size={13} /> Reject</Button><Button type="button" variant="ghost" onClick={() => setMode(null)}>Cancel</Button></div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex flex-wrap gap-1.5">
+        <Button type="button" disabled={pending} onClick={() => run("approve")} className="min-h-8 px-2.5"><Check size={13} /> Approve</Button>
+        <Button type="button" variant="secondary" disabled={pending} onClick={() => setMode("reject")} className="min-h-8 px-2.5"><X size={13} /> Reject</Button>
+      </div>
+      {message ? <p className="mt-2 text-xs text-[var(--muted)]">{message}</p> : null}
+    </div>
+  );
+}
+
 export function ProductModerationActions({ productId, featured = false }: { productId: string; featured?: boolean }) {
   const router = useRouter();
   const [mode, setMode] = useState<"approve" | "reject" | "delete" | null>(null);

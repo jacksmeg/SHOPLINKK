@@ -17,7 +17,7 @@ export default async function AdminBillingPage() {
     getBillingConfig(),
     prisma.billingPackage.findMany({
       orderBy: [{ type: "asc" }, { sortOrder: "asc" }, { price: "asc" }],
-      include: { _count: { select: { payments: true } } },
+      include: { _count: { select: { payments: true, advertRequests: true } } },
     }),
     prisma.paymentTransaction.count({ where: { status: "PENDING" } }),
     prisma.paymentTransaction.count({ where: { status: "SUCCESS" } }),

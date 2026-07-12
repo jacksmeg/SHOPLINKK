@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   Bell,
   Boxes,
+  ChefHat,
   Circle,
   ClipboardList,
   Flag,
@@ -63,6 +64,7 @@ export function DashboardNavigation({
 const icons = {
   Bell,
   Boxes,
+  ChefHat,
   ClipboardList,
   Flag,
   GitCompareArrows,

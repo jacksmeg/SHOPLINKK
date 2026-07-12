@@ -44,6 +44,11 @@ export function HomeAdvertRail({ adverts }: { adverts: PublicHomepageAdvert[] })
     setImageIndex(0);
   }
 
+  function moveImage(direction: -1 | 1) {
+    if (media.length <= 1) return;
+    setImageIndex((current) => (current + direction + media.length) % media.length);
+  }
+
   return (
     <section className="border-b border-[var(--line)] bg-white py-5" aria-labelledby="home-adverts-title">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
@@ -62,7 +67,7 @@ export function HomeAdvertRail({ adverts }: { adverts: PublicHomepageAdvert[] })
         </div>
 
         <div className="grid overflow-hidden rounded-[8px] border border-[var(--line)] bg-[#f8fbff] shadow-sm lg:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
-          <Link href={`/products/${product.slug}`} className="group relative block min-h-[260px] overflow-hidden bg-[var(--surface-muted)] sm:min-h-[340px] lg:min-h-[420px]">
+          <div className="group relative min-h-[260px] overflow-hidden bg-[var(--surface-muted)] sm:min-h-[340px] lg:min-h-[420px]">
             <Image
               key={media[imageIndex]?.url}
               src={media[imageIndex]?.url ?? "/window.svg"}
@@ -72,13 +77,39 @@ export function HomeAdvertRail({ adverts }: { adverts: PublicHomepageAdvert[] })
               sizes="(min-width: 1024px) 58vw, 100vw"
               unoptimized
             />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4 text-white sm:p-5">
+            <Link href={`/products/${product.slug}`} className="absolute inset-0 z-[1]" aria-label={`View ${product.title}`} />
+            {media.length > 1 ? (
+              <div className="absolute inset-x-3 top-1/2 z-[3] flex -translate-y-1/2 items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => moveImage(-1)}
+                  className="grid size-10 place-items-center rounded-full bg-white/95 text-[var(--brand-dark)] shadow-lg shadow-blue-950/15 backdrop-blur transition hover:scale-105"
+                  aria-label="Previous advert image"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => moveImage(1)}
+                  className="grid size-10 place-items-center rounded-full bg-white/95 text-[var(--brand-dark)] shadow-lg shadow-blue-950/15 backdrop-blur transition hover:scale-105"
+                  aria-label="Next advert image"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            ) : null}
+            <div className="absolute inset-x-0 bottom-0 z-[2] bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4 text-white sm:p-5">
               <p className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2 py-1 text-[0.64rem] font-bold uppercase tracking-[0.08em] backdrop-blur">
                 <Megaphone size={12} /> Sponsored
               </p>
               <h3 className="mt-2 max-w-xl text-lg font-black leading-6 sm:text-xl">{advert.headline}</h3>
             </div>
-          </Link>
+            {media.length > 1 ? (
+              <div className="absolute bottom-4 right-4 z-[3] rounded-full bg-black/45 px-2.5 py-1 text-[0.68rem] font-bold text-white backdrop-blur">
+                {imageIndex + 1}/{media.length}
+              </div>
+            ) : null}
+          </div>
 
           <div className="flex min-h-[320px] flex-col p-4 sm:p-5">
             <div className="flex items-start justify-between gap-3">

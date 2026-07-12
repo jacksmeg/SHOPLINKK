@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { CheckCircle2, ShoppingBasket } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight, Flame, Leaf, ShoppingBasket, Timer } from "lucide-react";
 import { useMemo, useState, useTransition, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
@@ -11,8 +11,13 @@ type MenuItem = {
   id: string;
   name: string;
   description?: string | null;
+  category?: string | null;
   basePrice: number;
   imageUrl?: string | null;
+  images?: { id: string; url: string; alt?: string | null }[];
+  prepMinutes?: number | null;
+  isSpicy?: boolean;
+  isVegetarian?: boolean;
   options: MenuOption[];
 };
 
@@ -27,6 +32,7 @@ export function FoodOrderWidget({
 }) {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [options, setOptions] = useState<Record<string, string[]>>({});
+  const [imageIndexes, setImageIndexes] = useState<Record<string, number>>({});
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -52,6 +58,13 @@ export function FoodOrderWidget({
           : [...selected, optionId],
       };
     });
+  }
+
+  function moveImage(itemId: string, totalImages: number, direction: -1 | 1) {
+    setImageIndexes((current) => ({
+      ...current,
+      [itemId]: ((current[itemId] ?? 0) + direction + totalImages) % totalImages,
+    }));
   }
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -116,11 +129,31 @@ export function FoodOrderWidget({
           <article key={item.id} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
             <div className="grid gap-3 sm:grid-cols-[92px_1fr_auto] sm:items-start">
               <div className="relative aspect-square overflow-hidden rounded-[7px] bg-[var(--surface-muted)]">
-                {item.imageUrl ? <Image src={item.imageUrl} alt={item.name} fill className="object-cover" unoptimized /> : null}
+                {(() => {
+                  const gallery = item.images?.length ? item.images : item.imageUrl ? [{ id: item.id, url: item.imageUrl, alt: item.name }] : [];
+                  const activeIndex = imageIndexes[item.id] ?? 0;
+                  return gallery.length ? (
+                    <>
+                      <Image src={gallery[activeIndex]?.url ?? gallery[0].url} alt={gallery[activeIndex]?.alt ?? item.name} fill className="object-cover" unoptimized />
+                      {gallery.length > 1 ? (
+                        <div className="absolute inset-x-1 bottom-1 flex justify-between">
+                          <button type="button" onClick={() => moveImage(item.id, gallery.length, -1)} className="grid size-6 place-items-center rounded-full bg-white/90 text-[var(--brand-dark)]" aria-label="Previous food photo"><ChevronLeft size={13} /></button>
+                          <button type="button" onClick={() => moveImage(item.id, gallery.length, 1)} className="grid size-6 place-items-center rounded-full bg-white/90 text-[var(--brand-dark)]" aria-label="Next food photo"><ChevronRight size={13} /></button>
+                        </div>
+                      ) : null}
+                    </>
+                  ) : null;
+                })()}
               </div>
               <div>
                 <h3 className="text-sm font-black text-[var(--ink)]">{item.name}</h3>
                 <p className="mt-1 text-xs font-bold text-[var(--brand-dark)]">{formatCurrency(item.basePrice)}</p>
+                <div className="mt-2 flex flex-wrap gap-1.5 text-[0.64rem] font-bold text-[var(--muted)]">
+                  {item.category ? <span className="rounded-full bg-[var(--surface-muted)] px-2 py-1">{item.category}</span> : null}
+                  {item.prepMinutes ? <span className="inline-flex items-center gap-1 rounded-full bg-[var(--surface-muted)] px-2 py-1"><Timer size={11} /> {item.prepMinutes} mins</span> : null}
+                  {item.isSpicy ? <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-red-700"><Flame size={11} /> Spicy</span> : null}
+                  {item.isVegetarian ? <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-emerald-700"><Leaf size={11} /> Veg</span> : null}
+                </div>
                 {item.description ? <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.description}</p> : null}
                 {item.options.length ? (
                   <div className="mt-3 flex flex-wrap gap-2">

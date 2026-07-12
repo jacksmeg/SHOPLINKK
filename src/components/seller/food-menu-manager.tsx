@@ -9,17 +9,24 @@ import { Button } from "@/components/ui/button";
 
 export function FoodMenuManager() {
   const router = useRouter();
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const [options, setOptions] = useState([{ name: "", price: "" }]);
   const [pending, startTransition] = useTransition();
 
-  async function upload(file?: File | null) {
-    if (!file) return;
-    setMessage("Uploading food image...");
+  async function upload(files?: FileList | null) {
+    const list = Array.from(files ?? []);
+    if (!list.length) return;
+    if (imageUrls.length + list.length > 8) {
+      setMessage("Upload 8 food photos or fewer.");
+      return;
+    }
+    setMessage("Uploading food images...");
     try {
-      setImageUrl(await uploadImage(file, "product"));
-      setMessage("Food image uploaded.");
+      const uploaded: string[] = [];
+      for (const file of list) uploaded.push(await uploadImage(file, "product"));
+      setImageUrls((current) => [...current, ...uploaded]);
+      setMessage("Food images uploaded.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Image upload failed.");
     }
@@ -36,9 +43,14 @@ export function FoodMenuManager() {
         body: JSON.stringify({
           name: form.get("name"),
           description: form.get("description"),
+          category: form.get("category"),
           basePrice: form.get("basePrice"),
-          imageUrl,
+          imageUrls,
+          prepMinutes: form.get("prepMinutes"),
+          isSpicy: Boolean(form.get("isSpicy")),
+          isVegetarian: Boolean(form.get("isVegetarian")),
           isAvailable: true,
+          status: form.get("status") === "DRAFT" ? "DRAFT" : "PENDING",
           options: options.filter((option) => option.name.trim()).map((option) => ({ name: option.name, price: option.price || 0 })),
         }),
       });
@@ -47,8 +59,8 @@ export function FoodMenuManager() {
         setMessage(result?.message ?? "Could not add food item.");
         return;
       }
-      setMessage("Food item added.");
-      setImageUrl("");
+      setMessage("Food item submitted. Admin will approve it before buyers can order.");
+      setImageUrls([]);
       setOptions([{ name: "", price: "" }]);
       (event.target as HTMLFormElement).reset();
       router.refresh();
@@ -58,11 +70,18 @@ export function FoodMenuManager() {
   return (
     <form onSubmit={submit} className="app-panel p-4 sm:p-5">
       <h2 className="text-sm font-black text-[var(--ink)]">Add food item</h2>
-      <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Add rice, meals, drinks, sides, and priced extras buyers can select.</p>
+      <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Add rice, meals, drinks, sides, and priced extras. New food items need admin approval before buyers can order.</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <input name="name" required placeholder="Food name, e.g. Jollof rice" className="form-control px-3 text-xs" />
+        <input name="category" placeholder="Category, e.g. Rice meals" className="form-control px-3 text-xs" />
         <input name="basePrice" required type="number" min="1" placeholder="Base price" className="form-control px-3 text-xs" />
+        <input name="prepMinutes" type="number" min="1" max="240" placeholder="Prep time in minutes" className="form-control px-3 text-xs" />
         <textarea name="description" rows={3} placeholder="Description" className="form-control px-3 py-2 text-xs sm:col-span-2" />
+      </div>
+      <div className="mt-3 flex flex-wrap gap-3">
+        <label className="inline-flex items-center gap-2 text-xs font-bold text-[var(--ink)]"><input name="isSpicy" type="checkbox" className="size-4 accent-[var(--brand)]" /> Spicy option</label>
+        <label className="inline-flex items-center gap-2 text-xs font-bold text-[var(--ink)]"><input name="isVegetarian" type="checkbox" className="size-4 accent-[var(--brand)]" /> Vegetarian friendly</label>
+        <label className="inline-flex items-center gap-2 text-xs font-bold text-[var(--ink)]"><input name="status" type="checkbox" value="DRAFT" className="size-4 accent-[var(--brand)]" /> Save as draft</label>
       </div>
       <div className="mt-4 rounded-[8px] border border-[var(--line)] bg-white p-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -70,12 +89,19 @@ export function FoodMenuManager() {
           <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-[7px] border border-[var(--line)] px-4 text-xs font-semibold text-[var(--ink)]">
             <UploadCloud size={15} />
             Upload
-            <input type="file" accept="image/*" className="sr-only" onChange={(event) => void upload(event.target.files?.[0])} />
+            <input type="file" accept="image/*" multiple className="sr-only" onChange={(event) => void upload(event.target.files)} />
           </label>
         </div>
-        {imageUrl ? (
-          <div className="relative mt-3 aspect-[4/3] w-36 overflow-hidden rounded-[7px] bg-[var(--surface-muted)]">
-            <Image src={imageUrl} alt="Food preview" fill className="object-cover" unoptimized />
+        {imageUrls.length ? (
+          <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
+            {imageUrls.map((url, index) => (
+              <div key={`${url}-${index}`} className="group relative aspect-[4/3] overflow-hidden rounded-[7px] bg-[var(--surface-muted)]">
+                <Image src={url} alt={`Food preview ${index + 1}`} fill className="object-cover" unoptimized />
+                <button type="button" onClick={() => setImageUrls((current) => current.filter((_, itemIndex) => itemIndex !== index))} className="absolute right-1.5 top-1.5 grid size-7 place-items-center rounded-full bg-white/95 text-red-600 shadow-sm" aria-label="Remove food photo">
+                  <Trash2 size={13} />
+                </button>
+              </div>
+            ))}
           </div>
         ) : null}
       </div>

@@ -39,9 +39,24 @@ export async function DELETE(_request: Request, context: { params: Promise<{ id:
   const { session, error } = await requireApiSession(["ADMIN"]);
   if (error) return error;
   const { id } = await context.params;
-  const item = await prisma.billingPackage.update({
+  const item = await prisma.billingPackage.findUnique({
     where: { id },
-    data: { isActive: false, updatedById: session.user.id },
+    include: { _count: { select: { payments: true, advertRequests: true } } },
   });
-  return NextResponse.json({ ...item, price: Number(item.price) });
+  if (!item) return jsonError("Package not found", 404);
+
+  if (item._count.payments || item._count.advertRequests) {
+    const disabled = await prisma.billingPackage.update({
+      where: { id },
+      data: { isActive: false, updatedById: session.user.id },
+    });
+    return NextResponse.json({
+      ...disabled,
+      price: Number(disabled.price),
+      message: "Package has history, so it was switched off instead of deleted.",
+    });
+  }
+
+  await prisma.billingPackage.delete({ where: { id } });
+  return NextResponse.json({ deleted: true, message: "Package deleted." });
 }

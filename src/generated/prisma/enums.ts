@@ -267,3 +267,13 @@ export const FoodOrderStatus = {
 } as const
 
 export type FoodOrderStatus = (typeof FoodOrderStatus)[keyof typeof FoodOrderStatus]
+
+
+export const FoodMenuStatus = {
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type FoodMenuStatus = (typeof FoodMenuStatus)[keyof typeof FoodMenuStatus]

@@ -91,6 +91,7 @@ export const ModelName = {
   IntegrationSetting: 'IntegrationSetting',
   PlatformSetting: 'PlatformSetting',
   FoodMenuItem: 'FoodMenuItem',
+  FoodMenuImage: 'FoodMenuImage',
   FoodMenuOption: 'FoodMenuOption',
   FoodOrder: 'FoodOrder',
   FoodOrderItem: 'FoodOrderItem'
@@ -721,17 +722,36 @@ export type PlatformSettingScalarFieldEnum = (typeof PlatformSettingScalarFieldE
 export const FoodMenuItemScalarFieldEnum = {
   id: 'id',
   storeId: 'storeId',
+  status: 'status',
   name: 'name',
   description: 'description',
+  category: 'category',
   basePrice: 'basePrice',
   imageUrl: 'imageUrl',
+  prepMinutes: 'prepMinutes',
+  isSpicy: 'isSpicy',
+  isVegetarian: 'isVegetarian',
   isAvailable: 'isAvailable',
+  rejectionReason: 'rejectionReason',
+  approvedAt: 'approvedAt',
   sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type FoodMenuItemScalarFieldEnum = (typeof FoodMenuItemScalarFieldEnum)[keyof typeof FoodMenuItemScalarFieldEnum]
+
+
+export const FoodMenuImageScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  url: 'url',
+  alt: 'alt',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+} as const
+
+export type FoodMenuImageScalarFieldEnum = (typeof FoodMenuImageScalarFieldEnum)[keyof typeof FoodMenuImageScalarFieldEnum]
 
 
 export const FoodMenuOptionScalarFieldEnum = {

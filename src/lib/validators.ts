@@ -45,6 +45,7 @@ export const registerSchema = z.object({
   email: z.email("Enter a valid email address"),
   password: z.string().min(8, "Use at least 8 characters"),
   role: z.enum(["BUYER", "SELLER"]).default("BUYER"),
+  storeKind: z.enum(["GENERAL", "FOOD"]).optional().default("GENERAL"),
   phone: ghanaPhoneSchema,
   location: z.string().min(2).default("Dunkwa-on-Offin"),
   termsAccepted: acceptedTermsSchema,
@@ -251,9 +252,15 @@ export const reviewSchema = z.object({
 export const foodMenuItemSchema = z.object({
   name: z.string().min(2, "Name the food item"),
   description: z.string().max(500).optional().or(z.literal("")),
+  category: z.string().max(80).optional().or(z.literal("")),
   basePrice: z.coerce.number().positive("Enter the base price"),
   imageUrl: imageValue.optional().or(z.literal("")),
+  imageUrls: z.array(imageValue).max(8, "Upload 8 food photos or fewer").optional().default([]),
+  prepMinutes: z.coerce.number().int().min(1).max(240).optional().or(z.literal("")),
+  isSpicy: z.coerce.boolean().default(false),
+  isVegetarian: z.coerce.boolean().default(false),
   isAvailable: z.coerce.boolean().default(true),
+  status: z.enum(["DRAFT", "PENDING"]).default("PENDING"),
   options: z
     .array(
       z.object({

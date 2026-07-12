@@ -26,6 +26,7 @@ export async function POST(
     where: {
       storeId: store.id,
       isAvailable: true,
+      status: "APPROVED",
       id: { in: parsed.data.items.map((item) => item.itemId) },
     },
     include: { options: true },

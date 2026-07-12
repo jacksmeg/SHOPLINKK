@@ -192,6 +192,13 @@ enum FoodOrderStatus {
   CANCELLED
 }
 
+enum FoodMenuStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id                       String                   @id @default(cuid())
   name                     String?
@@ -905,19 +912,40 @@ model PlatformSetting {
 model FoodMenuItem {
   id          String           @id @default(cuid())
   storeId     String
+  status      FoodMenuStatus   @default(PENDING)
   name        String
   description String?
+  category    String?
   basePrice   Decimal          @db.Decimal(12, 2)
   imageUrl    String?
+  prepMinutes Int?
+  isSpicy     Boolean          @default(false)
+  isVegetarian Boolean         @default(false)
   isAvailable Boolean          @default(true)
+  rejectionReason String?
+  approvedAt  DateTime?
   sortOrder   Int              @default(0)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
   store       Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
   options     FoodMenuOption[]
   orderItems  FoodOrderItem[]
+  images      FoodMenuImage[]
 
+  @@index([status, isAvailable])
   @@index([storeId, isAvailable])
+}
+
+model FoodMenuImage {
+  id        String       @id @default(cuid())
+  itemId    String
+  url       String
+  alt       String?
+  sortOrder Int          @default(0)
+  createdAt DateTime     @default(now())
+  item      FoodMenuItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@index([itemId, sortOrder])
 }
 
 model FoodMenuOption {

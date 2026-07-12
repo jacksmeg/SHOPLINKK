@@ -74,10 +74,12 @@ export async function POST(request: Request) {
               create: {
                 name: `${parsed.data.name}'s Store`,
                 slug: uniqueSlug(slugify(parsed.data.name || "seller-store")),
+                kind: parsed.data.storeKind === "FOOD" ? "FOOD" : "GENERAL",
                 phone,
                 whatsapp: phone,
+                momoNumber: parsed.data.storeKind === "FOOD" ? phone : null,
                 location: parsed.data.location,
-                description: "New seller on ShopLinkk.",
+                description: parsed.data.storeKind === "FOOD" ? "New food seller on ShopLinkk." : "New seller on ShopLinkk.",
               },
             }
           : undefined,

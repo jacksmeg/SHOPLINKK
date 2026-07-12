@@ -23,6 +23,7 @@ const schema = z.object({
     .optional()
     .or(z.literal("")),
   role: z.enum(["BUYER", "SELLER"]).default("BUYER"),
+  storeKind: z.enum(["GENERAL", "FOOD"]).optional().default("GENERAL"),
 });
 
 export async function GET() {
@@ -90,9 +91,11 @@ export async function POST(request: Request) {
               ownerId: user.id,
               name: storeName,
               slug: uniqueSlug(slugify(storeName || "seller-store")),
-              description: "New seller on ShopLinkk.",
+              kind: parsed.data.storeKind === "FOOD" ? "FOOD" : "GENERAL",
+              description: parsed.data.storeKind === "FOOD" ? "New food seller on ShopLinkk." : "New seller on ShopLinkk.",
               phone,
               whatsapp: user.whatsapp || phone,
+              momoNumber: parsed.data.storeKind === "FOOD" ? phone : null,
               location: user.location || "Dunkwa-on-Offin",
             },
           }),

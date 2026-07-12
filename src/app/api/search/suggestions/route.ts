@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   const q = (url.searchParams.get("q") ?? "").trim();
   if (q.length < 2) return NextResponse.json({ products: [], categories: [], stores: [] });
 
-  const [products, categories, stores] = await Promise.all([
+  const [products, foodItems, categories, stores] = await Promise.all([
     prisma.product.findMany({
       where: {
         listingStatus: "APPROVED",
@@ -30,6 +30,29 @@ export async function GET(request: Request) {
         area: true,
         location: true,
         images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true } },
+      },
+    }),
+    prisma.foodMenuItem.findMany({
+      where: {
+        status: "APPROVED",
+        isAvailable: true,
+        OR: [
+          { name: { contains: q, mode: "insensitive" } },
+          { description: { contains: q, mode: "insensitive" } },
+          { category: { contains: q, mode: "insensitive" } },
+          { store: { name: { contains: q, mode: "insensitive" } } },
+        ],
+      },
+      orderBy: [{ createdAt: "desc" }],
+      take: 4,
+      select: {
+        id: true,
+        name: true,
+        basePrice: true,
+        category: true,
+        imageUrl: true,
+        images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true } },
+        store: { select: { slug: true, name: true, area: true, location: true } },
       },
     }),
     prisma.category.findMany({
@@ -64,14 +87,24 @@ export async function GET(request: Request) {
   ]);
 
   return NextResponse.json({
-    products: products.map((product) => ({
-      id: product.id,
-      title: product.title,
-      slug: product.slug,
-      href: `/products/${product.slug}`,
-      image: product.images[0]?.url,
-      meta: `${product.listingType === "SERVICE" ? "Service" : product.priceMode === "CONTACT" ? "Contact for price" : formatCurrency(Number(product.price))} · ${product.area ?? product.location}`,
-    })),
+    products: [
+      ...products.map((product) => ({
+        id: product.id,
+        title: product.title,
+        slug: product.slug,
+        href: `/products/${product.slug}`,
+        image: product.images[0]?.url,
+        meta: `${product.listingType === "SERVICE" ? "Service" : product.priceMode === "CONTACT" ? "Contact for price" : formatCurrency(Number(product.price))} · ${product.area ?? product.location}`,
+      })),
+      ...foodItems.map((item) => ({
+        id: item.id,
+        title: `${item.name} · ${item.store.name}`,
+        slug: item.store.slug,
+        href: `/stores/${item.store.slug}`,
+        image: item.images[0]?.url ?? item.imageUrl,
+        meta: `Food · ${item.category || "Menu"} · ${formatCurrency(Number(item.basePrice))} · ${item.store.area ?? item.store.location}`,
+      })),
+    ].slice(0, 8),
     categories: categories.map((category) => ({
       id: category.id,
       name: category.name,

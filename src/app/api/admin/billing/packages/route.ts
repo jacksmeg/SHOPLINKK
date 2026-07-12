@@ -12,7 +12,7 @@ export async function GET() {
   if (error) return error;
   const packages = await prisma.billingPackage.findMany({
     orderBy: [{ type: "asc" }, { sortOrder: "asc" }, { price: "asc" }],
-    include: { _count: { select: { payments: true } } },
+    include: { _count: { select: { payments: true, advertRequests: true } } },
   });
   return NextResponse.json(packages.map((item) => ({ ...item, price: Number(item.price) })));
 }

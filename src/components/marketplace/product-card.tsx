@@ -77,11 +77,11 @@ export function ProductCard({
           {product.store ? (
             <Link
               href={`/stores/${product.store.slug}`}
-              className="inline-flex items-center gap-1 rounded-full border border-blue-100 bg-[var(--brand-soft)] px-2 py-1 font-black text-[var(--brand-dark)]"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[var(--brand)] bg-[var(--brand-dark)] px-2.5 py-1.5 font-black text-white shadow-sm shadow-blue-950/15 transition hover:-translate-y-px hover:bg-[var(--brand)]"
             >
-              <Store size={15} />
-              {product.store.name}
-              {product.store.isVerified ? <ShieldCheck className="text-emerald-600" size={14} /> : null}
+              <Store size={14} />
+              <span className="max-w-[150px] truncate">{product.store.name}</span>
+              {product.store.isVerified ? <ShieldCheck className="text-emerald-300" size={14} /> : null}
             </Link>
           ) : null}
           <span>Posted {compactDate(product.createdAt)}</span>

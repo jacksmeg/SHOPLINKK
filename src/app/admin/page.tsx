@@ -1,4 +1,4 @@
-import { Activity, Boxes, Flag, PlugZap, Rocket, ShieldCheck, Store, Users } from "lucide-react";
+import { Activity, Boxes, ChefHat, Flag, PlugZap, Rocket, ShieldCheck, Store, Users } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { ButtonLink } from "@/components/ui/button";
 import { StatCard } from "@/components/ui/stat-card";
@@ -28,11 +28,12 @@ function BarRow({ label, value, total }: { label: string; value: number; total: 
 
 export default async function AdminDashboardPage() {
   await requireRole(["ADMIN"]);
-  const [users, sellers, products, pending, reports, categories, roleGroups, listingGroups, reportGroups, boosts, verifiedSellers, integrations] = await Promise.all([
+  const [users, sellers, products, pending, pendingFood, reports, categories, roleGroups, listingGroups, reportGroups, boosts, verifiedSellers, integrations] = await Promise.all([
     prisma.user.count(),
     prisma.user.count({ where: { role: "SELLER" } }),
     prisma.product.count(),
     prisma.product.count({ where: { listingStatus: "PENDING" } }),
+    prisma.foodMenuItem.count({ where: { status: "PENDING" } }),
     prisma.report.count({ where: { status: "OPEN" } }),
     prisma.category.count(),
     prisma.user.groupBy({ by: ["role"], _count: { role: true } }),
@@ -56,6 +57,7 @@ export default async function AdminDashboardPage() {
         <StatCard label="Sellers" value={sellers} icon={Store} helper="Seller accounts" tone="pink" />
         <StatCard label="Products" value={products} icon={Boxes} helper="All listing states" tone="yellow" />
         <StatCard label="Pending listings" value={pending} icon={ShieldCheck} helper="Need approval" tone="red" />
+        <StatCard label="Pending food" value={pendingFood} icon={ChefHat} helper="Food menu approval" tone="purple" />
         <StatCard label="Open reports" value={reports} icon={Flag} helper="Need review" tone="purple" />
         <StatCard label="Advert requests" value={boosts} icon={Rocket} helper="Awaiting decision" tone="blue" />
         <StatCard label="Verified stores" value={verifiedSellers} icon={ShieldCheck} helper="Trusted sellers" tone="sea" />
@@ -66,6 +68,7 @@ export default async function AdminDashboardPage() {
           <div className="flex items-center justify-between gap-3"><div><h2 className="text-sm font-black text-[var(--ink)]">Moderation queue</h2><p className="mt-1 text-xs text-[var(--muted)]">Items needing an admin decision.</p></div><Activity size={18} className="text-[var(--brand)]" /></div>
           <div className="mt-4 grid gap-2 sm:grid-cols-3">
             <ButtonLink href="/admin/products?status=PENDING" variant="secondary" className="justify-between">{pending} listings <Boxes size={15} /></ButtonLink>
+            <ButtonLink href="/admin/food?status=PENDING" variant="secondary" className="justify-between">{pendingFood} food <ChefHat size={15} /></ButtonLink>
             <ButtonLink href="/admin/reports?status=OPEN" variant="secondary" className="justify-between">{reports} reports <Flag size={15} /></ButtonLink>
             <ButtonLink href="/admin/boosts" variant="secondary" className="justify-between">{boosts} adverts <Rocket size={15} /></ButtonLink>
           </div>

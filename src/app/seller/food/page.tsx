@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ChefHat, Megaphone, MessageCircle, PackagePlus, Settings, Store, UserRound } from "lucide-react";
+import { FoodMenuItemActions } from "@/components/seller/food-menu-item-actions";
 import { FoodMenuManager } from "@/components/seller/food-menu-manager";
 import { FoodOrderActions } from "@/components/seller/food-order-actions";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
@@ -26,7 +27,7 @@ export default async function SellerFoodPage() {
   const store = await prisma.store.findUnique({
     where: { ownerId: session.user.id },
     include: {
-      foodMenuItems: { include: { options: true }, orderBy: [{ isAvailable: "desc" }, { createdAt: "desc" }] },
+      foodMenuItems: { include: { options: true, images: { orderBy: { sortOrder: "asc" } } }, orderBy: [{ isAvailable: "desc" }, { createdAt: "desc" }] },
       foodOrders: {
         include: { buyer: { select: { name: true, phone: true } }, items: true },
         orderBy: { createdAt: "desc" },
@@ -60,15 +61,36 @@ export default async function SellerFoodPage() {
                   <article key={item.id} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
                     <div className="flex gap-3">
                       <div className="relative size-16 shrink-0 overflow-hidden rounded-[7px] bg-[var(--surface-muted)]">
-                        {item.imageUrl ? <Image src={item.imageUrl} alt={item.name} fill className="object-cover" unoptimized /> : null}
+                        {item.images[0]?.url || item.imageUrl ? <Image src={item.images[0]?.url ?? item.imageUrl ?? ""} alt={item.name} fill className="object-cover" unoptimized /> : null}
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <h3 className="text-xs font-black text-[var(--ink)]">{item.name}</h3>
                           <Badge tone={item.isAvailable ? "green" : "neutral"}>{item.isAvailable ? "Available" : "Hidden"}</Badge>
+                          <Badge tone={item.status === "APPROVED" ? "green" : item.status === "REJECTED" ? "red" : item.status === "DRAFT" ? "neutral" : "gold"}>{titleCase(item.status)}</Badge>
                         </div>
                         <p className="mt-1 text-xs font-black text-[var(--brand-dark)]">{formatCurrency(Number(item.basePrice))}</p>
-                        {item.options.length ? <p className="mt-1 text-xs text-[var(--muted)]">{item.options.length} add-on{item.options.length === 1 ? "" : "s"}</p> : null}
+                        <p className="mt-1 text-xs text-[var(--muted)]">
+                          {item.category || "Food"}{item.prepMinutes ? ` · ${item.prepMinutes} mins` : ""} · {item.images.length} photo{item.images.length === 1 ? "" : "s"} · {item.options.length} add-on{item.options.length === 1 ? "" : "s"}
+                        </p>
+                        {item.rejectionReason ? <p className="mt-2 rounded-[7px] bg-red-50 p-2 text-xs font-semibold text-red-700">{item.rejectionReason}</p> : null}
+                        <FoodMenuItemActions
+                          item={{
+                            id: item.id,
+                            name: item.name,
+                            description: item.description,
+                            category: item.category,
+                            basePrice: Number(item.basePrice),
+                            prepMinutes: item.prepMinutes,
+                            isSpicy: item.isSpicy,
+                            isVegetarian: item.isVegetarian,
+                            isAvailable: item.isAvailable,
+                            status: item.status,
+                            imageUrl: item.imageUrl,
+                            images: item.images,
+                            options: item.options.map((option) => ({ id: option.id, name: option.name, price: Number(option.price) })),
+                          }}
+                        />
                       </div>
                     </div>
                   </article>

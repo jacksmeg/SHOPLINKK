@@ -38,8 +38,8 @@ export default async function StorePage({
       take: 10,
     }).catch(() => []),
     prisma.foodMenuItem.findMany({
-      where: { storeId: store.id, isAvailable: true },
-      include: { options: true },
+      where: { storeId: store.id, isAvailable: true, status: "APPROVED" },
+      include: { options: true, images: { orderBy: { sortOrder: "asc" } } },
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     }).catch(() => []),
     prisma.storeFollower.count({ where: { storeId: store.id } }).catch(() => 0),
@@ -140,6 +140,11 @@ export default async function StorePage({
               description: item.description,
               basePrice: Number(item.basePrice),
               imageUrl: item.imageUrl,
+              images: item.images.map((image) => ({ id: image.id, url: image.url, alt: image.alt })),
+              category: item.category,
+              prepMinutes: item.prepMinutes,
+              isSpicy: item.isSpicy,
+              isVegetarian: item.isVegetarian,
               options: item.options.map((option) => ({ id: option.id, name: option.name, price: Number(option.price) })),
             }))}
           />

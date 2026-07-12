@@ -123,6 +123,18 @@ textarea::placeholder {
   color: var(--ink);
 }
 
+@keyframes shoplinkk-splash {
+  0% {
+    transform: translateX(-110%);
+  }
+  50% {
+    transform: translateX(70%);
+  }
+  100% {
+    transform: translateX(230%);
+  }
+}
+
 .shoplinkk-shell {
   background: #ffffff;
 }

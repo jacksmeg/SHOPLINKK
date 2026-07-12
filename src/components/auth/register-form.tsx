@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
   const router = useRouter();
   const [role, setRole] = useState<"BUYER" | "SELLER">("BUYER");
+  const [storeKind, setStoreKind] = useState<"GENERAL" | "FOOD">("GENERAL");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [accepted, setAccepted] = useState(false);
@@ -50,6 +51,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
             phone: String(formData.get("phone") ?? "").trim(),
             location: String(formData.get("location") ?? "").trim(),
             role,
+            storeKind: role === "SELLER" ? storeKind : "GENERAL",
             termsAccepted: true,
           }),
         });
@@ -129,7 +131,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
           type="button"
           onClick={() => {
             if (!accepted) { setError("Tick the agreement box before continuing with Google."); return; }
-            if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?role=${role}` });
+            if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?role=${role}&storeKind=${storeKind}` });
           }}
           disabled={!googleEnabled}
           className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[7px] border border-[var(--line-strong)] bg-white px-5 text-xs font-semibold text-[var(--ink)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
@@ -146,6 +148,33 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
         </div>
 
         <form method="post" onSubmit={handleRegister} className="grid gap-3.5">
+          {role === "SELLER" ? (
+            <div className="rounded-[8px] border border-[var(--line)] bg-white p-2">
+              <p className="px-1 pb-2 text-xs font-black text-[var(--ink)]">What will you sell?</p>
+              <div className="grid grid-cols-2 gap-1">
+                {[
+                  { value: "GENERAL" as const, title: "Products & services", helper: "Phones, fashion, jobs, vehicles" },
+                  { value: "FOOD" as const, title: "Food seller", helper: "Meals, drinks, delivery orders" },
+                ].map((item) => (
+                  <button
+                    key={item.value}
+                    type="button"
+                    onClick={() => setStoreKind(item.value)}
+                    className={cn(
+                      "rounded-[7px] border p-3 text-left transition",
+                      storeKind === item.value
+                        ? "border-[var(--brand)] bg-[var(--brand-soft)] text-[var(--brand-dark)]"
+                        : "border-[var(--line)] text-[var(--muted)] hover:border-[var(--brand)]",
+                    )}
+                  >
+                    <span className="block text-xs font-black">{item.title}</span>
+                    <span className="mt-1 block text-[0.66rem] leading-4">{item.helper}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
           <label className="text-xs font-semibold text-[var(--ink)]">
             Full name
             <span className="relative mt-2 block">

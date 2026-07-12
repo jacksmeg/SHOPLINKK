@@ -22,9 +22,27 @@ export async function POST(request: Request) {
       storeId: store.id,
       name: parsed.data.name,
       description: parsed.data.description || null,
+      category: parsed.data.category || null,
       basePrice: parsed.data.basePrice,
-      imageUrl: parsed.data.imageUrl || null,
+      imageUrl: parsed.data.imageUrls[0] || parsed.data.imageUrl || null,
+      prepMinutes: parsed.data.prepMinutes === "" ? null : parsed.data.prepMinutes || null,
+      isSpicy: parsed.data.isSpicy,
+      isVegetarian: parsed.data.isVegetarian,
       isAvailable: parsed.data.isAvailable,
+      status: parsed.data.status,
+      rejectionReason: null,
+      approvedAt: null,
+      images: parsed.data.imageUrls.length
+        ? {
+            create: parsed.data.imageUrls.map((url, sortOrder) => ({
+              url,
+              alt: parsed.data.name,
+              sortOrder,
+            })),
+          }
+        : parsed.data.imageUrl
+          ? { create: [{ url: parsed.data.imageUrl, alt: parsed.data.name, sortOrder: 0 }] }
+          : undefined,
       options: parsed.data.options.length
         ? {
             create: parsed.data.options.map((option) => ({
@@ -34,7 +52,7 @@ export async function POST(request: Request) {
           }
         : undefined,
     },
-    include: { options: true },
+    include: { options: true, images: { orderBy: { sortOrder: "asc" } } },
   });
 
   return NextResponse.json(item, { status: 201 });

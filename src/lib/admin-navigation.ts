@@ -1,5 +1,6 @@
 import {
   Boxes,
+  ChefHat,
   ClipboardList,
   CreditCard,
   Flag,
@@ -16,6 +17,7 @@ export const adminLinks = [
   { href: "/admin", label: "Overview", icon: Shield },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/products", label: "Products", icon: Boxes },
+  { href: "/admin/food", label: "Food menu", icon: ChefHat },
   { href: "/admin/reports", label: "Reports", icon: Flag },
   { href: "/admin/boosts", label: "Adverts", icon: Rocket },
   { href: "/admin/billing", label: "Billing", icon: CreditCard },

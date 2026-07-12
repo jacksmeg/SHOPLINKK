@@ -7,6 +7,7 @@ import { uniqueSlug } from "@/lib/slug";
 
 const schema = z.object({
   role: z.enum(["BUYER", "SELLER"]),
+  storeKind: z.enum(["GENERAL", "FOOD"]).optional().default("GENERAL"),
 });
 
 export async function POST(request: Request) {
@@ -54,9 +55,11 @@ export async function POST(request: Request) {
                 ownerId: user.id,
                 name: storeName,
                 slug: uniqueSlug(storeName),
-                description: "New seller on ShopLinkk.",
+                kind: parsed.data.storeKind === "FOOD" ? "FOOD" : "GENERAL",
+                description: parsed.data.storeKind === "FOOD" ? "New food seller on ShopLinkk." : "New seller on ShopLinkk.",
                 phone: user.phone,
                 whatsapp: user.whatsapp || user.phone,
+                momoNumber: parsed.data.storeKind === "FOOD" ? user.phone : null,
                 location: user.location || "Dunkwa-on-Offin",
               },
             }),

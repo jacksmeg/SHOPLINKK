@@ -46,6 +46,7 @@ export type ProductMinAggregateOutputType = {
   storeId: string | null
   categoryId: string | null
   listingType: $Enums.ListingType | null
+  priceMode: $Enums.PriceMode | null
   title: string | null
   slug: string | null
   description: string | null
@@ -84,6 +85,7 @@ export type ProductMaxAggregateOutputType = {
   storeId: string | null
   categoryId: string | null
   listingType: $Enums.ListingType | null
+  priceMode: $Enums.PriceMode | null
   title: string | null
   slug: string | null
   description: string | null
@@ -122,6 +124,7 @@ export type ProductCountAggregateOutputType = {
   storeId: number
   categoryId: number
   listingType: number
+  priceMode: number
   title: number
   slug: number
   description: number
@@ -176,6 +179,7 @@ export type ProductMinAggregateInputType = {
   storeId?: true
   categoryId?: true
   listingType?: true
+  priceMode?: true
   title?: true
   slug?: true
   description?: true
@@ -214,6 +218,7 @@ export type ProductMaxAggregateInputType = {
   storeId?: true
   categoryId?: true
   listingType?: true
+  priceMode?: true
   title?: true
   slug?: true
   description?: true
@@ -252,6 +257,7 @@ export type ProductCountAggregateInputType = {
   storeId?: true
   categoryId?: true
   listingType?: true
+  priceMode?: true
   title?: true
   slug?: true
   description?: true
@@ -377,6 +383,7 @@ export type ProductGroupByOutputType = {
   storeId: string | null
   categoryId: string
   listingType: $Enums.ListingType
+  priceMode: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -438,6 +445,7 @@ export type ProductWhereInput = {
   storeId?: Prisma.StringNullableFilter<"Product"> | string | null
   categoryId?: Prisma.StringFilter<"Product"> | string
   listingType?: Prisma.EnumListingTypeFilter<"Product"> | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFilter<"Product"> | $Enums.PriceMode
   title?: Prisma.StringFilter<"Product"> | string
   slug?: Prisma.StringFilter<"Product"> | string
   description?: Prisma.StringFilter<"Product"> | string
@@ -492,6 +500,7 @@ export type ProductOrderByWithRelationInput = {
   storeId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   listingType?: Prisma.SortOrder
+  priceMode?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -550,6 +559,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   storeId?: Prisma.StringNullableFilter<"Product"> | string | null
   categoryId?: Prisma.StringFilter<"Product"> | string
   listingType?: Prisma.EnumListingTypeFilter<"Product"> | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFilter<"Product"> | $Enums.PriceMode
   title?: Prisma.StringFilter<"Product"> | string
   description?: Prisma.StringFilter<"Product"> | string
   price?: Prisma.DecimalFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -603,6 +613,7 @@ export type ProductOrderByWithAggregationInput = {
   storeId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   listingType?: Prisma.SortOrder
+  priceMode?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -649,6 +660,7 @@ export type ProductScalarWhereWithAggregatesInput = {
   storeId?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
   categoryId?: Prisma.StringWithAggregatesFilter<"Product"> | string
   listingType?: Prisma.EnumListingTypeWithAggregatesFilter<"Product"> | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeWithAggregatesFilter<"Product"> | $Enums.PriceMode
   title?: Prisma.StringWithAggregatesFilter<"Product"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Product"> | string
   description?: Prisma.StringWithAggregatesFilter<"Product"> | string
@@ -684,6 +696,7 @@ export type ProductScalarWhereWithAggregatesInput = {
 export type ProductCreateInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -738,6 +751,7 @@ export type ProductUncheckedCreateInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -786,6 +800,7 @@ export type ProductUncheckedCreateInput = {
 export type ProductUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -840,6 +855,7 @@ export type ProductUncheckedUpdateInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -891,6 +907,7 @@ export type ProductCreateManyInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -926,6 +943,7 @@ export type ProductCreateManyInput = {
 export type ProductUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -964,6 +982,7 @@ export type ProductUncheckedUpdateManyInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1012,6 +1031,7 @@ export type ProductCountOrderByAggregateInput = {
   storeId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   listingType?: Prisma.SortOrder
+  priceMode?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -1057,6 +1077,7 @@ export type ProductMaxOrderByAggregateInput = {
   storeId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   listingType?: Prisma.SortOrder
+  priceMode?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -1095,6 +1116,7 @@ export type ProductMinOrderByAggregateInput = {
   storeId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   listingType?: Prisma.SortOrder
+  priceMode?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -1272,6 +1294,10 @@ export type ProductUncheckedUpdateManyWithoutCategoryNestedInput = {
 
 export type EnumListingTypeFieldUpdateOperationsInput = {
   set?: $Enums.ListingType
+}
+
+export type EnumPriceModeFieldUpdateOperationsInput = {
+  set?: $Enums.PriceMode
 }
 
 export type DecimalFieldUpdateOperationsInput = {
@@ -1499,6 +1525,7 @@ export type ProductUpdateOneWithoutAdminNotesNestedInput = {
 export type ProductCreateWithoutSellerInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -1551,6 +1578,7 @@ export type ProductUncheckedCreateWithoutSellerInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -1631,6 +1659,7 @@ export type ProductScalarWhereInput = {
   storeId?: Prisma.StringNullableFilter<"Product"> | string | null
   categoryId?: Prisma.StringFilter<"Product"> | string
   listingType?: Prisma.EnumListingTypeFilter<"Product"> | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFilter<"Product"> | $Enums.PriceMode
   title?: Prisma.StringFilter<"Product"> | string
   slug?: Prisma.StringFilter<"Product"> | string
   description?: Prisma.StringFilter<"Product"> | string
@@ -1666,6 +1695,7 @@ export type ProductScalarWhereInput = {
 export type ProductCreateWithoutStoreInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -1718,6 +1748,7 @@ export type ProductUncheckedCreateWithoutStoreInput = {
   sellerId: string
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -1792,6 +1823,7 @@ export type ProductUpdateManyWithWhereWithoutStoreInput = {
 export type ProductCreateWithoutCategoryInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -1844,6 +1876,7 @@ export type ProductUncheckedCreateWithoutCategoryInput = {
   sellerId: string
   storeId?: string | null
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -1918,6 +1951,7 @@ export type ProductUpdateManyWithWhereWithoutCategoryInput = {
 export type ProductCreateWithoutImagesInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -1971,6 +2005,7 @@ export type ProductUncheckedCreateWithoutImagesInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -2034,6 +2069,7 @@ export type ProductUpdateToOneWithWhereWithoutImagesInput = {
 export type ProductUpdateWithoutImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2087,6 +2123,7 @@ export type ProductUncheckedUpdateWithoutImagesInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2134,6 +2171,7 @@ export type ProductUncheckedUpdateWithoutImagesInput = {
 export type ProductCreateWithoutFavoritesInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -2187,6 +2225,7 @@ export type ProductUncheckedCreateWithoutFavoritesInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -2250,6 +2289,7 @@ export type ProductUpdateToOneWithWhereWithoutFavoritesInput = {
 export type ProductUpdateWithoutFavoritesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2303,6 +2343,7 @@ export type ProductUncheckedUpdateWithoutFavoritesInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2350,6 +2391,7 @@ export type ProductUncheckedUpdateWithoutFavoritesInput = {
 export type ProductCreateWithoutConversationsInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -2403,6 +2445,7 @@ export type ProductUncheckedCreateWithoutConversationsInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -2466,6 +2509,7 @@ export type ProductUpdateToOneWithWhereWithoutConversationsInput = {
 export type ProductUpdateWithoutConversationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2519,6 +2563,7 @@ export type ProductUncheckedUpdateWithoutConversationsInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2566,6 +2611,7 @@ export type ProductUncheckedUpdateWithoutConversationsInput = {
 export type ProductCreateWithoutReportsInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -2619,6 +2665,7 @@ export type ProductUncheckedCreateWithoutReportsInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -2682,6 +2729,7 @@ export type ProductUpdateToOneWithWhereWithoutReportsInput = {
 export type ProductUpdateWithoutReportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2735,6 +2783,7 @@ export type ProductUncheckedUpdateWithoutReportsInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2782,6 +2831,7 @@ export type ProductUncheckedUpdateWithoutReportsInput = {
 export type ProductCreateWithoutReviewsInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -2835,6 +2885,7 @@ export type ProductUncheckedCreateWithoutReviewsInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -2898,6 +2949,7 @@ export type ProductUpdateToOneWithWhereWithoutReviewsInput = {
 export type ProductUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2951,6 +3003,7 @@ export type ProductUncheckedUpdateWithoutReviewsInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2998,6 +3051,7 @@ export type ProductUncheckedUpdateWithoutReviewsInput = {
 export type ProductCreateWithoutComparedByInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -3051,6 +3105,7 @@ export type ProductUncheckedCreateWithoutComparedByInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -3114,6 +3169,7 @@ export type ProductUpdateToOneWithWhereWithoutComparedByInput = {
 export type ProductUpdateWithoutComparedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3167,6 +3223,7 @@ export type ProductUncheckedUpdateWithoutComparedByInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3214,6 +3271,7 @@ export type ProductUncheckedUpdateWithoutComparedByInput = {
 export type ProductCreateWithoutPriceAlertsInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -3267,6 +3325,7 @@ export type ProductUncheckedCreateWithoutPriceAlertsInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -3330,6 +3389,7 @@ export type ProductUpdateToOneWithWhereWithoutPriceAlertsInput = {
 export type ProductUpdateWithoutPriceAlertsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3383,6 +3443,7 @@ export type ProductUncheckedUpdateWithoutPriceAlertsInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3430,6 +3491,7 @@ export type ProductUncheckedUpdateWithoutPriceAlertsInput = {
 export type ProductCreateWithoutPriceHistoryInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -3483,6 +3545,7 @@ export type ProductUncheckedCreateWithoutPriceHistoryInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -3546,6 +3609,7 @@ export type ProductUpdateToOneWithWhereWithoutPriceHistoryInput = {
 export type ProductUpdateWithoutPriceHistoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3599,6 +3663,7 @@ export type ProductUncheckedUpdateWithoutPriceHistoryInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3646,6 +3711,7 @@ export type ProductUncheckedUpdateWithoutPriceHistoryInput = {
 export type ProductCreateWithoutBoostRequestsInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -3699,6 +3765,7 @@ export type ProductUncheckedCreateWithoutBoostRequestsInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -3762,6 +3829,7 @@ export type ProductUpdateToOneWithWhereWithoutBoostRequestsInput = {
 export type ProductUpdateWithoutBoostRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3815,6 +3883,7 @@ export type ProductUncheckedUpdateWithoutBoostRequestsInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3862,6 +3931,7 @@ export type ProductUncheckedUpdateWithoutBoostRequestsInput = {
 export type ProductCreateWithoutPaymentTransactionsInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -3915,6 +3985,7 @@ export type ProductUncheckedCreateWithoutPaymentTransactionsInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -3978,6 +4049,7 @@ export type ProductUpdateToOneWithWhereWithoutPaymentTransactionsInput = {
 export type ProductUpdateWithoutPaymentTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4031,6 +4103,7 @@ export type ProductUncheckedUpdateWithoutPaymentTransactionsInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4078,6 +4151,7 @@ export type ProductUncheckedUpdateWithoutPaymentTransactionsInput = {
 export type ProductCreateWithoutRecentlyViewedInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -4131,6 +4205,7 @@ export type ProductUncheckedCreateWithoutRecentlyViewedInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -4194,6 +4269,7 @@ export type ProductUpdateToOneWithWhereWithoutRecentlyViewedInput = {
 export type ProductUpdateWithoutRecentlyViewedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4247,6 +4323,7 @@ export type ProductUncheckedUpdateWithoutRecentlyViewedInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4294,6 +4371,7 @@ export type ProductUncheckedUpdateWithoutRecentlyViewedInput = {
 export type ProductCreateWithoutProductViewsInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -4347,6 +4425,7 @@ export type ProductUncheckedCreateWithoutProductViewsInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -4410,6 +4489,7 @@ export type ProductUpdateToOneWithWhereWithoutProductViewsInput = {
 export type ProductUpdateWithoutProductViewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4463,6 +4543,7 @@ export type ProductUncheckedUpdateWithoutProductViewsInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4510,6 +4591,7 @@ export type ProductUncheckedUpdateWithoutProductViewsInput = {
 export type ProductCreateWithoutAdminNotesInput = {
   id?: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -4563,6 +4645,7 @@ export type ProductUncheckedCreateWithoutAdminNotesInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -4626,6 +4709,7 @@ export type ProductUpdateToOneWithWhereWithoutAdminNotesInput = {
 export type ProductUpdateWithoutAdminNotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4679,6 +4763,7 @@ export type ProductUncheckedUpdateWithoutAdminNotesInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4728,6 +4813,7 @@ export type ProductCreateManySellerInput = {
   storeId?: string | null
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -4763,6 +4849,7 @@ export type ProductCreateManySellerInput = {
 export type ProductUpdateWithoutSellerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4815,6 +4902,7 @@ export type ProductUncheckedUpdateWithoutSellerInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4865,6 +4953,7 @@ export type ProductUncheckedUpdateManyWithoutSellerInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4902,6 +4991,7 @@ export type ProductCreateManyStoreInput = {
   sellerId: string
   categoryId: string
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -4937,6 +5027,7 @@ export type ProductCreateManyStoreInput = {
 export type ProductUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4989,6 +5080,7 @@ export type ProductUncheckedUpdateWithoutStoreInput = {
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -5039,6 +5131,7 @@ export type ProductUncheckedUpdateManyWithoutStoreInput = {
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -5076,6 +5169,7 @@ export type ProductCreateManyCategoryInput = {
   sellerId: string
   storeId?: string | null
   listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
   title: string
   slug: string
   description: string
@@ -5111,6 +5205,7 @@ export type ProductCreateManyCategoryInput = {
 export type ProductUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -5163,6 +5258,7 @@ export type ProductUncheckedUpdateWithoutCategoryInput = {
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -5213,6 +5309,7 @@ export type ProductUncheckedUpdateManyWithoutCategoryInput = {
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -5390,6 +5487,7 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   storeId?: boolean
   categoryId?: boolean
   listingType?: boolean
+  priceMode?: boolean
   title?: boolean
   slug?: boolean
   description?: boolean
@@ -5445,6 +5543,7 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   storeId?: boolean
   categoryId?: boolean
   listingType?: boolean
+  priceMode?: boolean
   title?: boolean
   slug?: boolean
   description?: boolean
@@ -5486,6 +5585,7 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   storeId?: boolean
   categoryId?: boolean
   listingType?: boolean
+  priceMode?: boolean
   title?: boolean
   slug?: boolean
   description?: boolean
@@ -5527,6 +5627,7 @@ export type ProductSelectScalar = {
   storeId?: boolean
   categoryId?: boolean
   listingType?: boolean
+  priceMode?: boolean
   title?: boolean
   slug?: boolean
   description?: boolean
@@ -5559,7 +5660,7 @@ export type ProductSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sellerId" | "storeId" | "categoryId" | "listingType" | "title" | "slug" | "description" | "price" | "salePrice" | "saleStartsAt" | "saleEndsAt" | "quantity" | "condition" | "location" | "area" | "pickupNote" | "stockStatus" | "listingStatus" | "listingPaymentStatus" | "approvalNote" | "rejectionReason" | "negotiable" | "allowCalls" | "allowWhatsapp" | "isFeatured" | "featuredUntil" | "expiresAt" | "renewedAt" | "videoUrl" | "seoTitle" | "seoDescription" | "viewCount" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sellerId" | "storeId" | "categoryId" | "listingType" | "priceMode" | "title" | "slug" | "description" | "price" | "salePrice" | "saleStartsAt" | "saleEndsAt" | "quantity" | "condition" | "location" | "area" | "pickupNote" | "stockStatus" | "listingStatus" | "listingPaymentStatus" | "approvalNote" | "rejectionReason" | "negotiable" | "allowCalls" | "allowWhatsapp" | "isFeatured" | "featuredUntil" | "expiresAt" | "renewedAt" | "videoUrl" | "seoTitle" | "seoDescription" | "viewCount" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   store?: boolean | Prisma.Product$storeArgs<ExtArgs>
@@ -5616,6 +5717,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     storeId: string | null
     categoryId: string
     listingType: $Enums.ListingType
+    priceMode: $Enums.PriceMode
     title: string
     slug: string
     description: string
@@ -6090,6 +6192,7 @@ export interface ProductFieldRefs {
   readonly storeId: Prisma.FieldRef<"Product", 'String'>
   readonly categoryId: Prisma.FieldRef<"Product", 'String'>
   readonly listingType: Prisma.FieldRef<"Product", 'ListingType'>
+  readonly priceMode: Prisma.FieldRef<"Product", 'PriceMode'>
   readonly title: Prisma.FieldRef<"Product", 'String'>
   readonly slug: Prisma.FieldRef<"Product", 'String'>
   readonly description: Prisma.FieldRef<"Product", 'String'>

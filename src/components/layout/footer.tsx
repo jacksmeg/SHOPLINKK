@@ -2,8 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Globe2, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
+import packageJson from "../../../package.json";
 
 const copyrightYear = 2026;
+const appVersion = packageJson.version;
 
 export function Footer() {
   return (
@@ -54,7 +56,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-[var(--line)] px-4 py-4 text-center text-xs text-[var(--muted)]">
-        Copyright {copyrightYear} ShopLinkk.
+        Copyright {copyrightYear} ShopLinkk. Version {appVersion}.
       </div>
     </footer>
   );

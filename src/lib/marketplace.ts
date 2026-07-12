@@ -4,8 +4,10 @@ import type {
   ListingStatus,
   ListingType,
   Prisma,
+  PriceMode,
   ProductCondition,
   StockStatus,
+  StoreKind,
 } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 import { demoCategories, demoProducts, demoStores, townCoordinates, townLocations } from "@/lib/demo-data";
@@ -21,6 +23,7 @@ export type PublicProduct = {
   slug: string;
   description: string;
   listingType?: ListingType | string;
+  priceMode?: PriceMode | string;
   price: number;
   salePrice?: number | null;
   saleStartsAt?: Date | string | null;
@@ -47,10 +50,12 @@ export type PublicProduct = {
     id: string;
     name: string;
     slug: string;
+    kind?: StoreKind | string;
     location: string;
     area?: string | null;
     phone?: string | null;
     whatsapp?: string | null;
+    momoNumber?: string | null;
     address?: string | null;
     openingHours?: string | null;
     logoUrl?: string | null;
@@ -99,6 +104,9 @@ export type PublicStore = {
     image?: string | null;
   };
   products?: PublicProduct[];
+  kind?: StoreKind | string;
+  momoNumber?: string | null;
+  createdAt?: Date | string;
 };
 
 export type PublicTown = {
@@ -126,10 +134,12 @@ const productInclude = {
       id: true,
       name: true,
       slug: true,
+      kind: true,
       location: true,
       area: true,
       phone: true,
       whatsapp: true,
+      momoNumber: true,
       address: true,
       openingHours: true,
       logoUrl: true,
@@ -347,6 +357,10 @@ export async function getFeaturedProducts() {
 
 export async function getLatestProducts() {
   return getPublicProducts({ take: 8 });
+}
+
+export async function getTrendingProducts() {
+  return getPublicProducts({ sort: "popular", take: 12 });
 }
 
 export async function getFlashSaleProducts() {

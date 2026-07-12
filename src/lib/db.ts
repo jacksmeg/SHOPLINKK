@@ -6,7 +6,7 @@ const connectionString =
   "postgresql://postgres:postgres@localhost:5432/shoplinkk?schema=public";
 
 const adapter = new PrismaPg({ connectionString });
-const prismaSchemaVersion = "20260710-shoplinkk-admin-integrations-phone-identity";
+const prismaSchemaVersion = "20260712-shoplinkk-food-orders-store-followers";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;

@@ -192,6 +192,13 @@ export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntNullableFilter<$PrismaModel>
 }
 
+export type EnumStoreKindFilter<$PrismaModel = never> = {
+  equals?: $Enums.StoreKind | Prisma.EnumStoreKindFieldRefInput<$PrismaModel>
+  in?: $Enums.StoreKind[] | Prisma.ListEnumStoreKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StoreKind[] | Prisma.ListEnumStoreKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStoreKindFilter<$PrismaModel> | $Enums.StoreKind
+}
+
 export type EnumSellerVerificationStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.SellerVerificationStatus | Prisma.EnumSellerVerificationStatusFieldRefInput<$PrismaModel>
   in?: $Enums.SellerVerificationStatus[] | Prisma.ListEnumSellerVerificationStatusFieldRefInput<$PrismaModel>
@@ -219,6 +226,16 @@ export type FloatFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
+}
+
+export type EnumStoreKindWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StoreKind | Prisma.EnumStoreKindFieldRefInput<$PrismaModel>
+  in?: $Enums.StoreKind[] | Prisma.ListEnumStoreKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StoreKind[] | Prisma.ListEnumStoreKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStoreKindWithAggregatesFilter<$PrismaModel> | $Enums.StoreKind
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStoreKindFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStoreKindFilter<$PrismaModel>
 }
 
 export type EnumSellerVerificationStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -268,6 +285,13 @@ export type EnumListingTypeFilter<$PrismaModel = never> = {
   in?: $Enums.ListingType[] | Prisma.ListEnumListingTypeFieldRefInput<$PrismaModel>
   notIn?: $Enums.ListingType[] | Prisma.ListEnumListingTypeFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumListingTypeFilter<$PrismaModel> | $Enums.ListingType
+}
+
+export type EnumPriceModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PriceMode | Prisma.EnumPriceModeFieldRefInput<$PrismaModel>
+  in?: $Enums.PriceMode[] | Prisma.ListEnumPriceModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PriceMode[] | Prisma.ListEnumPriceModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPriceModeFilter<$PrismaModel> | $Enums.PriceMode
 }
 
 export type DecimalFilter<$PrismaModel = never> = {
@@ -328,6 +352,16 @@ export type EnumListingTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumListingTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumListingTypeFilter<$PrismaModel>
+}
+
+export type EnumPriceModeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PriceMode | Prisma.EnumPriceModeFieldRefInput<$PrismaModel>
+  in?: $Enums.PriceMode[] | Prisma.ListEnumPriceModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PriceMode[] | Prisma.ListEnumPriceModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPriceModeWithAggregatesFilter<$PrismaModel> | $Enums.PriceMode
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPriceModeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPriceModeFilter<$PrismaModel>
 }
 
 export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -803,6 +837,23 @@ export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
   _max?: Prisma.NestedJsonFilter<$PrismaModel>
 }
 
+export type EnumFoodOrderStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.FoodOrderStatus | Prisma.EnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FoodOrderStatus[] | Prisma.ListEnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FoodOrderStatus[] | Prisma.ListEnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel> | $Enums.FoodOrderStatus
+}
+
+export type EnumFoodOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FoodOrderStatus | Prisma.EnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FoodOrderStatus[] | Prisma.ListEnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FoodOrderStatus[] | Prisma.ListEnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFoodOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.FoodOrderStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -994,6 +1045,13 @@ export type NestedFloatNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedFloatNullableFilter<$PrismaModel> | number | null
 }
 
+export type NestedEnumStoreKindFilter<$PrismaModel = never> = {
+  equals?: $Enums.StoreKind | Prisma.EnumStoreKindFieldRefInput<$PrismaModel>
+  in?: $Enums.StoreKind[] | Prisma.ListEnumStoreKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StoreKind[] | Prisma.ListEnumStoreKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStoreKindFilter<$PrismaModel> | $Enums.StoreKind
+}
+
 export type NestedEnumSellerVerificationStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.SellerVerificationStatus | Prisma.EnumSellerVerificationStatusFieldRefInput<$PrismaModel>
   in?: $Enums.SellerVerificationStatus[] | Prisma.ListEnumSellerVerificationStatusFieldRefInput<$PrismaModel>
@@ -1010,6 +1068,16 @@ export type NestedFloatFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
+}
+
+export type NestedEnumStoreKindWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StoreKind | Prisma.EnumStoreKindFieldRefInput<$PrismaModel>
+  in?: $Enums.StoreKind[] | Prisma.ListEnumStoreKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StoreKind[] | Prisma.ListEnumStoreKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStoreKindWithAggregatesFilter<$PrismaModel> | $Enums.StoreKind
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStoreKindFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStoreKindFilter<$PrismaModel>
 }
 
 export type NestedEnumSellerVerificationStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -1059,6 +1127,13 @@ export type NestedEnumListingTypeFilter<$PrismaModel = never> = {
   in?: $Enums.ListingType[] | Prisma.ListEnumListingTypeFieldRefInput<$PrismaModel>
   notIn?: $Enums.ListingType[] | Prisma.ListEnumListingTypeFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumListingTypeFilter<$PrismaModel> | $Enums.ListingType
+}
+
+export type NestedEnumPriceModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PriceMode | Prisma.EnumPriceModeFieldRefInput<$PrismaModel>
+  in?: $Enums.PriceMode[] | Prisma.ListEnumPriceModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PriceMode[] | Prisma.ListEnumPriceModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPriceModeFilter<$PrismaModel> | $Enums.PriceMode
 }
 
 export type NestedDecimalFilter<$PrismaModel = never> = {
@@ -1119,6 +1194,16 @@ export type NestedEnumListingTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumListingTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumListingTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumPriceModeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PriceMode | Prisma.EnumPriceModeFieldRefInput<$PrismaModel>
+  in?: $Enums.PriceMode[] | Prisma.ListEnumPriceModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PriceMode[] | Prisma.ListEnumPriceModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPriceModeWithAggregatesFilter<$PrismaModel> | $Enums.PriceMode
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPriceModeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPriceModeFilter<$PrismaModel>
 }
 
 export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -1527,6 +1612,23 @@ export type NestedJsonFilterBase<$PrismaModel = never> = {
   gt?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel>
   gte?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel>
   not?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel> | Prisma.JsonNullValueFilter
+}
+
+export type NestedEnumFoodOrderStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.FoodOrderStatus | Prisma.EnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FoodOrderStatus[] | Prisma.ListEnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FoodOrderStatus[] | Prisma.ListEnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel> | $Enums.FoodOrderStatus
+}
+
+export type NestedEnumFoodOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FoodOrderStatus | Prisma.EnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FoodOrderStatus[] | Prisma.ListEnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FoodOrderStatus[] | Prisma.ListEnumFoodOrderStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFoodOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.FoodOrderStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel>
 }
 
 

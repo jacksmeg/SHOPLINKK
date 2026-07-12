@@ -35,6 +35,14 @@ export const ListingType = {
 export type ListingType = (typeof ListingType)[keyof typeof ListingType]
 
 
+export const PriceMode = {
+  FIXED: 'FIXED',
+  CONTACT: 'CONTACT'
+} as const
+
+export type PriceMode = (typeof PriceMode)[keyof typeof PriceMode]
+
+
 export const StockStatus = {
   AVAILABLE: 'AVAILABLE',
   SOLD: 'SOLD',
@@ -239,3 +247,23 @@ export const AdvertExtensionStatus = {
 } as const
 
 export type AdvertExtensionStatus = (typeof AdvertExtensionStatus)[keyof typeof AdvertExtensionStatus]
+
+
+export const StoreKind = {
+  GENERAL: 'GENERAL',
+  FOOD: 'FOOD'
+} as const
+
+export type StoreKind = (typeof StoreKind)[keyof typeof StoreKind]
+
+
+export const FoodOrderStatus = {
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  PAID: 'PAID',
+  PREPARING: 'PREPARING',
+  OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type FoodOrderStatus = (typeof FoodOrderStatus)[keyof typeof FoodOrderStatus]

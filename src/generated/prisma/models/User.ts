@@ -367,6 +367,7 @@ export type UserWhereInput = {
   priceAlerts?: Prisma.PriceAlertListRelationFilter
   recentlyViewed?: Prisma.RecentlyViewedListRelationFilter
   productViews?: Prisma.ProductViewListRelationFilter
+  followedStores?: Prisma.StoreFollowerListRelationFilter
   chatTypingStatuses?: Prisma.ChatTypingStatusListRelationFilter
   adminNotesAuthored?: Prisma.AdminNoteListRelationFilter
   adminNotesReceived?: Prisma.AdminNoteListRelationFilter
@@ -379,6 +380,8 @@ export type UserWhereInput = {
   platformSettings?: Prisma.PlatformSettingListRelationFilter
   paymentTransactions?: Prisma.PaymentTransactionListRelationFilter
   billingPackagesUpdated?: Prisma.BillingPackageListRelationFilter
+  trustedDevices?: Prisma.TrustedDeviceListRelationFilter
+  foodOrders?: Prisma.FoodOrderListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -432,6 +435,7 @@ export type UserOrderByWithRelationInput = {
   priceAlerts?: Prisma.PriceAlertOrderByRelationAggregateInput
   recentlyViewed?: Prisma.RecentlyViewedOrderByRelationAggregateInput
   productViews?: Prisma.ProductViewOrderByRelationAggregateInput
+  followedStores?: Prisma.StoreFollowerOrderByRelationAggregateInput
   chatTypingStatuses?: Prisma.ChatTypingStatusOrderByRelationAggregateInput
   adminNotesAuthored?: Prisma.AdminNoteOrderByRelationAggregateInput
   adminNotesReceived?: Prisma.AdminNoteOrderByRelationAggregateInput
@@ -444,6 +448,8 @@ export type UserOrderByWithRelationInput = {
   platformSettings?: Prisma.PlatformSettingOrderByRelationAggregateInput
   paymentTransactions?: Prisma.PaymentTransactionOrderByRelationAggregateInput
   billingPackagesUpdated?: Prisma.BillingPackageOrderByRelationAggregateInput
+  trustedDevices?: Prisma.TrustedDeviceOrderByRelationAggregateInput
+  foodOrders?: Prisma.FoodOrderOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -500,6 +506,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   priceAlerts?: Prisma.PriceAlertListRelationFilter
   recentlyViewed?: Prisma.RecentlyViewedListRelationFilter
   productViews?: Prisma.ProductViewListRelationFilter
+  followedStores?: Prisma.StoreFollowerListRelationFilter
   chatTypingStatuses?: Prisma.ChatTypingStatusListRelationFilter
   adminNotesAuthored?: Prisma.AdminNoteListRelationFilter
   adminNotesReceived?: Prisma.AdminNoteListRelationFilter
@@ -512,6 +519,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   platformSettings?: Prisma.PlatformSettingListRelationFilter
   paymentTransactions?: Prisma.PaymentTransactionListRelationFilter
   billingPackagesUpdated?: Prisma.BillingPackageListRelationFilter
+  trustedDevices?: Prisma.TrustedDeviceListRelationFilter
+  foodOrders?: Prisma.FoodOrderListRelationFilter
 }, "id" | "email" | "username" | "phone">
 
 export type UserOrderByWithAggregationInput = {
@@ -627,6 +636,7 @@ export type UserCreateInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -639,6 +649,8 @@ export type UserCreateInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -692,6 +704,7 @@ export type UserUncheckedCreateInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -704,6 +717,8 @@ export type UserUncheckedCreateInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUpdateInput = {
@@ -757,6 +772,7 @@ export type UserUpdateInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -769,6 +785,8 @@ export type UserUpdateInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -822,6 +840,7 @@ export type UserUncheckedUpdateInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -834,6 +853,8 @@ export type UserUncheckedUpdateInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1078,6 +1099,20 @@ export type UserUpdateOneRequiredWithoutStoreNestedInput = {
   upsert?: Prisma.UserUpsertWithoutStoreInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStoreInput, Prisma.UserUpdateWithoutStoreInput>, Prisma.UserUncheckedUpdateWithoutStoreInput>
+}
+
+export type UserCreateNestedOneWithoutFollowedStoresInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFollowedStoresInput, Prisma.UserUncheckedCreateWithoutFollowedStoresInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFollowedStoresInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFollowedStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFollowedStoresInput, Prisma.UserUncheckedCreateWithoutFollowedStoresInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFollowedStoresInput
+  upsert?: Prisma.UserUpsertWithoutFollowedStoresInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFollowedStoresInput, Prisma.UserUpdateWithoutFollowedStoresInput>, Prisma.UserUncheckedUpdateWithoutFollowedStoresInput>
 }
 
 export type UserCreateNestedOneWithoutProductsInput = {
@@ -1338,6 +1373,20 @@ export type UserUpdateOneRequiredWithoutPushSubscriptionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPushSubscriptionsInput, Prisma.UserUpdateWithoutPushSubscriptionsInput>, Prisma.UserUncheckedUpdateWithoutPushSubscriptionsInput>
 }
 
+export type UserCreateNestedOneWithoutTrustedDevicesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTrustedDevicesInput, Prisma.UserUncheckedCreateWithoutTrustedDevicesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTrustedDevicesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTrustedDevicesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTrustedDevicesInput, Prisma.UserUncheckedCreateWithoutTrustedDevicesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTrustedDevicesInput
+  upsert?: Prisma.UserUpsertWithoutTrustedDevicesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTrustedDevicesInput, Prisma.UserUpdateWithoutTrustedDevicesInput>, Prisma.UserUncheckedUpdateWithoutTrustedDevicesInput>
+}
+
 export type UserCreateNestedOneWithoutSavedSearchesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSavedSearchesInput, Prisma.UserUncheckedCreateWithoutSavedSearchesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedSearchesInput
@@ -1574,6 +1623,20 @@ export type UserUpdateOneWithoutPlatformSettingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPlatformSettingsInput, Prisma.UserUpdateWithoutPlatformSettingsInput>, Prisma.UserUncheckedUpdateWithoutPlatformSettingsInput>
 }
 
+export type UserCreateNestedOneWithoutFoodOrdersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFoodOrdersInput, Prisma.UserUncheckedCreateWithoutFoodOrdersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFoodOrdersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFoodOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFoodOrdersInput, Prisma.UserUncheckedCreateWithoutFoodOrdersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFoodOrdersInput
+  upsert?: Prisma.UserUpsertWithoutFoodOrdersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFoodOrdersInput, Prisma.UserUpdateWithoutFoodOrdersInput>, Prisma.UserUncheckedUpdateWithoutFoodOrdersInput>
+}
+
 export type UserCreateWithoutAccountsInput = {
   id?: string
   name?: string | null
@@ -1624,6 +1687,7 @@ export type UserCreateWithoutAccountsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -1636,6 +1700,8 @@ export type UserCreateWithoutAccountsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1688,6 +1754,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -1700,6 +1767,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1768,6 +1837,7 @@ export type UserUpdateWithoutAccountsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -1780,6 +1850,8 @@ export type UserUpdateWithoutAccountsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1832,6 +1904,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -1844,6 +1917,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1896,6 +1971,7 @@ export type UserCreateWithoutSessionsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -1908,6 +1984,8 @@ export type UserCreateWithoutSessionsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1960,6 +2038,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -1972,6 +2051,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -2040,6 +2121,7 @@ export type UserUpdateWithoutSessionsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -2052,6 +2134,8 @@ export type UserUpdateWithoutSessionsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -2104,6 +2188,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -2116,6 +2201,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutStoreInput = {
@@ -2168,6 +2255,7 @@ export type UserCreateWithoutStoreInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -2180,6 +2268,8 @@ export type UserCreateWithoutStoreInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutStoreInput = {
@@ -2232,6 +2322,7 @@ export type UserUncheckedCreateWithoutStoreInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -2244,6 +2335,8 @@ export type UserUncheckedCreateWithoutStoreInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutStoreInput = {
@@ -2312,6 +2405,7 @@ export type UserUpdateWithoutStoreInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -2324,6 +2418,8 @@ export type UserUpdateWithoutStoreInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStoreInput = {
@@ -2376,6 +2472,7 @@ export type UserUncheckedUpdateWithoutStoreInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -2388,6 +2485,292 @@ export type UserUncheckedUpdateWithoutStoreInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
+}
+
+export type UserCreateWithoutFollowedStoresInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  username?: string | null
+  emailVerified?: Date | string | null
+  phoneVerifiedAt?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  phone?: string | null
+  whatsapp?: string | null
+  location?: string
+  area?: string | null
+  bio?: string | null
+  isBlocked?: boolean
+  suspensionReason?: string | null
+  deleteRequestedAt?: Date | string | null
+  termsAcceptedAt?: Date | string | null
+  termsVersion?: string | null
+  lastLoginAlertAt?: Date | string | null
+  emailAlertsEnabled?: boolean
+  pushNotificationsEnabled?: boolean
+  lastActiveAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  store?: Prisma.StoreCreateNestedOneWithoutOwnerInput
+  products?: Prisma.ProductCreateNestedManyWithoutSellerInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  favoriteFolders?: Prisma.FavoriteFolderCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  conversationsBuyer?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
+  conversationsSeller?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  reportsMade?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  reportsAgainst?: Prisma.ReportCreateNestedManyWithoutReportedUserInput
+  reviewedReports?: Prisma.ReportCreateNestedManyWithoutReviewedByInput
+  blocksMade?: Prisma.BlockedUserCreateNestedManyWithoutBlockedByInput
+  blocksReceived?: Prisma.BlockedUserCreateNestedManyWithoutTargetInput
+  sellerVerifications?: Prisma.SellerVerificationCreateNestedManyWithoutSellerInput
+  reviewedVerifications?: Prisma.SellerVerificationCreateNestedManyWithoutReviewedByInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutAuthorInput
+  reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  comparedProducts?: Prisma.ComparedProductCreateNestedManyWithoutUserInput
+  priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
+  recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
+  productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
+  adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
+  adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
+  auditLogs?: Prisma.AdminAuditLogCreateNestedManyWithoutActorInput
+  deletionRequests?: Prisma.AccountDeletionRequestCreateNestedManyWithoutUserInput
+  messageAttachments?: Prisma.ChatAttachmentCreateNestedManyWithoutUploaderInput
+  boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutSellerInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutReviewedByInput
+  integrationsUpdated?: Prisma.IntegrationSettingCreateNestedManyWithoutUpdatedByInput
+  platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
+  paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
+  billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
+}
+
+export type UserUncheckedCreateWithoutFollowedStoresInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  username?: string | null
+  emailVerified?: Date | string | null
+  phoneVerifiedAt?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  phone?: string | null
+  whatsapp?: string | null
+  location?: string
+  area?: string | null
+  bio?: string | null
+  isBlocked?: boolean
+  suspensionReason?: string | null
+  deleteRequestedAt?: Date | string | null
+  termsAcceptedAt?: Date | string | null
+  termsVersion?: string | null
+  lastLoginAlertAt?: Date | string | null
+  emailAlertsEnabled?: boolean
+  pushNotificationsEnabled?: boolean
+  lastActiveAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutOwnerInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutSellerInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  favoriteFolders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  conversationsBuyer?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
+  conversationsSeller?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  reportsMade?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  reportsAgainst?: Prisma.ReportUncheckedCreateNestedManyWithoutReportedUserInput
+  reviewedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutReviewedByInput
+  blocksMade?: Prisma.BlockedUserUncheckedCreateNestedManyWithoutBlockedByInput
+  blocksReceived?: Prisma.BlockedUserUncheckedCreateNestedManyWithoutTargetInput
+  sellerVerifications?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutSellerInput
+  reviewedVerifications?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutReviewedByInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutAuthorInput
+  reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  comparedProducts?: Prisma.ComparedProductUncheckedCreateNestedManyWithoutUserInput
+  priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
+  recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
+  productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
+  adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
+  adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
+  auditLogs?: Prisma.AdminAuditLogUncheckedCreateNestedManyWithoutActorInput
+  deletionRequests?: Prisma.AccountDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+  messageAttachments?: Prisma.ChatAttachmentUncheckedCreateNestedManyWithoutUploaderInput
+  boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutSellerInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  integrationsUpdated?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
+  billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
+}
+
+export type UserCreateOrConnectWithoutFollowedStoresInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFollowedStoresInput, Prisma.UserUncheckedCreateWithoutFollowedStoresInput>
+}
+
+export type UserUpsertWithoutFollowedStoresInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFollowedStoresInput, Prisma.UserUncheckedUpdateWithoutFollowedStoresInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFollowedStoresInput, Prisma.UserUncheckedCreateWithoutFollowedStoresInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFollowedStoresInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFollowedStoresInput, Prisma.UserUncheckedUpdateWithoutFollowedStoresInput>
+}
+
+export type UserUpdateWithoutFollowedStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phoneVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleteRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastLoginAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  store?: Prisma.StoreUpdateOneWithoutOwnerNestedInput
+  products?: Prisma.ProductUpdateManyWithoutSellerNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  favoriteFolders?: Prisma.FavoriteFolderUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  conversationsBuyer?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
+  conversationsSeller?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  reportsMade?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  reportsAgainst?: Prisma.ReportUpdateManyWithoutReportedUserNestedInput
+  reviewedReports?: Prisma.ReportUpdateManyWithoutReviewedByNestedInput
+  blocksMade?: Prisma.BlockedUserUpdateManyWithoutBlockedByNestedInput
+  blocksReceived?: Prisma.BlockedUserUpdateManyWithoutTargetNestedInput
+  sellerVerifications?: Prisma.SellerVerificationUpdateManyWithoutSellerNestedInput
+  reviewedVerifications?: Prisma.SellerVerificationUpdateManyWithoutReviewedByNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutAuthorNestedInput
+  reviewsReceived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  comparedProducts?: Prisma.ComparedProductUpdateManyWithoutUserNestedInput
+  priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
+  productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
+  adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
+  adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
+  auditLogs?: Prisma.AdminAuditLogUpdateManyWithoutActorNestedInput
+  deletionRequests?: Prisma.AccountDeletionRequestUpdateManyWithoutUserNestedInput
+  messageAttachments?: Prisma.ChatAttachmentUpdateManyWithoutUploaderNestedInput
+  boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutSellerNestedInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutReviewedByNestedInput
+  integrationsUpdated?: Prisma.IntegrationSettingUpdateManyWithoutUpdatedByNestedInput
+  platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
+  paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
+  billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFollowedStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phoneVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleteRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastLoginAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutOwnerNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutSellerNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  favoriteFolders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  conversationsBuyer?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
+  conversationsSeller?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  reportsMade?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  reportsAgainst?: Prisma.ReportUncheckedUpdateManyWithoutReportedUserNestedInput
+  reviewedReports?: Prisma.ReportUncheckedUpdateManyWithoutReviewedByNestedInput
+  blocksMade?: Prisma.BlockedUserUncheckedUpdateManyWithoutBlockedByNestedInput
+  blocksReceived?: Prisma.BlockedUserUncheckedUpdateManyWithoutTargetNestedInput
+  sellerVerifications?: Prisma.SellerVerificationUncheckedUpdateManyWithoutSellerNestedInput
+  reviewedVerifications?: Prisma.SellerVerificationUncheckedUpdateManyWithoutReviewedByNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutAuthorNestedInput
+  reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  comparedProducts?: Prisma.ComparedProductUncheckedUpdateManyWithoutUserNestedInput
+  priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
+  productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
+  adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
+  adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
+  auditLogs?: Prisma.AdminAuditLogUncheckedUpdateManyWithoutActorNestedInput
+  deletionRequests?: Prisma.AccountDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+  messageAttachments?: Prisma.ChatAttachmentUncheckedUpdateManyWithoutUploaderNestedInput
+  boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutSellerNestedInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  integrationsUpdated?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
+  billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutProductsInput = {
@@ -2440,6 +2823,7 @@ export type UserCreateWithoutProductsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -2452,6 +2836,8 @@ export type UserCreateWithoutProductsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutProductsInput = {
@@ -2504,6 +2890,7 @@ export type UserUncheckedCreateWithoutProductsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -2516,6 +2903,8 @@ export type UserUncheckedCreateWithoutProductsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutProductsInput = {
@@ -2584,6 +2973,7 @@ export type UserUpdateWithoutProductsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -2596,6 +2986,8 @@ export type UserUpdateWithoutProductsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProductsInput = {
@@ -2648,6 +3040,7 @@ export type UserUncheckedUpdateWithoutProductsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -2660,6 +3053,8 @@ export type UserUncheckedUpdateWithoutProductsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutFavoriteFoldersInput = {
@@ -2712,6 +3107,7 @@ export type UserCreateWithoutFavoriteFoldersInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -2724,6 +3120,8 @@ export type UserCreateWithoutFavoriteFoldersInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutFavoriteFoldersInput = {
@@ -2776,6 +3174,7 @@ export type UserUncheckedCreateWithoutFavoriteFoldersInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -2788,6 +3187,8 @@ export type UserUncheckedCreateWithoutFavoriteFoldersInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutFavoriteFoldersInput = {
@@ -2856,6 +3257,7 @@ export type UserUpdateWithoutFavoriteFoldersInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -2868,6 +3270,8 @@ export type UserUpdateWithoutFavoriteFoldersInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFavoriteFoldersInput = {
@@ -2920,6 +3324,7 @@ export type UserUncheckedUpdateWithoutFavoriteFoldersInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -2932,6 +3337,8 @@ export type UserUncheckedUpdateWithoutFavoriteFoldersInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutFavoritesInput = {
@@ -2984,6 +3391,7 @@ export type UserCreateWithoutFavoritesInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -2996,6 +3404,8 @@ export type UserCreateWithoutFavoritesInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutFavoritesInput = {
@@ -3048,6 +3458,7 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -3060,6 +3471,8 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutFavoritesInput = {
@@ -3128,6 +3541,7 @@ export type UserUpdateWithoutFavoritesInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -3140,6 +3554,8 @@ export type UserUpdateWithoutFavoritesInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFavoritesInput = {
@@ -3192,6 +3608,7 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -3204,6 +3621,8 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutConversationsBuyerInput = {
@@ -3256,6 +3675,7 @@ export type UserCreateWithoutConversationsBuyerInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -3268,6 +3688,8 @@ export type UserCreateWithoutConversationsBuyerInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutConversationsBuyerInput = {
@@ -3320,6 +3742,7 @@ export type UserUncheckedCreateWithoutConversationsBuyerInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -3332,6 +3755,8 @@ export type UserUncheckedCreateWithoutConversationsBuyerInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutConversationsBuyerInput = {
@@ -3389,6 +3814,7 @@ export type UserCreateWithoutConversationsSellerInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -3401,6 +3827,8 @@ export type UserCreateWithoutConversationsSellerInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutConversationsSellerInput = {
@@ -3453,6 +3881,7 @@ export type UserUncheckedCreateWithoutConversationsSellerInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -3465,6 +3894,8 @@ export type UserUncheckedCreateWithoutConversationsSellerInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutConversationsSellerInput = {
@@ -3533,6 +3964,7 @@ export type UserUpdateWithoutConversationsBuyerInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -3545,6 +3977,8 @@ export type UserUpdateWithoutConversationsBuyerInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConversationsBuyerInput = {
@@ -3597,6 +4031,7 @@ export type UserUncheckedUpdateWithoutConversationsBuyerInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -3609,6 +4044,8 @@ export type UserUncheckedUpdateWithoutConversationsBuyerInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUpsertWithoutConversationsSellerInput = {
@@ -3672,6 +4109,7 @@ export type UserUpdateWithoutConversationsSellerInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -3684,6 +4122,8 @@ export type UserUpdateWithoutConversationsSellerInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConversationsSellerInput = {
@@ -3736,6 +4176,7 @@ export type UserUncheckedUpdateWithoutConversationsSellerInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -3748,6 +4189,8 @@ export type UserUncheckedUpdateWithoutConversationsSellerInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutSentMessagesInput = {
@@ -3800,6 +4243,7 @@ export type UserCreateWithoutSentMessagesInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -3812,6 +4256,8 @@ export type UserCreateWithoutSentMessagesInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutSentMessagesInput = {
@@ -3864,6 +4310,7 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -3876,6 +4323,8 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutSentMessagesInput = {
@@ -3944,6 +4393,7 @@ export type UserUpdateWithoutSentMessagesInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -3956,6 +4406,8 @@ export type UserUpdateWithoutSentMessagesInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentMessagesInput = {
@@ -4008,6 +4460,7 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -4020,6 +4473,8 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutMessageAttachmentsInput = {
@@ -4073,6 +4528,7 @@ export type UserCreateWithoutMessageAttachmentsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -4084,6 +4540,8 @@ export type UserCreateWithoutMessageAttachmentsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutMessageAttachmentsInput = {
@@ -4137,6 +4595,7 @@ export type UserUncheckedCreateWithoutMessageAttachmentsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -4148,6 +4607,8 @@ export type UserUncheckedCreateWithoutMessageAttachmentsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutMessageAttachmentsInput = {
@@ -4217,6 +4678,7 @@ export type UserUpdateWithoutMessageAttachmentsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -4228,6 +4690,8 @@ export type UserUpdateWithoutMessageAttachmentsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMessageAttachmentsInput = {
@@ -4281,6 +4745,7 @@ export type UserUncheckedUpdateWithoutMessageAttachmentsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -4292,6 +4757,8 @@ export type UserUncheckedUpdateWithoutMessageAttachmentsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutReportsMadeInput = {
@@ -4344,6 +4811,7 @@ export type UserCreateWithoutReportsMadeInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -4356,6 +4824,8 @@ export type UserCreateWithoutReportsMadeInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutReportsMadeInput = {
@@ -4408,6 +4878,7 @@ export type UserUncheckedCreateWithoutReportsMadeInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -4420,6 +4891,8 @@ export type UserUncheckedCreateWithoutReportsMadeInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutReportsMadeInput = {
@@ -4477,6 +4950,7 @@ export type UserCreateWithoutReportsAgainstInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -4489,6 +4963,8 @@ export type UserCreateWithoutReportsAgainstInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutReportsAgainstInput = {
@@ -4541,6 +5017,7 @@ export type UserUncheckedCreateWithoutReportsAgainstInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -4553,6 +5030,8 @@ export type UserUncheckedCreateWithoutReportsAgainstInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutReportsAgainstInput = {
@@ -4610,6 +5089,7 @@ export type UserCreateWithoutReviewedReportsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -4622,6 +5102,8 @@ export type UserCreateWithoutReviewedReportsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutReviewedReportsInput = {
@@ -4674,6 +5156,7 @@ export type UserUncheckedCreateWithoutReviewedReportsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -4686,6 +5169,8 @@ export type UserUncheckedCreateWithoutReviewedReportsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutReviewedReportsInput = {
@@ -4754,6 +5239,7 @@ export type UserUpdateWithoutReportsMadeInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -4766,6 +5252,8 @@ export type UserUpdateWithoutReportsMadeInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsMadeInput = {
@@ -4818,6 +5306,7 @@ export type UserUncheckedUpdateWithoutReportsMadeInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -4830,6 +5319,8 @@ export type UserUncheckedUpdateWithoutReportsMadeInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUpsertWithoutReportsAgainstInput = {
@@ -4893,6 +5384,7 @@ export type UserUpdateWithoutReportsAgainstInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -4905,6 +5397,8 @@ export type UserUpdateWithoutReportsAgainstInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsAgainstInput = {
@@ -4957,6 +5451,7 @@ export type UserUncheckedUpdateWithoutReportsAgainstInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -4969,6 +5464,8 @@ export type UserUncheckedUpdateWithoutReportsAgainstInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUpsertWithoutReviewedReportsInput = {
@@ -5032,6 +5529,7 @@ export type UserUpdateWithoutReviewedReportsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -5044,6 +5542,8 @@ export type UserUpdateWithoutReviewedReportsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedReportsInput = {
@@ -5096,6 +5596,7 @@ export type UserUncheckedUpdateWithoutReviewedReportsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -5108,6 +5609,8 @@ export type UserUncheckedUpdateWithoutReviewedReportsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutBlocksMadeInput = {
@@ -5160,6 +5663,7 @@ export type UserCreateWithoutBlocksMadeInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -5172,6 +5676,8 @@ export type UserCreateWithoutBlocksMadeInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutBlocksMadeInput = {
@@ -5224,6 +5730,7 @@ export type UserUncheckedCreateWithoutBlocksMadeInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -5236,6 +5743,8 @@ export type UserUncheckedCreateWithoutBlocksMadeInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutBlocksMadeInput = {
@@ -5293,6 +5802,7 @@ export type UserCreateWithoutBlocksReceivedInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -5305,6 +5815,8 @@ export type UserCreateWithoutBlocksReceivedInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutBlocksReceivedInput = {
@@ -5357,6 +5869,7 @@ export type UserUncheckedCreateWithoutBlocksReceivedInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -5369,6 +5882,8 @@ export type UserUncheckedCreateWithoutBlocksReceivedInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutBlocksReceivedInput = {
@@ -5437,6 +5952,7 @@ export type UserUpdateWithoutBlocksMadeInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -5449,6 +5965,8 @@ export type UserUpdateWithoutBlocksMadeInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlocksMadeInput = {
@@ -5501,6 +6019,7 @@ export type UserUncheckedUpdateWithoutBlocksMadeInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -5513,6 +6032,8 @@ export type UserUncheckedUpdateWithoutBlocksMadeInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUpsertWithoutBlocksReceivedInput = {
@@ -5576,6 +6097,7 @@ export type UserUpdateWithoutBlocksReceivedInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -5588,6 +6110,8 @@ export type UserUpdateWithoutBlocksReceivedInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlocksReceivedInput = {
@@ -5640,6 +6164,7 @@ export type UserUncheckedUpdateWithoutBlocksReceivedInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -5652,6 +6177,8 @@ export type UserUncheckedUpdateWithoutBlocksReceivedInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutSellerVerificationsInput = {
@@ -5704,6 +6231,7 @@ export type UserCreateWithoutSellerVerificationsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -5716,6 +6244,8 @@ export type UserCreateWithoutSellerVerificationsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutSellerVerificationsInput = {
@@ -5768,6 +6298,7 @@ export type UserUncheckedCreateWithoutSellerVerificationsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -5780,6 +6311,8 @@ export type UserUncheckedCreateWithoutSellerVerificationsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutSellerVerificationsInput = {
@@ -5837,6 +6370,7 @@ export type UserCreateWithoutReviewedVerificationsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -5849,6 +6383,8 @@ export type UserCreateWithoutReviewedVerificationsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutReviewedVerificationsInput = {
@@ -5901,6 +6437,7 @@ export type UserUncheckedCreateWithoutReviewedVerificationsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -5913,6 +6450,8 @@ export type UserUncheckedCreateWithoutReviewedVerificationsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutReviewedVerificationsInput = {
@@ -5981,6 +6520,7 @@ export type UserUpdateWithoutSellerVerificationsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -5993,6 +6533,8 @@ export type UserUpdateWithoutSellerVerificationsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSellerVerificationsInput = {
@@ -6045,6 +6587,7 @@ export type UserUncheckedUpdateWithoutSellerVerificationsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -6057,6 +6600,8 @@ export type UserUncheckedUpdateWithoutSellerVerificationsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUpsertWithoutReviewedVerificationsInput = {
@@ -6120,6 +6665,7 @@ export type UserUpdateWithoutReviewedVerificationsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -6132,6 +6678,8 @@ export type UserUpdateWithoutReviewedVerificationsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedVerificationsInput = {
@@ -6184,6 +6732,7 @@ export type UserUncheckedUpdateWithoutReviewedVerificationsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -6196,6 +6745,8 @@ export type UserUncheckedUpdateWithoutReviewedVerificationsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutReviewsGivenInput = {
@@ -6248,6 +6799,7 @@ export type UserCreateWithoutReviewsGivenInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -6260,6 +6812,8 @@ export type UserCreateWithoutReviewsGivenInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -6312,6 +6866,7 @@ export type UserUncheckedCreateWithoutReviewsGivenInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -6324,6 +6879,8 @@ export type UserUncheckedCreateWithoutReviewsGivenInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutReviewsGivenInput = {
@@ -6381,6 +6938,7 @@ export type UserCreateWithoutReviewsReceivedInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -6393,6 +6951,8 @@ export type UserCreateWithoutReviewsReceivedInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutReviewsReceivedInput = {
@@ -6445,6 +7005,7 @@ export type UserUncheckedCreateWithoutReviewsReceivedInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -6457,6 +7018,8 @@ export type UserUncheckedCreateWithoutReviewsReceivedInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutReviewsReceivedInput = {
@@ -6525,6 +7088,7 @@ export type UserUpdateWithoutReviewsGivenInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -6537,6 +7101,8 @@ export type UserUpdateWithoutReviewsGivenInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -6589,6 +7155,7 @@ export type UserUncheckedUpdateWithoutReviewsGivenInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -6601,6 +7168,8 @@ export type UserUncheckedUpdateWithoutReviewsGivenInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUpsertWithoutReviewsReceivedInput = {
@@ -6664,6 +7233,7 @@ export type UserUpdateWithoutReviewsReceivedInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -6676,6 +7246,8 @@ export type UserUpdateWithoutReviewsReceivedInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
@@ -6728,6 +7300,7 @@ export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -6740,6 +7313,8 @@ export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -6792,6 +7367,7 @@ export type UserCreateWithoutNotificationsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -6804,6 +7380,8 @@ export type UserCreateWithoutNotificationsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -6856,6 +7434,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -6868,6 +7447,8 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -6936,6 +7517,7 @@ export type UserUpdateWithoutNotificationsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -6948,6 +7530,8 @@ export type UserUpdateWithoutNotificationsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -7000,6 +7584,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -7012,6 +7597,8 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutPushSubscriptionsInput = {
@@ -7064,6 +7651,7 @@ export type UserCreateWithoutPushSubscriptionsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -7076,6 +7664,8 @@ export type UserCreateWithoutPushSubscriptionsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -7128,6 +7718,7 @@ export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -7140,6 +7731,8 @@ export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -7208,6 +7801,7 @@ export type UserUpdateWithoutPushSubscriptionsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -7220,6 +7814,8 @@ export type UserUpdateWithoutPushSubscriptionsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -7272,6 +7868,7 @@ export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -7284,6 +7881,292 @@ export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
+}
+
+export type UserCreateWithoutTrustedDevicesInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  username?: string | null
+  emailVerified?: Date | string | null
+  phoneVerifiedAt?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  phone?: string | null
+  whatsapp?: string | null
+  location?: string
+  area?: string | null
+  bio?: string | null
+  isBlocked?: boolean
+  suspensionReason?: string | null
+  deleteRequestedAt?: Date | string | null
+  termsAcceptedAt?: Date | string | null
+  termsVersion?: string | null
+  lastLoginAlertAt?: Date | string | null
+  emailAlertsEnabled?: boolean
+  pushNotificationsEnabled?: boolean
+  lastActiveAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  store?: Prisma.StoreCreateNestedOneWithoutOwnerInput
+  products?: Prisma.ProductCreateNestedManyWithoutSellerInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  favoriteFolders?: Prisma.FavoriteFolderCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  conversationsBuyer?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
+  conversationsSeller?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  reportsMade?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  reportsAgainst?: Prisma.ReportCreateNestedManyWithoutReportedUserInput
+  reviewedReports?: Prisma.ReportCreateNestedManyWithoutReviewedByInput
+  blocksMade?: Prisma.BlockedUserCreateNestedManyWithoutBlockedByInput
+  blocksReceived?: Prisma.BlockedUserCreateNestedManyWithoutTargetInput
+  sellerVerifications?: Prisma.SellerVerificationCreateNestedManyWithoutSellerInput
+  reviewedVerifications?: Prisma.SellerVerificationCreateNestedManyWithoutReviewedByInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutAuthorInput
+  reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  comparedProducts?: Prisma.ComparedProductCreateNestedManyWithoutUserInput
+  priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
+  recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
+  productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
+  adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
+  adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
+  auditLogs?: Prisma.AdminAuditLogCreateNestedManyWithoutActorInput
+  deletionRequests?: Prisma.AccountDeletionRequestCreateNestedManyWithoutUserInput
+  messageAttachments?: Prisma.ChatAttachmentCreateNestedManyWithoutUploaderInput
+  boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutSellerInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutReviewedByInput
+  integrationsUpdated?: Prisma.IntegrationSettingCreateNestedManyWithoutUpdatedByInput
+  platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
+  paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
+  billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
+}
+
+export type UserUncheckedCreateWithoutTrustedDevicesInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  username?: string | null
+  emailVerified?: Date | string | null
+  phoneVerifiedAt?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  phone?: string | null
+  whatsapp?: string | null
+  location?: string
+  area?: string | null
+  bio?: string | null
+  isBlocked?: boolean
+  suspensionReason?: string | null
+  deleteRequestedAt?: Date | string | null
+  termsAcceptedAt?: Date | string | null
+  termsVersion?: string | null
+  lastLoginAlertAt?: Date | string | null
+  emailAlertsEnabled?: boolean
+  pushNotificationsEnabled?: boolean
+  lastActiveAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutOwnerInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutSellerInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  favoriteFolders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  conversationsBuyer?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
+  conversationsSeller?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  reportsMade?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  reportsAgainst?: Prisma.ReportUncheckedCreateNestedManyWithoutReportedUserInput
+  reviewedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutReviewedByInput
+  blocksMade?: Prisma.BlockedUserUncheckedCreateNestedManyWithoutBlockedByInput
+  blocksReceived?: Prisma.BlockedUserUncheckedCreateNestedManyWithoutTargetInput
+  sellerVerifications?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutSellerInput
+  reviewedVerifications?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutReviewedByInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutAuthorInput
+  reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  comparedProducts?: Prisma.ComparedProductUncheckedCreateNestedManyWithoutUserInput
+  priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
+  recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
+  productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
+  adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
+  adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
+  auditLogs?: Prisma.AdminAuditLogUncheckedCreateNestedManyWithoutActorInput
+  deletionRequests?: Prisma.AccountDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+  messageAttachments?: Prisma.ChatAttachmentUncheckedCreateNestedManyWithoutUploaderInput
+  boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutSellerInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  integrationsUpdated?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
+  billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
+}
+
+export type UserCreateOrConnectWithoutTrustedDevicesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTrustedDevicesInput, Prisma.UserUncheckedCreateWithoutTrustedDevicesInput>
+}
+
+export type UserUpsertWithoutTrustedDevicesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTrustedDevicesInput, Prisma.UserUncheckedUpdateWithoutTrustedDevicesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTrustedDevicesInput, Prisma.UserUncheckedCreateWithoutTrustedDevicesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTrustedDevicesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTrustedDevicesInput, Prisma.UserUncheckedUpdateWithoutTrustedDevicesInput>
+}
+
+export type UserUpdateWithoutTrustedDevicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phoneVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleteRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastLoginAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  store?: Prisma.StoreUpdateOneWithoutOwnerNestedInput
+  products?: Prisma.ProductUpdateManyWithoutSellerNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  favoriteFolders?: Prisma.FavoriteFolderUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  conversationsBuyer?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
+  conversationsSeller?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  reportsMade?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  reportsAgainst?: Prisma.ReportUpdateManyWithoutReportedUserNestedInput
+  reviewedReports?: Prisma.ReportUpdateManyWithoutReviewedByNestedInput
+  blocksMade?: Prisma.BlockedUserUpdateManyWithoutBlockedByNestedInput
+  blocksReceived?: Prisma.BlockedUserUpdateManyWithoutTargetNestedInput
+  sellerVerifications?: Prisma.SellerVerificationUpdateManyWithoutSellerNestedInput
+  reviewedVerifications?: Prisma.SellerVerificationUpdateManyWithoutReviewedByNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutAuthorNestedInput
+  reviewsReceived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  comparedProducts?: Prisma.ComparedProductUpdateManyWithoutUserNestedInput
+  priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
+  productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
+  adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
+  adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
+  auditLogs?: Prisma.AdminAuditLogUpdateManyWithoutActorNestedInput
+  deletionRequests?: Prisma.AccountDeletionRequestUpdateManyWithoutUserNestedInput
+  messageAttachments?: Prisma.ChatAttachmentUpdateManyWithoutUploaderNestedInput
+  boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutSellerNestedInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutReviewedByNestedInput
+  integrationsUpdated?: Prisma.IntegrationSettingUpdateManyWithoutUpdatedByNestedInput
+  platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
+  paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
+  billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTrustedDevicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phoneVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleteRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastLoginAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutOwnerNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutSellerNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  favoriteFolders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  conversationsBuyer?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
+  conversationsSeller?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  reportsMade?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  reportsAgainst?: Prisma.ReportUncheckedUpdateManyWithoutReportedUserNestedInput
+  reviewedReports?: Prisma.ReportUncheckedUpdateManyWithoutReviewedByNestedInput
+  blocksMade?: Prisma.BlockedUserUncheckedUpdateManyWithoutBlockedByNestedInput
+  blocksReceived?: Prisma.BlockedUserUncheckedUpdateManyWithoutTargetNestedInput
+  sellerVerifications?: Prisma.SellerVerificationUncheckedUpdateManyWithoutSellerNestedInput
+  reviewedVerifications?: Prisma.SellerVerificationUncheckedUpdateManyWithoutReviewedByNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutAuthorNestedInput
+  reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  comparedProducts?: Prisma.ComparedProductUncheckedUpdateManyWithoutUserNestedInput
+  priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
+  productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
+  adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
+  adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
+  auditLogs?: Prisma.AdminAuditLogUncheckedUpdateManyWithoutActorNestedInput
+  deletionRequests?: Prisma.AccountDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+  messageAttachments?: Prisma.ChatAttachmentUncheckedUpdateManyWithoutUploaderNestedInput
+  boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutSellerNestedInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  integrationsUpdated?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
+  billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutSavedSearchesInput = {
@@ -7336,6 +8219,7 @@ export type UserCreateWithoutSavedSearchesInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -7348,6 +8232,8 @@ export type UserCreateWithoutSavedSearchesInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutSavedSearchesInput = {
@@ -7400,6 +8286,7 @@ export type UserUncheckedCreateWithoutSavedSearchesInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -7412,6 +8299,8 @@ export type UserUncheckedCreateWithoutSavedSearchesInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutSavedSearchesInput = {
@@ -7480,6 +8369,7 @@ export type UserUpdateWithoutSavedSearchesInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -7492,6 +8382,8 @@ export type UserUpdateWithoutSavedSearchesInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSavedSearchesInput = {
@@ -7544,6 +8436,7 @@ export type UserUncheckedUpdateWithoutSavedSearchesInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -7556,6 +8449,8 @@ export type UserUncheckedUpdateWithoutSavedSearchesInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutComparedProductsInput = {
@@ -7608,6 +8503,7 @@ export type UserCreateWithoutComparedProductsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -7620,6 +8516,8 @@ export type UserCreateWithoutComparedProductsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutComparedProductsInput = {
@@ -7672,6 +8570,7 @@ export type UserUncheckedCreateWithoutComparedProductsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -7684,6 +8583,8 @@ export type UserUncheckedCreateWithoutComparedProductsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutComparedProductsInput = {
@@ -7752,6 +8653,7 @@ export type UserUpdateWithoutComparedProductsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -7764,6 +8666,8 @@ export type UserUpdateWithoutComparedProductsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutComparedProductsInput = {
@@ -7816,6 +8720,7 @@ export type UserUncheckedUpdateWithoutComparedProductsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -7828,6 +8733,8 @@ export type UserUncheckedUpdateWithoutComparedProductsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutPriceAlertsInput = {
@@ -7880,6 +8787,7 @@ export type UserCreateWithoutPriceAlertsInput = {
   comparedProducts?: Prisma.ComparedProductCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -7892,6 +8800,8 @@ export type UserCreateWithoutPriceAlertsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutPriceAlertsInput = {
@@ -7944,6 +8854,7 @@ export type UserUncheckedCreateWithoutPriceAlertsInput = {
   comparedProducts?: Prisma.ComparedProductUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -7956,6 +8867,8 @@ export type UserUncheckedCreateWithoutPriceAlertsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutPriceAlertsInput = {
@@ -8024,6 +8937,7 @@ export type UserUpdateWithoutPriceAlertsInput = {
   comparedProducts?: Prisma.ComparedProductUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -8036,6 +8950,8 @@ export type UserUpdateWithoutPriceAlertsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPriceAlertsInput = {
@@ -8088,6 +9004,7 @@ export type UserUncheckedUpdateWithoutPriceAlertsInput = {
   comparedProducts?: Prisma.ComparedProductUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -8100,6 +9017,8 @@ export type UserUncheckedUpdateWithoutPriceAlertsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutChatTypingStatusesInput = {
@@ -8153,6 +9072,7 @@ export type UserCreateWithoutChatTypingStatusesInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
   auditLogs?: Prisma.AdminAuditLogCreateNestedManyWithoutActorInput
@@ -8164,6 +9084,8 @@ export type UserCreateWithoutChatTypingStatusesInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutChatTypingStatusesInput = {
@@ -8217,6 +9139,7 @@ export type UserUncheckedCreateWithoutChatTypingStatusesInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
   auditLogs?: Prisma.AdminAuditLogUncheckedCreateNestedManyWithoutActorInput
@@ -8228,6 +9151,8 @@ export type UserUncheckedCreateWithoutChatTypingStatusesInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutChatTypingStatusesInput = {
@@ -8297,6 +9222,7 @@ export type UserUpdateWithoutChatTypingStatusesInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
   auditLogs?: Prisma.AdminAuditLogUpdateManyWithoutActorNestedInput
@@ -8308,6 +9234,8 @@ export type UserUpdateWithoutChatTypingStatusesInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChatTypingStatusesInput = {
@@ -8361,6 +9289,7 @@ export type UserUncheckedUpdateWithoutChatTypingStatusesInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
   auditLogs?: Prisma.AdminAuditLogUncheckedUpdateManyWithoutActorNestedInput
@@ -8372,6 +9301,8 @@ export type UserUncheckedUpdateWithoutChatTypingStatusesInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutBoostRequestsInput = {
@@ -8425,6 +9356,7 @@ export type UserCreateWithoutBoostRequestsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -8436,6 +9368,8 @@ export type UserCreateWithoutBoostRequestsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutBoostRequestsInput = {
@@ -8489,6 +9423,7 @@ export type UserUncheckedCreateWithoutBoostRequestsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -8500,6 +9435,8 @@ export type UserUncheckedCreateWithoutBoostRequestsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutBoostRequestsInput = {
@@ -8558,6 +9495,7 @@ export type UserCreateWithoutReviewedBoostRequestsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -8569,6 +9507,8 @@ export type UserCreateWithoutReviewedBoostRequestsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutReviewedBoostRequestsInput = {
@@ -8622,6 +9562,7 @@ export type UserUncheckedCreateWithoutReviewedBoostRequestsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -8633,6 +9574,8 @@ export type UserUncheckedCreateWithoutReviewedBoostRequestsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutReviewedBoostRequestsInput = {
@@ -8702,6 +9645,7 @@ export type UserUpdateWithoutBoostRequestsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -8713,6 +9657,8 @@ export type UserUpdateWithoutBoostRequestsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBoostRequestsInput = {
@@ -8766,6 +9712,7 @@ export type UserUncheckedUpdateWithoutBoostRequestsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -8777,6 +9724,8 @@ export type UserUncheckedUpdateWithoutBoostRequestsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUpsertWithoutReviewedBoostRequestsInput = {
@@ -8841,6 +9790,7 @@ export type UserUpdateWithoutReviewedBoostRequestsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -8852,6 +9802,8 @@ export type UserUpdateWithoutReviewedBoostRequestsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedBoostRequestsInput = {
@@ -8905,6 +9857,7 @@ export type UserUncheckedUpdateWithoutReviewedBoostRequestsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -8916,6 +9869,8 @@ export type UserUncheckedUpdateWithoutReviewedBoostRequestsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutBillingPackagesUpdatedInput = {
@@ -8969,6 +9924,7 @@ export type UserCreateWithoutBillingPackagesUpdatedInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -8980,6 +9936,8 @@ export type UserCreateWithoutBillingPackagesUpdatedInput = {
   integrationsUpdated?: Prisma.IntegrationSettingCreateNestedManyWithoutUpdatedByInput
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutBillingPackagesUpdatedInput = {
@@ -9033,6 +9991,7 @@ export type UserUncheckedCreateWithoutBillingPackagesUpdatedInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -9044,6 +10003,8 @@ export type UserUncheckedCreateWithoutBillingPackagesUpdatedInput = {
   integrationsUpdated?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutBillingPackagesUpdatedInput = {
@@ -9113,6 +10074,7 @@ export type UserUpdateWithoutBillingPackagesUpdatedInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -9124,6 +10086,8 @@ export type UserUpdateWithoutBillingPackagesUpdatedInput = {
   integrationsUpdated?: Prisma.IntegrationSettingUpdateManyWithoutUpdatedByNestedInput
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBillingPackagesUpdatedInput = {
@@ -9177,6 +10141,7 @@ export type UserUncheckedUpdateWithoutBillingPackagesUpdatedInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -9188,6 +10153,8 @@ export type UserUncheckedUpdateWithoutBillingPackagesUpdatedInput = {
   integrationsUpdated?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutPaymentTransactionsInput = {
@@ -9241,6 +10208,7 @@ export type UserCreateWithoutPaymentTransactionsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -9252,6 +10220,8 @@ export type UserCreateWithoutPaymentTransactionsInput = {
   integrationsUpdated?: Prisma.IntegrationSettingCreateNestedManyWithoutUpdatedByInput
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutPaymentTransactionsInput = {
@@ -9305,6 +10275,7 @@ export type UserUncheckedCreateWithoutPaymentTransactionsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -9316,6 +10287,8 @@ export type UserUncheckedCreateWithoutPaymentTransactionsInput = {
   integrationsUpdated?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutPaymentTransactionsInput = {
@@ -9385,6 +10358,7 @@ export type UserUpdateWithoutPaymentTransactionsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -9396,6 +10370,8 @@ export type UserUpdateWithoutPaymentTransactionsInput = {
   integrationsUpdated?: Prisma.IntegrationSettingUpdateManyWithoutUpdatedByNestedInput
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentTransactionsInput = {
@@ -9449,6 +10425,7 @@ export type UserUncheckedUpdateWithoutPaymentTransactionsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -9460,6 +10437,8 @@ export type UserUncheckedUpdateWithoutPaymentTransactionsInput = {
   integrationsUpdated?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutRecentlyViewedInput = {
@@ -9512,6 +10491,7 @@ export type UserCreateWithoutRecentlyViewedInput = {
   comparedProducts?: Prisma.ComparedProductCreateNestedManyWithoutUserInput
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -9524,6 +10504,8 @@ export type UserCreateWithoutRecentlyViewedInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutRecentlyViewedInput = {
@@ -9576,6 +10558,7 @@ export type UserUncheckedCreateWithoutRecentlyViewedInput = {
   comparedProducts?: Prisma.ComparedProductUncheckedCreateNestedManyWithoutUserInput
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -9588,6 +10571,8 @@ export type UserUncheckedCreateWithoutRecentlyViewedInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutRecentlyViewedInput = {
@@ -9656,6 +10641,7 @@ export type UserUpdateWithoutRecentlyViewedInput = {
   comparedProducts?: Prisma.ComparedProductUpdateManyWithoutUserNestedInput
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -9668,6 +10654,8 @@ export type UserUpdateWithoutRecentlyViewedInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRecentlyViewedInput = {
@@ -9720,6 +10708,7 @@ export type UserUncheckedUpdateWithoutRecentlyViewedInput = {
   comparedProducts?: Prisma.ComparedProductUncheckedUpdateManyWithoutUserNestedInput
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -9732,6 +10721,8 @@ export type UserUncheckedUpdateWithoutRecentlyViewedInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutProductViewsInput = {
@@ -9784,6 +10775,7 @@ export type UserCreateWithoutProductViewsInput = {
   comparedProducts?: Prisma.ComparedProductCreateNestedManyWithoutUserInput
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -9796,6 +10788,8 @@ export type UserCreateWithoutProductViewsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutProductViewsInput = {
@@ -9848,6 +10842,7 @@ export type UserUncheckedCreateWithoutProductViewsInput = {
   comparedProducts?: Prisma.ComparedProductUncheckedCreateNestedManyWithoutUserInput
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -9860,6 +10855,8 @@ export type UserUncheckedCreateWithoutProductViewsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutProductViewsInput = {
@@ -9928,6 +10925,7 @@ export type UserUpdateWithoutProductViewsInput = {
   comparedProducts?: Prisma.ComparedProductUpdateManyWithoutUserNestedInput
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -9940,6 +10938,8 @@ export type UserUpdateWithoutProductViewsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProductViewsInput = {
@@ -9992,6 +10992,7 @@ export type UserUncheckedUpdateWithoutProductViewsInput = {
   comparedProducts?: Prisma.ComparedProductUncheckedUpdateManyWithoutUserNestedInput
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -10004,6 +11005,8 @@ export type UserUncheckedUpdateWithoutProductViewsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutAdminNotesAuthoredInput = {
@@ -10057,6 +11060,7 @@ export type UserCreateWithoutAdminNotesAuthoredInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
   auditLogs?: Prisma.AdminAuditLogCreateNestedManyWithoutActorInput
@@ -10068,6 +11072,8 @@ export type UserCreateWithoutAdminNotesAuthoredInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutAdminNotesAuthoredInput = {
@@ -10121,6 +11127,7 @@ export type UserUncheckedCreateWithoutAdminNotesAuthoredInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
   auditLogs?: Prisma.AdminAuditLogUncheckedCreateNestedManyWithoutActorInput
@@ -10132,6 +11139,8 @@ export type UserUncheckedCreateWithoutAdminNotesAuthoredInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutAdminNotesAuthoredInput = {
@@ -10190,6 +11199,7 @@ export type UserCreateWithoutAdminNotesReceivedInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   auditLogs?: Prisma.AdminAuditLogCreateNestedManyWithoutActorInput
@@ -10201,6 +11211,8 @@ export type UserCreateWithoutAdminNotesReceivedInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutAdminNotesReceivedInput = {
@@ -10254,6 +11266,7 @@ export type UserUncheckedCreateWithoutAdminNotesReceivedInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   auditLogs?: Prisma.AdminAuditLogUncheckedCreateNestedManyWithoutActorInput
@@ -10265,6 +11278,8 @@ export type UserUncheckedCreateWithoutAdminNotesReceivedInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutAdminNotesReceivedInput = {
@@ -10334,6 +11349,7 @@ export type UserUpdateWithoutAdminNotesAuthoredInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
   auditLogs?: Prisma.AdminAuditLogUpdateManyWithoutActorNestedInput
@@ -10345,6 +11361,8 @@ export type UserUpdateWithoutAdminNotesAuthoredInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAdminNotesAuthoredInput = {
@@ -10398,6 +11416,7 @@ export type UserUncheckedUpdateWithoutAdminNotesAuthoredInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
   auditLogs?: Prisma.AdminAuditLogUncheckedUpdateManyWithoutActorNestedInput
@@ -10409,6 +11428,8 @@ export type UserUncheckedUpdateWithoutAdminNotesAuthoredInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUpsertWithoutAdminNotesReceivedInput = {
@@ -10473,6 +11494,7 @@ export type UserUpdateWithoutAdminNotesReceivedInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   auditLogs?: Prisma.AdminAuditLogUpdateManyWithoutActorNestedInput
@@ -10484,6 +11506,8 @@ export type UserUpdateWithoutAdminNotesReceivedInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAdminNotesReceivedInput = {
@@ -10537,6 +11561,7 @@ export type UserUncheckedUpdateWithoutAdminNotesReceivedInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   auditLogs?: Prisma.AdminAuditLogUncheckedUpdateManyWithoutActorNestedInput
@@ -10548,6 +11573,8 @@ export type UserUncheckedUpdateWithoutAdminNotesReceivedInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -10601,6 +11628,7 @@ export type UserCreateWithoutAuditLogsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -10612,6 +11640,8 @@ export type UserCreateWithoutAuditLogsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -10665,6 +11695,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -10676,6 +11707,8 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -10745,6 +11778,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -10756,6 +11790,8 @@ export type UserUpdateWithoutAuditLogsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -10809,6 +11845,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -10820,6 +11857,8 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutDeletionRequestsInput = {
@@ -10873,6 +11912,7 @@ export type UserCreateWithoutDeletionRequestsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -10884,6 +11924,8 @@ export type UserCreateWithoutDeletionRequestsInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutDeletionRequestsInput = {
@@ -10937,6 +11979,7 @@ export type UserUncheckedCreateWithoutDeletionRequestsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -10948,6 +11991,8 @@ export type UserUncheckedCreateWithoutDeletionRequestsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutDeletionRequestsInput = {
@@ -11017,6 +12062,7 @@ export type UserUpdateWithoutDeletionRequestsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -11028,6 +12074,8 @@ export type UserUpdateWithoutDeletionRequestsInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletionRequestsInput = {
@@ -11081,6 +12129,7 @@ export type UserUncheckedUpdateWithoutDeletionRequestsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -11092,6 +12141,8 @@ export type UserUncheckedUpdateWithoutDeletionRequestsInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutIntegrationsUpdatedInput = {
@@ -11145,6 +12196,7 @@ export type UserCreateWithoutIntegrationsUpdatedInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -11156,6 +12208,8 @@ export type UserCreateWithoutIntegrationsUpdatedInput = {
   platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutIntegrationsUpdatedInput = {
@@ -11209,6 +12263,7 @@ export type UserUncheckedCreateWithoutIntegrationsUpdatedInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -11220,6 +12275,8 @@ export type UserUncheckedCreateWithoutIntegrationsUpdatedInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutIntegrationsUpdatedInput = {
@@ -11289,6 +12346,7 @@ export type UserUpdateWithoutIntegrationsUpdatedInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -11300,6 +12358,8 @@ export type UserUpdateWithoutIntegrationsUpdatedInput = {
   platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutIntegrationsUpdatedInput = {
@@ -11353,6 +12413,7 @@ export type UserUncheckedUpdateWithoutIntegrationsUpdatedInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -11364,6 +12425,8 @@ export type UserUncheckedUpdateWithoutIntegrationsUpdatedInput = {
   platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutPlatformSettingsInput = {
@@ -11417,6 +12480,7 @@ export type UserCreateWithoutPlatformSettingsInput = {
   priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
@@ -11428,6 +12492,8 @@ export type UserCreateWithoutPlatformSettingsInput = {
   integrationsUpdated?: Prisma.IntegrationSettingCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutBuyerInput
 }
 
 export type UserUncheckedCreateWithoutPlatformSettingsInput = {
@@ -11481,6 +12547,7 @@ export type UserUncheckedCreateWithoutPlatformSettingsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
@@ -11492,6 +12559,8 @@ export type UserUncheckedCreateWithoutPlatformSettingsInput = {
   integrationsUpdated?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutUpdatedByInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutBuyerInput
 }
 
 export type UserCreateOrConnectWithoutPlatformSettingsInput = {
@@ -11561,6 +12630,7 @@ export type UserUpdateWithoutPlatformSettingsInput = {
   priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
@@ -11572,6 +12642,8 @@ export type UserUpdateWithoutPlatformSettingsInput = {
   integrationsUpdated?: Prisma.IntegrationSettingUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPlatformSettingsInput = {
@@ -11625,6 +12697,7 @@ export type UserUncheckedUpdateWithoutPlatformSettingsInput = {
   priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
   chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
   adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
   adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
@@ -11636,6 +12709,292 @@ export type UserUncheckedUpdateWithoutPlatformSettingsInput = {
   integrationsUpdated?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
   billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutBuyerNestedInput
+}
+
+export type UserCreateWithoutFoodOrdersInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  username?: string | null
+  emailVerified?: Date | string | null
+  phoneVerifiedAt?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  phone?: string | null
+  whatsapp?: string | null
+  location?: string
+  area?: string | null
+  bio?: string | null
+  isBlocked?: boolean
+  suspensionReason?: string | null
+  deleteRequestedAt?: Date | string | null
+  termsAcceptedAt?: Date | string | null
+  termsVersion?: string | null
+  lastLoginAlertAt?: Date | string | null
+  emailAlertsEnabled?: boolean
+  pushNotificationsEnabled?: boolean
+  lastActiveAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  store?: Prisma.StoreCreateNestedOneWithoutOwnerInput
+  products?: Prisma.ProductCreateNestedManyWithoutSellerInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  favoriteFolders?: Prisma.FavoriteFolderCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  conversationsBuyer?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
+  conversationsSeller?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  reportsMade?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  reportsAgainst?: Prisma.ReportCreateNestedManyWithoutReportedUserInput
+  reviewedReports?: Prisma.ReportCreateNestedManyWithoutReviewedByInput
+  blocksMade?: Prisma.BlockedUserCreateNestedManyWithoutBlockedByInput
+  blocksReceived?: Prisma.BlockedUserCreateNestedManyWithoutTargetInput
+  sellerVerifications?: Prisma.SellerVerificationCreateNestedManyWithoutSellerInput
+  reviewedVerifications?: Prisma.SellerVerificationCreateNestedManyWithoutReviewedByInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutAuthorInput
+  reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  comparedProducts?: Prisma.ComparedProductCreateNestedManyWithoutUserInput
+  priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutUserInput
+  recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutUserInput
+  productViews?: Prisma.ProductViewCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerCreateNestedManyWithoutUserInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusCreateNestedManyWithoutUserInput
+  adminNotesAuthored?: Prisma.AdminNoteCreateNestedManyWithoutAuthorInput
+  adminNotesReceived?: Prisma.AdminNoteCreateNestedManyWithoutTargetUserInput
+  auditLogs?: Prisma.AdminAuditLogCreateNestedManyWithoutActorInput
+  deletionRequests?: Prisma.AccountDeletionRequestCreateNestedManyWithoutUserInput
+  messageAttachments?: Prisma.ChatAttachmentCreateNestedManyWithoutUploaderInput
+  boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutSellerInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutReviewedByInput
+  integrationsUpdated?: Prisma.IntegrationSettingCreateNestedManyWithoutUpdatedByInput
+  platformSettings?: Prisma.PlatformSettingCreateNestedManyWithoutUpdatedByInput
+  paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutUserInput
+  billingPackagesUpdated?: Prisma.BillingPackageCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFoodOrdersInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  username?: string | null
+  emailVerified?: Date | string | null
+  phoneVerifiedAt?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  phone?: string | null
+  whatsapp?: string | null
+  location?: string
+  area?: string | null
+  bio?: string | null
+  isBlocked?: boolean
+  suspensionReason?: string | null
+  deleteRequestedAt?: Date | string | null
+  termsAcceptedAt?: Date | string | null
+  termsVersion?: string | null
+  lastLoginAlertAt?: Date | string | null
+  emailAlertsEnabled?: boolean
+  pushNotificationsEnabled?: boolean
+  lastActiveAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutOwnerInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutSellerInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  favoriteFolders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  conversationsBuyer?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
+  conversationsSeller?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  reportsMade?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  reportsAgainst?: Prisma.ReportUncheckedCreateNestedManyWithoutReportedUserInput
+  reviewedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutReviewedByInput
+  blocksMade?: Prisma.BlockedUserUncheckedCreateNestedManyWithoutBlockedByInput
+  blocksReceived?: Prisma.BlockedUserUncheckedCreateNestedManyWithoutTargetInput
+  sellerVerifications?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutSellerInput
+  reviewedVerifications?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutReviewedByInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutAuthorInput
+  reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  comparedProducts?: Prisma.ComparedProductUncheckedCreateNestedManyWithoutUserInput
+  priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutUserInput
+  recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutUserInput
+  productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutUserInput
+  followedStores?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutUserInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedCreateNestedManyWithoutUserInput
+  adminNotesAuthored?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutAuthorInput
+  adminNotesReceived?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutTargetUserInput
+  auditLogs?: Prisma.AdminAuditLogUncheckedCreateNestedManyWithoutActorInput
+  deletionRequests?: Prisma.AccountDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+  messageAttachments?: Prisma.ChatAttachmentUncheckedCreateNestedManyWithoutUploaderInput
+  boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutSellerInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  integrationsUpdated?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  platformSettings?: Prisma.PlatformSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutUserInput
+  billingPackagesUpdated?: Prisma.BillingPackageUncheckedCreateNestedManyWithoutUpdatedByInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFoodOrdersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFoodOrdersInput, Prisma.UserUncheckedCreateWithoutFoodOrdersInput>
+}
+
+export type UserUpsertWithoutFoodOrdersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFoodOrdersInput, Prisma.UserUncheckedUpdateWithoutFoodOrdersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFoodOrdersInput, Prisma.UserUncheckedCreateWithoutFoodOrdersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFoodOrdersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFoodOrdersInput, Prisma.UserUncheckedUpdateWithoutFoodOrdersInput>
+}
+
+export type UserUpdateWithoutFoodOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phoneVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleteRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastLoginAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  store?: Prisma.StoreUpdateOneWithoutOwnerNestedInput
+  products?: Prisma.ProductUpdateManyWithoutSellerNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  favoriteFolders?: Prisma.FavoriteFolderUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  conversationsBuyer?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
+  conversationsSeller?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  reportsMade?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  reportsAgainst?: Prisma.ReportUpdateManyWithoutReportedUserNestedInput
+  reviewedReports?: Prisma.ReportUpdateManyWithoutReviewedByNestedInput
+  blocksMade?: Prisma.BlockedUserUpdateManyWithoutBlockedByNestedInput
+  blocksReceived?: Prisma.BlockedUserUpdateManyWithoutTargetNestedInput
+  sellerVerifications?: Prisma.SellerVerificationUpdateManyWithoutSellerNestedInput
+  reviewedVerifications?: Prisma.SellerVerificationUpdateManyWithoutReviewedByNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutAuthorNestedInput
+  reviewsReceived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  comparedProducts?: Prisma.ComparedProductUpdateManyWithoutUserNestedInput
+  priceAlerts?: Prisma.PriceAlertUpdateManyWithoutUserNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutUserNestedInput
+  productViews?: Prisma.ProductViewUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUpdateManyWithoutUserNestedInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusUpdateManyWithoutUserNestedInput
+  adminNotesAuthored?: Prisma.AdminNoteUpdateManyWithoutAuthorNestedInput
+  adminNotesReceived?: Prisma.AdminNoteUpdateManyWithoutTargetUserNestedInput
+  auditLogs?: Prisma.AdminAuditLogUpdateManyWithoutActorNestedInput
+  deletionRequests?: Prisma.AccountDeletionRequestUpdateManyWithoutUserNestedInput
+  messageAttachments?: Prisma.ChatAttachmentUpdateManyWithoutUploaderNestedInput
+  boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutSellerNestedInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutReviewedByNestedInput
+  integrationsUpdated?: Prisma.IntegrationSettingUpdateManyWithoutUpdatedByNestedInput
+  platformSettings?: Prisma.PlatformSettingUpdateManyWithoutUpdatedByNestedInput
+  paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutUserNestedInput
+  billingPackagesUpdated?: Prisma.BillingPackageUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFoodOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phoneVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleteRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  termsVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastLoginAlertAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailAlertsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotificationsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutOwnerNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutSellerNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  favoriteFolders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  conversationsBuyer?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
+  conversationsSeller?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  reportsMade?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  reportsAgainst?: Prisma.ReportUncheckedUpdateManyWithoutReportedUserNestedInput
+  reviewedReports?: Prisma.ReportUncheckedUpdateManyWithoutReviewedByNestedInput
+  blocksMade?: Prisma.BlockedUserUncheckedUpdateManyWithoutBlockedByNestedInput
+  blocksReceived?: Prisma.BlockedUserUncheckedUpdateManyWithoutTargetNestedInput
+  sellerVerifications?: Prisma.SellerVerificationUncheckedUpdateManyWithoutSellerNestedInput
+  reviewedVerifications?: Prisma.SellerVerificationUncheckedUpdateManyWithoutReviewedByNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutAuthorNestedInput
+  reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  comparedProducts?: Prisma.ComparedProductUncheckedUpdateManyWithoutUserNestedInput
+  priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutUserNestedInput
+  productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutUserNestedInput
+  followedStores?: Prisma.StoreFollowerUncheckedUpdateManyWithoutUserNestedInput
+  chatTypingStatuses?: Prisma.ChatTypingStatusUncheckedUpdateManyWithoutUserNestedInput
+  adminNotesAuthored?: Prisma.AdminNoteUncheckedUpdateManyWithoutAuthorNestedInput
+  adminNotesReceived?: Prisma.AdminNoteUncheckedUpdateManyWithoutTargetUserNestedInput
+  auditLogs?: Prisma.AdminAuditLogUncheckedUpdateManyWithoutActorNestedInput
+  deletionRequests?: Prisma.AccountDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+  messageAttachments?: Prisma.ChatAttachmentUncheckedUpdateManyWithoutUploaderNestedInput
+  boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutSellerNestedInput
+  reviewedBoostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  integrationsUpdated?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  platformSettings?: Prisma.PlatformSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutUserNestedInput
+  billingPackagesUpdated?: Prisma.BillingPackageUncheckedUpdateManyWithoutUpdatedByNestedInput
+  trustedDevices?: Prisma.TrustedDeviceUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -11668,6 +13027,7 @@ export type UserCountOutputType = {
   priceAlerts: number
   recentlyViewed: number
   productViews: number
+  followedStores: number
   chatTypingStatuses: number
   adminNotesAuthored: number
   adminNotesReceived: number
@@ -11680,6 +13040,8 @@ export type UserCountOutputType = {
   platformSettings: number
   paymentTransactions: number
   billingPackagesUpdated: number
+  trustedDevices: number
+  foodOrders: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -11707,6 +13069,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   priceAlerts?: boolean | UserCountOutputTypeCountPriceAlertsArgs
   recentlyViewed?: boolean | UserCountOutputTypeCountRecentlyViewedArgs
   productViews?: boolean | UserCountOutputTypeCountProductViewsArgs
+  followedStores?: boolean | UserCountOutputTypeCountFollowedStoresArgs
   chatTypingStatuses?: boolean | UserCountOutputTypeCountChatTypingStatusesArgs
   adminNotesAuthored?: boolean | UserCountOutputTypeCountAdminNotesAuthoredArgs
   adminNotesReceived?: boolean | UserCountOutputTypeCountAdminNotesReceivedArgs
@@ -11719,6 +13082,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   platformSettings?: boolean | UserCountOutputTypeCountPlatformSettingsArgs
   paymentTransactions?: boolean | UserCountOutputTypeCountPaymentTransactionsArgs
   billingPackagesUpdated?: boolean | UserCountOutputTypeCountBillingPackagesUpdatedArgs
+  trustedDevices?: boolean | UserCountOutputTypeCountTrustedDevicesArgs
+  foodOrders?: boolean | UserCountOutputTypeCountFoodOrdersArgs
 }
 
 /**
@@ -11902,6 +13267,13 @@ export type UserCountOutputTypeCountProductViewsArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountFollowedStoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StoreFollowerWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountChatTypingStatusesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ChatTypingStatusWhereInput
 }
@@ -11983,6 +13355,20 @@ export type UserCountOutputTypeCountBillingPackagesUpdatedArgs<ExtArgs extends r
   where?: Prisma.BillingPackageWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTrustedDevicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrustedDeviceWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFoodOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FoodOrderWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -12035,6 +13421,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   priceAlerts?: boolean | Prisma.User$priceAlertsArgs<ExtArgs>
   recentlyViewed?: boolean | Prisma.User$recentlyViewedArgs<ExtArgs>
   productViews?: boolean | Prisma.User$productViewsArgs<ExtArgs>
+  followedStores?: boolean | Prisma.User$followedStoresArgs<ExtArgs>
   chatTypingStatuses?: boolean | Prisma.User$chatTypingStatusesArgs<ExtArgs>
   adminNotesAuthored?: boolean | Prisma.User$adminNotesAuthoredArgs<ExtArgs>
   adminNotesReceived?: boolean | Prisma.User$adminNotesReceivedArgs<ExtArgs>
@@ -12047,6 +13434,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   platformSettings?: boolean | Prisma.User$platformSettingsArgs<ExtArgs>
   paymentTransactions?: boolean | Prisma.User$paymentTransactionsArgs<ExtArgs>
   billingPackagesUpdated?: boolean | Prisma.User$billingPackagesUpdatedArgs<ExtArgs>
+  trustedDevices?: boolean | Prisma.User$trustedDevicesArgs<ExtArgs>
+  foodOrders?: boolean | Prisma.User$foodOrdersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -12161,6 +13550,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   priceAlerts?: boolean | Prisma.User$priceAlertsArgs<ExtArgs>
   recentlyViewed?: boolean | Prisma.User$recentlyViewedArgs<ExtArgs>
   productViews?: boolean | Prisma.User$productViewsArgs<ExtArgs>
+  followedStores?: boolean | Prisma.User$followedStoresArgs<ExtArgs>
   chatTypingStatuses?: boolean | Prisma.User$chatTypingStatusesArgs<ExtArgs>
   adminNotesAuthored?: boolean | Prisma.User$adminNotesAuthoredArgs<ExtArgs>
   adminNotesReceived?: boolean | Prisma.User$adminNotesReceivedArgs<ExtArgs>
@@ -12173,6 +13563,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   platformSettings?: boolean | Prisma.User$platformSettingsArgs<ExtArgs>
   paymentTransactions?: boolean | Prisma.User$paymentTransactionsArgs<ExtArgs>
   billingPackagesUpdated?: boolean | Prisma.User$billingPackagesUpdatedArgs<ExtArgs>
+  trustedDevices?: boolean | Prisma.User$trustedDevicesArgs<ExtArgs>
+  foodOrders?: boolean | Prisma.User$foodOrdersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -12206,6 +13598,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     priceAlerts: Prisma.$PriceAlertPayload<ExtArgs>[]
     recentlyViewed: Prisma.$RecentlyViewedPayload<ExtArgs>[]
     productViews: Prisma.$ProductViewPayload<ExtArgs>[]
+    followedStores: Prisma.$StoreFollowerPayload<ExtArgs>[]
     chatTypingStatuses: Prisma.$ChatTypingStatusPayload<ExtArgs>[]
     adminNotesAuthored: Prisma.$AdminNotePayload<ExtArgs>[]
     adminNotesReceived: Prisma.$AdminNotePayload<ExtArgs>[]
@@ -12218,6 +13611,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     platformSettings: Prisma.$PlatformSettingPayload<ExtArgs>[]
     paymentTransactions: Prisma.$PaymentTransactionPayload<ExtArgs>[]
     billingPackagesUpdated: Prisma.$BillingPackagePayload<ExtArgs>[]
+    trustedDevices: Prisma.$TrustedDevicePayload<ExtArgs>[]
+    foodOrders: Prisma.$FoodOrderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -12664,6 +14059,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   priceAlerts<T extends Prisma.User$priceAlertsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$priceAlertsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   recentlyViewed<T extends Prisma.User$recentlyViewedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recentlyViewedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecentlyViewedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   productViews<T extends Prisma.User$productViewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$productViewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  followedStores<T extends Prisma.User$followedStoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$followedStoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoreFollowerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chatTypingStatuses<T extends Prisma.User$chatTypingStatusesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatTypingStatusesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatTypingStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   adminNotesAuthored<T extends Prisma.User$adminNotesAuthoredArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminNotesAuthoredArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdminNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   adminNotesReceived<T extends Prisma.User$adminNotesReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminNotesReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdminNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -12676,6 +14072,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   platformSettings<T extends Prisma.User$platformSettingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$platformSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   paymentTransactions<T extends Prisma.User$paymentTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   billingPackagesUpdated<T extends Prisma.User$billingPackagesUpdatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$billingPackagesUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BillingPackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  trustedDevices<T extends Prisma.User$trustedDevicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trustedDevicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustedDevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  foodOrders<T extends Prisma.User$foodOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$foodOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FoodOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13718,6 +15116,30 @@ export type User$productViewsArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * User.followedStores
+ */
+export type User$followedStoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoreFollower
+   */
+  select?: Prisma.StoreFollowerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StoreFollower
+   */
+  omit?: Prisma.StoreFollowerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoreFollowerInclude<ExtArgs> | null
+  where?: Prisma.StoreFollowerWhereInput
+  orderBy?: Prisma.StoreFollowerOrderByWithRelationInput | Prisma.StoreFollowerOrderByWithRelationInput[]
+  cursor?: Prisma.StoreFollowerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StoreFollowerScalarFieldEnum | Prisma.StoreFollowerScalarFieldEnum[]
+}
+
+/**
  * User.chatTypingStatuses
  */
 export type User$chatTypingStatusesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -14003,6 +15425,54 @@ export type User$billingPackagesUpdatedArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.BillingPackageScalarFieldEnum | Prisma.BillingPackageScalarFieldEnum[]
+}
+
+/**
+ * User.trustedDevices
+ */
+export type User$trustedDevicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrustedDevice
+   */
+  select?: Prisma.TrustedDeviceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrustedDevice
+   */
+  omit?: Prisma.TrustedDeviceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrustedDeviceInclude<ExtArgs> | null
+  where?: Prisma.TrustedDeviceWhereInput
+  orderBy?: Prisma.TrustedDeviceOrderByWithRelationInput | Prisma.TrustedDeviceOrderByWithRelationInput[]
+  cursor?: Prisma.TrustedDeviceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrustedDeviceScalarFieldEnum | Prisma.TrustedDeviceScalarFieldEnum[]
+}
+
+/**
+ * User.foodOrders
+ */
+export type User$foodOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FoodOrder
+   */
+  select?: Prisma.FoodOrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FoodOrder
+   */
+  omit?: Prisma.FoodOrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FoodOrderInclude<ExtArgs> | null
+  where?: Prisma.FoodOrderWhereInput
+  orderBy?: Prisma.FoodOrderOrderByWithRelationInput | Prisma.FoodOrderOrderByWithRelationInput[]
+  cursor?: Prisma.FoodOrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FoodOrderScalarFieldEnum | Prisma.FoodOrderScalarFieldEnum[]
 }
 
 /**

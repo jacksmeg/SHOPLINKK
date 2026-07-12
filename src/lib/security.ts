@@ -4,6 +4,7 @@ import { brandedEmail } from "@/lib/email-template";
 import { notifyUser } from "@/lib/notifications";
 
 type LoginClientContext = {
+  deviceId?: string;
   userAgent?: string;
   platform?: string;
   connection?: string;
@@ -34,12 +35,48 @@ export async function sendLoginAlert(userId: string, request: Request, client: L
   if (!user?.email || !user.emailAlertsEnabled) return { sent: false, reason: "disabled" };
 
   const now = new Date();
+  const deviceId = client.deviceId?.trim();
+  if (deviceId) {
+    const existingDevice = await prisma.trustedDevice.findUnique({
+      where: {
+        userId_deviceId: {
+          userId: user.id,
+          deviceId,
+        },
+      },
+      select: { id: true },
+    });
+
+    if (existingDevice) {
+      await prisma.trustedDevice.update({
+        where: { id: existingDevice.id },
+        data: {
+          userAgent: client.userAgent?.slice(0, 500),
+          platform: client.platform?.slice(0, 120),
+          timezone: client.timezone?.slice(0, 100),
+        },
+      });
+      return { sent: false, reason: "known_device" };
+    }
+
+    await prisma.trustedDevice.create({
+      data: {
+        userId: user.id,
+        deviceId,
+        label: client.platform || "Browser",
+        userAgent: client.userAgent?.slice(0, 500),
+        platform: client.platform?.slice(0, 120),
+        timezone: client.timezone?.slice(0, 100),
+      },
+    });
+  }
+
   const cooldown = new Date(now.getTime() - 5 * 60_000);
   const claimed = await prisma.user.updateMany({
     where: {
       id: user.id,
       emailAlertsEnabled: true,
-      OR: [{ lastLoginAlertAt: null }, { lastLoginAlertAt: { lt: cooldown } }],
+      ...(deviceId ? {} : { OR: [{ lastLoginAlertAt: null }, { lastLoginAlertAt: { lt: cooldown } }] }),
     },
     data: { lastLoginAlertAt: now },
   });

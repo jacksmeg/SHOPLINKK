@@ -1,4 +1,4 @@
-import { Boxes, Eye, Megaphone, MessageCircle, PackagePlus, Settings, ShieldCheck, Store, UserRound } from "lucide-react";
+import { Boxes, ChefHat, Eye, Megaphone, MessageCircle, PackagePlus, Settings, ShieldCheck, Store, UserRound, Users } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { SellerProductActions } from "@/components/seller/product-actions";
 import { VerificationForm } from "@/components/seller/verification-form";
@@ -7,13 +7,14 @@ import { ButtonLink } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
-import { formatCurrency, titleCase } from "@/lib/utils";
+import { isContactPrice } from "@/lib/pricing";
+import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 export default async function SellerDashboardPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
-  const [store, products, chats] = await Promise.all([
+  const [store, products, chats, followerCount, followers] = await Promise.all([
     prisma.store.findUnique({ where: { ownerId: session.user.id } }),
     prisma.product.findMany({
       where: { sellerId: session.user.id },
@@ -21,6 +22,13 @@ export default async function SellerDashboardPage() {
       orderBy: { createdAt: "desc" },
     }),
     prisma.conversation.count({ where: { sellerId: session.user.id } }),
+    prisma.storeFollower.count({ where: { store: { ownerId: session.user.id } } }),
+    prisma.storeFollower.findMany({
+      where: { store: { ownerId: session.user.id } },
+      include: { user: { select: { name: true, email: true, image: true } } },
+      orderBy: { createdAt: "desc" },
+      take: 8,
+    }),
   ]);
 
   const approved = products.filter((product) => product.listingStatus === "APPROVED").length;
@@ -35,6 +43,7 @@ export default async function SellerDashboardPage() {
       links={[
         { href: "/seller", label: "Overview", icon: Store },
         { href: "/seller/store", label: "Store management", icon: Settings },
+        { href: "/seller/food", label: "Food orders", icon: ChefHat },
         { href: "/seller/adverts", label: "Adverts", icon: Megaphone },
         { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
         { href: "/seller/products/bulk", label: "Bulk upload", icon: PackagePlus },
@@ -42,15 +51,16 @@ export default async function SellerDashboardPage() {
         { href: "/profile", label: "Profile", icon: UserRound },
       ]}
     >
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
         <StatCard label="Total listings" value={products.length} icon={Boxes} helper="Including pending products" />
         <StatCard label="Approved" value={approved} icon={Store} helper="Visible to buyers" />
         <StatCard label="Drafts" value={drafts} icon={PackagePlus} helper="Not public yet" />
         <StatCard label="Views" value={views} icon={Eye} helper="Across your products" />
         <StatCard label="Buyer chats" value={chats} icon={MessageCircle} helper="Product-linked conversations" />
+        <StatCard label="Followers" value={followerCount} icon={Users} helper="People following your store" />
       </div>
 
-      <div className="mt-5 grid gap-3 lg:grid-cols-3">
+      <div className="mt-5 grid gap-3 lg:grid-cols-4">
         <div className="app-panel p-4">
           <div className="flex items-center gap-2">
             <ShieldCheck className="text-[var(--brand)]" size={20} />
@@ -71,6 +81,18 @@ export default async function SellerDashboardPage() {
           <p className="mt-2 text-xl font-black text-[var(--brand-dark)]">{store?.responseRate ?? 0}%</p>
           <p className="mt-1 text-xs text-[var(--muted)]">Reply quickly to improve buyer confidence.</p>
         </div>
+        <div className="app-panel p-4">
+          <h2 className="text-sm font-black text-[var(--ink)]">Recent followers</h2>
+          <div className="mt-3 grid gap-2">
+            {followers.slice(0, 4).map((follow) => (
+              <div key={follow.id} className="rounded-[7px] bg-[var(--surface-muted)] px-3 py-2">
+                <p className="truncate text-xs font-black text-[var(--ink)]">{follow.user.name || follow.user.email || "ShopLinkk buyer"}</p>
+                <p className="mt-0.5 text-[0.68rem] text-[var(--muted)]">{compactDate(follow.createdAt)}</p>
+              </div>
+            ))}
+            {!followers.length ? <p className="text-xs leading-5 text-[var(--muted)]">Followers will appear here when buyers follow your store.</p> : null}
+          </div>
+        </div>
       </div>
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line)] pb-4">
@@ -85,7 +107,7 @@ export default async function SellerDashboardPage() {
       <div className="mt-4 grid gap-3 md:hidden">
         {products.map((product) => (
           <article key={product.id} className="app-panel p-4">
-            <div className="flex items-start justify-between gap-3"><div><h3 className="text-sm font-black text-[var(--ink)]">{product.title}</h3><p className="mt-1 text-xs text-[var(--muted)]">{product.category.name} · {formatCurrency(Number(product.price))} · {product.viewCount} views</p></div><Badge tone={product.listingStatus === "APPROVED" ? "green" : product.listingStatus === "REJECTED" ? "red" : "gold"}>{titleCase(product.listingStatus)}</Badge></div>
+            <div className="flex items-start justify-between gap-3"><div><h3 className="text-sm font-black text-[var(--ink)]">{product.title}</h3><p className="mt-1 text-xs text-[var(--muted)]">{product.category.name} · {isContactPrice(product) ? "Contact for price" : formatCurrency(Number(product.price))} · {product.viewCount} views</p></div><Badge tone={product.listingStatus === "APPROVED" ? "green" : product.listingStatus === "REJECTED" ? "red" : "gold"}>{titleCase(product.listingStatus)}</Badge></div>
             <div className="mt-3 border-t border-[var(--line)] pt-3"><SellerProductActions productId={product.id} productSlug={product.slug} productTitle={product.title} approved={product.listingStatus === "APPROVED"} /></div>
             {product.rejectionReason ? <p className="mt-2 text-xs leading-5 text-red-700">Reason: {product.rejectionReason}</p> : product.approvalNote ? <p className="mt-2 text-xs leading-5 text-[var(--muted)]">{product.approvalNote}</p> : null}
           </article>
@@ -110,7 +132,7 @@ export default async function SellerDashboardPage() {
                 <tr key={product.id}>
                   <td className="px-4 py-4 font-bold text-[var(--ink)]">{product.title}</td>
                   <td className="px-4 py-4 text-[var(--muted)]">{product.category.name}</td>
-                  <td className="px-4 py-4 font-black text-[var(--brand-dark)]">{formatCurrency(Number(product.price))}</td>
+                  <td className="px-4 py-4 font-black text-[var(--brand-dark)]">{isContactPrice(product) ? "Contact for price" : formatCurrency(Number(product.price))}</td>
                   <td className="px-4 py-4"><Badge tone={product.listingStatus === "APPROVED" ? "green" : product.listingStatus === "REJECTED" ? "red" : "gold"}>{titleCase(product.listingStatus)}</Badge></td>
                   <td className="px-4 py-4 text-[var(--muted)]">{titleCase(product.stockStatus)}</td>
                   <td className="px-4 py-4 text-[var(--muted)]">{product.viewCount}</td>

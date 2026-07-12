@@ -4,6 +4,7 @@ import { enforceRateLimit, requireApiSession } from "@/lib/api";
 import { sendLoginAlert } from "@/lib/security";
 
 const schema = z.object({
+  deviceId: z.string().min(12).max(120).optional(),
   userAgent: z.string().max(500).optional(),
   platform: z.string().max(120).optional(),
   connection: z.string().max(60).optional(),

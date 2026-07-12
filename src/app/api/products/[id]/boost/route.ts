@@ -20,17 +20,14 @@ export async function POST(
     const details = parsed.error.issues.map((issue) => issue.message).filter(Boolean).join(" ");
     return jsonError(details || "Check the advert request details");
   }
-  const activeAdvertPackages = await prisma.billingPackage.count({
-    where: { type: "ADVERT", isActive: true },
-  });
   const packageId = parsed.data.packageId?.trim();
   const advertPackage = packageId
     ? await prisma.billingPackage.findFirst({
         where: { id: packageId, type: "ADVERT", isActive: true },
       })
     : null;
-  if (session.user.role !== "ADMIN" && activeAdvertPackages > 0 && !advertPackage) {
-    return jsonError("Choose an advert package before requesting promotion.");
+  if (packageId && !advertPackage) {
+    return jsonError("That advert package is not available anymore. Choose another package or let admin confirm the fee.");
   }
   const product = await prisma.product.findFirst({
     where: {

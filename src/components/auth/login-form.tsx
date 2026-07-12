@@ -8,6 +8,15 @@ import { useState, useTransition, type FormEvent } from "react";
 import { AuthLogoMark, AuthPanel, GoogleIcon } from "@/components/auth/auth-panel";
 import { Button } from "@/components/ui/button";
 
+function getDeviceId() {
+  const key = "shoplinkk-trusted-device-id";
+  const existing = window.localStorage.getItem(key);
+  if (existing) return existing;
+  const generated = `slk_${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}_${Math.random().toString(36).slice(2)}`}`;
+  window.localStorage.setItem(key, generated);
+  return generated;
+}
+
 export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
   const router = useRouter();
   const params = useSearchParams();
@@ -70,6 +79,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            deviceId: getDeviceId(),
             userAgent: navigator.userAgent,
             platform: navigator.platform,
             connection: (navigator as Navigator & { connection?: { effectiveType?: string } }).connection?.effectiveType,

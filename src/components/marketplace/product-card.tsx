@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Boxes, Flame, MapPin, ShieldCheck, Store, Video, Wrench } from "lucide-react";
 import type { PublicProduct } from "@/lib/marketplace";
-import { getActiveSalePrice, saleEndsInLabel } from "@/lib/pricing";
-import { formatCurrency, titleCase } from "@/lib/utils";
+import { getActiveSalePrice, isContactPrice, saleEndsInLabel } from "@/lib/pricing";
+import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { FavoriteButton } from "@/components/marketplace/favorite-button";
 
@@ -17,6 +17,7 @@ export function ProductCard({
   const cover = product.images[0]?.url ?? "/window.svg";
   const salePrice = getActiveSalePrice(product);
   const saleLabel = saleEndsInLabel(product.saleEndsAt);
+  const contactPrice = isContactPrice(product);
 
   return (
     <article className="market-card group overflow-hidden rounded-[8px] border border-[var(--line)] bg-white transition duration-200 hover:-translate-y-0.5 hover:border-[var(--line-strong)] hover:shadow-xl">
@@ -53,7 +54,9 @@ export function ProductCard({
             </h3>
           </Link>
           <span className="whitespace-nowrap text-left text-sm font-black text-[var(--brand-dark)] sm:text-right">
-            {salePrice ? (
+            {contactPrice ? (
+              "Contact for price"
+            ) : salePrice ? (
               <>
                 <span className="block text-red-600">{formatCurrency(salePrice)}</span>
                 <span className="block text-[0.68rem] font-bold text-[var(--muted)] line-through">{formatCurrency(product.price)}</span>
@@ -74,13 +77,14 @@ export function ProductCard({
           {product.store ? (
             <Link
               href={`/stores/${product.store.slug}`}
-              className="inline-flex items-center gap-1 text-[var(--brand-dark)]"
+              className="inline-flex items-center gap-1 rounded-full border border-blue-100 bg-[var(--brand-soft)] px-2 py-1 font-black text-[var(--brand-dark)]"
             >
               <Store size={15} />
               {product.store.name}
-              {product.store.isVerified ? <ShieldCheck size={14} /> : null}
+              {product.store.isVerified ? <ShieldCheck className="text-emerald-600" size={14} /> : null}
             </Link>
           ) : null}
+          <span>Posted {compactDate(product.createdAt)}</span>
           {product.store?.trustScore ? <span>Trust {product.store.trustScore}%</span> : null}
           {typeof product.quantity === "number" && product.listingType !== "SERVICE" ? (
             <span className="inline-flex items-center gap-1">

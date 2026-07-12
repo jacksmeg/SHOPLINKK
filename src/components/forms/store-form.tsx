@@ -11,9 +11,11 @@ import { dunkwaAreas } from "@/lib/ghana";
 
 type StoreFormValue = {
   name?: string | null;
+  kind?: string | null;
   description?: string | null;
   phone?: string | null;
   whatsapp?: string | null;
+  momoNumber?: string | null;
   location?: string | null;
   area?: string | null;
   address?: string | null;
@@ -65,9 +67,11 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.get("name"),
+          kind: formData.get("kind"),
           description: formData.get("description"),
           phone: formData.get("phone"),
           whatsapp: formData.get("whatsapp"),
+          momoNumber: formData.get("momoNumber"),
           location: formData.get("location"),
           area: formData.get("area"),
           address: formData.get("address"),
@@ -125,6 +129,17 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
         <label className="text-sm font-bold text-[var(--ink)]">
           WhatsApp number
           <input name="whatsapp" defaultValue={store?.whatsapp ?? store?.phone ?? ""} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+        </label>
+        <label className="text-sm font-bold text-[var(--ink)]">
+          Store type
+          <select name="kind" defaultValue={store?.kind ?? "GENERAL"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
+            <option value="GENERAL">General marketplace store</option>
+            <option value="FOOD">Food seller / restaurant</option>
+          </select>
+        </label>
+        <label className="text-sm font-bold text-[var(--ink)]">
+          MoMo number for food orders
+          <input name="momoNumber" defaultValue={store?.momoNumber ?? store?.phone ?? ""} placeholder="024..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
         </label>
       </div>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">

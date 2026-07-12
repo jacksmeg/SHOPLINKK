@@ -34,3 +34,13 @@ export function compactDate(value: Date | string) {
     minute: "2-digit",
   }).format(date);
 }
+
+export function tradingAge(value?: Date | string | null) {
+  if (!value) return "New on ShopLinkk";
+  const date = typeof value === "string" ? new Date(value) : value;
+  const months = Math.max(0, Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24 * 30)));
+  if (months < 1) return "New on ShopLinkk";
+  if (months < 12) return `Trading on ShopLinkk for ${months} month${months === 1 ? "" : "s"}`;
+  const years = Math.floor(months / 12);
+  return `Trading on ShopLinkk for ${years} year${years === 1 ? "" : "s"}`;
+}

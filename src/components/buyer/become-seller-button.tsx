@@ -6,17 +6,17 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
 
-export function BecomeSellerButton({ phoneVerified }: { phoneVerified: boolean }) {
+export function BecomeSellerButton({ verified }: { verified: boolean }) {
   const router = useRouter();
   const { update } = useSession();
   const [message, setMessage] = useState("");
   const [pending, startTransition] = useTransition();
 
-  if (!phoneVerified) {
+  if (!verified) {
     return (
       <ButtonLink href="/account/security" variant="secondary">
         <ShieldCheck size={16} />
-        Verify phone to sell
+        Verify account to sell
       </ButtonLink>
     );
   }

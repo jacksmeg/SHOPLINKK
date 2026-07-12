@@ -71,6 +71,7 @@ export async function POST(request: Request) {
       storeId: store?.id,
       categoryId: parsed.data.categoryId,
       listingType: parsed.data.listingType,
+      priceMode: parsed.data.priceMode,
       title: parsed.data.title,
       slug: uniqueSlug(parsed.data.title),
       description: parsed.data.description,

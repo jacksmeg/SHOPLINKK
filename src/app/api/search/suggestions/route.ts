@@ -25,6 +25,7 @@ export async function GET(request: Request) {
         title: true,
         slug: true,
         price: true,
+        priceMode: true,
         listingType: true,
         area: true,
         location: true,
@@ -69,7 +70,7 @@ export async function GET(request: Request) {
       slug: product.slug,
       href: `/products/${product.slug}`,
       image: product.images[0]?.url,
-      meta: `${product.listingType === "SERVICE" ? "Service" : formatCurrency(Number(product.price))} · ${product.area ?? product.location}`,
+      meta: `${product.listingType === "SERVICE" ? "Service" : product.priceMode === "CONTACT" ? "Contact for price" : formatCurrency(Number(product.price))} · ${product.area ?? product.location}`,
     })),
     categories: categories.map((category) => ({
       id: category.id,

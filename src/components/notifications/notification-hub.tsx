@@ -16,16 +16,6 @@ function decodeApplicationKey(value: string) {
   return output;
 }
 
-function browserContext() {
-  const connection = (navigator as Navigator & { connection?: { effectiveType?: string } }).connection;
-  return {
-    userAgent: navigator.userAgent,
-    platform: navigator.platform,
-    connection: connection?.effectiveType ?? "unknown",
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  };
-}
-
 export function NotificationHub() {
   const { data: session, status } = useSession();
   const [notice, setNotice] = useState<Notice | null>(null);
@@ -46,15 +36,6 @@ export function NotificationHub() {
     const timer = window.setTimeout(() => setPushMessage(""), 5000);
     return () => window.clearTimeout(timer);
   }, [pushMessage]);
-
-  useEffect(() => {
-    if (status !== "authenticated" || !session.user?.id) return;
-    void fetch("/api/security/login-alert", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(browserContext()),
-    }).catch(() => null);
-  }, [session?.user?.id, status]);
 
   useEffect(() => {
     if (status !== "authenticated" || !session.user?.id) return;

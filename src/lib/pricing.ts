@@ -1,11 +1,13 @@
 export type SalePricedItem = {
   price: number;
+  priceMode?: string | null;
   salePrice?: number | string | null;
   saleStartsAt?: Date | string | null;
   saleEndsAt?: Date | string | null;
 };
 
 export function getActiveSalePrice(item: SalePricedItem, now = new Date()) {
+  if (item.priceMode === "CONTACT") return null;
   const salePrice = item.salePrice === null || item.salePrice === undefined ? null : Number(item.salePrice);
   if (!salePrice || !Number.isFinite(salePrice) || salePrice >= item.price) return null;
 
@@ -28,4 +30,8 @@ export function saleEndsInLabel(value?: Date | string | null) {
   if (hours < 24) return `${hours}h left`;
   const days = Math.ceil(hours / 24);
   return `${days} day${days === 1 ? "" : "s"} left`;
+}
+
+export function isContactPrice(item: { priceMode?: string | null }) {
+  return item.priceMode === "CONTACT";
 }

@@ -95,9 +95,11 @@ export const profileSchema = z.object({
 
 export const storeSchema = z.object({
   name: z.string().min(2),
+  kind: z.enum(["GENERAL", "FOOD"]).default("GENERAL"),
   description: z.string().max(900).optional().or(z.literal("")),
   phone: ghanaPhoneSchema,
   whatsapp: ghanaPhoneSchema.optional().or(z.literal("")),
+  momoNumber: ghanaPhoneSchema.optional().or(z.literal("")),
   location: z.string().min(2).default("Dunkwa-on-Offin"),
   area: z.string().max(80).optional().or(z.literal("")),
   address: z.string().max(160).optional().or(z.literal("")),
@@ -108,17 +110,18 @@ export const storeSchema = z.object({
 
 export const productSchema = z.object({
   listingType: z.enum(["PRODUCT", "SERVICE"]).default("PRODUCT"),
+  priceMode: z.enum(["FIXED", "CONTACT"]).default("FIXED"),
   title: z.string().min(4),
   description: z.string().min(20),
   categoryId: z.string().min(1),
-  price: z.coerce.number().positive(),
+  price: z.preprocess((value) => (value === "" || value === null || value === undefined ? 0 : value), z.coerce.number().min(0)),
   salePrice: optionalPriceSchema,
   saleStartsAt: optionalDateSchema,
   saleEndsAt: optionalDateSchema,
   quantity: z.coerce.number().int().min(0).max(999999).default(1),
   condition: z.enum(["NEW", "USED", "REFURBISHED"]).default("USED"),
   location: z.string().min(2).default("Dunkwa-on-Offin"),
-  area: z.string().max(80).optional().or(z.literal("")),
+  area: z.string().min(2, "Choose your area").max(80),
   pickupNote: z.string().max(240).optional().or(z.literal("")),
   stockStatus: z.enum(["AVAILABLE", "SOLD", "OUT_OF_STOCK"]).default("AVAILABLE"),
   listingStatus: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED", "REMOVED"]).optional(),
@@ -129,6 +132,12 @@ export const productSchema = z.object({
   seoTitle: z.string().max(80).optional().or(z.literal("")),
   seoDescription: z.string().max(160).optional().or(z.literal("")),
   imageUrls: z.array(imageValue).min(1, "Add at least one product image").max(12),
+}).refine((value) => value.priceMode === "CONTACT" || value.price > 0, {
+  message: "Enter a price or choose Contact for price",
+  path: ["price"],
+}).refine((value) => value.priceMode === "FIXED" || !value.salePrice, {
+  message: "Flash sale price is only available when a fixed price is entered",
+  path: ["salePrice"],
 }).refine((value) => !value.salePrice || value.salePrice < value.price, {
   message: "Flash sale price must be lower than the normal price",
   path: ["salePrice"],
@@ -237,6 +246,46 @@ export const reviewSchema = z.object({
   productId: z.string().optional(),
   rating: z.coerce.number().int().min(1).max(5),
   comment: z.string().max(700).optional().or(z.literal("")),
+});
+
+export const foodMenuItemSchema = z.object({
+  name: z.string().min(2, "Name the food item"),
+  description: z.string().max(500).optional().or(z.literal("")),
+  basePrice: z.coerce.number().positive("Enter the base price"),
+  imageUrl: imageValue.optional().or(z.literal("")),
+  isAvailable: z.coerce.boolean().default(true),
+  options: z
+    .array(
+      z.object({
+        name: z.string().min(1).max(60),
+        price: z.coerce.number().min(0),
+      }),
+    )
+    .max(20)
+    .optional()
+    .default([]),
+});
+
+export const foodOrderSchema = z.object({
+  buyerName: z.string().min(2).max(120).optional().or(z.literal("")),
+  buyerPhone: ghanaPhoneSchema.optional().or(z.literal("")),
+  deliveryAddress: z.string().min(5, "Enter the delivery address").max(240),
+  deliveryNote: z.string().max(500).optional().or(z.literal("")),
+  paymentReference: z.string().max(120).optional().or(z.literal("")),
+  items: z
+    .array(
+      z.object({
+        itemId: z.string().min(1),
+        quantity: z.coerce.number().int().min(1).max(50),
+        optionIds: z.array(z.string()).max(20).optional().default([]),
+      }),
+    )
+    .min(1, "Choose at least one food item"),
+});
+
+export const foodOrderStatusSchema = z.object({
+  status: z.enum(["PAID", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED"]),
+  note: z.string().max(500).optional().or(z.literal("")),
 });
 
 export const adminNoteSchema = z.object({

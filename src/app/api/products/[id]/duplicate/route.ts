@@ -29,6 +29,7 @@ export async function POST(
       storeId: product.storeId,
       categoryId: product.categoryId,
       listingType: product.listingType,
+      priceMode: product.priceMode,
       title: `${product.title} copy`,
       slug: uniqueSlug(`${product.title} copy`),
       description: product.description,

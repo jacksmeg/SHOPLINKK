@@ -1,0 +1,80 @@
+import Link from "next/link";
+import { Bell, ChefHat, GitCompareArrows, Heart, MessageCircle, Search, ShoppingBag, Truck, UserRound } from "lucide-react";
+import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { Badge } from "@/components/ui/badge";
+import { EmptyState } from "@/components/ui/empty-state";
+import { requireUser } from "@/lib/auth-guards";
+import { prisma } from "@/lib/db";
+import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
+
+export const dynamic = "force-dynamic";
+
+const links = [
+  { href: "/buyer", label: "Overview", icon: ShoppingBag },
+  { href: "/marketplace", label: "Browse products", icon: Search },
+  { href: "/buyer/food-orders", label: "Food orders", icon: ChefHat },
+  { href: "/favorites", label: "Favorites", icon: Heart },
+  { href: "/buyer/saved-searches", label: "Saved searches", icon: Bell },
+  { href: "/buyer/compare", label: "Compare", icon: GitCompareArrows },
+  { href: "/chat", label: "Chats", icon: MessageCircle },
+  { href: "/profile", label: "Profile", icon: UserRound },
+];
+
+export default async function BuyerFoodOrdersPage() {
+  const session = await requireUser();
+  const statuses = ["PENDING_PAYMENT", "PAID", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED"];
+  const orders = await prisma.foodOrder.findMany({
+    where: { buyerId: session.user.id },
+    include: { store: { select: { name: true, slug: true, momoNumber: true, phone: true } }, items: true },
+    orderBy: { createdAt: "desc" },
+    take: 50,
+  });
+
+  return (
+    <DashboardShell
+      eyebrow="Buyer"
+      title="Food orders"
+      description="Track food orders, MoMo confirmation, preparation, and delivery."
+      links={links}
+    >
+      <div className="grid gap-3">
+        {orders.map((order) => (
+          <article key={order.id} className="app-panel p-4 sm:p-5">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <Link href={`/stores/${order.store.slug}`} className="text-sm font-black text-[var(--ink)] hover:text-[var(--brand-dark)]">
+                  {order.store.name}
+                </Link>
+                <p className="mt-1 text-xs text-[var(--muted)]">{compactDate(order.createdAt)} - {order.deliveryAddress}</p>
+              </div>
+              <div className="text-right">
+                <Badge tone={order.status === "DELIVERED" ? "green" : order.status === "CANCELLED" ? "red" : "gold"}>{titleCase(order.status)}</Badge>
+                <p className="mt-2 text-sm font-black text-[var(--brand-dark)]">{formatCurrency(Number(order.totalAmount))}</p>
+              </div>
+            </div>
+            <ol className="mt-4 grid gap-2 text-xs text-[var(--muted)] sm:grid-cols-4">
+              {statuses.map((status) => {
+                const active = statuses.indexOf(order.status) >= statuses.indexOf(status);
+                return (
+                  <li key={status} className={`rounded-[8px] border p-2 ${active ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-[var(--line)] bg-white"}`}>
+                    {titleCase(status)}
+                  </li>
+                );
+              })}
+            </ol>
+            <ul className="mt-4 grid gap-1 text-xs text-[var(--muted)]">
+              {order.items.map((item) => (
+                <li key={item.id}>{item.quantity}x {item.name} - {formatCurrency(Number(item.lineTotal))}</li>
+              ))}
+            </ul>
+            <p className="mt-3 flex items-center gap-2 rounded-[8px] bg-[var(--brand-soft)] p-3 text-xs leading-5 text-[var(--brand-dark)]">
+              <Truck size={15} />
+              Send MoMo to {order.store.momoNumber || order.store.phone || "the seller number"}, then wait for seller confirmation.
+            </p>
+          </article>
+        ))}
+        {!orders.length ? <EmptyState title="No food orders yet" description="Food orders you place from food sellers will appear here." icon={ChefHat} /> : null}
+      </div>
+    </DashboardShell>
+  );
+}

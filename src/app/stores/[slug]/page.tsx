@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Clock, MapPin, MessageCircle, Phone, ShieldCheck, Star, Store } from "lucide-react";
+import { ChefHat, Clock, MapPin, MessageCircle, Phone, ShieldCheck, Star, Store, Users } from "lucide-react";
 import { ProductCard } from "@/components/marketplace/product-card";
 import { BlockUserButton } from "@/components/marketplace/block-user-button";
+import { FollowStoreButton } from "@/components/marketplace/follow-store-button";
+import { FoodOrderWidget } from "@/components/marketplace/food-order-widget";
 import { ReportButton } from "@/components/marketplace/report-button";
 import { ReviewForm } from "@/components/marketplace/review-form";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +15,7 @@ import { getCurrentSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
 import { whatsappLink } from "@/lib/ghana";
 import { getStoreBySlug } from "@/lib/marketplace";
-import { compactDate } from "@/lib/utils";
+import { compactDate, tradingAge } from "@/lib/utils";
 
 export default async function StorePage({
   params,
@@ -27,16 +29,29 @@ export default async function StorePage({
     notFound();
   }
 
-  const [session, reviews] = await Promise.all([
-    getCurrentSession(),
+  const session = await getCurrentSession();
+  const [reviews, foodMenu, followerCount, following] = await Promise.all([
     prisma.review.findMany({
       where: { storeId: store.id },
       include: { author: { select: { name: true, image: true } } },
       orderBy: { createdAt: "desc" },
       take: 10,
     }).catch(() => []),
+    prisma.foodMenuItem.findMany({
+      where: { storeId: store.id, isAvailable: true },
+      include: { options: true },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+    }).catch(() => []),
+    prisma.storeFollower.count({ where: { storeId: store.id } }).catch(() => 0),
+    session?.user?.id
+      ? prisma.storeFollower.findUnique({
+          where: { userId_storeId: { userId: session.user.id, storeId: store.id } },
+          select: { id: true },
+        }).catch(() => null)
+      : null,
   ]);
   const whatsappHref = whatsappLink(store.whatsapp ?? store.phone, `Hello, I saw ${store.name} on ShopLinkk.`);
+  const isStoreOwner = session?.user?.id === store.owner.id;
 
   return (
     <div className="page-enter mx-auto max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
@@ -66,10 +81,20 @@ export default async function StorePage({
                   <span className="inline-flex items-center gap-1"><MapPin size={16} /> {store.area ? `${store.area}, ${store.location}` : store.location}</span>
                   {store.phone ? <span className="inline-flex items-center gap-1"><Phone size={16} /> {store.phone}</span> : null}
                   {store.openingHours ? <span className="inline-flex items-center gap-1"><Clock size={16} /> {store.openingHours}</span> : null}
+                  <span className="inline-flex items-center gap-1"><Clock size={16} /> {tradingAge(store.createdAt)}</span>
+                  {store.kind === "FOOD" ? <span className="inline-flex items-center gap-1"><ChefHat size={16} /> Food seller</span> : null}
                 </p>
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
+              {!isStoreOwner ? (
+                <FollowStoreButton
+                  storeId={store.id}
+                  initialFollowing={Boolean(following)}
+                  initialCount={followerCount}
+                  canFollow={Boolean(session?.user?.id)}
+                />
+              ) : null}
               {whatsappHref ? (
                 <ButtonLink href={whatsappHref} target="_blank" rel="noreferrer" variant="secondary">
                   <MessageCircle size={16} />
@@ -83,7 +108,7 @@ export default async function StorePage({
           {store.description ? (
             <p className="mt-5 max-w-3xl text-xs leading-5 text-[var(--muted)]">{store.description}</p>
           ) : null}
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          <div className="mt-5 grid gap-3 sm:grid-cols-4">
             <div className="rounded-[8px] bg-[var(--brand-soft)] p-3.5">
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--brand)]">Trust score</p>
               <p className="mt-1 text-lg font-black text-[var(--brand-dark)]">{store.trustScore ?? 50}%</p>
@@ -92,6 +117,10 @@ export default async function StorePage({
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-cyan-800">Reviews</p>
               <p className="mt-1 text-lg font-black text-cyan-950">{store.ratingCount ?? 0}</p>
             </div>
+            <div className="rounded-[8px] bg-pink-50 p-3.5">
+              <p className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-[0.08em] text-pink-700"><Users size={13} /> Followers</p>
+              <p className="mt-1 text-lg font-black text-pink-900">{followerCount}</p>
+            </div>
             <div className="rounded-[8px] bg-[var(--surface-muted)] p-3.5">
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--muted-strong)]">Address</p>
               <p className="mt-1 text-sm font-bold text-[var(--brand-dark)]">{store.address || "Ask seller in chat"}</p>
@@ -99,6 +128,23 @@ export default async function StorePage({
           </div>
         </div>
       </section>
+
+      {store.kind === "FOOD" && foodMenu.length ? (
+        <section className="mt-8">
+          <FoodOrderWidget
+            storeId={store.id}
+            momoNumber={store.momoNumber ?? store.phone}
+            items={foodMenu.map((item) => ({
+              id: item.id,
+              name: item.name,
+              description: item.description,
+              basePrice: Number(item.basePrice),
+              imageUrl: item.imageUrl,
+              options: item.options.map((option) => ({ id: option.id, name: option.name, price: Number(option.price) })),
+            }))}
+          />
+        </section>
+      ) : null}
 
       <section className="mt-8 grid gap-4 lg:grid-cols-[1fr_0.9fr]">
         <div className="rounded-[8px] border border-[var(--line)] bg-white p-4 sm:p-5">

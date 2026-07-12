@@ -14,6 +14,7 @@ import {
   Search,
   Shield,
   Store,
+  UserRound,
   X,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -30,6 +31,13 @@ const navItems = [
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
+
+function greeting(name?: string | null) {
+  const hour = new Date().getHours();
+  const label = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  const firstName = name?.split(" ").filter(Boolean)[0];
+  return firstName ? `${label}, ${firstName}` : label;
+}
 
 export function NavBar() {
   const { data: session, status } = useSession();
@@ -49,7 +57,7 @@ export function NavBar() {
         { href: "/marketplace", label: "Browse", icon: Search },
         { href: "/chat", label: "Chats", icon: MessageCircle },
         { href: "/favorites", label: "Saved", icon: Heart },
-        { href: dashboardHref, label: "Account", icon: LayoutDashboard },
+        { href: "/profile", label: "Profile", icon: UserRound },
       ]
     : [
         { href: "/", label: "Home", icon: Home },
@@ -64,6 +72,11 @@ export function NavBar() {
       <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-white/95 backdrop-blur-xl">
         <div className="mx-auto flex min-h-[64px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <Logo />
+          {status === "authenticated" ? (
+            <p className="hidden max-w-[190px] truncate rounded-full bg-[var(--brand-soft)] px-3 py-1.5 text-xs font-black text-[var(--brand-dark)] xl:block">
+              {greeting(session.user.name)}
+            </p>
+          ) : null}
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Main navigation">
             {navItems.map((item) => {

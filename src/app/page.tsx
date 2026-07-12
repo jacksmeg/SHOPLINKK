@@ -7,12 +7,12 @@ import { HomeAdvertRail } from "@/components/marketplace/home-advert-rail";
 import { NearbyTownMap } from "@/components/marketplace/nearby-town-map";
 import { ProductRail } from "@/components/marketplace/product-rail";
 import { HomepageSearch } from "@/components/marketplace/search/homepage-search";
-import { getCategories, getFeaturedProducts, getFlashSaleProducts, getHomepageAdverts, getLatestProducts, getPlatformStats, getPublicTowns } from "@/lib/marketplace";
+import { getCategories, getFeaturedProducts, getFlashSaleProducts, getHomepageAdverts, getLatestProducts, getPlatformStats, getPublicTowns, getTrendingProducts } from "@/lib/marketplace";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [categories, featured, latest, flashSales, stats, adverts, towns] = await Promise.all([getCategories(), getFeaturedProducts(), getLatestProducts(), getFlashSaleProducts(), getPlatformStats(), getHomepageAdverts(), getPublicTowns()]);
+  const [categories, featured, latest, flashSales, trending, stats, adverts, towns] = await Promise.all([getCategories(), getFeaturedProducts(), getLatestProducts(), getFlashSaleProducts(), getTrendingProducts(), getPlatformStats(), getHomepageAdverts(), getPublicTowns()]);
   const picks = featured.length ? featured : latest.slice(0, 8);
 
   return (
@@ -21,9 +21,13 @@ export default async function Home() {
         <div className="mx-auto max-w-[1440px] px-4 py-7 sm:px-6 sm:py-9 lg:px-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold text-[var(--brand)]"><MapPin size={14} /> Dunkwa-on-Offin, Ghana</div>
+              <div className="flex items-center gap-2 text-xs font-bold text-[var(--brand)]">
+                <MapPin size={14} />
+                Dunkwa-on-Offin, Ghana
+                <span className="inline-grid size-6 place-items-center rounded-full border border-[var(--line)] bg-[linear-gradient(180deg,#ef233c_0_33%,#facc15_33%_66%,#16a34a_66%)] text-[0.56rem] font-black text-slate-950 shadow-sm">GH</span>
+              </div>
               <h1 className="mt-2 text-2xl font-black text-[var(--ink)] sm:text-3xl">ShopLinkk local marketplace</h1>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">Find nearby products, inspect them, and speak directly with the seller. No online payment is required.</p>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">Find nearby products, food, and services, then speak directly with sellers around Dunkwa-on-Offin.</p>
             </div>
             <div className="flex gap-2"><ButtonLink href="/marketplace" variant="secondary"><Search size={15} /> Browse all</ButtonLink><ButtonLink href="/register"><Store size={15} /> Start selling</ButtonLink></div>
           </div>
@@ -41,6 +45,12 @@ export default async function Home() {
       {flashSales.length ? (
         <section className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
           <ProductRail products={flashSales} title="Flash sales ending soon" eyebrow="Hot deals" href="/marketplace?sort=newest" />
+        </section>
+      ) : null}
+
+      {trending.length ? (
+        <section className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
+          <ProductRail products={trending} title="Trending items" eyebrow="Popular now" href="/marketplace?sort=popular" />
         </section>
       ) : null}
 

@@ -18,8 +18,8 @@ import { getCurrentSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
 import { appUrl } from "@/lib/email";
 import { formatGhanaPhone, whatsappLink } from "@/lib/ghana";
-import { getActiveSalePrice, saleEndsInLabel } from "@/lib/pricing";
-import { formatCurrency, titleCase } from "@/lib/utils";
+import { getActiveSalePrice, isContactPrice, saleEndsInLabel } from "@/lib/pricing";
+import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -95,6 +95,7 @@ export default async function ProductDetailPage({
     : "";
   const productUrl = `${appUrl()}/products/${product.slug}`;
   const salePrice = getActiveSalePrice(product);
+  const contactPrice = isContactPrice(product);
   const visiblePrice = salePrice ?? product.price;
   const saleLabel = saleEndsInLabel(product.saleEndsAt);
   const structuredData = {
@@ -106,7 +107,7 @@ export default async function ProductDetailPage({
     category: product.category.name,
     offers: {
       "@type": "Offer",
-      price: visiblePrice,
+      ...(contactPrice ? {} : { price: visiblePrice }),
       priceCurrency: "GHS",
       availability: product.stockStatus === "SOLD" ? "https://schema.org/SoldOut" : "https://schema.org/InStock",
       url: productUrl,
@@ -136,8 +137,10 @@ export default async function ProductDetailPage({
           </div>
           <h1 className="mt-4 text-xl font-black leading-tight text-[var(--ink)]">{product.title}</h1>
           <div className="mt-2">
-            <p className={salePrice ? "text-xl font-black text-red-600" : "text-xl font-black text-[var(--brand-dark)]"}>{formatCurrency(visiblePrice)}</p>
-            {salePrice ? (
+            <p className={salePrice ? "text-xl font-black text-red-600" : "text-xl font-black text-[var(--brand-dark)]"}>
+              {contactPrice ? "Contact for price" : formatCurrency(visiblePrice)}
+            </p>
+            {salePrice && !contactPrice ? (
               <p className="mt-1 flex flex-wrap items-center gap-2 text-xs font-bold text-[var(--muted)]">
                 <span className="line-through">{formatCurrency(product.price)}</span>
                 {saleLabel ? <span className="rounded-full bg-red-50 px-2 py-1 text-red-700">{saleLabel}</span> : null}
@@ -148,6 +151,7 @@ export default async function ProductDetailPage({
             <span className="inline-flex items-center gap-2"><MapPin size={16} /> {product.area ? `${product.area}, ${product.location}` : product.location}</span>
             <span className="inline-flex items-center gap-2"><Tag size={16} /> {product.category.name}</span>
             <span className="inline-flex items-center gap-2"><PackageCheck size={16} /> {titleCase(String(product.stockStatus))}</span>
+            <span className="inline-flex items-center gap-2">Posted {compactDate(product.createdAt)}</span>
             {typeof product.quantity === "number" && product.listingType !== "SERVICE" ? (
               <span className="inline-flex items-center gap-2"><Boxes size={16} /> {product.quantity} unit{product.quantity === 1 ? "" : "s"} left</span>
             ) : null}
@@ -169,7 +173,7 @@ export default async function ProductDetailPage({
             ) : null}
             <FavoriteButton productId={product.id} />
             <CompareButton productId={product.id} />
-            <PriceAlertButton productId={product.id} currentPrice={visiblePrice} />
+            {!contactPrice ? <PriceAlertButton productId={product.id} currentPrice={visiblePrice} /> : null}
             <ReportButton productId={product.id} reportedUserId={product.seller.id} />
             <BlockUserButton userId={product.seller.id} />
             <ButtonLink href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`} target="_blank" rel="noreferrer" variant="ghost">
@@ -204,7 +208,7 @@ export default async function ProductDetailPage({
               <span>
                 <span className="flex items-center gap-2 text-sm font-black text-[var(--ink)]">
                   {product.store.name}
-                  {product.store.isVerified ? <ShieldCheck className="text-[var(--brand)]" size={16} /> : null}
+                  {product.store.isVerified ? <ShieldCheck className="text-emerald-600" size={16} /> : null}
                 </span>
                 <span className="text-xs text-[var(--muted)]">View seller store</span>
                 <span className="mt-1 block text-xs font-semibold text-[var(--muted)]">

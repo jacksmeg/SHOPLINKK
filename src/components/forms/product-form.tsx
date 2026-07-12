@@ -13,6 +13,7 @@ import { formatCurrency } from "@/lib/utils";
 type ProductFormValue = {
   id?: string;
   listingType?: string;
+  priceMode?: string;
   title?: string;
   description?: string;
   categoryId?: string;
@@ -58,6 +59,7 @@ export function ProductForm({
   const router = useRouter();
   const [images, setImages] = useState<string[]>(product?.images?.map((image) => image.url) ?? []);
   const [videoUrl, setVideoUrl] = useState(product?.videoUrl ?? "");
+  const [priceMode, setPriceMode] = useState(product?.priceMode ?? "FIXED");
   const [message, setMessage] = useState("");
   const [pending, startTransition] = useTransition();
 
@@ -108,8 +110,9 @@ export function ProductForm({
           title: formData.get("title"),
           description: formData.get("description"),
           categoryId: formData.get("categoryId"),
+          priceMode: formData.get("priceMode"),
           price: formData.get("price"),
-          salePrice: formData.get("salePrice") || null,
+          salePrice: priceMode === "CONTACT" ? null : formData.get("salePrice") || null,
           saleStartsAt: formData.get("saleStartsAt") || null,
           saleEndsAt: formData.get("saleEndsAt") || null,
           quantity: formData.get("quantity"),
@@ -189,7 +192,7 @@ export function ProductForm({
             Description
             <textarea name="description" defaultValue={product?.description ?? ""} required rows={6} className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
           </label>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-3">
             <label className="text-sm font-bold text-[var(--ink)]">
               Category
               <select name="categoryId" defaultValue={product?.categoryId ?? ""} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
@@ -202,11 +205,18 @@ export function ProductForm({
               </select>
             </label>
             <label className="text-sm font-bold text-[var(--ink)]">
+              Price type
+              <select name="priceMode" value={priceMode} onChange={(event) => setPriceMode(event.target.value)} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
+                <option value="FIXED">Enter price</option>
+                <option value="CONTACT">Contact for price</option>
+              </select>
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
               Price
-              <input name="price" type="number" min="1" defaultValue={product?.price ? Number(product.price) : ""} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              <input name="price" type="number" min="0" defaultValue={product?.price ? Number(product.price) : ""} required={priceMode === "FIXED"} placeholder={priceMode === "CONTACT" ? "Optional" : "Enter price"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
             </label>
           </div>
-          <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-4">
+          {priceMode === "FIXED" ? <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <p className="text-sm font-black text-[var(--ink)]">Flash sale</p>
@@ -228,7 +238,7 @@ export function ProductForm({
                 <input name="saleEndsAt" type="datetime-local" defaultValue={datetimeLocal(product?.saleEndsAt)} className="form-control mt-1.5 w-full px-3 text-xs" />
               </label>
             </div>
-          </div>
+          </div> : null}
           <div className="grid gap-4 sm:grid-cols-4">
             <label className="text-sm font-bold text-[var(--ink)]">
               Quantity
@@ -258,7 +268,7 @@ export function ProductForm({
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="text-sm font-bold text-[var(--ink)]">
               Area in town
-              <select name="area" defaultValue={product?.area ?? ""} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
+              <select name="area" defaultValue={product?.area ?? ""} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
                 <option value="">Choose area</option>
                 {dunkwaAreas.map((area) => (
                   <option key={area} value={area}>
@@ -383,7 +393,11 @@ export function ProductForm({
           <p className="mt-4 text-xs leading-5 text-[var(--muted)]">
             Add up to {maxImages} clear images. JPEG, PNG, WebP, or GIF files up to 5MB each. Sellers should not request payment before the buyer has inspected or agreed safely.
           </p>
-          {product?.price ? (
+          {product?.priceMode === "CONTACT" ? (
+            <p className="mt-3 rounded-[8px] bg-white p-3 text-sm font-black text-[var(--brand-dark)]">
+              Current price: Contact for price
+            </p>
+          ) : product?.price ? (
             <p className="mt-3 rounded-[8px] bg-white p-3 text-sm font-black text-[var(--brand-dark)]">
               Current price: {formatCurrency(product.price)}
             </p>

@@ -130,8 +130,8 @@ export function AdvertRequestForm({
       {advertPackages.length ? (
         <label className="mt-4 block text-xs font-bold text-[var(--ink)]">
           Advert package
-          <select name="packageId" required className="form-control mt-1.5 w-full bg-white px-3 text-xs">
-            <option value="">Choose package</option>
+          <select name="packageId" className="form-control mt-1.5 w-full bg-white px-3 text-xs">
+            <option value="">Let admin confirm the best fee</option>
             {advertPackages.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name} - GH₵ {item.price.toFixed(2)}{item.durationDays ? ` / ${item.durationDays} days` : ""}

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Bell, GitCompareArrows, Heart, MessageCircle, Search, ShoppingBag, Store, UserRound } from "lucide-react";
+import { Bell, ChefHat, GitCompareArrows, Heart, MessageCircle, Search, ShoppingBag, Store, UserRound, Users } from "lucide-react";
 import { BecomeSellerButton } from "@/components/buyer/become-seller-button";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { StatCard } from "@/components/ui/stat-card";
@@ -13,11 +13,12 @@ export const dynamic = "force-dynamic";
 
 export default async function BuyerDashboardPage() {
   const session = await requireUser();
-  const [favorites, chats, savedSearches, compareCount, recentlyViewed, account] = await Promise.all([
+  const [favorites, chats, savedSearches, compareCount, followingCount, recentlyViewed, account] = await Promise.all([
     prisma.favorite.count({ where: { userId: session.user.id } }),
     prisma.conversation.count({ where: { buyerId: session.user.id } }),
     prisma.savedSearch.count({ where: { userId: session.user.id } }),
     prisma.comparedProduct.count({ where: { userId: session.user.id } }),
+    prisma.storeFollower.count({ where: { userId: session.user.id } }),
     prisma.recentlyViewed.findMany({
       where: { userId: session.user.id },
       include: {
@@ -33,7 +34,7 @@ export default async function BuyerDashboardPage() {
     }),
     prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { role: true, phoneVerifiedAt: true },
+      select: { role: true, emailVerified: true, phoneVerifiedAt: true },
     }),
   ]);
 
@@ -45,6 +46,8 @@ export default async function BuyerDashboardPage() {
       links={[
         { href: "/buyer", label: "Overview", icon: ShoppingBag },
         { href: "/marketplace", label: "Browse products", icon: Search },
+        { href: "/buyer/food-orders", label: "Food orders", icon: ChefHat },
+        { href: "/buyer/following", label: "Following", icon: Users },
         { href: "/favorites", label: "Favorites", icon: Heart },
         { href: "/buyer/saved-searches", label: "Saved searches", icon: Bell },
         { href: "/buyer/compare", label: "Compare", icon: GitCompareArrows },
@@ -52,11 +55,12 @@ export default async function BuyerDashboardPage() {
         { href: "/profile", label: "Profile", icon: UserRound },
       ]}
     >
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         <StatCard label="Saved products" value={favorites} icon={Heart} helper="Favorites stay private to you" />
         <StatCard label="Product chats" value={chats} icon={MessageCircle} helper="Every chat is tied to one listing" />
         <StatCard label="Saved searches" value={savedSearches} icon={Bell} helper="Future price alerts" />
         <StatCard label="Compare list" value={compareCount} icon={GitCompareArrows} helper="Shortlisted products" />
+        <StatCard label="Following" value={followingCount} icon={Users} helper="Stores you follow" />
       </div>
       <div className="mt-5 app-panel p-4 sm:p-5">
         <h2 className="text-sm font-black text-[var(--ink)]">Start shopping locally</h2>
@@ -67,6 +71,7 @@ export default async function BuyerDashboardPage() {
           <ButtonLink href="/marketplace">Browse marketplace</ButtonLink>
           <ButtonLink href="/favorites" variant="secondary">View favorites</ButtonLink>
           <ButtonLink href="/buyer/saved-searches" variant="secondary">Saved searches</ButtonLink>
+          <ButtonLink href="/buyer/following" variant="secondary">Following</ButtonLink>
           <ButtonLink href="/buyer/compare" variant="secondary">Compare products</ButtonLink>
         </div>
         {account?.role === "BUYER" ? (
@@ -78,7 +83,7 @@ export default async function BuyerDashboardPage() {
                 <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Open your store, manage listings, and speak directly with buyers.</p>
               </div>
             </div>
-            <BecomeSellerButton phoneVerified={Boolean(account.phoneVerifiedAt)} />
+            <BecomeSellerButton verified={Boolean(account.phoneVerifiedAt || account.emailVerified)} />
           </div>
         ) : null}
       </div>

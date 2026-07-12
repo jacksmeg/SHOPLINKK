@@ -13,12 +13,12 @@ export async function POST(request: Request) {
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { id: true, name: true, phone: true, phoneVerifiedAt: true, location: true, store: { select: { id: true } } },
+    select: { id: true, name: true, emailVerified: true, phone: true, phoneVerifiedAt: true, location: true, store: { select: { id: true } } },
   });
 
   if (!user) return jsonError("Account not found", 404);
-  if (!user.phone || !user.phoneVerifiedAt) {
-    return jsonError("Verify your phone number before opening a seller account", 403);
+  if (!user.emailVerified && !user.phoneVerifiedAt) {
+    return jsonError("Verify your email or phone number before opening a seller account", 403);
   }
 
   if (user.store) {

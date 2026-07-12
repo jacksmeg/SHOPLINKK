@@ -47,6 +47,7 @@ export function FoodMenuManager() {
           basePrice: form.get("basePrice"),
           imageUrls,
           prepMinutes: form.get("prepMinutes"),
+          deliveryMinutes: form.get("deliveryMinutes"),
           isSpicy: Boolean(form.get("isSpicy")),
           isVegetarian: Boolean(form.get("isVegetarian")),
           isAvailable: true,
@@ -76,6 +77,7 @@ export function FoodMenuManager() {
         <input name="category" placeholder="Category, e.g. Rice meals" className="form-control px-3 text-xs" />
         <input name="basePrice" required type="number" min="1" placeholder="Base price" className="form-control px-3 text-xs" />
         <input name="prepMinutes" type="number" min="1" max="240" placeholder="Prep time in minutes" className="form-control px-3 text-xs" />
+        <input name="deliveryMinutes" type="number" min="1" max="240" placeholder="Delivery estimate in minutes" className="form-control px-3 text-xs" />
         <textarea name="description" rows={3} placeholder="Description" className="form-control px-3 py-2 text-xs sm:col-span-2" />
       </div>
       <div className="mt-3 flex flex-wrap gap-3">

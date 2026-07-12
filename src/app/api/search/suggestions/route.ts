@@ -99,8 +99,8 @@ export async function GET(request: Request) {
       ...foodItems.map((item) => ({
         id: item.id,
         title: `${item.name} · ${item.store.name}`,
-        slug: item.store.slug,
-        href: `/stores/${item.store.slug}`,
+        slug: item.id,
+        href: `/food/${item.id}`,
         image: item.images[0]?.url ?? item.imageUrl,
         meta: `Food · ${item.category || "Menu"} · ${formatCurrency(Number(item.basePrice))} · ${item.store.area ?? item.store.location}`,
       })),

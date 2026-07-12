@@ -43,7 +43,7 @@ export default async function SellerDashboardPage() {
       links={[
         { href: "/seller", label: "Overview", icon: Store },
         { href: "/seller/store", label: "Store management", icon: Settings },
-        { href: "/seller/food", label: "Food orders", icon: ChefHat },
+        { href: "/seller/food", label: "Food dashboard", icon: ChefHat },
         { href: "/seller/adverts", label: "Adverts", icon: Megaphone },
         { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
         { href: "/seller/products/bulk", label: "Bulk upload", icon: PackagePlus },

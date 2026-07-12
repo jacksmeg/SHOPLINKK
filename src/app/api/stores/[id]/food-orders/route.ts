@@ -34,14 +34,44 @@ export async function POST(
   const byId = new Map(menuItems.map((item) => [item.id, item]));
 
   let total = 0;
+  let estimatedDeliveryMinutes = 0;
   const orderItems = [];
   for (const item of parsed.data.items) {
     const menuItem = byId.get(item.itemId);
     if (!menuItem) return jsonError("One selected food item is not available.");
-    const selectedOptions = menuItem.options.filter((option) => item.optionIds.includes(option.id));
-    const optionTotal = selectedOptions.reduce((sum, option) => sum + Number(option.price), 0);
-    const unitPrice = Number(menuItem.basePrice) + optionTotal;
-    const lineTotal = unitPrice * item.quantity;
+    const requestedOptions = item.options.length
+      ? item.options
+      : item.optionIds.map((optionId) => ({ optionId, quantity: 1 }));
+    const optionById = new Map(menuItem.options.map((option) => [option.id, option]));
+    const selectedOptions = requestedOptions.map((requestedOption) => {
+      const option = optionById.get(requestedOption.optionId);
+      if (!option) return null;
+      const quantity = Math.max(1, Math.min(50, requestedOption.quantity));
+      return {
+        id: option.id,
+        name: option.name,
+        price: Number(option.price),
+        quantity,
+        lineTotal: Number(option.price) * quantity,
+      };
+    });
+    if (selectedOptions.some((option) => option === null)) {
+      return jsonError("One selected food add-on is not available.");
+    }
+    const cleanOptions = selectedOptions.filter((option): option is {
+      id: string;
+      name: string;
+      price: number;
+      quantity: number;
+      lineTotal: number;
+    } => option !== null);
+    const unitPrice = Number(menuItem.basePrice);
+    const optionTotal = cleanOptions.reduce((sum, option) => sum + option.lineTotal, 0);
+    const lineTotal = unitPrice * item.quantity + optionTotal;
+    estimatedDeliveryMinutes = Math.max(
+      estimatedDeliveryMinutes,
+      Number(menuItem.prepMinutes ?? 0) + Number(menuItem.deliveryMinutes ?? 0),
+    );
     total += lineTotal;
     orderItems.push({
       itemId: menuItem.id,
@@ -49,7 +79,7 @@ export async function POST(
       quantity: item.quantity,
       unitPrice,
       lineTotal,
-      options: selectedOptions.map((option) => ({ id: option.id, name: option.name, price: Number(option.price) })),
+      options: cleanOptions,
     });
   }
 
@@ -62,6 +92,7 @@ export async function POST(
       deliveryAddress: parsed.data.deliveryAddress,
       deliveryNote: parsed.data.deliveryNote || null,
       paymentReference: parsed.data.paymentReference || null,
+      estimatedDeliveryMinutes: estimatedDeliveryMinutes || null,
       totalAmount: total,
       items: {
         create: orderItems.map((item) => ({
@@ -82,7 +113,7 @@ export async function POST(
     type: "SYSTEM",
     title: "New food order",
     body: `${session.user.name || "A buyer"} placed a food order from ${store.name}.`,
-    href: "/seller/food",
+    href: "/seller/food/orders",
   });
 
   return NextResponse.json(order, { status: 201 });

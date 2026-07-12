@@ -26,6 +26,7 @@ export async function POST(request: Request) {
       basePrice: parsed.data.basePrice,
       imageUrl: parsed.data.imageUrls[0] || parsed.data.imageUrl || null,
       prepMinutes: parsed.data.prepMinutes === "" ? null : parsed.data.prepMinutes || null,
+      deliveryMinutes: parsed.data.deliveryMinutes === "" ? null : parsed.data.deliveryMinutes || null,
       isSpicy: parsed.data.isSpicy,
       isVegetarian: parsed.data.isVegetarian,
       isAvailable: parsed.data.isAvailable,

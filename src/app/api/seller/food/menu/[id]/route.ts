@@ -16,6 +16,7 @@ const patchSchema = z.object({
   imageUrl: imageValue.optional().or(z.literal("")),
   imageUrls: z.array(imageValue).max(8, "Upload 8 food photos or fewer").optional(),
   prepMinutes: z.coerce.number().int().min(1).max(240).optional().or(z.literal("")),
+  deliveryMinutes: z.coerce.number().int().min(1).max(240).optional().or(z.literal("")),
   isSpicy: z.coerce.boolean().optional(),
   isVegetarian: z.coerce.boolean().optional(),
   isAvailable: z.coerce.boolean().optional(),
@@ -53,6 +54,7 @@ export async function PATCH(
     data.category !== undefined ||
     data.basePrice !== undefined ||
     data.prepMinutes !== undefined ||
+    data.deliveryMinutes !== undefined ||
     data.imageUrl !== undefined ||
     data.imageUrls !== undefined ||
     data.options !== undefined,
@@ -67,6 +69,7 @@ export async function PATCH(
       ...(data.category !== undefined ? { category: data.category || null } : {}),
       ...(data.basePrice !== undefined ? { basePrice: data.basePrice } : {}),
       ...(data.prepMinutes !== undefined ? { prepMinutes: data.prepMinutes === "" ? null : data.prepMinutes || null } : {}),
+      ...(data.deliveryMinutes !== undefined ? { deliveryMinutes: data.deliveryMinutes === "" ? null : data.deliveryMinutes || null } : {}),
       ...(data.isSpicy !== undefined ? { isSpicy: data.isSpicy } : {}),
       ...(data.isVegetarian !== undefined ? { isVegetarian: data.isVegetarian } : {}),
       ...(data.isAvailable !== undefined ? { isAvailable: data.isAvailable } : {}),

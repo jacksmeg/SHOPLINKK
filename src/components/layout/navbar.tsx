@@ -4,8 +4,6 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import {
   Bell,
-  Grid2X2,
-  Heart,
   Home,
   LayoutDashboard,
   LogIn,
@@ -13,15 +11,17 @@ import {
   MessageCircle,
   Search,
   Shield,
+  ShoppingCart,
   Store,
   UserRound,
   X,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Logo } from "@/components/layout/logo";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { FOOD_CART_CHANGED_EVENT, foodCartCount, readFoodCart } from "@/lib/food-cart";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -43,6 +43,20 @@ export function NavBar() {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    function syncCart() {
+      setCartCount(foodCartCount(readFoodCart()));
+    }
+    syncCart();
+    window.addEventListener(FOOD_CART_CHANGED_EVENT, syncCart);
+    window.addEventListener("storage", syncCart);
+    return () => {
+      window.removeEventListener(FOOD_CART_CHANGED_EVENT, syncCart);
+      window.removeEventListener("storage", syncCart);
+    };
+  }, []);
 
   const dashboardHref =
     session?.user.role === "ADMIN"
@@ -55,14 +69,14 @@ export function NavBar() {
     ? [
         { href: "/", label: "Home", icon: Home },
         { href: "/marketplace", label: "Browse", icon: Search },
+        { href: "/cart", label: "Cart", icon: ShoppingCart },
         { href: "/chat", label: "Chats", icon: MessageCircle },
-        { href: "/favorites", label: "Saved", icon: Heart },
         { href: "/profile", label: "Profile", icon: UserRound },
       ]
     : [
         { href: "/", label: "Home", icon: Home },
         { href: "/marketplace", label: "Browse", icon: Search },
-        { href: "/categories", label: "Categories", icon: Grid2X2 },
+        { href: "/cart", label: "Cart", icon: ShoppingCart },
         { href: "/login", label: "Login", icon: LogIn },
         { href: "/register", label: "Sell", icon: Store },
       ];
@@ -137,6 +151,11 @@ export function NavBar() {
             </button>
           </div>
         </div>
+        {status === "authenticated" ? (
+          <p className="mx-auto max-w-[1440px] px-4 pb-2 text-xs font-black text-[var(--brand-dark)] lg:hidden">
+            🙌 {greeting(session.user.name)}
+          </p>
+        ) : null}
 
         <div className={cn("grid border-t border-[var(--line)] bg-white transition-[grid-template-rows] duration-200 lg:hidden", open ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
           <div className="overflow-hidden">
@@ -163,7 +182,14 @@ export function NavBar() {
             const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
             return (
               <Link key={`${item.href}-${item.label}`} href={item.href} className={cn("flex min-h-[60px] flex-col items-center justify-center gap-1 text-[0.66rem] font-semibold transition", active ? "text-[var(--brand)]" : "text-[var(--muted)]")}>
-                <item.icon size={18} strokeWidth={active ? 2.4 : 1.8} />
+                <span className="relative">
+                  <item.icon size={18} strokeWidth={active ? 2.4 : 1.8} />
+                  {item.href === "/cart" && cartCount ? (
+                    <span className="absolute -right-2 -top-2 grid min-w-4 place-items-center rounded-full bg-red-600 px-1 text-[0.58rem] font-black leading-4 text-white">
+                      {cartCount > 9 ? "9+" : cartCount}
+                    </span>
+                  ) : null}
+                </span>
                 {item.label}
               </Link>
             );

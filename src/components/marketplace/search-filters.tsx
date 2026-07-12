@@ -9,7 +9,13 @@ import { dunkwaAreas } from "@/lib/ghana";
 import { Button } from "@/components/ui/button";
 import { SearchSuggestBox } from "@/components/marketplace/search/search-suggest-box";
 
-export function SearchFilters({ categories }: { categories: PublicCategory[] }) {
+export function SearchFilters({
+  categories,
+  kind = "products",
+}: {
+  categories: PublicCategory[];
+  kind?: "products" | "food" | "services";
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [advanced, setAdvanced] = useState(false);
@@ -25,6 +31,7 @@ export function SearchFilters({ categories }: { categories: PublicCategory[] }) 
   function applyFilters(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const params = new URLSearchParams();
+    if (kind !== "products") params.set("type", kind);
     for (const [key, value] of Object.entries({ q, category, location, area, condition, sort, min, max })) if (value) params.set(key, value);
     router.push(`/marketplace?${params.toString()}`);
   }

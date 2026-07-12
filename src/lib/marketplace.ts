@@ -186,9 +186,10 @@ function filterDemoProducts(filters?: {
   area?: string;
   condition?: string;
   sort?: string;
+  listingType?: ListingType;
 }) {
   const products = demoProducts.filter((product) => {
-    const localProduct = product as typeof product & { area?: string | null };
+    const localProduct = product as typeof product & { area?: string | null; listingType?: ListingType };
     const query = filters?.q?.toLowerCase().trim();
     const matchesQuery =
       !query ||
@@ -206,6 +207,8 @@ function filterDemoProducts(filters?: {
       String(localProduct.area ?? "").toLowerCase().includes(filters.area.toLowerCase());
     const matchesCondition =
       !filters?.condition || product.condition === filters.condition;
+    const matchesListingType =
+      !filters?.listingType || localProduct.listingType === filters.listingType;
 
     return (
       matchesQuery &&
@@ -214,7 +217,8 @@ function filterDemoProducts(filters?: {
       matchesMax &&
       matchesLocation &&
       matchesArea &&
-      matchesCondition
+      matchesCondition &&
+      matchesListingType
     );
   }) as PublicProduct[];
 
@@ -279,6 +283,7 @@ export async function getPublicProducts(filters?: {
   location?: string;
   area?: string;
   condition?: ProductCondition;
+  listingType?: ListingType;
   sort?: "featured" | "newest" | "price_low" | "price_high" | "popular" | "nearest";
   take?: number;
   skip?: number;
@@ -312,6 +317,10 @@ export async function getPublicProducts(filters?: {
 
     if (filters?.condition) {
       where.condition = filters.condition;
+    }
+
+    if (filters?.listingType) {
+      where.listingType = filters.listingType;
     }
 
     if (filters?.min || filters?.max) {

@@ -5,7 +5,7 @@ import { ChefHat, Clock, MapPin, MessageCircle, Phone, ShieldCheck, Star, Store,
 import { ProductCard } from "@/components/marketplace/product-card";
 import { BlockUserButton } from "@/components/marketplace/block-user-button";
 import { FollowStoreButton } from "@/components/marketplace/follow-store-button";
-import { FoodOrderWidget } from "@/components/marketplace/food-order-widget";
+import { FoodCard } from "@/components/marketplace/food-card";
 import { ReportButton } from "@/components/marketplace/report-button";
 import { ReviewForm } from "@/components/marketplace/review-form";
 import { Badge } from "@/components/ui/badge";
@@ -131,23 +131,44 @@ export default async function StorePage({
 
       {store.kind === "FOOD" && foodMenu.length ? (
         <section className="mt-8">
-          <FoodOrderWidget
-            storeId={store.id}
-            momoNumber={store.momoNumber ?? store.phone}
-            items={foodMenu.map((item) => ({
-              id: item.id,
-              name: item.name,
-              description: item.description,
-              basePrice: Number(item.basePrice),
-              imageUrl: item.imageUrl,
-              images: item.images.map((image) => ({ id: image.id, url: image.url, alt: image.alt })),
-              category: item.category,
-              prepMinutes: item.prepMinutes,
-              isSpicy: item.isSpicy,
-              isVegetarian: item.isVegetarian,
-              options: item.options.map((option) => ({ id: option.id, name: option.name, price: Number(option.price) })),
-            }))}
-          />
+          <div className="mb-5">
+            <p className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--brand)]">Food menu</p>
+            <h2 className="mt-1 text-lg font-black text-[var(--ink)]">Order from {store.name}</h2>
+            <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Open a food item to choose quantity, add-ons, and add it to your cart.</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-4 md:grid-cols-3 xl:grid-cols-4">
+            {foodMenu.map((item) => (
+              <FoodCard
+                key={item.id}
+                item={{
+                  id: item.id,
+                  name: item.name,
+                  description: item.description,
+                  category: item.category,
+                  basePrice: Number(item.basePrice),
+                  prepMinutes: item.prepMinutes,
+                  deliveryMinutes: item.deliveryMinutes,
+                  isSpicy: item.isSpicy,
+                  isVegetarian: item.isVegetarian,
+                  imageUrl: item.imageUrl,
+                  images: item.images.map((image) => ({ id: image.id, url: image.url, alt: image.alt })),
+                  options: item.options.map((option) => ({ id: option.id, name: option.name, price: Number(option.price) })),
+                  store: {
+                    id: store.id,
+                    name: store.name,
+                    slug: store.slug,
+                    area: store.area,
+                    location: store.location,
+                    momoNumber: store.momoNumber,
+                    phone: store.phone,
+                    isVerified: store.isVerified,
+                    ratingAverage: store.ratingAverage,
+                    ownerId: store.owner.id,
+                  },
+                }}
+              />
+            ))}
+          </div>
         </section>
       ) : null}
 

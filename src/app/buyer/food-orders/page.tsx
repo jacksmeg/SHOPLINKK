@@ -63,10 +63,23 @@ export default async function BuyerFoodOrdersPage() {
               })}
             </ol>
             <ul className="mt-4 grid gap-1 text-xs text-[var(--muted)]">
-              {order.items.map((item) => (
-                <li key={item.id}>{item.quantity}x {item.name} - {formatCurrency(Number(item.lineTotal))}</li>
-              ))}
+              {order.items.map((item) => {
+                const options = Array.isArray(item.options) ? item.options as Array<{ name?: string; quantity?: number; price?: number; lineTotal?: number }> : [];
+                return (
+                  <li key={item.id}>
+                    <span className="font-bold text-[var(--ink)]">{item.quantity}x {item.name}</span> - {formatCurrency(Number(item.lineTotal))}
+                    {options.length ? (
+                      <span className="mt-1 block text-[0.68rem]">
+                        Add-ons: {options.map((option) => `${option.name ?? "Add-on"} x ${option.quantity ?? 1}`).join(", ")}
+                      </span>
+                    ) : null}
+                  </li>
+                );
+              })}
             </ul>
+            {order.estimatedDeliveryMinutes ? (
+              <p className="mt-3 text-xs font-bold text-[var(--brand-dark)]">Estimated delivery: {order.estimatedDeliveryMinutes} minutes</p>
+            ) : null}
             <p className="mt-3 flex items-center gap-2 rounded-[8px] bg-[var(--brand-soft)] p-3 text-xs leading-5 text-[var(--brand-dark)]">
               <Truck size={15} />
               Send MoMo to {order.store.momoNumber || order.store.phone || "the seller number"}, then wait for seller confirmation.

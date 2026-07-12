@@ -20,6 +20,7 @@ export function FoodMenuItemActions({
     category?: string | null;
     basePrice: number;
     prepMinutes?: number | null;
+    deliveryMinutes?: number | null;
     isSpicy: boolean;
     isVegetarian: boolean;
     isAvailable: boolean;
@@ -90,6 +91,7 @@ export function FoodMenuItemActions({
           description: form.get("description"),
           basePrice: form.get("basePrice"),
           prepMinutes: form.get("prepMinutes"),
+          deliveryMinutes: form.get("deliveryMinutes"),
           isSpicy: Boolean(form.get("isSpicy")),
           isVegetarian: Boolean(form.get("isVegetarian")),
           isAvailable: Boolean(form.get("isAvailable")),
@@ -116,6 +118,7 @@ export function FoodMenuItemActions({
           <input name="category" defaultValue={item.category ?? ""} placeholder="Category" className="form-control px-3 text-xs" />
           <input name="basePrice" defaultValue={item.basePrice} type="number" min="1" required className="form-control px-3 text-xs" />
           <input name="prepMinutes" defaultValue={item.prepMinutes ?? ""} type="number" min="1" max="240" placeholder="Prep minutes" className="form-control px-3 text-xs" />
+          <input name="deliveryMinutes" defaultValue={item.deliveryMinutes ?? ""} type="number" min="1" max="240" placeholder="Delivery minutes" className="form-control px-3 text-xs" />
           <textarea name="description" defaultValue={item.description ?? ""} rows={3} className="form-control px-3 py-2 text-xs sm:col-span-2" />
         </div>
         <div className="mt-3 flex flex-wrap gap-3">

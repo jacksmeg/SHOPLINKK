@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, ShieldCheck, Sparkles, Trash2, X } from "lucide-react";
+import { Check, Megaphone, ShieldCheck, Sparkles, Trash2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
@@ -71,12 +71,13 @@ export function ProductModerationActions({ productId, featured = false }: { prod
     return () => window.clearTimeout(timeout);
   }, [message]);
 
-  function run(action: "approve" | "reject" | "delete" | "feature") {
+  function run(action: "approve" | "reject" | "delete" | "feature" | "promote") {
     startTransition(async () => {
       let response: Response;
       if (action === "reject") response = await fetch(`/api/products/${productId}/reject`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ reason: note || "Listing needs changes before approval." }) });
       else if (action === "approve") response = await fetch(`/api/products/${productId}/approve`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ note: note || "Approved for marketplace visibility." }) });
       else if (action === "feature") response = await fetch(`/api/admin/products/${productId}/feature`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ featured: !featured }) });
+      else if (action === "promote") response = await fetch(`/api/admin/products/${productId}/promote`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ days: 7 }) });
       else response = await fetch(`/api/products/${productId}`, { method: "DELETE" });
       const result = await response.json().catch(() => null);
       setMessage(response.ok ? "Action completed." : result?.message ?? "Action failed.");
@@ -99,6 +100,7 @@ export function ProductModerationActions({ productId, featured = false }: { prod
         <Button type="button" disabled={pending} onClick={() => setMode("approve")} className="min-h-8 px-2.5"><Check size={13} /> Approve</Button>
         <Button type="button" variant="secondary" disabled={pending} onClick={() => setMode("reject")} className="min-h-8 px-2.5"><X size={13} /> Reject</Button>
         <Button type="button" variant="secondary" disabled={pending} onClick={() => run("feature")} className="min-h-8 px-2.5"><Sparkles size={13} /> {featured ? "Unfeature" : "Feature"}</Button>
+        <Button type="button" variant="secondary" disabled={pending} onClick={() => run("promote")} className="min-h-8 px-2.5"><Megaphone size={13} /> Run ad</Button>
         <Button type="button" variant="danger" disabled={pending} onClick={() => setMode("delete")} className="min-h-8 px-2.5" aria-label="Remove listing"><Trash2 size={13} /></Button>
       </div>
       {message ? <p className="mt-2 text-xs text-[var(--muted)]">{message}</p> : null}

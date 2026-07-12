@@ -29,12 +29,14 @@ export type AggregateFoodMenuItem = {
 export type FoodMenuItemAvgAggregateOutputType = {
   basePrice: runtime.Decimal | null
   prepMinutes: number | null
+  deliveryMinutes: number | null
   sortOrder: number | null
 }
 
 export type FoodMenuItemSumAggregateOutputType = {
   basePrice: runtime.Decimal | null
   prepMinutes: number | null
+  deliveryMinutes: number | null
   sortOrder: number | null
 }
 
@@ -48,6 +50,7 @@ export type FoodMenuItemMinAggregateOutputType = {
   basePrice: runtime.Decimal | null
   imageUrl: string | null
   prepMinutes: number | null
+  deliveryMinutes: number | null
   isSpicy: boolean | null
   isVegetarian: boolean | null
   isAvailable: boolean | null
@@ -68,6 +71,7 @@ export type FoodMenuItemMaxAggregateOutputType = {
   basePrice: runtime.Decimal | null
   imageUrl: string | null
   prepMinutes: number | null
+  deliveryMinutes: number | null
   isSpicy: boolean | null
   isVegetarian: boolean | null
   isAvailable: boolean | null
@@ -88,6 +92,7 @@ export type FoodMenuItemCountAggregateOutputType = {
   basePrice: number
   imageUrl: number
   prepMinutes: number
+  deliveryMinutes: number
   isSpicy: number
   isVegetarian: number
   isAvailable: number
@@ -103,12 +108,14 @@ export type FoodMenuItemCountAggregateOutputType = {
 export type FoodMenuItemAvgAggregateInputType = {
   basePrice?: true
   prepMinutes?: true
+  deliveryMinutes?: true
   sortOrder?: true
 }
 
 export type FoodMenuItemSumAggregateInputType = {
   basePrice?: true
   prepMinutes?: true
+  deliveryMinutes?: true
   sortOrder?: true
 }
 
@@ -122,6 +129,7 @@ export type FoodMenuItemMinAggregateInputType = {
   basePrice?: true
   imageUrl?: true
   prepMinutes?: true
+  deliveryMinutes?: true
   isSpicy?: true
   isVegetarian?: true
   isAvailable?: true
@@ -142,6 +150,7 @@ export type FoodMenuItemMaxAggregateInputType = {
   basePrice?: true
   imageUrl?: true
   prepMinutes?: true
+  deliveryMinutes?: true
   isSpicy?: true
   isVegetarian?: true
   isAvailable?: true
@@ -162,6 +171,7 @@ export type FoodMenuItemCountAggregateInputType = {
   basePrice?: true
   imageUrl?: true
   prepMinutes?: true
+  deliveryMinutes?: true
   isSpicy?: true
   isVegetarian?: true
   isAvailable?: true
@@ -269,6 +279,7 @@ export type FoodMenuItemGroupByOutputType = {
   basePrice: runtime.Decimal
   imageUrl: string | null
   prepMinutes: number | null
+  deliveryMinutes: number | null
   isSpicy: boolean
   isVegetarian: boolean
   isAvailable: boolean
@@ -312,6 +323,7 @@ export type FoodMenuItemWhereInput = {
   basePrice?: Prisma.DecimalFilter<"FoodMenuItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.StringNullableFilter<"FoodMenuItem"> | string | null
   prepMinutes?: Prisma.IntNullableFilter<"FoodMenuItem"> | number | null
+  deliveryMinutes?: Prisma.IntNullableFilter<"FoodMenuItem"> | number | null
   isSpicy?: Prisma.BoolFilter<"FoodMenuItem"> | boolean
   isVegetarian?: Prisma.BoolFilter<"FoodMenuItem"> | boolean
   isAvailable?: Prisma.BoolFilter<"FoodMenuItem"> | boolean
@@ -336,6 +348,7 @@ export type FoodMenuItemOrderByWithRelationInput = {
   basePrice?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   prepMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  deliveryMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   isSpicy?: Prisma.SortOrder
   isVegetarian?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
@@ -363,6 +376,7 @@ export type FoodMenuItemWhereUniqueInput = Prisma.AtLeast<{
   basePrice?: Prisma.DecimalFilter<"FoodMenuItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.StringNullableFilter<"FoodMenuItem"> | string | null
   prepMinutes?: Prisma.IntNullableFilter<"FoodMenuItem"> | number | null
+  deliveryMinutes?: Prisma.IntNullableFilter<"FoodMenuItem"> | number | null
   isSpicy?: Prisma.BoolFilter<"FoodMenuItem"> | boolean
   isVegetarian?: Prisma.BoolFilter<"FoodMenuItem"> | boolean
   isAvailable?: Prisma.BoolFilter<"FoodMenuItem"> | boolean
@@ -387,6 +401,7 @@ export type FoodMenuItemOrderByWithAggregationInput = {
   basePrice?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   prepMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  deliveryMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   isSpicy?: Prisma.SortOrder
   isVegetarian?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
@@ -415,6 +430,7 @@ export type FoodMenuItemScalarWhereWithAggregatesInput = {
   basePrice?: Prisma.DecimalWithAggregatesFilter<"FoodMenuItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"FoodMenuItem"> | string | null
   prepMinutes?: Prisma.IntNullableWithAggregatesFilter<"FoodMenuItem"> | number | null
+  deliveryMinutes?: Prisma.IntNullableWithAggregatesFilter<"FoodMenuItem"> | number | null
   isSpicy?: Prisma.BoolWithAggregatesFilter<"FoodMenuItem"> | boolean
   isVegetarian?: Prisma.BoolWithAggregatesFilter<"FoodMenuItem"> | boolean
   isAvailable?: Prisma.BoolWithAggregatesFilter<"FoodMenuItem"> | boolean
@@ -434,6 +450,7 @@ export type FoodMenuItemCreateInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -458,6 +475,7 @@ export type FoodMenuItemUncheckedCreateInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -480,6 +498,7 @@ export type FoodMenuItemUpdateInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -504,6 +523,7 @@ export type FoodMenuItemUncheckedUpdateInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -527,6 +547,7 @@ export type FoodMenuItemCreateManyInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -546,6 +567,7 @@ export type FoodMenuItemUpdateManyMutationInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -566,6 +588,7 @@ export type FoodMenuItemUncheckedUpdateManyInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -596,6 +619,7 @@ export type FoodMenuItemCountOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   prepMinutes?: Prisma.SortOrder
+  deliveryMinutes?: Prisma.SortOrder
   isSpicy?: Prisma.SortOrder
   isVegetarian?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
@@ -609,6 +633,7 @@ export type FoodMenuItemCountOrderByAggregateInput = {
 export type FoodMenuItemAvgOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   prepMinutes?: Prisma.SortOrder
+  deliveryMinutes?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -622,6 +647,7 @@ export type FoodMenuItemMaxOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   prepMinutes?: Prisma.SortOrder
+  deliveryMinutes?: Prisma.SortOrder
   isSpicy?: Prisma.SortOrder
   isVegetarian?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
@@ -642,6 +668,7 @@ export type FoodMenuItemMinOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   prepMinutes?: Prisma.SortOrder
+  deliveryMinutes?: Prisma.SortOrder
   isSpicy?: Prisma.SortOrder
   isVegetarian?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
@@ -655,6 +682,7 @@ export type FoodMenuItemMinOrderByAggregateInput = {
 export type FoodMenuItemSumOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   prepMinutes?: Prisma.SortOrder
+  deliveryMinutes?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -760,6 +788,7 @@ export type FoodMenuItemCreateWithoutStoreInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -782,6 +811,7 @@ export type FoodMenuItemUncheckedCreateWithoutStoreInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -834,6 +864,7 @@ export type FoodMenuItemScalarWhereInput = {
   basePrice?: Prisma.DecimalFilter<"FoodMenuItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.StringNullableFilter<"FoodMenuItem"> | string | null
   prepMinutes?: Prisma.IntNullableFilter<"FoodMenuItem"> | number | null
+  deliveryMinutes?: Prisma.IntNullableFilter<"FoodMenuItem"> | number | null
   isSpicy?: Prisma.BoolFilter<"FoodMenuItem"> | boolean
   isVegetarian?: Prisma.BoolFilter<"FoodMenuItem"> | boolean
   isAvailable?: Prisma.BoolFilter<"FoodMenuItem"> | boolean
@@ -853,6 +884,7 @@ export type FoodMenuItemCreateWithoutImagesInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -876,6 +908,7 @@ export type FoodMenuItemUncheckedCreateWithoutImagesInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -913,6 +946,7 @@ export type FoodMenuItemUpdateWithoutImagesInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -936,6 +970,7 @@ export type FoodMenuItemUncheckedUpdateWithoutImagesInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -957,6 +992,7 @@ export type FoodMenuItemCreateWithoutOptionsInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -980,6 +1016,7 @@ export type FoodMenuItemUncheckedCreateWithoutOptionsInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -1017,6 +1054,7 @@ export type FoodMenuItemUpdateWithoutOptionsInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1040,6 +1078,7 @@ export type FoodMenuItemUncheckedUpdateWithoutOptionsInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1061,6 +1100,7 @@ export type FoodMenuItemCreateWithoutOrderItemsInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -1084,6 +1124,7 @@ export type FoodMenuItemUncheckedCreateWithoutOrderItemsInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -1121,6 +1162,7 @@ export type FoodMenuItemUpdateWithoutOrderItemsInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1144,6 +1186,7 @@ export type FoodMenuItemUncheckedUpdateWithoutOrderItemsInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1165,6 +1208,7 @@ export type FoodMenuItemCreateManyStoreInput = {
   basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: string | null
   prepMinutes?: number | null
+  deliveryMinutes?: number | null
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -1184,6 +1228,7 @@ export type FoodMenuItemUpdateWithoutStoreInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1206,6 +1251,7 @@ export type FoodMenuItemUncheckedUpdateWithoutStoreInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1228,6 +1274,7 @@ export type FoodMenuItemUncheckedUpdateManyWithoutStoreInput = {
   basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  deliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isSpicy?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVegetarian?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1297,6 +1344,7 @@ export type FoodMenuItemSelect<ExtArgs extends runtime.Types.Extensions.Internal
   basePrice?: boolean
   imageUrl?: boolean
   prepMinutes?: boolean
+  deliveryMinutes?: boolean
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -1322,6 +1370,7 @@ export type FoodMenuItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   basePrice?: boolean
   imageUrl?: boolean
   prepMinutes?: boolean
+  deliveryMinutes?: boolean
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -1343,6 +1392,7 @@ export type FoodMenuItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   basePrice?: boolean
   imageUrl?: boolean
   prepMinutes?: boolean
+  deliveryMinutes?: boolean
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -1364,6 +1414,7 @@ export type FoodMenuItemSelectScalar = {
   basePrice?: boolean
   imageUrl?: boolean
   prepMinutes?: boolean
+  deliveryMinutes?: boolean
   isSpicy?: boolean
   isVegetarian?: boolean
   isAvailable?: boolean
@@ -1374,7 +1425,7 @@ export type FoodMenuItemSelectScalar = {
   updatedAt?: boolean
 }
 
-export type FoodMenuItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "storeId" | "status" | "name" | "description" | "category" | "basePrice" | "imageUrl" | "prepMinutes" | "isSpicy" | "isVegetarian" | "isAvailable" | "rejectionReason" | "approvedAt" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["foodMenuItem"]>
+export type FoodMenuItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "storeId" | "status" | "name" | "description" | "category" | "basePrice" | "imageUrl" | "prepMinutes" | "deliveryMinutes" | "isSpicy" | "isVegetarian" | "isAvailable" | "rejectionReason" | "approvedAt" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["foodMenuItem"]>
 export type FoodMenuItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   options?: boolean | Prisma.FoodMenuItem$optionsArgs<ExtArgs>
@@ -1407,6 +1458,7 @@ export type $FoodMenuItemPayload<ExtArgs extends runtime.Types.Extensions.Intern
     basePrice: runtime.Decimal
     imageUrl: string | null
     prepMinutes: number | null
+    deliveryMinutes: number | null
     isSpicy: boolean
     isVegetarian: boolean
     isAvailable: boolean
@@ -1851,6 +1903,7 @@ export interface FoodMenuItemFieldRefs {
   readonly basePrice: Prisma.FieldRef<"FoodMenuItem", 'Decimal'>
   readonly imageUrl: Prisma.FieldRef<"FoodMenuItem", 'String'>
   readonly prepMinutes: Prisma.FieldRef<"FoodMenuItem", 'Int'>
+  readonly deliveryMinutes: Prisma.FieldRef<"FoodMenuItem", 'Int'>
   readonly isSpicy: Prisma.FieldRef<"FoodMenuItem", 'Boolean'>
   readonly isVegetarian: Prisma.FieldRef<"FoodMenuItem", 'Boolean'>
   readonly isAvailable: Prisma.FieldRef<"FoodMenuItem", 'Boolean'>

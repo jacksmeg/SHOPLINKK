@@ -257,6 +257,7 @@ export const foodMenuItemSchema = z.object({
   imageUrl: imageValue.optional().or(z.literal("")),
   imageUrls: z.array(imageValue).max(8, "Upload 8 food photos or fewer").optional().default([]),
   prepMinutes: z.coerce.number().int().min(1).max(240).optional().or(z.literal("")),
+  deliveryMinutes: z.coerce.number().int().min(1).max(240).optional().or(z.literal("")),
   isSpicy: z.coerce.boolean().default(false),
   isVegetarian: z.coerce.boolean().default(false),
   isAvailable: z.coerce.boolean().default(true),
@@ -285,6 +286,10 @@ export const foodOrderSchema = z.object({
         itemId: z.string().min(1),
         quantity: z.coerce.number().int().min(1).max(50),
         optionIds: z.array(z.string()).max(20).optional().default([]),
+        options: z.array(z.object({
+          optionId: z.string().min(1),
+          quantity: z.coerce.number().int().min(1).max(50),
+        })).max(20).optional().default([]),
       }),
     )
     .min(1, "Choose at least one food item"),

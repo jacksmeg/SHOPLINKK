@@ -83,6 +83,15 @@ export async function POST(request: Request) {
               },
             }
           : undefined,
+      riderProfile:
+        parsed.data.role === "RIDER"
+          ? {
+              create: {
+                status: "DRAFT",
+                availability: "OFFLINE",
+              },
+            }
+          : undefined,
     },
   });
 

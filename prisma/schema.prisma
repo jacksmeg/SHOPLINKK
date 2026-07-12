@@ -10,6 +10,7 @@ datasource db {
 enum Role {
   BUYER
   SELLER
+  RIDER
   ADMIN
 }
 
@@ -65,6 +66,7 @@ enum NotificationType {
   SECURITY
   PRICE_ALERT
   BOOST
+  DELIVERY
 }
 
 enum AuditAction {
@@ -86,6 +88,10 @@ enum AuditAction {
   TOWN_UPDATED
   BOOST_APPROVED
   BOOST_REJECTED
+  RIDER_APPROVED
+  RIDER_REJECTED
+  RIDER_SUSPENDED
+  DELIVERY_ASSIGNED
 }
 
 enum IntegrationProvider {
@@ -199,6 +205,54 @@ enum FoodMenuStatus {
   REJECTED
 }
 
+enum RiderVerificationStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum RiderAvailability {
+  OFFLINE
+  ONLINE
+  BUSY
+  ON_DELIVERY
+}
+
+enum RiderVehicleType {
+  MOTORCYCLE
+  TRICYCLE
+  CAR
+  VAN
+}
+
+enum DeliveryRequestStatus {
+  OPEN
+  ACCEPTED
+  REJECTED
+  CANCELLED
+  EXPIRED
+}
+
+enum DeliveryStatus {
+  WAITING_FOR_RIDER
+  ACCEPTED
+  HEADING_TO_SELLER
+  ITEM_PICKED_UP
+  ON_THE_WAY
+  DELIVERED
+  CANCELLED
+}
+
+enum DeliveryReportReason {
+  LATE_DELIVERY
+  MISSING_ITEM
+  DAMAGED_PACKAGE
+  RIDER_MISCONDUCT
+  OTHER
+}
+
 model User {
   id                       String                   @id @default(cuid())
   name                     String?
@@ -264,6 +318,15 @@ model User {
   paymentTransactions      PaymentTransaction[]     @relation("PaymentUser")
   billingPackagesUpdated   BillingPackage[]         @relation("BillingPackageUpdatedBy")
   trustedDevices           TrustedDevice[]
+  riderProfile             RiderProfile?            @relation("RiderUser")
+  reviewedRiders           RiderProfile[]           @relation("RiderReviewer")
+  deliveryRequestsAsSeller DeliveryRequest[]         @relation("DeliveryRequestSeller")
+  deliveryRequestsAsBuyer  DeliveryRequest[]         @relation("DeliveryRequestBuyer")
+  deliveriesAsSeller       Delivery[]               @relation("DeliverySeller")
+  deliveriesAsBuyer        Delivery[]               @relation("DeliveryBuyer")
+  riderRatingsGiven        RiderRating[]            @relation("RiderRatingAuthor")
+  deliveryReportsMade      DeliveryReport[]         @relation("DeliveryReportReporter")
+  deliveryReportsReviewed  DeliveryReport[]         @relation("DeliveryReportReviewer")
   foodOrders               FoodOrder[]              @relation("FoodOrderBuyer")
 }
 
@@ -332,6 +395,7 @@ model Store {
   foodMenuItems        FoodMenuItem[]
   foodOrders           FoodOrder[]
   followers            StoreFollower[]          @relation("StoreFollowerStore")
+  deliveryRequests     DeliveryRequest[]
 }
 
 model StoreFollower {
@@ -981,9 +1045,186 @@ model FoodOrder {
   store              Store           @relation(fields: [storeId], references: [id], onDelete: Cascade)
   buyer              User            @relation("FoodOrderBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
   items              FoodOrderItem[]
+  deliveryRequests   DeliveryRequest[]
+  deliveries         Delivery[]
 
   @@index([storeId, status])
   @@index([buyerId, createdAt])
+}
+
+model RiderProfile {
+  id                   String                   @id @default(cuid())
+  userId               String                   @unique
+  status               RiderVerificationStatus  @default(DRAFT)
+  availability         RiderAvailability        @default(OFFLINE)
+  vehicleType          RiderVehicleType?
+  profilePhotoUrl      String?
+  ghanaCardUrl         String?
+  licenseUrl           String?
+  vehicleDocumentUrl   String?
+  emergencyContactName String?
+  emergencyContactPhone String?
+  momoName             String?
+  momoNumber           String?
+  bankName             String?
+  bankAccountName      String?
+  bankAccountNumber    String?
+  latitude             Float?
+  longitude            Float?
+  lastLocationAt       DateTime?
+  rejectionReason      String?
+  suspensionReason     String?
+  approvedAt           DateTime?
+  reviewedById         String?
+  createdAt            DateTime                 @default(now())
+  updatedAt            DateTime                 @updatedAt
+  user                 User                     @relation("RiderUser", fields: [userId], references: [id], onDelete: Cascade)
+  reviewedBy           User?                    @relation("RiderReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  deliveryRequests     DeliveryRequest[]        @relation("RiderRequests")
+  deliveries           Delivery[]               @relation("RiderDeliveries")
+  locationPings        RiderLocationPing[]
+  ratings              RiderRating[]
+  reports              DeliveryReport[]         @relation("RiderReports")
+
+  @@index([status, availability])
+  @@index([vehicleType])
+}
+
+model DeliveryRequest {
+  id                 String                @id @default(cuid())
+  foodOrderId        String?
+  storeId            String?
+  sellerId           String
+  buyerId            String
+  riderId            String?
+  status             DeliveryRequestStatus @default(OPEN)
+  pickupName         String?
+  pickupPhone        String?
+  pickupAddress      String
+  pickupLatitude     Float?
+  pickupLongitude    Float?
+  deliveryName       String?
+  deliveryPhone      String?
+  deliveryAddress    String
+  deliveryLatitude   Float?
+  deliveryLongitude  Float?
+  productName        String
+  deliveryFee        Decimal               @db.Decimal(12, 2)
+  distanceKm         Float?
+  estimatedMinutes   Int?
+  note               String?
+  acceptedAt         DateTime?
+  rejectedAt         DateTime?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  foodOrder          FoodOrder?            @relation(fields: [foodOrderId], references: [id], onDelete: SetNull)
+  store              Store?                @relation(fields: [storeId], references: [id], onDelete: SetNull)
+  seller             User                  @relation("DeliveryRequestSeller", fields: [sellerId], references: [id], onDelete: Cascade)
+  buyer              User                  @relation("DeliveryRequestBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+  rider              RiderProfile?         @relation("RiderRequests", fields: [riderId], references: [id], onDelete: SetNull)
+  delivery           Delivery?
+
+  @@index([status, createdAt])
+  @@index([riderId, status])
+  @@index([foodOrderId])
+  @@index([sellerId, createdAt])
+  @@index([buyerId, createdAt])
+}
+
+model Delivery {
+  id                String              @id @default(cuid())
+  requestId         String              @unique
+  riderId           String
+  foodOrderId       String?
+  sellerId          String
+  buyerId           String
+  status            DeliveryStatus      @default(WAITING_FOR_RIDER)
+  deliveryFee       Decimal             @db.Decimal(12, 2)
+  distanceKm        Float?
+  estimatedMinutes  Int?
+  acceptedAt        DateTime?
+  headingToSellerAt DateTime?
+  pickedUpAt        DateTime?
+  onTheWayAt        DateTime?
+  deliveredAt       DateTime?
+  cancelledAt       DateTime?
+  buyerConfirmedAt  DateTime?
+  sellerConfirmedAt DateTime?
+  riderLatitude     Float?
+  riderLongitude    Float?
+  riderLocationAt   DateTime?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  request           DeliveryRequest     @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  rider             RiderProfile        @relation("RiderDeliveries", fields: [riderId], references: [id], onDelete: Cascade)
+  foodOrder         FoodOrder?          @relation(fields: [foodOrderId], references: [id], onDelete: SetNull)
+  seller            User                @relation("DeliverySeller", fields: [sellerId], references: [id], onDelete: Cascade)
+  buyer             User                @relation("DeliveryBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+  locationPings     RiderLocationPing[]
+  ratings           RiderRating[]
+  reports           DeliveryReport[]
+
+  @@index([riderId, status])
+  @@index([buyerId, createdAt])
+  @@index([sellerId, createdAt])
+  @@index([status, createdAt])
+  @@index([foodOrderId])
+}
+
+model RiderLocationPing {
+  id         String        @id @default(cuid())
+  riderId    String
+  deliveryId String?
+  latitude   Float
+  longitude  Float
+  accuracy   Float?
+  heading    Float?
+  speed      Float?
+  createdAt  DateTime      @default(now())
+  rider      RiderProfile  @relation(fields: [riderId], references: [id], onDelete: Cascade)
+  delivery   Delivery?     @relation(fields: [deliveryId], references: [id], onDelete: SetNull)
+
+  @@index([riderId, createdAt])
+  @@index([deliveryId, createdAt])
+}
+
+model RiderRating {
+  id         String       @id @default(cuid())
+  deliveryId String
+  riderId    String
+  authorId   String
+  rating     Int
+  comment    String?
+  createdAt  DateTime     @default(now())
+  delivery   Delivery     @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  rider      RiderProfile @relation(fields: [riderId], references: [id], onDelete: Cascade)
+  author     User         @relation("RiderRatingAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@unique([authorId, deliveryId])
+  @@index([riderId, createdAt])
+}
+
+model DeliveryReport {
+  id             String               @id @default(cuid())
+  deliveryId     String
+  riderId        String?
+  reporterId     String
+  reviewedById   String?
+  reason         DeliveryReportReason
+  details        String?
+  status         ReportStatus          @default(OPEN)
+  resolutionNote String?
+  resolvedAt     DateTime?
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  delivery       Delivery              @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  rider          RiderProfile?         @relation("RiderReports", fields: [riderId], references: [id], onDelete: SetNull)
+  reporter       User                  @relation("DeliveryReportReporter", fields: [reporterId], references: [id], onDelete: Cascade)
+  reviewedBy     User?                 @relation("DeliveryReportReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([riderId, createdAt])
+  @@index([reporterId, createdAt])
 }
 
 model FoodOrderItem {

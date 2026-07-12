@@ -10,14 +10,17 @@ import {
   Settings,
   Shield,
   Tags,
+  Truck,
   Users,
 } from "lucide-react";
 
 export const adminLinks = [
   { href: "/admin", label: "Overview", icon: Shield },
   { href: "/admin/users", label: "Users", icon: Users },
+  { href: "/admin/riders", label: "Riders", icon: Truck },
   { href: "/admin/products", label: "Products", icon: Boxes },
   { href: "/admin/food", label: "Food menu", icon: ChefHat },
+  { href: "/admin/deliveries", label: "Deliveries", icon: MapPinned },
   { href: "/admin/reports", label: "Reports", icon: Flag },
   { href: "/admin/boosts", label: "Adverts", icon: Rocket },
   { href: "/admin/billing", label: "Billing", icon: CreditCard },

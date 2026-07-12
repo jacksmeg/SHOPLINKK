@@ -88,7 +88,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
         }).catch(() => null);
 
         const roleHome =
-          session?.user?.role === "ADMIN" ? "/admin" : session?.user?.role === "SELLER" ? "/seller" : "/buyer";
+          session?.user?.role === "ADMIN" ? "/admin" : session?.user?.role === "SELLER" ? "/seller" : session?.user?.role === "RIDER" ? "/rider" : "/buyer";
         router.replace(callbackUrl === "/" ? roleHome : callbackUrl);
         router.refresh();
       } catch {
@@ -113,7 +113,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
         {verifiedStatus === "success" ? (
           <p className="mt-3 flex items-start gap-2 rounded-[7px] bg-blue-50 p-3 text-xs font-semibold leading-5 text-[var(--brand-dark)]">
             <CheckCircle2 className="mt-0.5 shrink-0" size={15} />
-            Email verified successfully. Sign in now to open your {verifiedNext === "seller" ? "seller dashboard" : verifiedNext === "admin" ? "admin dashboard" : "buyer dashboard"}.
+            Email verified successfully. Sign in now to open your {verifiedNext === "seller" ? "seller dashboard" : verifiedNext === "rider" ? "rider dashboard" : verifiedNext === "admin" ? "admin dashboard" : "buyer dashboard"}.
           </p>
         ) : null}
         {verifiedStatus === "expired" || verifiedStatus === "invalid" ? (

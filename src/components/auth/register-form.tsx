@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { getSession, signIn } from "next-auth/react";
-import { AlertCircle, ArrowRight, CheckCircle2, LockKeyhole, Mail, MapPin, Phone, ShoppingBag, Store, UserRound } from "lucide-react";
+import { AlertCircle, ArrowRight, CheckCircle2, LockKeyhole, Mail, MapPin, Phone, ShoppingBag, Store, Truck, UserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { AuthPanel, GoogleIcon } from "@/components/auth/auth-panel";
@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
   const router = useRouter();
-  const [role, setRole] = useState<"BUYER" | "SELLER">("BUYER");
+  const [role, setRole] = useState<"BUYER" | "SELLER" | "RIDER">("BUYER");
   const [storeKind, setStoreKind] = useState<"GENERAL" | "FOOD">("GENERAL");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -74,7 +74,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
           identifier: email,
           password,
           termsAccepted: "true",
-          callbackUrl: role === "SELLER" ? "/seller" : "/buyer",
+          callbackUrl: role === "SELLER" ? "/seller" : role === "RIDER" ? "/rider/profile" : "/buyer",
         });
 
         if (!login || login.error) {
@@ -88,7 +88,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
           return;
         }
 
-        router.replace(role === "SELLER" ? "/seller" : "/buyer");
+        router.replace(role === "SELLER" ? "/seller" : role === "RIDER" ? "/rider/profile" : "/buyer");
         router.refresh();
       } catch {
         setError("We could not reach ShopLinkk just now. Check your connection and try again.");
@@ -102,10 +102,11 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
         <h1 className="text-xl font-black text-[var(--ink)]">Create account</h1>
         <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Choose how you want to join.</p>
 
-        <div className="mt-5 grid grid-cols-2 gap-1 rounded-[7px] border border-[var(--line)] bg-white p-1">
+        <div className="mt-5 grid grid-cols-3 gap-1 rounded-[7px] border border-[var(--line)] bg-white p-1">
           {[
             { value: "BUYER" as const, label: "Buyer", icon: ShoppingBag },
             { value: "SELLER" as const, label: "Seller", icon: Store },
+            { value: "RIDER" as const, label: "Rider", icon: Truck },
           ].map((item) => (
             <button
               key={item.value}

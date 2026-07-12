@@ -1,4 +1,5 @@
 import { Clock, Truck } from "lucide-react";
+import { DeliveryRequestForm } from "@/components/seller/delivery-request-form";
 import { FoodOrderActions } from "@/components/seller/food-order-actions";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
@@ -25,7 +26,12 @@ export default async function SellerFoodOrdersPage() {
     where: { ownerId: session.user.id },
     include: {
       foodOrders: {
-        include: { buyer: { select: { name: true, phone: true } }, items: true },
+        include: {
+          buyer: { select: { name: true, phone: true } },
+          items: true,
+          deliveries: { select: { id: true, status: true }, orderBy: { createdAt: "desc" }, take: 1 },
+          deliveryRequests: { select: { status: true }, orderBy: { createdAt: "desc" }, take: 1 },
+        },
         orderBy: { createdAt: "desc" },
         take: 100,
       },
@@ -65,6 +71,12 @@ export default async function SellerFoodOrdersPage() {
       <div className="grid gap-3">
         {orders.map((order) => (
           <article key={order.id} className="app-panel p-4 sm:p-5">
+            {(() => {
+              const activeDelivery = order.deliveries[0];
+              const activeRequest = order.deliveryRequests[0];
+              const productName = order.items.map((item) => `${item.quantity}x ${item.name}`).join(", ");
+              return (
+                <>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <p className="text-sm font-black text-[var(--ink)]">{order.buyerName || order.buyer.name || "Buyer"}</p>
@@ -100,6 +112,18 @@ export default async function SellerFoodOrdersPage() {
               {order.paymentReference ? <p className="rounded-[8px] bg-[var(--brand-soft)] p-3 text-[var(--brand-dark)]">Payment reference: <strong>{order.paymentReference}</strong></p> : null}
             </div>
             <FoodOrderActions orderId={order.id} />
+            <DeliveryRequestForm
+              foodOrderId={order.id}
+              pickupAddress={store.address || store.location}
+              deliveryAddress={order.deliveryAddress || ""}
+              productName={productName}
+              estimatedMinutes={order.estimatedDeliveryMinutes}
+              activeDeliveryId={activeDelivery?.id}
+              activeRequestStatus={activeRequest?.status}
+            />
+                </>
+              );
+            })()}
           </article>
         ))}
         {!orders.length ? <EmptyState title="No food orders yet" description="Orders from buyers will appear here after they add food to cart and checkout." icon={Truck} /> : null}

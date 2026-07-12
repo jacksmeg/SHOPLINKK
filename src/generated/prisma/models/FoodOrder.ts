@@ -319,6 +319,8 @@ export type FoodOrderWhereInput = {
   store?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
   buyer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.FoodOrderItemListRelationFilter
+  deliveryRequests?: Prisma.DeliveryRequestListRelationFilter
+  deliveries?: Prisma.DeliveryListRelationFilter
 }
 
 export type FoodOrderOrderByWithRelationInput = {
@@ -342,6 +344,8 @@ export type FoodOrderOrderByWithRelationInput = {
   store?: Prisma.StoreOrderByWithRelationInput
   buyer?: Prisma.UserOrderByWithRelationInput
   items?: Prisma.FoodOrderItemOrderByRelationAggregateInput
+  deliveryRequests?: Prisma.DeliveryRequestOrderByRelationAggregateInput
+  deliveries?: Prisma.DeliveryOrderByRelationAggregateInput
 }
 
 export type FoodOrderWhereUniqueInput = Prisma.AtLeast<{
@@ -368,6 +372,8 @@ export type FoodOrderWhereUniqueInput = Prisma.AtLeast<{
   store?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
   buyer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.FoodOrderItemListRelationFilter
+  deliveryRequests?: Prisma.DeliveryRequestListRelationFilter
+  deliveries?: Prisma.DeliveryListRelationFilter
 }, "id">
 
 export type FoodOrderOrderByWithAggregationInput = {
@@ -437,6 +443,8 @@ export type FoodOrderCreateInput = {
   store: Prisma.StoreCreateNestedOneWithoutFoodOrdersInput
   buyer: Prisma.UserCreateNestedOneWithoutFoodOrdersInput
   items?: Prisma.FoodOrderItemCreateNestedManyWithoutOrderInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutFoodOrderInput
+  deliveries?: Prisma.DeliveryCreateNestedManyWithoutFoodOrderInput
 }
 
 export type FoodOrderUncheckedCreateInput = {
@@ -458,6 +466,8 @@ export type FoodOrderUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.FoodOrderItemUncheckedCreateNestedManyWithoutOrderInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutFoodOrderInput
+  deliveries?: Prisma.DeliveryUncheckedCreateNestedManyWithoutFoodOrderInput
 }
 
 export type FoodOrderUpdateInput = {
@@ -479,6 +489,8 @@ export type FoodOrderUpdateInput = {
   store?: Prisma.StoreUpdateOneRequiredWithoutFoodOrdersNestedInput
   buyer?: Prisma.UserUpdateOneRequiredWithoutFoodOrdersNestedInput
   items?: Prisma.FoodOrderItemUpdateManyWithoutOrderNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutFoodOrderNestedInput
+  deliveries?: Prisma.DeliveryUpdateManyWithoutFoodOrderNestedInput
 }
 
 export type FoodOrderUncheckedUpdateInput = {
@@ -500,6 +512,8 @@ export type FoodOrderUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.FoodOrderItemUncheckedUpdateManyWithoutOrderNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutFoodOrderNestedInput
+  deliveries?: Prisma.DeliveryUncheckedUpdateManyWithoutFoodOrderNestedInput
 }
 
 export type FoodOrderCreateManyInput = {
@@ -640,6 +654,11 @@ export type FoodOrderSumOrderByAggregateInput = {
   totalAmount?: Prisma.SortOrder
 }
 
+export type FoodOrderNullableScalarRelationFilter = {
+  is?: Prisma.FoodOrderWhereInput | null
+  isNot?: Prisma.FoodOrderWhereInput | null
+}
+
 export type FoodOrderScalarRelationFilter = {
   is?: Prisma.FoodOrderWhereInput
   isNot?: Prisma.FoodOrderWhereInput
@@ -733,6 +752,38 @@ export type EnumFoodOrderStatusFieldUpdateOperationsInput = {
   set?: $Enums.FoodOrderStatus
 }
 
+export type FoodOrderCreateNestedOneWithoutDeliveryRequestsInput = {
+  create?: Prisma.XOR<Prisma.FoodOrderCreateWithoutDeliveryRequestsInput, Prisma.FoodOrderUncheckedCreateWithoutDeliveryRequestsInput>
+  connectOrCreate?: Prisma.FoodOrderCreateOrConnectWithoutDeliveryRequestsInput
+  connect?: Prisma.FoodOrderWhereUniqueInput
+}
+
+export type FoodOrderUpdateOneWithoutDeliveryRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.FoodOrderCreateWithoutDeliveryRequestsInput, Prisma.FoodOrderUncheckedCreateWithoutDeliveryRequestsInput>
+  connectOrCreate?: Prisma.FoodOrderCreateOrConnectWithoutDeliveryRequestsInput
+  upsert?: Prisma.FoodOrderUpsertWithoutDeliveryRequestsInput
+  disconnect?: Prisma.FoodOrderWhereInput | boolean
+  delete?: Prisma.FoodOrderWhereInput | boolean
+  connect?: Prisma.FoodOrderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FoodOrderUpdateToOneWithWhereWithoutDeliveryRequestsInput, Prisma.FoodOrderUpdateWithoutDeliveryRequestsInput>, Prisma.FoodOrderUncheckedUpdateWithoutDeliveryRequestsInput>
+}
+
+export type FoodOrderCreateNestedOneWithoutDeliveriesInput = {
+  create?: Prisma.XOR<Prisma.FoodOrderCreateWithoutDeliveriesInput, Prisma.FoodOrderUncheckedCreateWithoutDeliveriesInput>
+  connectOrCreate?: Prisma.FoodOrderCreateOrConnectWithoutDeliveriesInput
+  connect?: Prisma.FoodOrderWhereUniqueInput
+}
+
+export type FoodOrderUpdateOneWithoutDeliveriesNestedInput = {
+  create?: Prisma.XOR<Prisma.FoodOrderCreateWithoutDeliveriesInput, Prisma.FoodOrderUncheckedCreateWithoutDeliveriesInput>
+  connectOrCreate?: Prisma.FoodOrderCreateOrConnectWithoutDeliveriesInput
+  upsert?: Prisma.FoodOrderUpsertWithoutDeliveriesInput
+  disconnect?: Prisma.FoodOrderWhereInput | boolean
+  delete?: Prisma.FoodOrderWhereInput | boolean
+  connect?: Prisma.FoodOrderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FoodOrderUpdateToOneWithWhereWithoutDeliveriesInput, Prisma.FoodOrderUpdateWithoutDeliveriesInput>, Prisma.FoodOrderUncheckedUpdateWithoutDeliveriesInput>
+}
+
 export type FoodOrderCreateNestedOneWithoutItemsInput = {
   create?: Prisma.XOR<Prisma.FoodOrderCreateWithoutItemsInput, Prisma.FoodOrderUncheckedCreateWithoutItemsInput>
   connectOrCreate?: Prisma.FoodOrderCreateOrConnectWithoutItemsInput
@@ -765,6 +816,8 @@ export type FoodOrderCreateWithoutBuyerInput = {
   updatedAt?: Date | string
   store: Prisma.StoreCreateNestedOneWithoutFoodOrdersInput
   items?: Prisma.FoodOrderItemCreateNestedManyWithoutOrderInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutFoodOrderInput
+  deliveries?: Prisma.DeliveryCreateNestedManyWithoutFoodOrderInput
 }
 
 export type FoodOrderUncheckedCreateWithoutBuyerInput = {
@@ -785,6 +838,8 @@ export type FoodOrderUncheckedCreateWithoutBuyerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.FoodOrderItemUncheckedCreateNestedManyWithoutOrderInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutFoodOrderInput
+  deliveries?: Prisma.DeliveryUncheckedCreateNestedManyWithoutFoodOrderInput
 }
 
 export type FoodOrderCreateOrConnectWithoutBuyerInput = {
@@ -854,6 +909,8 @@ export type FoodOrderCreateWithoutStoreInput = {
   updatedAt?: Date | string
   buyer: Prisma.UserCreateNestedOneWithoutFoodOrdersInput
   items?: Prisma.FoodOrderItemCreateNestedManyWithoutOrderInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutFoodOrderInput
+  deliveries?: Prisma.DeliveryCreateNestedManyWithoutFoodOrderInput
 }
 
 export type FoodOrderUncheckedCreateWithoutStoreInput = {
@@ -874,6 +931,8 @@ export type FoodOrderUncheckedCreateWithoutStoreInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.FoodOrderItemUncheckedCreateNestedManyWithoutOrderInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutFoodOrderInput
+  deliveries?: Prisma.DeliveryUncheckedCreateNestedManyWithoutFoodOrderInput
 }
 
 export type FoodOrderCreateOrConnectWithoutStoreInput = {
@@ -902,6 +961,214 @@ export type FoodOrderUpdateManyWithWhereWithoutStoreInput = {
   data: Prisma.XOR<Prisma.FoodOrderUpdateManyMutationInput, Prisma.FoodOrderUncheckedUpdateManyWithoutStoreInput>
 }
 
+export type FoodOrderCreateWithoutDeliveryRequestsInput = {
+  id?: string
+  status?: $Enums.FoodOrderStatus
+  buyerName?: string | null
+  buyerPhone?: string | null
+  deliveryAddress?: string | null
+  deliveryNote?: string | null
+  paymentReference?: string | null
+  sellerPaymentNote?: string | null
+  estimatedDeliveryMinutes?: number | null
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentConfirmedAt?: Date | string | null
+  outForDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  store: Prisma.StoreCreateNestedOneWithoutFoodOrdersInput
+  buyer: Prisma.UserCreateNestedOneWithoutFoodOrdersInput
+  items?: Prisma.FoodOrderItemCreateNestedManyWithoutOrderInput
+  deliveries?: Prisma.DeliveryCreateNestedManyWithoutFoodOrderInput
+}
+
+export type FoodOrderUncheckedCreateWithoutDeliveryRequestsInput = {
+  id?: string
+  storeId: string
+  buyerId: string
+  status?: $Enums.FoodOrderStatus
+  buyerName?: string | null
+  buyerPhone?: string | null
+  deliveryAddress?: string | null
+  deliveryNote?: string | null
+  paymentReference?: string | null
+  sellerPaymentNote?: string | null
+  estimatedDeliveryMinutes?: number | null
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentConfirmedAt?: Date | string | null
+  outForDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  items?: Prisma.FoodOrderItemUncheckedCreateNestedManyWithoutOrderInput
+  deliveries?: Prisma.DeliveryUncheckedCreateNestedManyWithoutFoodOrderInput
+}
+
+export type FoodOrderCreateOrConnectWithoutDeliveryRequestsInput = {
+  where: Prisma.FoodOrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.FoodOrderCreateWithoutDeliveryRequestsInput, Prisma.FoodOrderUncheckedCreateWithoutDeliveryRequestsInput>
+}
+
+export type FoodOrderUpsertWithoutDeliveryRequestsInput = {
+  update: Prisma.XOR<Prisma.FoodOrderUpdateWithoutDeliveryRequestsInput, Prisma.FoodOrderUncheckedUpdateWithoutDeliveryRequestsInput>
+  create: Prisma.XOR<Prisma.FoodOrderCreateWithoutDeliveryRequestsInput, Prisma.FoodOrderUncheckedCreateWithoutDeliveryRequestsInput>
+  where?: Prisma.FoodOrderWhereInput
+}
+
+export type FoodOrderUpdateToOneWithWhereWithoutDeliveryRequestsInput = {
+  where?: Prisma.FoodOrderWhereInput
+  data: Prisma.XOR<Prisma.FoodOrderUpdateWithoutDeliveryRequestsInput, Prisma.FoodOrderUncheckedUpdateWithoutDeliveryRequestsInput>
+}
+
+export type FoodOrderUpdateWithoutDeliveryRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  outForDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  store?: Prisma.StoreUpdateOneRequiredWithoutFoodOrdersNestedInput
+  buyer?: Prisma.UserUpdateOneRequiredWithoutFoodOrdersNestedInput
+  items?: Prisma.FoodOrderItemUpdateManyWithoutOrderNestedInput
+  deliveries?: Prisma.DeliveryUpdateManyWithoutFoodOrderNestedInput
+}
+
+export type FoodOrderUncheckedUpdateWithoutDeliveryRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  outForDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  items?: Prisma.FoodOrderItemUncheckedUpdateManyWithoutOrderNestedInput
+  deliveries?: Prisma.DeliveryUncheckedUpdateManyWithoutFoodOrderNestedInput
+}
+
+export type FoodOrderCreateWithoutDeliveriesInput = {
+  id?: string
+  status?: $Enums.FoodOrderStatus
+  buyerName?: string | null
+  buyerPhone?: string | null
+  deliveryAddress?: string | null
+  deliveryNote?: string | null
+  paymentReference?: string | null
+  sellerPaymentNote?: string | null
+  estimatedDeliveryMinutes?: number | null
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentConfirmedAt?: Date | string | null
+  outForDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  store: Prisma.StoreCreateNestedOneWithoutFoodOrdersInput
+  buyer: Prisma.UserCreateNestedOneWithoutFoodOrdersInput
+  items?: Prisma.FoodOrderItemCreateNestedManyWithoutOrderInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutFoodOrderInput
+}
+
+export type FoodOrderUncheckedCreateWithoutDeliveriesInput = {
+  id?: string
+  storeId: string
+  buyerId: string
+  status?: $Enums.FoodOrderStatus
+  buyerName?: string | null
+  buyerPhone?: string | null
+  deliveryAddress?: string | null
+  deliveryNote?: string | null
+  paymentReference?: string | null
+  sellerPaymentNote?: string | null
+  estimatedDeliveryMinutes?: number | null
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentConfirmedAt?: Date | string | null
+  outForDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  items?: Prisma.FoodOrderItemUncheckedCreateNestedManyWithoutOrderInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutFoodOrderInput
+}
+
+export type FoodOrderCreateOrConnectWithoutDeliveriesInput = {
+  where: Prisma.FoodOrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.FoodOrderCreateWithoutDeliveriesInput, Prisma.FoodOrderUncheckedCreateWithoutDeliveriesInput>
+}
+
+export type FoodOrderUpsertWithoutDeliveriesInput = {
+  update: Prisma.XOR<Prisma.FoodOrderUpdateWithoutDeliveriesInput, Prisma.FoodOrderUncheckedUpdateWithoutDeliveriesInput>
+  create: Prisma.XOR<Prisma.FoodOrderCreateWithoutDeliveriesInput, Prisma.FoodOrderUncheckedCreateWithoutDeliveriesInput>
+  where?: Prisma.FoodOrderWhereInput
+}
+
+export type FoodOrderUpdateToOneWithWhereWithoutDeliveriesInput = {
+  where?: Prisma.FoodOrderWhereInput
+  data: Prisma.XOR<Prisma.FoodOrderUpdateWithoutDeliveriesInput, Prisma.FoodOrderUncheckedUpdateWithoutDeliveriesInput>
+}
+
+export type FoodOrderUpdateWithoutDeliveriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  outForDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  store?: Prisma.StoreUpdateOneRequiredWithoutFoodOrdersNestedInput
+  buyer?: Prisma.UserUpdateOneRequiredWithoutFoodOrdersNestedInput
+  items?: Prisma.FoodOrderItemUpdateManyWithoutOrderNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutFoodOrderNestedInput
+}
+
+export type FoodOrderUncheckedUpdateWithoutDeliveriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  outForDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  items?: Prisma.FoodOrderItemUncheckedUpdateManyWithoutOrderNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutFoodOrderNestedInput
+}
+
 export type FoodOrderCreateWithoutItemsInput = {
   id?: string
   status?: $Enums.FoodOrderStatus
@@ -920,6 +1187,8 @@ export type FoodOrderCreateWithoutItemsInput = {
   updatedAt?: Date | string
   store: Prisma.StoreCreateNestedOneWithoutFoodOrdersInput
   buyer: Prisma.UserCreateNestedOneWithoutFoodOrdersInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutFoodOrderInput
+  deliveries?: Prisma.DeliveryCreateNestedManyWithoutFoodOrderInput
 }
 
 export type FoodOrderUncheckedCreateWithoutItemsInput = {
@@ -940,6 +1209,8 @@ export type FoodOrderUncheckedCreateWithoutItemsInput = {
   deliveredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutFoodOrderInput
+  deliveries?: Prisma.DeliveryUncheckedCreateNestedManyWithoutFoodOrderInput
 }
 
 export type FoodOrderCreateOrConnectWithoutItemsInput = {
@@ -976,6 +1247,8 @@ export type FoodOrderUpdateWithoutItemsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   store?: Prisma.StoreUpdateOneRequiredWithoutFoodOrdersNestedInput
   buyer?: Prisma.UserUpdateOneRequiredWithoutFoodOrdersNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutFoodOrderNestedInput
+  deliveries?: Prisma.DeliveryUpdateManyWithoutFoodOrderNestedInput
 }
 
 export type FoodOrderUncheckedUpdateWithoutItemsInput = {
@@ -996,6 +1269,8 @@ export type FoodOrderUncheckedUpdateWithoutItemsInput = {
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutFoodOrderNestedInput
+  deliveries?: Prisma.DeliveryUncheckedUpdateManyWithoutFoodOrderNestedInput
 }
 
 export type FoodOrderCreateManyBuyerInput = {
@@ -1035,6 +1310,8 @@ export type FoodOrderUpdateWithoutBuyerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   store?: Prisma.StoreUpdateOneRequiredWithoutFoodOrdersNestedInput
   items?: Prisma.FoodOrderItemUpdateManyWithoutOrderNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutFoodOrderNestedInput
+  deliveries?: Prisma.DeliveryUpdateManyWithoutFoodOrderNestedInput
 }
 
 export type FoodOrderUncheckedUpdateWithoutBuyerInput = {
@@ -1055,6 +1332,8 @@ export type FoodOrderUncheckedUpdateWithoutBuyerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.FoodOrderItemUncheckedUpdateManyWithoutOrderNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutFoodOrderNestedInput
+  deliveries?: Prisma.DeliveryUncheckedUpdateManyWithoutFoodOrderNestedInput
 }
 
 export type FoodOrderUncheckedUpdateManyWithoutBuyerInput = {
@@ -1113,6 +1392,8 @@ export type FoodOrderUpdateWithoutStoreInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buyer?: Prisma.UserUpdateOneRequiredWithoutFoodOrdersNestedInput
   items?: Prisma.FoodOrderItemUpdateManyWithoutOrderNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutFoodOrderNestedInput
+  deliveries?: Prisma.DeliveryUpdateManyWithoutFoodOrderNestedInput
 }
 
 export type FoodOrderUncheckedUpdateWithoutStoreInput = {
@@ -1133,6 +1414,8 @@ export type FoodOrderUncheckedUpdateWithoutStoreInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.FoodOrderItemUncheckedUpdateManyWithoutOrderNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutFoodOrderNestedInput
+  deliveries?: Prisma.DeliveryUncheckedUpdateManyWithoutFoodOrderNestedInput
 }
 
 export type FoodOrderUncheckedUpdateManyWithoutStoreInput = {
@@ -1161,10 +1444,14 @@ export type FoodOrderUncheckedUpdateManyWithoutStoreInput = {
 
 export type FoodOrderCountOutputType = {
   items: number
+  deliveryRequests: number
+  deliveries: number
 }
 
 export type FoodOrderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | FoodOrderCountOutputTypeCountItemsArgs
+  deliveryRequests?: boolean | FoodOrderCountOutputTypeCountDeliveryRequestsArgs
+  deliveries?: boolean | FoodOrderCountOutputTypeCountDeliveriesArgs
 }
 
 /**
@@ -1182,6 +1469,20 @@ export type FoodOrderCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
  */
 export type FoodOrderCountOutputTypeCountItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FoodOrderItemWhereInput
+}
+
+/**
+ * FoodOrderCountOutputType without action
+ */
+export type FoodOrderCountOutputTypeCountDeliveryRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeliveryRequestWhereInput
+}
+
+/**
+ * FoodOrderCountOutputType without action
+ */
+export type FoodOrderCountOutputTypeCountDeliveriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeliveryWhereInput
 }
 
 
@@ -1206,6 +1507,8 @@ export type FoodOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.FoodOrder$itemsArgs<ExtArgs>
+  deliveryRequests?: boolean | Prisma.FoodOrder$deliveryRequestsArgs<ExtArgs>
+  deliveries?: boolean | Prisma.FoodOrder$deliveriesArgs<ExtArgs>
   _count?: boolean | Prisma.FoodOrderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["foodOrder"]>
 
@@ -1278,6 +1581,8 @@ export type FoodOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.FoodOrder$itemsArgs<ExtArgs>
+  deliveryRequests?: boolean | Prisma.FoodOrder$deliveryRequestsArgs<ExtArgs>
+  deliveries?: boolean | Prisma.FoodOrder$deliveriesArgs<ExtArgs>
   _count?: boolean | Prisma.FoodOrderCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FoodOrderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1295,6 +1600,8 @@ export type $FoodOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     store: Prisma.$StorePayload<ExtArgs>
     buyer: Prisma.$UserPayload<ExtArgs>
     items: Prisma.$FoodOrderItemPayload<ExtArgs>[]
+    deliveryRequests: Prisma.$DeliveryRequestPayload<ExtArgs>[]
+    deliveries: Prisma.$DeliveryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1711,6 +2018,8 @@ export interface Prisma__FoodOrderClient<T, Null = never, ExtArgs extends runtim
   store<T extends Prisma.StoreDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StoreDefaultArgs<ExtArgs>>): Prisma.Prisma__StoreClient<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   buyer<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.FoodOrder$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoodOrder$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FoodOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  deliveryRequests<T extends Prisma.FoodOrder$deliveryRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoodOrder$deliveryRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeliveryRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  deliveries<T extends Prisma.FoodOrder$deliveriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoodOrder$deliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2179,6 +2488,54 @@ export type FoodOrder$itemsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.FoodOrderItemScalarFieldEnum | Prisma.FoodOrderItemScalarFieldEnum[]
+}
+
+/**
+ * FoodOrder.deliveryRequests
+ */
+export type FoodOrder$deliveryRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeliveryRequest
+   */
+  select?: Prisma.DeliveryRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeliveryRequest
+   */
+  omit?: Prisma.DeliveryRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeliveryRequestInclude<ExtArgs> | null
+  where?: Prisma.DeliveryRequestWhereInput
+  orderBy?: Prisma.DeliveryRequestOrderByWithRelationInput | Prisma.DeliveryRequestOrderByWithRelationInput[]
+  cursor?: Prisma.DeliveryRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeliveryRequestScalarFieldEnum | Prisma.DeliveryRequestScalarFieldEnum[]
+}
+
+/**
+ * FoodOrder.deliveries
+ */
+export type FoodOrder$deliveriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Delivery
+   */
+  select?: Prisma.DeliverySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Delivery
+   */
+  omit?: Prisma.DeliveryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeliveryInclude<ExtArgs> | null
+  where?: Prisma.DeliveryWhereInput
+  orderBy?: Prisma.DeliveryOrderByWithRelationInput | Prisma.DeliveryOrderByWithRelationInput[]
+  cursor?: Prisma.DeliveryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeliveryScalarFieldEnum | Prisma.DeliveryScalarFieldEnum[]
 }
 
 /**

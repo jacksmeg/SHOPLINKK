@@ -51,6 +51,6 @@ export async function GET(request: Request) {
   const redirectUrl = new URL(appUrl("/login"));
   redirectUrl.searchParams.set("verified", "success");
   redirectUrl.searchParams.set("email", email);
-  redirectUrl.searchParams.set("next", user.role === "SELLER" ? "seller" : user.role === "ADMIN" ? "admin" : "buyer");
+  redirectUrl.searchParams.set("next", user.role === "SELLER" ? "seller" : user.role === "RIDER" ? "rider" : user.role === "ADMIN" ? "admin" : "buyer");
   return NextResponse.redirect(redirectUrl);
 }

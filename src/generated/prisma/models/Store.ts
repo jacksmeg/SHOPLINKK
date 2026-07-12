@@ -379,6 +379,7 @@ export type StoreWhereInput = {
   foodMenuItems?: Prisma.FoodMenuItemListRelationFilter
   foodOrders?: Prisma.FoodOrderListRelationFilter
   followers?: Prisma.StoreFollowerListRelationFilter
+  deliveryRequests?: Prisma.DeliveryRequestListRelationFilter
 }
 
 export type StoreOrderByWithRelationInput = {
@@ -412,6 +413,7 @@ export type StoreOrderByWithRelationInput = {
   foodMenuItems?: Prisma.FoodMenuItemOrderByRelationAggregateInput
   foodOrders?: Prisma.FoodOrderOrderByRelationAggregateInput
   followers?: Prisma.StoreFollowerOrderByRelationAggregateInput
+  deliveryRequests?: Prisma.DeliveryRequestOrderByRelationAggregateInput
 }
 
 export type StoreWhereUniqueInput = Prisma.AtLeast<{
@@ -448,6 +450,7 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   foodMenuItems?: Prisma.FoodMenuItemListRelationFilter
   foodOrders?: Prisma.FoodOrderListRelationFilter
   followers?: Prisma.StoreFollowerListRelationFilter
+  deliveryRequests?: Prisma.DeliveryRequestListRelationFilter
 }, "id" | "ownerId" | "slug">
 
 export type StoreOrderByWithAggregationInput = {
@@ -540,6 +543,7 @@ export type StoreCreateInput = {
   foodMenuItems?: Prisma.FoodMenuItemCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateInput = {
@@ -572,6 +576,7 @@ export type StoreUncheckedCreateInput = {
   foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUpdateInput = {
@@ -604,6 +609,7 @@ export type StoreUpdateInput = {
   foodMenuItems?: Prisma.FoodMenuItemUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateInput = {
@@ -636,6 +642,7 @@ export type StoreUncheckedUpdateInput = {
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUncheckedUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateManyInput = {
@@ -963,6 +970,22 @@ export type StoreUpdateOneRequiredWithoutFoodOrdersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutFoodOrdersInput, Prisma.StoreUpdateWithoutFoodOrdersInput>, Prisma.StoreUncheckedUpdateWithoutFoodOrdersInput>
 }
 
+export type StoreCreateNestedOneWithoutDeliveryRequestsInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutDeliveryRequestsInput, Prisma.StoreUncheckedCreateWithoutDeliveryRequestsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutDeliveryRequestsInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneWithoutDeliveryRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutDeliveryRequestsInput, Prisma.StoreUncheckedCreateWithoutDeliveryRequestsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutDeliveryRequestsInput
+  upsert?: Prisma.StoreUpsertWithoutDeliveryRequestsInput
+  disconnect?: Prisma.StoreWhereInput | boolean
+  delete?: Prisma.StoreWhereInput | boolean
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutDeliveryRequestsInput, Prisma.StoreUpdateWithoutDeliveryRequestsInput>, Prisma.StoreUncheckedUpdateWithoutDeliveryRequestsInput>
+}
+
 export type StoreCreateWithoutOwnerInput = {
   id?: string
   name: string
@@ -992,6 +1015,7 @@ export type StoreCreateWithoutOwnerInput = {
   foodMenuItems?: Prisma.FoodMenuItemCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutOwnerInput = {
@@ -1023,6 +1047,7 @@ export type StoreUncheckedCreateWithoutOwnerInput = {
   foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutOwnerInput = {
@@ -1070,6 +1095,7 @@ export type StoreUpdateWithoutOwnerInput = {
   foodMenuItems?: Prisma.FoodMenuItemUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutOwnerInput = {
@@ -1101,6 +1127,7 @@ export type StoreUncheckedUpdateWithoutOwnerInput = {
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUncheckedUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutFollowersInput = {
@@ -1132,6 +1159,7 @@ export type StoreCreateWithoutFollowersInput = {
   verificationRequests?: Prisma.SellerVerificationCreateNestedManyWithoutStoreInput
   foodMenuItems?: Prisma.FoodMenuItemCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutFollowersInput = {
@@ -1163,6 +1191,7 @@ export type StoreUncheckedCreateWithoutFollowersInput = {
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutFollowersInput = {
@@ -1210,6 +1239,7 @@ export type StoreUpdateWithoutFollowersInput = {
   verificationRequests?: Prisma.SellerVerificationUpdateManyWithoutStoreNestedInput
   foodMenuItems?: Prisma.FoodMenuItemUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutFollowersInput = {
@@ -1241,6 +1271,7 @@ export type StoreUncheckedUpdateWithoutFollowersInput = {
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutProductsInput = {
@@ -1272,6 +1303,7 @@ export type StoreCreateWithoutProductsInput = {
   foodMenuItems?: Prisma.FoodMenuItemCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutProductsInput = {
@@ -1303,6 +1335,7 @@ export type StoreUncheckedCreateWithoutProductsInput = {
   foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutProductsInput = {
@@ -1350,6 +1383,7 @@ export type StoreUpdateWithoutProductsInput = {
   foodMenuItems?: Prisma.FoodMenuItemUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutProductsInput = {
@@ -1381,6 +1415,7 @@ export type StoreUncheckedUpdateWithoutProductsInput = {
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUncheckedUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutVerificationRequestsInput = {
@@ -1412,6 +1447,7 @@ export type StoreCreateWithoutVerificationRequestsInput = {
   foodMenuItems?: Prisma.FoodMenuItemCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutVerificationRequestsInput = {
@@ -1443,6 +1479,7 @@ export type StoreUncheckedCreateWithoutVerificationRequestsInput = {
   foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutVerificationRequestsInput = {
@@ -1490,6 +1527,7 @@ export type StoreUpdateWithoutVerificationRequestsInput = {
   foodMenuItems?: Prisma.FoodMenuItemUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutVerificationRequestsInput = {
@@ -1521,6 +1559,7 @@ export type StoreUncheckedUpdateWithoutVerificationRequestsInput = {
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUncheckedUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutReviewsInput = {
@@ -1552,6 +1591,7 @@ export type StoreCreateWithoutReviewsInput = {
   foodMenuItems?: Prisma.FoodMenuItemCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutReviewsInput = {
@@ -1583,6 +1623,7 @@ export type StoreUncheckedCreateWithoutReviewsInput = {
   foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutReviewsInput = {
@@ -1630,6 +1671,7 @@ export type StoreUpdateWithoutReviewsInput = {
   foodMenuItems?: Prisma.FoodMenuItemUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutReviewsInput = {
@@ -1661,6 +1703,7 @@ export type StoreUncheckedUpdateWithoutReviewsInput = {
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUncheckedUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutFoodMenuItemsInput = {
@@ -1692,6 +1735,7 @@ export type StoreCreateWithoutFoodMenuItemsInput = {
   verificationRequests?: Prisma.SellerVerificationCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutFoodMenuItemsInput = {
@@ -1723,6 +1767,7 @@ export type StoreUncheckedCreateWithoutFoodMenuItemsInput = {
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
   foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutFoodMenuItemsInput = {
@@ -1770,6 +1815,7 @@ export type StoreUpdateWithoutFoodMenuItemsInput = {
   verificationRequests?: Prisma.SellerVerificationUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutFoodMenuItemsInput = {
@@ -1801,6 +1847,7 @@ export type StoreUncheckedUpdateWithoutFoodMenuItemsInput = {
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUncheckedUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutFoodOrdersInput = {
@@ -1832,6 +1879,7 @@ export type StoreCreateWithoutFoodOrdersInput = {
   verificationRequests?: Prisma.SellerVerificationCreateNestedManyWithoutStoreInput
   foodMenuItems?: Prisma.FoodMenuItemCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutFoodOrdersInput = {
@@ -1863,6 +1911,7 @@ export type StoreUncheckedCreateWithoutFoodOrdersInput = {
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
   followers?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutFoodOrdersInput = {
@@ -1910,6 +1959,7 @@ export type StoreUpdateWithoutFoodOrdersInput = {
   verificationRequests?: Prisma.SellerVerificationUpdateManyWithoutStoreNestedInput
   foodMenuItems?: Prisma.FoodMenuItemUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutFoodOrdersInput = {
@@ -1941,6 +1991,151 @@ export type StoreUncheckedUpdateWithoutFoodOrdersInput = {
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUncheckedUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreCreateWithoutDeliveryRequestsInput = {
+  id?: string
+  name: string
+  slug: string
+  kind?: $Enums.StoreKind
+  description?: string | null
+  phone?: string | null
+  whatsapp?: string | null
+  momoNumber?: string | null
+  location?: string
+  area?: string | null
+  address?: string | null
+  openingHours?: string | null
+  logoUrl?: string | null
+  coverUrl?: string | null
+  isVerified?: boolean
+  verificationStatus?: $Enums.SellerVerificationStatus
+  responseRate?: number
+  trustScore?: number
+  ratingAverage?: number
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutStoreInput
+  products?: Prisma.ProductCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
+  verificationRequests?: Prisma.SellerVerificationCreateNestedManyWithoutStoreInput
+  foodMenuItems?: Prisma.FoodMenuItemCreateNestedManyWithoutStoreInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutStoreInput
+  followers?: Prisma.StoreFollowerCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutDeliveryRequestsInput = {
+  id?: string
+  ownerId: string
+  name: string
+  slug: string
+  kind?: $Enums.StoreKind
+  description?: string | null
+  phone?: string | null
+  whatsapp?: string | null
+  momoNumber?: string | null
+  location?: string
+  area?: string | null
+  address?: string | null
+  openingHours?: string | null
+  logoUrl?: string | null
+  coverUrl?: string | null
+  isVerified?: boolean
+  verificationStatus?: $Enums.SellerVerificationStatus
+  responseRate?: number
+  trustScore?: number
+  ratingAverage?: number
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
+  verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
+  foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutStoreInput
+  followers?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutDeliveryRequestsInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutDeliveryRequestsInput, Prisma.StoreUncheckedCreateWithoutDeliveryRequestsInput>
+}
+
+export type StoreUpsertWithoutDeliveryRequestsInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutDeliveryRequestsInput, Prisma.StoreUncheckedUpdateWithoutDeliveryRequestsInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutDeliveryRequestsInput, Prisma.StoreUncheckedCreateWithoutDeliveryRequestsInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutDeliveryRequestsInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutDeliveryRequestsInput, Prisma.StoreUncheckedUpdateWithoutDeliveryRequestsInput>
+}
+
+export type StoreUpdateWithoutDeliveryRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationStatus?: Prisma.EnumSellerVerificationStatusFieldUpdateOperationsInput | $Enums.SellerVerificationStatus
+  responseRate?: Prisma.IntFieldUpdateOperationsInput | number
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
+  products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
+  verificationRequests?: Prisma.SellerVerificationUpdateManyWithoutStoreNestedInput
+  foodMenuItems?: Prisma.FoodMenuItemUpdateManyWithoutStoreNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutStoreNestedInput
+  followers?: Prisma.StoreFollowerUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutDeliveryRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationStatus?: Prisma.EnumSellerVerificationStatusFieldUpdateOperationsInput | $Enums.SellerVerificationStatus
+  responseRate?: Prisma.IntFieldUpdateOperationsInput | number
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
+  verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
+  foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutStoreNestedInput
+  followers?: Prisma.StoreFollowerUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 
@@ -1955,6 +2150,7 @@ export type StoreCountOutputType = {
   foodMenuItems: number
   foodOrders: number
   followers: number
+  deliveryRequests: number
 }
 
 export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1964,6 +2160,7 @@ export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   foodMenuItems?: boolean | StoreCountOutputTypeCountFoodMenuItemsArgs
   foodOrders?: boolean | StoreCountOutputTypeCountFoodOrdersArgs
   followers?: boolean | StoreCountOutputTypeCountFollowersArgs
+  deliveryRequests?: boolean | StoreCountOutputTypeCountDeliveryRequestsArgs
 }
 
 /**
@@ -2018,6 +2215,13 @@ export type StoreCountOutputTypeCountFollowersArgs<ExtArgs extends runtime.Types
   where?: Prisma.StoreFollowerWhereInput
 }
 
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountDeliveryRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeliveryRequestWhereInput
+}
+
 
 export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2050,6 +2254,7 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   foodMenuItems?: boolean | Prisma.Store$foodMenuItemsArgs<ExtArgs>
   foodOrders?: boolean | Prisma.Store$foodOrdersArgs<ExtArgs>
   followers?: boolean | Prisma.Store$followersArgs<ExtArgs>
+  deliveryRequests?: boolean | Prisma.Store$deliveryRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["store"]>
 
@@ -2142,6 +2347,7 @@ export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   foodMenuItems?: boolean | Prisma.Store$foodMenuItemsArgs<ExtArgs>
   foodOrders?: boolean | Prisma.Store$foodOrdersArgs<ExtArgs>
   followers?: boolean | Prisma.Store$followersArgs<ExtArgs>
+  deliveryRequests?: boolean | Prisma.Store$deliveryRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StoreIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2161,6 +2367,7 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     foodMenuItems: Prisma.$FoodMenuItemPayload<ExtArgs>[]
     foodOrders: Prisma.$FoodOrderPayload<ExtArgs>[]
     followers: Prisma.$StoreFollowerPayload<ExtArgs>[]
+    deliveryRequests: Prisma.$DeliveryRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2587,6 +2794,7 @@ export interface Prisma__StoreClient<T, Null = never, ExtArgs extends runtime.Ty
   foodMenuItems<T extends Prisma.Store$foodMenuItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$foodMenuItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FoodMenuItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   foodOrders<T extends Prisma.Store$foodOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$foodOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FoodOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   followers<T extends Prisma.Store$followersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$followersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoreFollowerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  deliveryRequests<T extends Prisma.Store$deliveryRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$deliveryRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeliveryRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3181,6 +3389,30 @@ export type Store$followersArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.StoreFollowerScalarFieldEnum | Prisma.StoreFollowerScalarFieldEnum[]
+}
+
+/**
+ * Store.deliveryRequests
+ */
+export type Store$deliveryRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeliveryRequest
+   */
+  select?: Prisma.DeliveryRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeliveryRequest
+   */
+  omit?: Prisma.DeliveryRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeliveryRequestInclude<ExtArgs> | null
+  where?: Prisma.DeliveryRequestWhereInput
+  orderBy?: Prisma.DeliveryRequestOrderByWithRelationInput | Prisma.DeliveryRequestOrderByWithRelationInput[]
+  cursor?: Prisma.DeliveryRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeliveryRequestScalarFieldEnum | Prisma.DeliveryRequestScalarFieldEnum[]
 }
 
 /**

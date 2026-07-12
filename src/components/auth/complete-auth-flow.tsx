@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 type SetupState = {
   username?: string | null;
   phone?: string | null;
-  role?: "BUYER" | "SELLER" | "ADMIN";
+  role?: "BUYER" | "SELLER" | "RIDER" | "ADMIN";
   needsUsername: boolean;
   needsPassword: boolean;
 };
@@ -23,7 +23,8 @@ export function CompleteAuthFlow() {
   const [formMessage, setFormMessage] = useState("");
   const [pending, startTransition] = useTransition();
 
-  const requestedRole = params.get("role") === "SELLER" ? "SELLER" : "BUYER";
+  const roleParam = params.get("role");
+  const requestedRole = roleParam === "SELLER" ? "SELLER" : roleParam === "RIDER" ? "RIDER" : "BUYER";
   const requestedStoreKind = params.get("storeKind") === "FOOD" ? "FOOD" : "GENERAL";
   const callback = params.get("callback");
   const safeCallback = callback?.startsWith("/") ? callback : null;
@@ -57,12 +58,12 @@ export function CompleteAuthFlow() {
         return;
       }
 
-      if (requestedRole === "SELLER" && session?.user.role !== "SELLER") {
-        setMessage("Opening your seller dashboard...");
+      if ((requestedRole === "SELLER" && session?.user.role !== "SELLER") || (requestedRole === "RIDER" && session?.user.role !== "RIDER")) {
+        setMessage(requestedRole === "RIDER" ? "Opening your rider application..." : "Opening your seller dashboard...");
         const sellerResponse = await fetch("/api/account/complete-role", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ role: "SELLER", storeKind: requestedStoreKind }),
+          body: JSON.stringify({ role: requestedRole, storeKind: requestedStoreKind }),
         });
 
         if (!active) return;
@@ -74,13 +75,13 @@ export function CompleteAuthFlow() {
         }
 
         await update();
-        router.replace("/seller");
+        router.replace(requestedRole === "RIDER" ? "/rider/profile" : "/seller");
         router.refresh();
         return;
       }
 
       await update();
-      router.replace(safeCallback ?? (session?.user.role === "SELLER" ? "/seller" : "/buyer"));
+      router.replace(safeCallback ?? (session?.user.role === "SELLER" ? "/seller" : session?.user.role === "RIDER" ? "/rider" : "/buyer"));
       router.refresh();
     }
 
@@ -122,7 +123,13 @@ export function CompleteAuthFlow() {
       }
 
       await update();
-      router.replace(result?.role === "SELLER" || requestedRole === "SELLER" ? "/seller" : safeCallback ?? "/buyer");
+      router.replace(
+        result?.role === "SELLER" || requestedRole === "SELLER"
+          ? "/seller"
+          : result?.role === "RIDER" || requestedRole === "RIDER"
+            ? "/rider/profile"
+            : safeCallback ?? "/buyer",
+      );
       router.refresh();
     });
   }
@@ -189,7 +196,7 @@ export function CompleteAuthFlow() {
             </p>
           ) : null}
           <Button type="submit" disabled={pending} className="mt-5 w-full">
-            {pending ? "Saving..." : requestedRole === "SELLER" ? "Create seller account" : "Open account"}
+          {pending ? "Saving..." : requestedRole === "SELLER" ? "Create seller account" : requestedRole === "RIDER" ? "Create rider account" : "Open account"}
             <ArrowRight size={16} />
           </Button>
         </form>

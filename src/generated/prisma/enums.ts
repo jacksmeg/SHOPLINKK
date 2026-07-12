@@ -12,6 +12,7 @@
 export const Role = {
   BUYER: 'BUYER',
   SELLER: 'SELLER',
+  RIDER: 'RIDER',
   ADMIN: 'ADMIN'
 } as const
 
@@ -90,7 +91,8 @@ export const NotificationType = {
   REVIEW: 'REVIEW',
   SECURITY: 'SECURITY',
   PRICE_ALERT: 'PRICE_ALERT',
-  BOOST: 'BOOST'
+  BOOST: 'BOOST',
+  DELIVERY: 'DELIVERY'
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
@@ -114,7 +116,11 @@ export const AuditAction = {
   TOWN_CREATED: 'TOWN_CREATED',
   TOWN_UPDATED: 'TOWN_UPDATED',
   BOOST_APPROVED: 'BOOST_APPROVED',
-  BOOST_REJECTED: 'BOOST_REJECTED'
+  BOOST_REJECTED: 'BOOST_REJECTED',
+  RIDER_APPROVED: 'RIDER_APPROVED',
+  RIDER_REJECTED: 'RIDER_REJECTED',
+  RIDER_SUSPENDED: 'RIDER_SUSPENDED',
+  DELIVERY_ASSIGNED: 'DELIVERY_ASSIGNED'
 } as const
 
 export type AuditAction = (typeof AuditAction)[keyof typeof AuditAction]
@@ -277,3 +283,69 @@ export const FoodMenuStatus = {
 } as const
 
 export type FoodMenuStatus = (typeof FoodMenuStatus)[keyof typeof FoodMenuStatus]
+
+
+export const RiderVerificationStatus = {
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  SUSPENDED: 'SUSPENDED'
+} as const
+
+export type RiderVerificationStatus = (typeof RiderVerificationStatus)[keyof typeof RiderVerificationStatus]
+
+
+export const RiderAvailability = {
+  OFFLINE: 'OFFLINE',
+  ONLINE: 'ONLINE',
+  BUSY: 'BUSY',
+  ON_DELIVERY: 'ON_DELIVERY'
+} as const
+
+export type RiderAvailability = (typeof RiderAvailability)[keyof typeof RiderAvailability]
+
+
+export const RiderVehicleType = {
+  MOTORCYCLE: 'MOTORCYCLE',
+  TRICYCLE: 'TRICYCLE',
+  CAR: 'CAR',
+  VAN: 'VAN'
+} as const
+
+export type RiderVehicleType = (typeof RiderVehicleType)[keyof typeof RiderVehicleType]
+
+
+export const DeliveryRequestStatus = {
+  OPEN: 'OPEN',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED'
+} as const
+
+export type DeliveryRequestStatus = (typeof DeliveryRequestStatus)[keyof typeof DeliveryRequestStatus]
+
+
+export const DeliveryStatus = {
+  WAITING_FOR_RIDER: 'WAITING_FOR_RIDER',
+  ACCEPTED: 'ACCEPTED',
+  HEADING_TO_SELLER: 'HEADING_TO_SELLER',
+  ITEM_PICKED_UP: 'ITEM_PICKED_UP',
+  ON_THE_WAY: 'ON_THE_WAY',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type DeliveryStatus = (typeof DeliveryStatus)[keyof typeof DeliveryStatus]
+
+
+export const DeliveryReportReason = {
+  LATE_DELIVERY: 'LATE_DELIVERY',
+  MISSING_ITEM: 'MISSING_ITEM',
+  DAMAGED_PACKAGE: 'DAMAGED_PACKAGE',
+  RIDER_MISCONDUCT: 'RIDER_MISCONDUCT',
+  OTHER: 'OTHER'
+} as const
+
+export type DeliveryReportReason = (typeof DeliveryReportReason)[keyof typeof DeliveryReportReason]

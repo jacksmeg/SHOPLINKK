@@ -22,7 +22,7 @@ const schema = z.object({
     .refine((value) => !value || /^(\+233|0)?[235][0-9]{8}$/.test(value.replace(/[\s-]/g, "")), "Use a valid Ghana phone number")
     .optional()
     .or(z.literal("")),
-  role: z.enum(["BUYER", "SELLER"]).default("BUYER"),
+  role: z.enum(["BUYER", "SELLER", "RIDER"]).default("BUYER"),
   storeKind: z.enum(["GENERAL", "FOOD"]).optional().default("GENERAL"),
 });
 
@@ -72,6 +72,7 @@ export async function POST(request: Request) {
 
   const passwordHash = parsed.data.password ? await bcrypt.hash(parsed.data.password, 12) : undefined;
   const shouldBecomeSeller = parsed.data.role === "SELLER" && user.role !== "ADMIN";
+  const shouldBecomeRider = parsed.data.role === "RIDER" && user.role !== "ADMIN";
   const storeName = `${user.name?.trim() || parsed.data.username}'s Store`;
 
   await prisma.$transaction([
@@ -82,6 +83,7 @@ export async function POST(request: Request) {
         ...(passwordHash ? { passwordHash } : {}),
         ...(phone ? { phone, whatsapp: user.whatsapp || phone } : {}),
         ...(shouldBecomeSeller ? { role: "SELLER" } : {}),
+        ...(shouldBecomeRider ? { role: "RIDER" } : {}),
       },
     }),
     ...(shouldBecomeSeller && !user.store
@@ -101,15 +103,28 @@ export async function POST(request: Request) {
           }),
         ]
       : []),
+    ...(shouldBecomeRider
+      ? [
+          prisma.riderProfile.upsert({
+            where: { userId: user.id },
+            create: { userId: user.id, status: "DRAFT", availability: "OFFLINE" },
+            update: {},
+          }),
+        ]
+      : []),
   ]);
 
   await notifyUser({
     userId: user.id,
     type: "SECURITY",
     title: "Account setup complete",
-    body: shouldBecomeSeller ? "Your seller store is ready. Complete your profile and add your first listing." : "Your ShopLinkk account setup is complete.",
-    href: shouldBecomeSeller ? "/seller" : "/buyer",
+    body: shouldBecomeSeller
+      ? "Your seller store is ready. Complete your profile and add your first listing."
+      : shouldBecomeRider
+        ? "Your rider account is ready. Submit your documents for admin verification."
+        : "Your ShopLinkk account setup is complete.",
+    href: shouldBecomeSeller ? "/seller" : shouldBecomeRider ? "/rider/profile" : "/buyer",
   });
 
-  return NextResponse.json({ ok: true, role: shouldBecomeSeller ? "SELLER" : user.role });
+  return NextResponse.json({ ok: true, role: shouldBecomeSeller ? "SELLER" : shouldBecomeRider ? "RIDER" : user.role });
 }

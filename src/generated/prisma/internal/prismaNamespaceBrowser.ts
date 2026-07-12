@@ -94,6 +94,12 @@ export const ModelName = {
   FoodMenuImage: 'FoodMenuImage',
   FoodMenuOption: 'FoodMenuOption',
   FoodOrder: 'FoodOrder',
+  RiderProfile: 'RiderProfile',
+  DeliveryRequest: 'DeliveryRequest',
+  Delivery: 'Delivery',
+  RiderLocationPing: 'RiderLocationPing',
+  RiderRating: 'RiderRating',
+  DeliveryReport: 'DeliveryReport',
   FoodOrderItem: 'FoodOrderItem'
 } as const
 
@@ -787,6 +793,144 @@ export const FoodOrderScalarFieldEnum = {
 } as const
 
 export type FoodOrderScalarFieldEnum = (typeof FoodOrderScalarFieldEnum)[keyof typeof FoodOrderScalarFieldEnum]
+
+
+export const RiderProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  availability: 'availability',
+  vehicleType: 'vehicleType',
+  profilePhotoUrl: 'profilePhotoUrl',
+  ghanaCardUrl: 'ghanaCardUrl',
+  licenseUrl: 'licenseUrl',
+  vehicleDocumentUrl: 'vehicleDocumentUrl',
+  emergencyContactName: 'emergencyContactName',
+  emergencyContactPhone: 'emergencyContactPhone',
+  momoName: 'momoName',
+  momoNumber: 'momoNumber',
+  bankName: 'bankName',
+  bankAccountName: 'bankAccountName',
+  bankAccountNumber: 'bankAccountNumber',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  lastLocationAt: 'lastLocationAt',
+  rejectionReason: 'rejectionReason',
+  suspensionReason: 'suspensionReason',
+  approvedAt: 'approvedAt',
+  reviewedById: 'reviewedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RiderProfileScalarFieldEnum = (typeof RiderProfileScalarFieldEnum)[keyof typeof RiderProfileScalarFieldEnum]
+
+
+export const DeliveryRequestScalarFieldEnum = {
+  id: 'id',
+  foodOrderId: 'foodOrderId',
+  storeId: 'storeId',
+  sellerId: 'sellerId',
+  buyerId: 'buyerId',
+  riderId: 'riderId',
+  status: 'status',
+  pickupName: 'pickupName',
+  pickupPhone: 'pickupPhone',
+  pickupAddress: 'pickupAddress',
+  pickupLatitude: 'pickupLatitude',
+  pickupLongitude: 'pickupLongitude',
+  deliveryName: 'deliveryName',
+  deliveryPhone: 'deliveryPhone',
+  deliveryAddress: 'deliveryAddress',
+  deliveryLatitude: 'deliveryLatitude',
+  deliveryLongitude: 'deliveryLongitude',
+  productName: 'productName',
+  deliveryFee: 'deliveryFee',
+  distanceKm: 'distanceKm',
+  estimatedMinutes: 'estimatedMinutes',
+  note: 'note',
+  acceptedAt: 'acceptedAt',
+  rejectedAt: 'rejectedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DeliveryRequestScalarFieldEnum = (typeof DeliveryRequestScalarFieldEnum)[keyof typeof DeliveryRequestScalarFieldEnum]
+
+
+export const DeliveryScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  riderId: 'riderId',
+  foodOrderId: 'foodOrderId',
+  sellerId: 'sellerId',
+  buyerId: 'buyerId',
+  status: 'status',
+  deliveryFee: 'deliveryFee',
+  distanceKm: 'distanceKm',
+  estimatedMinutes: 'estimatedMinutes',
+  acceptedAt: 'acceptedAt',
+  headingToSellerAt: 'headingToSellerAt',
+  pickedUpAt: 'pickedUpAt',
+  onTheWayAt: 'onTheWayAt',
+  deliveredAt: 'deliveredAt',
+  cancelledAt: 'cancelledAt',
+  buyerConfirmedAt: 'buyerConfirmedAt',
+  sellerConfirmedAt: 'sellerConfirmedAt',
+  riderLatitude: 'riderLatitude',
+  riderLongitude: 'riderLongitude',
+  riderLocationAt: 'riderLocationAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DeliveryScalarFieldEnum = (typeof DeliveryScalarFieldEnum)[keyof typeof DeliveryScalarFieldEnum]
+
+
+export const RiderLocationPingScalarFieldEnum = {
+  id: 'id',
+  riderId: 'riderId',
+  deliveryId: 'deliveryId',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  accuracy: 'accuracy',
+  heading: 'heading',
+  speed: 'speed',
+  createdAt: 'createdAt'
+} as const
+
+export type RiderLocationPingScalarFieldEnum = (typeof RiderLocationPingScalarFieldEnum)[keyof typeof RiderLocationPingScalarFieldEnum]
+
+
+export const RiderRatingScalarFieldEnum = {
+  id: 'id',
+  deliveryId: 'deliveryId',
+  riderId: 'riderId',
+  authorId: 'authorId',
+  rating: 'rating',
+  comment: 'comment',
+  createdAt: 'createdAt'
+} as const
+
+export type RiderRatingScalarFieldEnum = (typeof RiderRatingScalarFieldEnum)[keyof typeof RiderRatingScalarFieldEnum]
+
+
+export const DeliveryReportScalarFieldEnum = {
+  id: 'id',
+  deliveryId: 'deliveryId',
+  riderId: 'riderId',
+  reporterId: 'reporterId',
+  reviewedById: 'reviewedById',
+  reason: 'reason',
+  details: 'details',
+  status: 'status',
+  resolutionNote: 'resolutionNote',
+  resolvedAt: 'resolvedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DeliveryReportScalarFieldEnum = (typeof DeliveryReportScalarFieldEnum)[keyof typeof DeliveryReportScalarFieldEnum]
 
 
 export const FoodOrderItemScalarFieldEnum = {

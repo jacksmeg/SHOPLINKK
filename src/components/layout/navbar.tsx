@@ -63,7 +63,9 @@ export function NavBar() {
       ? "/admin"
       : session?.user.role === "SELLER"
         ? "/seller"
-        : "/buyer";
+        : session?.user.role === "RIDER"
+          ? "/rider"
+          : "/buyer";
 
   const mobileItems = status === "authenticated"
     ? [

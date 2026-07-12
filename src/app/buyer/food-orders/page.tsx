@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bell, ChefHat, GitCompareArrows, Heart, MessageCircle, Search, ShoppingBag, Truck, UserRound } from "lucide-react";
+import { Bell, ChefHat, GitCompareArrows, Heart, MapPinned, MessageCircle, Search, ShoppingBag, Truck, UserRound } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -25,7 +25,12 @@ export default async function BuyerFoodOrdersPage() {
   const statuses = ["PENDING_PAYMENT", "PAID", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED"];
   const orders = await prisma.foodOrder.findMany({
     where: { buyerId: session.user.id },
-    include: { store: { select: { name: true, slug: true, momoNumber: true, phone: true } }, items: true },
+    include: {
+      store: { select: { name: true, slug: true, momoNumber: true, phone: true } },
+      items: true,
+      deliveries: { select: { id: true, status: true }, orderBy: { createdAt: "desc" }, take: 1 },
+      deliveryRequests: { select: { status: true }, orderBy: { createdAt: "desc" }, take: 1 },
+    },
     orderBy: { createdAt: "desc" },
     take: 50,
   });
@@ -40,6 +45,11 @@ export default async function BuyerFoodOrdersPage() {
       <div className="grid gap-3">
         {orders.map((order) => (
           <article key={order.id} className="app-panel p-4 sm:p-5">
+            {(() => {
+              const activeDelivery = order.deliveries[0];
+              const activeRequest = order.deliveryRequests[0];
+              return (
+                <>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <Link href={`/stores/${order.store.slug}`} className="text-sm font-black text-[var(--ink)] hover:text-[var(--brand-dark)]">
@@ -84,6 +94,17 @@ export default async function BuyerFoodOrdersPage() {
               <Truck size={15} />
               Send MoMo to {order.store.momoNumber || order.store.phone || "the seller number"}, then wait for seller confirmation.
             </p>
+            {activeDelivery ? (
+              <Link href={`/deliveries/${activeDelivery.id}`} className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-[8px] bg-[var(--brand)] px-3 text-xs font-black text-white">
+                <MapPinned size={14} />
+                Track live delivery
+              </Link>
+            ) : activeRequest ? (
+              <p className="mt-3 rounded-[8px] bg-blue-50 p-3 text-xs font-bold text-blue-900">Delivery request: {titleCase(activeRequest.status)}</p>
+            ) : null}
+                </>
+              );
+            })()}
           </article>
         ))}
         {!orders.length ? <EmptyState title="No food orders yet" description="Food orders you place from food sellers will appear here." icon={ChefHat} /> : null}

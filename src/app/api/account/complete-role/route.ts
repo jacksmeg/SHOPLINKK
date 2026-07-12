@@ -6,7 +6,7 @@ import { notifyUser } from "@/lib/notifications";
 import { uniqueSlug } from "@/lib/slug";
 
 const schema = z.object({
-  role: z.enum(["BUYER", "SELLER"]),
+  role: z.enum(["BUYER", "SELLER", "RIDER"]),
   storeKind: z.enum(["GENERAL", "FOOD"]).optional().default("GENERAL"),
 });
 
@@ -39,6 +39,30 @@ export async function POST(request: Request) {
   });
 
   if (!user) return jsonError("Account not found", 404);
+
+  if (parsed.data.role === "RIDER") {
+    await prisma.$transaction([
+      prisma.user.update({
+        where: { id: user.id },
+        data: { role: "RIDER", whatsapp: user.whatsapp || user.phone || null },
+      }),
+      prisma.riderProfile.upsert({
+        where: { userId: user.id },
+        create: { userId: user.id, status: "DRAFT", availability: "OFFLINE" },
+        update: {},
+      }),
+    ]);
+
+    await notifyUser({
+      userId: user.id,
+      type: "SECURITY",
+      title: "Rider account created",
+      body: "Submit your rider documents and vehicle details for admin verification.",
+      href: "/rider/profile",
+    });
+
+    return NextResponse.json({ ok: true, role: "RIDER" });
+  }
 
   if (user.role !== "SELLER") {
     const storeName = `${user.name?.trim() || "ShopLinkk"}'s Store`;

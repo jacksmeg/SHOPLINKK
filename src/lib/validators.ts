@@ -44,7 +44,7 @@ export const registerSchema = z.object({
     .regex(/^[a-z0-9_]+$/, "Use only letters, numbers, and underscore"),
   email: z.email("Enter a valid email address"),
   password: z.string().min(8, "Use at least 8 characters"),
-  role: z.enum(["BUYER", "SELLER"]).default("BUYER"),
+  role: z.enum(["BUYER", "SELLER", "RIDER"]).default("BUYER"),
   storeKind: z.enum(["GENERAL", "FOOD"]).optional().default("GENERAL"),
   phone: ghanaPhoneSchema,
   location: z.string().min(2).default("Dunkwa-on-Offin"),
@@ -298,6 +298,83 @@ export const foodOrderSchema = z.object({
 export const foodOrderStatusSchema = z.object({
   status: z.enum(["PAID", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED"]),
   note: z.string().max(500).optional().or(z.literal("")),
+});
+
+export const riderApplicationSchema = z.object({
+  profilePhotoUrl: imageValue.optional().or(z.literal("")),
+  ghanaCardUrl: imageValue.optional().or(z.literal("")),
+  licenseUrl: imageValue.optional().or(z.literal("")),
+  vehicleDocumentUrl: imageValue.optional().or(z.literal("")),
+  vehicleType: z.enum(["MOTORCYCLE", "TRICYCLE", "CAR", "VAN"]),
+  emergencyContactName: z.string().min(2, "Enter the emergency contact name").max(120),
+  emergencyContactPhone: ghanaPhoneSchema,
+  momoName: z.string().max(120).optional().or(z.literal("")),
+  momoNumber: ghanaPhoneSchema.optional().or(z.literal("")),
+  bankName: z.string().max(120).optional().or(z.literal("")),
+  bankAccountName: z.string().max(120).optional().or(z.literal("")),
+  bankAccountNumber: z.string().max(80).optional().or(z.literal("")),
+}).refine((value) => value.momoNumber || value.bankAccountNumber, {
+  message: "Add a Mobile Money number or bank account for future payouts",
+  path: ["momoNumber"],
+});
+
+export const riderAvailabilitySchema = z.object({
+  availability: z.enum(["OFFLINE", "ONLINE", "BUSY", "ON_DELIVERY"]),
+});
+
+export const riderLocationSchema = z.object({
+  deliveryId: z.string().optional().or(z.literal("")),
+  latitude: z.coerce.number().min(-90).max(90),
+  longitude: z.coerce.number().min(-180).max(180),
+  accuracy: z.coerce.number().optional(),
+  heading: z.coerce.number().optional(),
+  speed: z.coerce.number().optional(),
+});
+
+export const deliveryRequestSchema = z.object({
+  foodOrderId: z.string().optional().or(z.literal("")),
+  pickupAddress: z.string().min(5, "Enter the pickup address").max(240),
+  pickupLatitude: z.coerce.number().min(-90).max(90).optional().or(z.literal("")),
+  pickupLongitude: z.coerce.number().min(-180).max(180).optional().or(z.literal("")),
+  deliveryAddress: z.string().min(5, "Enter the delivery address").max(240),
+  deliveryLatitude: z.coerce.number().min(-90).max(90).optional().or(z.literal("")),
+  deliveryLongitude: z.coerce.number().min(-180).max(180).optional().or(z.literal("")),
+  productName: z.string().min(2).max(180),
+  deliveryFee: z.coerce.number().min(0, "Delivery fee cannot be negative"),
+  distanceKm: z.coerce.number().min(0).optional().or(z.literal("")),
+  estimatedMinutes: z.coerce.number().int().min(1).max(1440).optional().or(z.literal("")),
+  note: z.string().max(500).optional().or(z.literal("")),
+});
+
+export const riderDeliveryDecisionSchema = z.object({
+  action: z.enum(["ACCEPT", "REJECT"]),
+});
+
+export const deliveryStatusSchema = z.object({
+  status: z.enum(["HEADING_TO_SELLER", "ITEM_PICKED_UP", "ON_THE_WAY", "DELIVERED", "CANCELLED"]),
+});
+
+export const deliveryConfirmSchema = z.object({
+  role: z.enum(["BUYER", "SELLER"]),
+});
+
+export const riderRatingSchema = z.object({
+  rating: z.coerce.number().int().min(1).max(5),
+  comment: z.string().max(700).optional().or(z.literal("")),
+});
+
+export const deliveryReportSchema = z.object({
+  reason: z.enum(["LATE_DELIVERY", "MISSING_ITEM", "DAMAGED_PACKAGE", "RIDER_MISCONDUCT", "OTHER"]),
+  details: z.string().max(1000).optional().or(z.literal("")),
+});
+
+export const adminRiderDecisionSchema = z.object({
+  action: z.enum(["APPROVE", "REJECT", "SUSPEND", "UNSUSPEND"]),
+  note: z.string().max(1000).optional().or(z.literal("")),
+});
+
+export const adminDeliveryAssignSchema = z.object({
+  riderId: z.string().min(1),
 });
 
 export const adminNoteSchema = z.object({

@@ -1,4 +1,4 @@
-import { SellerVerifyAction, UserBlockAction } from "@/components/admin/admin-actions";
+import { SellerVerifyAction, UserBlockAction, UserDeleteAction } from "@/components/admin/admin-actions";
 import { StaffForm } from "@/components/admin/staff-form";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
@@ -52,7 +52,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: P
         {usersList.map((user) => (
           <article key={user.id} className="app-panel p-4">
             <div className="flex items-start justify-between gap-3"><div className="min-w-0"><p className="truncate text-sm font-black text-[var(--ink)]">{user.name ?? "Unnamed user"}</p><p className="truncate text-xs text-[var(--muted)]">{user.email}</p><p className="mt-1 text-xs text-[var(--muted)]">{user.phone ?? "No phone"} · {user.location}</p></div><Badge tone={user.role === "ADMIN" ? "blue" : user.role === "SELLER" ? "gold" : "neutral"}>{titleCase(user.role)}</Badge></div>
-            <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-[var(--line)] pt-3">{user.isBlocked ? <Badge tone="red">Blocked</Badge> : <Badge tone="green">Active</Badge>}<span className="text-xs text-[var(--muted)]">{user._count.products} listings</span><div className="ml-auto"><UserBlockAction userId={user.id} blocked={user.isBlocked} /></div></div>
+            <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-[var(--line)] pt-3">{user.isBlocked ? <Badge tone="red">Blocked</Badge> : <Badge tone="green">Active</Badge>}<span className="text-xs text-[var(--muted)]">{user._count.products} listings</span><div className="ml-auto flex flex-wrap gap-2"><UserBlockAction userId={user.id} blocked={user.isBlocked} /><UserDeleteAction userId={user.id} userName={user.name} /></div></div>
             {user.role === "SELLER" && user.store ? <div className="mt-3 flex items-center justify-between gap-3"><Badge tone={user.store.isVerified ? "green" : "gold"}>{titleCase(user.store.verificationStatus)}</Badge><SellerVerifyAction sellerId={user.id} verified={user.store.isVerified} /></div> : null}
           </article>
         ))}
@@ -95,7 +95,12 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: P
                       <span className="text-[var(--muted)]">-</span>
                     )}
                   </td>
-                  <td className="px-4 py-4"><UserBlockAction userId={user.id} blocked={user.isBlocked} /></td>
+                  <td className="px-4 py-4">
+                    <div className="flex flex-wrap gap-2">
+                      <UserBlockAction userId={user.id} blocked={user.isBlocked} />
+                      <UserDeleteAction userId={user.id} userName={user.name} />
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

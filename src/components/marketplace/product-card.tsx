@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Boxes, Flame, MapPin, ShieldCheck, Store, Video, Wrench } from "lucide-react";
 import type { PublicProduct } from "@/lib/marketplace";
-import { getActiveSalePrice, isContactPrice, saleEndsInLabel } from "@/lib/pricing";
+import { getActiveSalePrice, isContactPrice } from "@/lib/pricing";
 import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { AddProductToCartButton } from "@/components/marketplace/add-product-to-cart-button";
 import { FavoriteButton } from "@/components/marketplace/favorite-button";
+import { FlashSaleCountdown } from "@/components/marketplace/flash-sale-countdown";
 
 export function ProductCard({
   product,
@@ -16,7 +18,6 @@ export function ProductCard({
 }) {
   const cover = product.images[0]?.url ?? "/window.svg";
   const salePrice = getActiveSalePrice(product);
-  const saleLabel = saleEndsInLabel(product.saleEndsAt);
   const contactPrice = isContactPrice(product);
 
   return (
@@ -92,7 +93,28 @@ export function ProductCard({
               {product.quantity} unit{product.quantity === 1 ? "" : "s"} left
             </span>
           ) : null}
-          {salePrice && saleLabel ? <span className="font-black text-red-600">{saleLabel}</span> : null}
+          {salePrice ? <FlashSaleCountdown endsAt={product.saleEndsAt} compact /> : null}
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <AddProductToCartButton
+            compact
+            product={{
+              id: product.id,
+              slug: product.slug,
+              title: product.title,
+              imageUrl: cover,
+              price: product.price,
+              salePrice,
+              priceMode: product.priceMode,
+              quantity: product.quantity,
+              storeName: product.store?.name,
+              storeSlug: product.store?.slug,
+              sellerPhone: product.store?.phone ?? product.seller.phone,
+            }}
+          />
+          <Link href={`/products/${product.slug}`} className="inline-flex min-h-9 items-center rounded-[7px] px-3 text-xs font-bold text-[var(--brand-dark)] hover:bg-[var(--brand-soft)]">
+            View details
+          </Link>
         </div>
       </div>
     </article>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CalendarDays, CircleDollarSign, Clock3, Megaphone } from "lucide-react";
+import { CalendarDays, CircleDollarSign, Clock3, Megaphone, Settings2 } from "lucide-react";
 import { AdvertExtensionActions } from "@/components/admin/advert-extension-actions";
 import { BoostActions } from "@/components/admin/boost-actions";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
@@ -94,6 +94,12 @@ export default async function AdminBoostsPage() {
                   ) : null}
 
                   {request.note ? <p className="mt-3 text-xs leading-5 text-[var(--muted)]"><strong className="text-[var(--ink)]">Note:</strong> {request.note}</p> : null}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <Link href={`/admin/boosts/${request.id}/process`} className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[7px] bg-[var(--brand-dark)] px-4 text-xs font-black text-white transition hover:-translate-y-px hover:bg-[var(--brand)]">
+                      <Settings2 size={15} />
+                      Process advert
+                    </Link>
+                  </div>
                   {request.status === "REQUESTED" ? <BoostActions requestId={request.id} initialDays={request.durationDays} initialFee={request.feeAmount ? Number(request.feeAmount) : null} initialPaymentStatus={request.paymentStatus} initialReference={request.feeReference} /> : null}
                   {request.extensionStatus === "REQUESTED" ? <AdvertExtensionActions requestId={request.id} requestedDays={request.extensionDays} requestedNote={request.extensionNote} /> : null}
                 </div>

@@ -1,4 +1,5 @@
 export const FOOD_CART_STORAGE_KEY = "shoplinkk_food_cart_v1";
+export const FOOD_CHECKOUT_STORAGE_KEY = "shoplinkk_food_checkout_v1";
 export const FOOD_CART_CHANGED_EVENT = "shoplinkk-food-cart-changed";
 
 export type FoodCartOption = {
@@ -26,6 +27,13 @@ export type FoodCartItem = {
   addedAt: string;
 };
 
+export type FoodCheckoutDetails = {
+  buyerName: string;
+  buyerPhone: string;
+  deliveryAddress: string;
+  deliveryNote: string;
+};
+
 export function foodCartItemTotal(item: FoodCartItem) {
   const foodTotal = item.basePrice * item.quantity;
   const optionTotal = item.options.reduce((sum, option) => sum + option.price * option.quantity, 0);
@@ -51,6 +59,22 @@ export function writeFoodCart(items: FoodCartItem[]) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(FOOD_CART_STORAGE_KEY, JSON.stringify(items));
   window.dispatchEvent(new Event(FOOD_CART_CHANGED_EVENT));
+}
+
+export function readFoodCheckoutDetails(): Partial<FoodCheckoutDetails> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = window.localStorage.getItem(FOOD_CHECKOUT_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+export function writeFoodCheckoutDetails(details: FoodCheckoutDetails) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(FOOD_CHECKOUT_STORAGE_KEY, JSON.stringify(details));
 }
 
 export function makeCartId() {

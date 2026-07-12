@@ -3,13 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2, LocateFixed, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import {
   FOOD_CART_CHANGED_EVENT,
   foodCartCount,
   foodCartItemTotal,
+  readFoodCheckoutDetails,
   readFoodCart,
+  writeFoodCheckoutDetails,
   writeFoodCart,
   type FoodCartItem,
 } from "@/lib/food-cart";
@@ -24,6 +27,7 @@ export function FoodCartPage({
   defaultName?: string | null;
   defaultPhone?: string | null;
 }) {
+  const router = useRouter();
   const [items, setItems] = useState<FoodCartItem[]>([]);
   const [buyerName, setBuyerName] = useState(defaultName ?? "");
   const [buyerPhone, setBuyerPhone] = useState(defaultPhone ?? "");
@@ -32,12 +36,18 @@ export function FoodCartPage({
   const [paymentReference, setPaymentReference] = useState("");
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
+  const [placedOrders, setPlacedOrders] = useState<{ id: string; storeName: string }[]>([]);
   const [pending, startTransition] = useTransition();
 
   useEffect(() => {
     function sync() {
       setItems(readFoodCart());
     }
+    const savedDetails = readFoodCheckoutDetails();
+    if (savedDetails.buyerName && !defaultName) setBuyerName(savedDetails.buyerName);
+    if (savedDetails.buyerPhone && !defaultPhone) setBuyerPhone(savedDetails.buyerPhone);
+    if (savedDetails.deliveryAddress) setDeliveryAddress(savedDetails.deliveryAddress);
+    if (savedDetails.deliveryNote) setDeliveryNote(savedDetails.deliveryNote);
     sync();
     window.addEventListener(FOOD_CART_CHANGED_EVENT, sync);
     window.addEventListener("storage", sync);
@@ -115,9 +125,12 @@ export function FoodCartPage({
       setMessage("Your cart is empty.");
       return;
     }
+    setPlacedOrders([]);
+    writeFoodCheckoutDetails({ buyerName, buyerPhone, deliveryAddress, deliveryNote });
 
     startTransition(async () => {
       const placedStoreIds: string[] = [];
+      const createdOrders: { id: string; storeName: string }[] = [];
       for (const group of grouped) {
         const response = await fetch(`/api/stores/${group.storeId}/food-orders`, {
           method: "POST",
@@ -145,14 +158,25 @@ export function FoodCartPage({
           return;
         }
         placedStoreIds.push(group.storeId);
+        if (result?.id) {
+          createdOrders.push({ id: result.id, storeName: group.storeName });
+        }
       }
 
       const remaining = items.filter((item) => !placedStoreIds.includes(item.storeId));
       save(remaining);
-      setMessage("Food order sent. Sellers will confirm payment and delivery status from their dashboard.");
+      setPlacedOrders(createdOrders);
+      setMessage(
+        createdOrders.length > 1
+          ? "Food orders sent. Choose an order below to track it."
+          : "Food order sent. Opening your order tracker...",
+      );
       setSuccess(true);
       setDeliveryNote("");
       setPaymentReference("");
+      if (createdOrders.length === 1) {
+        router.push(`/food-orders/${createdOrders[0].id}`);
+      }
     });
   }
 
@@ -264,6 +288,15 @@ export function FoodCartPage({
               <CheckCircle2 className="mt-0.5 shrink-0" size={15} />
               {message}
             </p>
+          ) : null}
+          {placedOrders.length > 1 ? (
+            <div className="mt-3 grid gap-2">
+              {placedOrders.map((order) => (
+                <Link key={order.id} href={`/food-orders/${order.id}`} className="rounded-[8px] border border-[var(--line)] bg-white px-3 py-2 text-xs font-black text-[var(--brand-dark)] hover:border-[var(--brand)]">
+                  Track {order.storeName} order
+                </Link>
+              ))}
+            </div>
           ) : null}
           <Button type="button" disabled={pending || !items.length} onClick={submitOrders} className="mt-4 w-full">
             <ShoppingCart size={16} />

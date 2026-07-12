@@ -125,6 +125,59 @@ export function UserBlockAction({ userId, blocked }: { userId: string; blocked: 
   return <Button type="button" variant={blocked ? "secondary" : "danger"} disabled={pending} onClick={() => blocked ? toggle() : setEditing(true)}>{blocked ? "Unblock" : "Block"}</Button>;
 }
 
+export function UserDeleteAction({ userId, userName }: { userId: string; userName?: string | null }) {
+  const router = useRouter();
+  const [confirming, setConfirming] = useState(false);
+  const [message, setMessage] = useState("");
+  const [pending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (!message) return;
+    const timeout = window.setTimeout(() => setMessage(""), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [message]);
+
+  function remove() {
+    startTransition(async () => {
+      const response = await fetch(`/api/admin/users/${userId}`, { method: "DELETE" });
+      const result = await response.json().catch(() => null);
+      if (!response.ok) {
+        setMessage(result?.message ?? "User could not be deleted.");
+        return;
+      }
+      setConfirming(false);
+      router.refresh();
+    });
+  }
+
+  if (confirming) {
+    return (
+      <div className="grid min-w-[220px] gap-2">
+        <p className="text-xs leading-5 text-red-700">
+          Delete {userName || "this user"} and connected account data?
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Button type="button" variant="danger" disabled={pending} onClick={remove}>
+            <Trash2 size={13} />
+            Delete
+          </Button>
+          <Button type="button" variant="ghost" disabled={pending} onClick={() => setConfirming(false)}>
+            Cancel
+          </Button>
+        </div>
+        {message ? <p className="text-xs font-semibold text-red-700">{message}</p> : null}
+      </div>
+    );
+  }
+
+  return (
+    <Button type="button" variant="danger" disabled={pending} onClick={() => setConfirming(true)}>
+      <Trash2 size={13} />
+      Delete
+    </Button>
+  );
+}
+
 export function ReportResolveAction({ reportId }: { reportId: string }) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);

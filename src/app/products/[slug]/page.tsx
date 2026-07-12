@@ -4,12 +4,14 @@ import type { Metadata } from "next";
 import { Boxes, Flame, MapPin, MessageCircle, PackageCheck, Phone, Share2, ShieldAlert, ShieldCheck, Store, Tag, Wrench } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
+import { AddProductToCartButton } from "@/components/marketplace/add-product-to-cart-button";
 import { ContactSellerButton } from "@/components/marketplace/contact-seller-button";
 import { BlockUserButton } from "@/components/marketplace/block-user-button";
 import { CompareButton } from "@/components/marketplace/compare-button";
 import { FavoriteButton } from "@/components/marketplace/favorite-button";
 import { ProductImageGallery } from "@/components/marketplace/product-image-gallery";
 import { ProductRail } from "@/components/marketplace/product-rail";
+import { FlashSaleCountdown } from "@/components/marketplace/flash-sale-countdown";
 import { PriceAlertButton } from "@/components/marketplace/price-alert-button";
 import { ReportButton } from "@/components/marketplace/report-button";
 import { ReviewForm } from "@/components/marketplace/review-form";
@@ -144,6 +146,7 @@ export default async function ProductDetailPage({
               <p className="mt-1 flex flex-wrap items-center gap-2 text-xs font-bold text-[var(--muted)]">
                 <span className="line-through">{formatCurrency(product.price)}</span>
                 {saleLabel ? <span className="rounded-full bg-red-50 px-2 py-1 text-red-700">{saleLabel}</span> : null}
+                <FlashSaleCountdown endsAt={product.saleEndsAt} compact />
               </p>
             ) : null}
           </div>
@@ -158,6 +161,21 @@ export default async function ProductDetailPage({
           </div>
 
           <div className="mt-5 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            <AddProductToCartButton
+              product={{
+                id: product.id,
+                slug: product.slug,
+                title: product.title,
+                imageUrl: product.images[0]?.url,
+                price: product.price,
+                salePrice,
+                priceMode: product.priceMode,
+                quantity: product.quantity,
+                storeName: product.store?.name,
+                storeSlug: product.store?.slug,
+                sellerPhone,
+              }}
+            />
             <ContactSellerButton productId={product.id} sellerId={product.seller.id} />
             {whatsappHref ? (
               <ButtonLink href={whatsappHref} target="_blank" rel="noreferrer" variant="secondary">

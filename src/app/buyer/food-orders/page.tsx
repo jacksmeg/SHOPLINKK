@@ -102,6 +102,10 @@ export default async function BuyerFoodOrdersPage() {
             ) : activeRequest ? (
               <p className="mt-3 rounded-[8px] bg-blue-50 p-3 text-xs font-bold text-blue-900">Delivery request: {titleCase(activeRequest.status)}</p>
             ) : null}
+            <Link href={`/food-orders/${order.id}`} className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-[8px] border border-[var(--line)] bg-white px-3 text-xs font-black text-[var(--brand-dark)] hover:border-[var(--brand)]">
+              <MapPinned size={14} />
+              Open order tracker
+            </Link>
                 </>
               );
             })()}

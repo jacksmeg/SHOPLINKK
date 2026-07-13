@@ -179,6 +179,12 @@ export function ChatWindow({
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [data?.messages.length]);
 
+  useEffect(() => {
+    if (!notice) return;
+    const timeout = window.setTimeout(() => setNotice(""), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [notice]);
+
   function send(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const trimmed = body.trim();
@@ -274,35 +280,35 @@ export function ChatWindow({
 
   if (!data) {
     return (
-      <div className="rounded-[8px] border border-[var(--line)] bg-white p-8 text-xs text-[var(--muted)]">
+      <div className="rounded-[8px] border border-[var(--line)] bg-white p-8 text-xs text-[var(--muted)] shadow-sm">
         Loading conversation...
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-[8px] border border-[var(--line)] bg-white">
-      <header className="flex items-center gap-3 border-b border-[var(--line)] p-3 sm:p-4">
-        <div className="relative size-11 overflow-hidden rounded-[7px] bg-[var(--surface-muted)]">
+    <div className="uiverse-depth-card overflow-hidden rounded-[8px] border border-[var(--line)] bg-white shadow-lg">
+      <header className="flex items-center gap-3 border-b border-[var(--line)] bg-[var(--brand-dark)] p-3 text-white sm:p-4">
+        <div className="relative size-11 overflow-hidden rounded-[7px] bg-white/10 ring-1 ring-white/20">
           {data.conversation.product.images[0]?.url ? (
             <Image src={data.conversation.product.images[0].url} alt={data.conversation.product.title} fill className="object-cover" unoptimized />
           ) : null}
         </div>
-        <div>
-          <Link href={`/products/${data.conversation.product.slug}`} className="text-sm font-black text-[var(--ink)] hover:text-[var(--brand)]">
+        <div className="min-w-0">
+          <Link href={`/products/${data.conversation.product.slug}`} className="line-clamp-1 text-sm font-black text-white hover:text-cyan-200">
             {data.conversation.product.title}
           </Link>
-          <p className="text-xs text-[var(--muted)]">Chat connected to this product</p>
+          <p className="text-xs text-white/70">Product chat. Share details clearly before meeting.</p>
         </div>
       </header>
 
-      <div className="h-[55vh] min-h-[360px] overflow-y-auto bg-[var(--surface-muted)] p-3 sm:p-4">
+      <div className="chat-body h-[55vh] min-h-[360px] overflow-y-auto bg-[#f6f7f9] p-3 sm:p-4">
         <div className="space-y-3">
           {data.messages.map((message) => {
             const mine = message.senderId === currentUserId;
             return (
               <div key={message.id} className={cn("flex", mine ? "justify-end" : "justify-start")}>
-                <div className={cn("max-w-[86%] rounded-[8px] px-3 py-2.5 shadow-sm sm:max-w-[78%] sm:px-4", mine ? "bg-[var(--brand)] text-white" : "bg-white text-[var(--ink)]")}> 
+                <div className={cn("max-w-[86%] rounded-[8px] border px-3 py-2.5 shadow-sm sm:max-w-[78%] sm:px-4", mine ? "border-[var(--brand)] bg-[var(--brand)] text-white" : "border-[var(--line)] bg-white text-[var(--ink)]")}>
                   <p className="text-xs leading-5 sm:text-sm">{message.body}</p>
                   {message.attachments?.length ? (
                     <div className="mt-3 grid gap-2">
@@ -326,7 +332,7 @@ export function ChatWindow({
                     <button
                       type="button"
                       onClick={() => reportMessage(message)}
-                      className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-red-700"
+                      className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-red-600"
                     >
                       <ShieldAlert size={12} />
                       Report
@@ -345,11 +351,11 @@ export function ChatWindow({
         </div>
       </div>
 
-      <form onSubmit={send} className="border-t border-[var(--line)] p-3">
+      <form onSubmit={send} className="border-t border-[var(--line)] bg-white p-3">
         {attachments.length ? (
           <div className="mb-3 flex flex-wrap gap-2">
             {attachments.map((attachment) => (
-              <span key={attachment.url} className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-[var(--brand-dark)]">
+              <span key={attachment.url} className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-3 py-1 text-xs font-bold text-white">
                 {attachment.name ?? "Image"}
                 <button type="button" onClick={() => setAttachments((current) => current.filter((item) => item.url !== attachment.url))} aria-label="Remove attachment">
                   <X size={13} />
@@ -358,9 +364,9 @@ export function ChatWindow({
             ))}
           </div>
         ) : null}
-        {notice ? <p className="mb-2 text-xs font-semibold text-[var(--muted)]">{notice}</p> : null}
-        <div className="grid grid-cols-[auto_1fr_auto] gap-2">
-          <label className="grid min-h-10 cursor-pointer place-items-center rounded-[7px] border border-[var(--line)] px-3 text-[var(--brand-dark)] transition hover:border-[var(--brand)]">
+        {notice ? <p className="mb-2 rounded-[7px] bg-[var(--brand-dark)] px-3 py-2 text-xs font-semibold text-white">{notice}</p> : null}
+        <div className="grid grid-cols-[auto_1fr_auto] gap-2 rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-2">
+          <label className="grid min-h-10 cursor-pointer place-items-center rounded-[7px] border border-[var(--line)] bg-white px-3 text-[var(--brand-dark)] transition hover:border-[var(--brand)]">
             <Paperclip size={17} />
             <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" className="sr-only" onChange={(event) => addAttachment(event.target.files?.[0])} />
           </label>
@@ -368,9 +374,9 @@ export function ChatWindow({
             value={body}
             onChange={(event) => updateBody(event.target.value)}
             placeholder="Type your message..."
-            className="form-control min-w-0 px-3 text-sm"
+            className="min-h-10 min-w-0 rounded-[7px] border border-transparent bg-white px-3 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--brand)]"
           />
-          <Button type="submit" disabled={pending}>
+          <Button type="submit" disabled={pending} className="min-h-10">
             <Send size={17} />
             Send
           </Button>

@@ -53,7 +53,7 @@ export function DashboardNavigation({
   const pathname = usePathname();
 
   return (
-    <nav className="hide-scrollbar flex gap-1 overflow-x-auto lg:grid lg:overflow-visible" aria-label="Dashboard navigation">
+    <nav className="dashboard-nav-scroll hide-scrollbar flex gap-1 overflow-x-auto lg:grid lg:max-h-[calc(100vh-138px)] lg:overflow-y-auto lg:overflow-x-hidden lg:pr-1" aria-label="Dashboard navigation">
       {links.map((link) => {
         const active = link.href === pathname || (link.href !== "/admin" && link.href !== "/buyer" && link.href !== "/seller" && pathname.startsWith(`${link.href}/`));
         const Icon = icons[link.icon as keyof typeof icons] ?? Circle;

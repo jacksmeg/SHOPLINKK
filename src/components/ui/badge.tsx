@@ -10,11 +10,11 @@ export function Badge({
   className?: string;
 }) {
   const tones = {
-    green: "bg-emerald-50 text-emerald-700 ring-emerald-100",
-    gold: "bg-cyan-50 text-cyan-800 ring-cyan-200",
-    red: "bg-red-50 text-red-700 ring-red-100",
-    blue: "bg-blue-50 text-blue-950 ring-blue-100",
-    neutral: "bg-zinc-100 text-zinc-700 ring-zinc-200",
+    green: "bg-emerald-600 text-white ring-emerald-700",
+    gold: "bg-cyan-700 text-white ring-cyan-800",
+    red: "bg-red-600 text-white ring-red-700",
+    blue: "bg-[var(--brand)] text-white ring-[var(--brand-dark)]",
+    neutral: "bg-slate-700 text-white ring-slate-800",
   };
 
   return (

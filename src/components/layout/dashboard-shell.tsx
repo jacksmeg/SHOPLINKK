@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { BackButton } from "@/components/layout/back-button";
 import { DashboardNavigation } from "@/components/layout/dashboard-navigation";
 
 export function DashboardShell({
@@ -36,6 +37,7 @@ export function DashboardShell({
             <h1 className="mt-1 text-xl font-black text-[var(--ink)]">{title}</h1>
             <p className="mt-1 max-w-2xl text-xs leading-5 text-[var(--muted)]">{description}</p>
           </div>
+          <BackButton />
         </header>
         {children}
       </section>

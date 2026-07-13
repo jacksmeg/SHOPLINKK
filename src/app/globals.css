@@ -220,6 +220,10 @@ textarea::placeholder {
   background: var(--surface);
 }
 
+[data-theme="dark"] .chat-body {
+  background: #091525 !important;
+}
+
 .app-panel-interactive {
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
@@ -228,6 +232,28 @@ textarea::placeholder {
   border-color: var(--line-strong);
   box-shadow: var(--shadow);
   transform: translateY(-2px);
+}
+
+.uiverse-depth-card {
+  overflow: hidden;
+  position: relative;
+}
+
+.uiverse-depth-card::after {
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.22) 45%, transparent 70%);
+  content: "";
+  height: 180%;
+  left: -85%;
+  pointer-events: none;
+  position: absolute;
+  top: -45%;
+  transform: rotate(12deg);
+  transition: left 850ms cubic-bezier(0.22, 1, 0.36, 1);
+  width: 45%;
+}
+
+.uiverse-depth-card:hover::after {
+  left: 125%;
 }
 
 .form-control {
@@ -326,17 +352,17 @@ textarea::placeholder {
   transform: translateY(-2px) rotate(3deg);
 }
 
-.category-tone-blue { background: #dbeafe; color: #1d4ed8; }
-.category-tone-violet { background: #ede9fe; color: #6d28d9; }
-.category-tone-rose { background: #ffe4e6; color: #be123c; }
-.category-tone-coral { background: #ffe4e6; color: #be123c; }
-.category-tone-sky { background: #e0f2fe; color: #0369a1; }
-.category-tone-cyan { background: #cffafe; color: #0e7490; }
-.category-tone-pink { background: #fce7f3; color: #be185d; }
-.category-tone-indigo { background: #e0e7ff; color: #4338ca; }
-.category-tone-lime { background: #ecfccb; color: #4d7c0f; }
-.category-tone-slate { background: #e2e8f0; color: #334155; }
-.category-tone-emerald { background: #d1fae5; color: #047857; }
+.category-tone-blue { background: #1d4ed8; color: #ffffff; }
+.category-tone-violet { background: #7c3aed; color: #ffffff; }
+.category-tone-rose { background: #be123c; color: #ffffff; }
+.category-tone-coral { background: #e11d48; color: #ffffff; }
+.category-tone-sky { background: #0284c7; color: #ffffff; }
+.category-tone-cyan { background: #0891b2; color: #ffffff; }
+.category-tone-pink { background: #db2777; color: #ffffff; }
+.category-tone-indigo { background: #4338ca; color: #ffffff; }
+.category-tone-lime { background: #65a30d; color: #ffffff; }
+.category-tone-slate { background: #334155; color: #ffffff; }
+.category-tone-emerald { background: #059669; color: #ffffff; }
 
 .uiverse-sheen::before {
   background: var(--button-sheen, rgba(255, 255, 255, 0.14));
@@ -439,6 +465,27 @@ textarea::placeholder {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.dashboard-nav-scroll {
+  scrollbar-color: var(--brand) transparent;
+  scrollbar-width: thin;
+}
+
+@media (min-width: 1024px) {
+  .dashboard-nav-scroll {
+    scrollbar-width: thin;
+  }
+
+  .dashboard-nav-scroll::-webkit-scrollbar {
+    display: block;
+    width: 7px;
+  }
+
+  .dashboard-nav-scroll::-webkit-scrollbar-thumb {
+    background: var(--brand);
+    border-radius: 999px;
+  }
 }
 
 @keyframes border-slide {

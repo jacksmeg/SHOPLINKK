@@ -132,13 +132,17 @@ export async function DELETE(
     return jsonError("Product not found or permission denied", 404);
   }
 
-  const product = await prisma.product.update({
-    where: { id },
-    data: { listingStatus: "REMOVED" },
-    select: { id: true, title: true, sellerId: true },
-  });
-
   if (session.user.role === "ADMIN") {
+    const product = await prisma.product.findUnique({
+      where: { id },
+      select: { id: true, title: true, sellerId: true },
+    });
+
+    if (!product) {
+      return jsonError("Product not found", 404);
+    }
+
+    await prisma.product.delete({ where: { id } });
     await Promise.all([
       auditLog({
         actorId: session.user.id,
@@ -150,12 +154,19 @@ export async function DELETE(
       notifyUser({
         userId: product.sellerId,
         type: "LISTING",
-        title: "Listing removed",
-        body: `${product.title} was removed by ShopLinkk moderation.`,
+        title: "Listing deleted",
+        body: `${product.title} was deleted by ShopLinkk moderation.`,
         href: "/seller",
       }),
     ]);
+
+    return NextResponse.json({ ok: true, deleted: true });
   }
+
+  await prisma.product.update({
+    where: { id },
+    data: { listingStatus: "REMOVED" },
+  });
 
   return NextResponse.json({ ok: true });
 }

@@ -24,11 +24,13 @@ export function AdminModulePage({
   description,
   stats,
   actions,
+  children,
 }: {
   title: string;
   description: string;
   stats: Stat[];
   actions: Action[];
+  children?: React.ReactNode;
 }) {
   return (
     <DashboardShell eyebrow="Admin" title={title} description={description} links={adminLinks}>
@@ -53,6 +55,7 @@ export function AdminModulePage({
           return action.href ? <Link key={action.title} href={action.href}>{body}</Link> : <div key={action.title}>{body}</div>;
         })}
       </section>
+      {children}
     </DashboardShell>
   );
 }

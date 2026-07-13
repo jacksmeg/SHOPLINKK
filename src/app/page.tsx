@@ -40,7 +40,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <HomeAdvertRail adverts={adverts} />
+      <HomeAdvertRail adverts={adverts} categories={categories} flashSales={flashSales} />
 
       {flashSales.length ? (
         <section className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">

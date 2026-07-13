@@ -39,7 +39,7 @@ export default async function AdminBoostsPage() {
 
   return (
     <DashboardShell eyebrow="Admin" title="Homepage adverts" description="Review seller advert creative, confirm fee records, approve live campaigns, and handle extension requests." links={adminLinks}>
-      <div className="mb-4 flex items-start gap-3 rounded-[8px] border border-cyan-200 bg-cyan-50 p-3 text-xs leading-5 text-cyan-950">
+      <div className="mb-4 flex items-start gap-3 rounded-[8px] bg-[var(--brand-dark)] p-3 text-xs leading-5 text-white shadow-sm">
         <Megaphone className="mt-0.5 shrink-0" size={16} />
         Approved homepage adverts appear automatically on the buyer homepage until their expiry date.
       </div>

@@ -29,7 +29,7 @@ export function FlashSaleCountdown({ endsAt, compact = false }: { endsAt?: Date 
   if (!endTime || remaining <= 0) return null;
 
   return (
-    <span className={`inline-flex items-center rounded-full bg-red-50 font-black text-red-700 ${compact ? "px-2 py-1 text-[0.68rem]" : "px-2.5 py-1.5 text-xs"}`}>
+    <span className={`inline-flex items-center rounded-full bg-red-600 font-black text-white shadow-sm ${compact ? "px-2 py-1 text-[0.68rem]" : "px-2.5 py-1.5 text-xs"}`}>
       {compact ? "Ends " : "Time left: "}{formatTime(remaining)}
     </span>
   );

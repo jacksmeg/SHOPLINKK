@@ -72,6 +72,7 @@ export function NavBar() {
         { href: "/", label: "Home", icon: Home },
         { href: "/marketplace", label: "Browse", icon: Search },
         { href: "/cart", label: "Cart", icon: ShoppingCart },
+        { href: dashboardHref, label: "Dashboard", icon: session?.user.role === "ADMIN" ? Shield : LayoutDashboard },
         { href: "/chat", label: "Chats", icon: MessageCircle },
         { href: "/profile", label: "Profile", icon: UserRound },
       ]
@@ -169,6 +170,7 @@ export function NavBar() {
               ))}
               {status === "authenticated" ? (
                 <>
+                  <Link href={dashboardHref} className="rounded-[7px] px-3 py-2.5 text-xs font-semibold text-[var(--muted)]" onClick={() => setOpen(false)}>Dashboard</Link>
                   <Link href="/notifications" className="rounded-[7px] px-3 py-2.5 text-xs font-semibold text-[var(--muted)]" onClick={() => setOpen(false)}>Notifications</Link>
                   <button className="rounded-[7px] px-3 py-2.5 text-left text-xs font-semibold text-red-600" onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
                 </>
@@ -179,11 +181,11 @@ export function NavBar() {
       </header>
 
       <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-[var(--line)] bg-white/96 px-2 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden" aria-label="Mobile navigation">
-        <div className="mx-auto grid max-w-lg grid-cols-5">
+        <div className={cn("mx-auto grid max-w-lg", status === "authenticated" ? "grid-cols-6" : "grid-cols-5")}>
           {mobileItems.map((item) => {
             const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
             return (
-              <Link key={`${item.href}-${item.label}`} href={item.href} className={cn("flex min-h-[60px] flex-col items-center justify-center gap-1 text-[0.66rem] font-semibold transition", active ? "text-[var(--brand)]" : "text-[var(--muted)]")}>
+              <Link key={`${item.href}-${item.label}`} href={item.href} className={cn("flex min-h-[60px] flex-col items-center justify-center gap-1 text-[0.58rem] font-semibold transition sm:text-[0.66rem]", active ? "text-[var(--brand)]" : "text-[var(--muted)]")}>
                 <span className="relative">
                   <item.icon size={18} strokeWidth={active ? 2.4 : 1.8} />
                   {item.href === "/cart" && cartCount ? (

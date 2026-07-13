@@ -81,7 +81,7 @@ export function NavBar() {
         { href: "/marketplace", label: "Browse", icon: Search },
         { href: "/cart", label: "Cart", icon: ShoppingCart },
         { href: "/login", label: "Login", icon: LogIn },
-        { href: "/register", label: "Sell", icon: Store },
+        { href: "/sell-on-shoplinkk", label: "Sell", icon: Store },
       ];
 
   return (
@@ -139,7 +139,7 @@ export function NavBar() {
             ) : (
               <>
                 <ButtonLink href="/login" variant="secondary">Login</ButtonLink>
-                <ButtonLink href="/register"><Store size={16} /> Start selling</ButtonLink>
+                <ButtonLink href="/sell-on-shoplinkk"><Store size={16} /> Start selling</ButtonLink>
               </>
             )}
           </div>

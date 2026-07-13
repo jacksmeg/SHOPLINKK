@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { getSession, signIn } from "next-auth/react";
 import { AlertCircle, ArrowRight, CheckCircle2, LockKeyhole, Mail, MapPin, Phone, ShoppingBag, Store, Truck, UserRound } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { AuthPanel, GoogleIcon } from "@/components/auth/auth-panel";
 import { Button } from "@/components/ui/button";
@@ -11,8 +11,13 @@ import { cn } from "@/lib/utils";
 
 export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
   const router = useRouter();
-  const [role, setRole] = useState<"BUYER" | "SELLER" | "RIDER">("BUYER");
-  const [storeKind, setStoreKind] = useState<"GENERAL" | "FOOD">("GENERAL");
+  const searchParams = useSearchParams();
+  const requestedRole = searchParams.get("role")?.toLowerCase();
+  const requestedKind = searchParams.get("storeKind")?.toLowerCase();
+  const [role, setRole] = useState<"BUYER" | "SELLER" | "RIDER">(
+    requestedRole === "seller" ? "SELLER" : requestedRole === "rider" ? "RIDER" : "BUYER",
+  );
+  const [storeKind, setStoreKind] = useState<"GENERAL" | "FOOD">(requestedKind === "food" ? "FOOD" : "GENERAL");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [accepted, setAccepted] = useState(false);

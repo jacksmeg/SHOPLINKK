@@ -158,7 +158,7 @@ export function HomeAdvertRail({
                 <span className="text-xs font-bold text-[var(--muted)]">0549896901</span>
               </span>
             </Link>
-            <Link href="/register" className="uiverse-depth-card flex items-center gap-3 rounded-[8px] border border-[var(--line)] bg-white p-4 shadow-sm transition hover:-translate-y-0.5">
+            <Link href="/sell-on-shoplinkk" className="uiverse-depth-card flex items-center gap-3 rounded-[8px] border border-[var(--line)] bg-white p-4 shadow-sm transition hover:-translate-y-0.5">
               <span className="grid size-11 place-items-center rounded-full bg-[var(--brand)] text-white"><Store size={20} /></span>
               <span>
                 <span className="block text-sm font-black text-[var(--ink)]">Sell on ShopLinkk</span>

@@ -29,7 +29,7 @@ export default async function Home() {
               <h1 className="mt-2 text-2xl font-black text-[var(--ink)] sm:text-3xl">ShopLinkk local marketplace</h1>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">Find nearby products, food, and services, then speak directly with sellers around Dunkwa-on-Offin.</p>
             </div>
-            <div className="flex gap-2"><ButtonLink href="/marketplace" variant="secondary"><Search size={15} /> Browse all</ButtonLink><ButtonLink href="/register"><Store size={15} /> Start selling</ButtonLink></div>
+            <div className="flex gap-2"><ButtonLink href="/marketplace" variant="secondary"><Search size={15} /> Browse all</ButtonLink><ButtonLink href="/sell-on-shoplinkk"><Store size={15} /> Start selling</ButtonLink></div>
           </div>
 
           <HomepageSearch />

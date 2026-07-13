@@ -483,14 +483,6 @@ export type TownScalarRelationFilter = {
   isNot?: Prisma.TownWhereInput
 }
 
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type TownCreateNestedOneWithoutAreasInput = {
   create?: Prisma.XOR<Prisma.TownCreateWithoutAreasInput, Prisma.TownUncheckedCreateWithoutAreasInput>
   connectOrCreate?: Prisma.TownCreateOrConnectWithoutAreasInput

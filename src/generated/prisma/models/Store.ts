@@ -27,6 +27,8 @@ export type AggregateStore = {
 }
 
 export type StoreAvgAggregateOutputType = {
+  gpsLatitude: number | null
+  gpsLongitude: number | null
   responseRate: number | null
   trustScore: number | null
   ratingAverage: number | null
@@ -34,6 +36,8 @@ export type StoreAvgAggregateOutputType = {
 }
 
 export type StoreSumAggregateOutputType = {
+  gpsLatitude: number | null
+  gpsLongitude: number | null
   responseRate: number | null
   trustScore: number | null
   ratingAverage: number | null
@@ -47,13 +51,28 @@ export type StoreMinAggregateOutputType = {
   slug: string | null
   kind: $Enums.StoreKind | null
   description: string | null
+  email: string | null
   phone: string | null
   whatsapp: string | null
   momoNumber: string | null
   location: string | null
   area: string | null
   address: string | null
+  gpsLatitude: number | null
+  gpsLongitude: number | null
   openingHours: string | null
+  deliveryCoverage: string | null
+  announcementBanner: string | null
+  accentColor: string | null
+  storeTheme: string | null
+  acceptOrders: boolean | null
+  vacationMode: boolean | null
+  deliveryAvailable: boolean | null
+  pickupAvailable: boolean | null
+  chatEnabled: boolean | null
+  callsEnabled: boolean | null
+  seoTitle: string | null
+  seoDescription: string | null
   logoUrl: string | null
   coverUrl: string | null
   isVerified: boolean | null
@@ -73,13 +92,28 @@ export type StoreMaxAggregateOutputType = {
   slug: string | null
   kind: $Enums.StoreKind | null
   description: string | null
+  email: string | null
   phone: string | null
   whatsapp: string | null
   momoNumber: string | null
   location: string | null
   area: string | null
   address: string | null
+  gpsLatitude: number | null
+  gpsLongitude: number | null
   openingHours: string | null
+  deliveryCoverage: string | null
+  announcementBanner: string | null
+  accentColor: string | null
+  storeTheme: string | null
+  acceptOrders: boolean | null
+  vacationMode: boolean | null
+  deliveryAvailable: boolean | null
+  pickupAvailable: boolean | null
+  chatEnabled: boolean | null
+  callsEnabled: boolean | null
+  seoTitle: string | null
+  seoDescription: string | null
   logoUrl: string | null
   coverUrl: string | null
   isVerified: boolean | null
@@ -99,13 +133,29 @@ export type StoreCountAggregateOutputType = {
   slug: number
   kind: number
   description: number
+  email: number
   phone: number
   whatsapp: number
   momoNumber: number
   location: number
   area: number
   address: number
+  gpsLatitude: number
+  gpsLongitude: number
   openingHours: number
+  socialLinks: number
+  deliveryCoverage: number
+  announcementBanner: number
+  accentColor: number
+  storeTheme: number
+  acceptOrders: number
+  vacationMode: number
+  deliveryAvailable: number
+  pickupAvailable: number
+  chatEnabled: number
+  callsEnabled: number
+  seoTitle: number
+  seoDescription: number
   logoUrl: number
   coverUrl: number
   isVerified: number
@@ -121,6 +171,8 @@ export type StoreCountAggregateOutputType = {
 
 
 export type StoreAvgAggregateInputType = {
+  gpsLatitude?: true
+  gpsLongitude?: true
   responseRate?: true
   trustScore?: true
   ratingAverage?: true
@@ -128,6 +180,8 @@ export type StoreAvgAggregateInputType = {
 }
 
 export type StoreSumAggregateInputType = {
+  gpsLatitude?: true
+  gpsLongitude?: true
   responseRate?: true
   trustScore?: true
   ratingAverage?: true
@@ -141,13 +195,28 @@ export type StoreMinAggregateInputType = {
   slug?: true
   kind?: true
   description?: true
+  email?: true
   phone?: true
   whatsapp?: true
   momoNumber?: true
   location?: true
   area?: true
   address?: true
+  gpsLatitude?: true
+  gpsLongitude?: true
   openingHours?: true
+  deliveryCoverage?: true
+  announcementBanner?: true
+  accentColor?: true
+  storeTheme?: true
+  acceptOrders?: true
+  vacationMode?: true
+  deliveryAvailable?: true
+  pickupAvailable?: true
+  chatEnabled?: true
+  callsEnabled?: true
+  seoTitle?: true
+  seoDescription?: true
   logoUrl?: true
   coverUrl?: true
   isVerified?: true
@@ -167,13 +236,28 @@ export type StoreMaxAggregateInputType = {
   slug?: true
   kind?: true
   description?: true
+  email?: true
   phone?: true
   whatsapp?: true
   momoNumber?: true
   location?: true
   area?: true
   address?: true
+  gpsLatitude?: true
+  gpsLongitude?: true
   openingHours?: true
+  deliveryCoverage?: true
+  announcementBanner?: true
+  accentColor?: true
+  storeTheme?: true
+  acceptOrders?: true
+  vacationMode?: true
+  deliveryAvailable?: true
+  pickupAvailable?: true
+  chatEnabled?: true
+  callsEnabled?: true
+  seoTitle?: true
+  seoDescription?: true
   logoUrl?: true
   coverUrl?: true
   isVerified?: true
@@ -193,13 +277,29 @@ export type StoreCountAggregateInputType = {
   slug?: true
   kind?: true
   description?: true
+  email?: true
   phone?: true
   whatsapp?: true
   momoNumber?: true
   location?: true
   area?: true
   address?: true
+  gpsLatitude?: true
+  gpsLongitude?: true
   openingHours?: true
+  socialLinks?: true
+  deliveryCoverage?: true
+  announcementBanner?: true
+  accentColor?: true
+  storeTheme?: true
+  acceptOrders?: true
+  vacationMode?: true
+  deliveryAvailable?: true
+  pickupAvailable?: true
+  chatEnabled?: true
+  callsEnabled?: true
+  seoTitle?: true
+  seoDescription?: true
   logoUrl?: true
   coverUrl?: true
   isVerified?: true
@@ -306,13 +406,29 @@ export type StoreGroupByOutputType = {
   slug: string
   kind: $Enums.StoreKind
   description: string | null
+  email: string | null
   phone: string | null
   whatsapp: string | null
   momoNumber: string | null
   location: string
   area: string | null
   address: string | null
+  gpsLatitude: number | null
+  gpsLongitude: number | null
   openingHours: string | null
+  socialLinks: runtime.JsonValue | null
+  deliveryCoverage: string | null
+  announcementBanner: string | null
+  accentColor: string | null
+  storeTheme: string | null
+  acceptOrders: boolean
+  vacationMode: boolean
+  deliveryAvailable: boolean
+  pickupAvailable: boolean
+  chatEnabled: boolean
+  callsEnabled: boolean
+  seoTitle: string | null
+  seoDescription: string | null
   logoUrl: string | null
   coverUrl: string | null
   isVerified: boolean
@@ -355,13 +471,29 @@ export type StoreWhereInput = {
   slug?: Prisma.StringFilter<"Store"> | string
   kind?: Prisma.EnumStoreKindFilter<"Store"> | $Enums.StoreKind
   description?: Prisma.StringNullableFilter<"Store"> | string | null
+  email?: Prisma.StringNullableFilter<"Store"> | string | null
   phone?: Prisma.StringNullableFilter<"Store"> | string | null
   whatsapp?: Prisma.StringNullableFilter<"Store"> | string | null
   momoNumber?: Prisma.StringNullableFilter<"Store"> | string | null
   location?: Prisma.StringFilter<"Store"> | string
   area?: Prisma.StringNullableFilter<"Store"> | string | null
   address?: Prisma.StringNullableFilter<"Store"> | string | null
+  gpsLatitude?: Prisma.FloatNullableFilter<"Store"> | number | null
+  gpsLongitude?: Prisma.FloatNullableFilter<"Store"> | number | null
   openingHours?: Prisma.StringNullableFilter<"Store"> | string | null
+  socialLinks?: Prisma.JsonNullableFilter<"Store">
+  deliveryCoverage?: Prisma.StringNullableFilter<"Store"> | string | null
+  announcementBanner?: Prisma.StringNullableFilter<"Store"> | string | null
+  accentColor?: Prisma.StringNullableFilter<"Store"> | string | null
+  storeTheme?: Prisma.StringNullableFilter<"Store"> | string | null
+  acceptOrders?: Prisma.BoolFilter<"Store"> | boolean
+  vacationMode?: Prisma.BoolFilter<"Store"> | boolean
+  deliveryAvailable?: Prisma.BoolFilter<"Store"> | boolean
+  pickupAvailable?: Prisma.BoolFilter<"Store"> | boolean
+  chatEnabled?: Prisma.BoolFilter<"Store"> | boolean
+  callsEnabled?: Prisma.BoolFilter<"Store"> | boolean
+  seoTitle?: Prisma.StringNullableFilter<"Store"> | string | null
+  seoDescription?: Prisma.StringNullableFilter<"Store"> | string | null
   logoUrl?: Prisma.StringNullableFilter<"Store"> | string | null
   coverUrl?: Prisma.StringNullableFilter<"Store"> | string | null
   isVerified?: Prisma.BoolFilter<"Store"> | boolean
@@ -389,13 +521,29 @@ export type StoreOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   whatsapp?: Prisma.SortOrderInput | Prisma.SortOrder
   momoNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   location?: Prisma.SortOrder
   area?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
+  gpsLatitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  gpsLongitude?: Prisma.SortOrderInput | Prisma.SortOrder
   openingHours?: Prisma.SortOrderInput | Prisma.SortOrder
+  socialLinks?: Prisma.SortOrderInput | Prisma.SortOrder
+  deliveryCoverage?: Prisma.SortOrderInput | Prisma.SortOrder
+  announcementBanner?: Prisma.SortOrderInput | Prisma.SortOrder
+  accentColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  storeTheme?: Prisma.SortOrderInput | Prisma.SortOrder
+  acceptOrders?: Prisma.SortOrder
+  vacationMode?: Prisma.SortOrder
+  deliveryAvailable?: Prisma.SortOrder
+  pickupAvailable?: Prisma.SortOrder
+  chatEnabled?: Prisma.SortOrder
+  callsEnabled?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isVerified?: Prisma.SortOrder
@@ -426,13 +574,29 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Store"> | string
   kind?: Prisma.EnumStoreKindFilter<"Store"> | $Enums.StoreKind
   description?: Prisma.StringNullableFilter<"Store"> | string | null
+  email?: Prisma.StringNullableFilter<"Store"> | string | null
   phone?: Prisma.StringNullableFilter<"Store"> | string | null
   whatsapp?: Prisma.StringNullableFilter<"Store"> | string | null
   momoNumber?: Prisma.StringNullableFilter<"Store"> | string | null
   location?: Prisma.StringFilter<"Store"> | string
   area?: Prisma.StringNullableFilter<"Store"> | string | null
   address?: Prisma.StringNullableFilter<"Store"> | string | null
+  gpsLatitude?: Prisma.FloatNullableFilter<"Store"> | number | null
+  gpsLongitude?: Prisma.FloatNullableFilter<"Store"> | number | null
   openingHours?: Prisma.StringNullableFilter<"Store"> | string | null
+  socialLinks?: Prisma.JsonNullableFilter<"Store">
+  deliveryCoverage?: Prisma.StringNullableFilter<"Store"> | string | null
+  announcementBanner?: Prisma.StringNullableFilter<"Store"> | string | null
+  accentColor?: Prisma.StringNullableFilter<"Store"> | string | null
+  storeTheme?: Prisma.StringNullableFilter<"Store"> | string | null
+  acceptOrders?: Prisma.BoolFilter<"Store"> | boolean
+  vacationMode?: Prisma.BoolFilter<"Store"> | boolean
+  deliveryAvailable?: Prisma.BoolFilter<"Store"> | boolean
+  pickupAvailable?: Prisma.BoolFilter<"Store"> | boolean
+  chatEnabled?: Prisma.BoolFilter<"Store"> | boolean
+  callsEnabled?: Prisma.BoolFilter<"Store"> | boolean
+  seoTitle?: Prisma.StringNullableFilter<"Store"> | string | null
+  seoDescription?: Prisma.StringNullableFilter<"Store"> | string | null
   logoUrl?: Prisma.StringNullableFilter<"Store"> | string | null
   coverUrl?: Prisma.StringNullableFilter<"Store"> | string | null
   isVerified?: Prisma.BoolFilter<"Store"> | boolean
@@ -460,13 +624,29 @@ export type StoreOrderByWithAggregationInput = {
   slug?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   whatsapp?: Prisma.SortOrderInput | Prisma.SortOrder
   momoNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   location?: Prisma.SortOrder
   area?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
+  gpsLatitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  gpsLongitude?: Prisma.SortOrderInput | Prisma.SortOrder
   openingHours?: Prisma.SortOrderInput | Prisma.SortOrder
+  socialLinks?: Prisma.SortOrderInput | Prisma.SortOrder
+  deliveryCoverage?: Prisma.SortOrderInput | Prisma.SortOrder
+  announcementBanner?: Prisma.SortOrderInput | Prisma.SortOrder
+  accentColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  storeTheme?: Prisma.SortOrderInput | Prisma.SortOrder
+  acceptOrders?: Prisma.SortOrder
+  vacationMode?: Prisma.SortOrder
+  deliveryAvailable?: Prisma.SortOrder
+  pickupAvailable?: Prisma.SortOrder
+  chatEnabled?: Prisma.SortOrder
+  callsEnabled?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isVerified?: Prisma.SortOrder
@@ -494,13 +674,29 @@ export type StoreScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"Store"> | string
   kind?: Prisma.EnumStoreKindWithAggregatesFilter<"Store"> | $Enums.StoreKind
   description?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
+  email?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
   whatsapp?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
   momoNumber?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
   location?: Prisma.StringWithAggregatesFilter<"Store"> | string
   area?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
   address?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
+  gpsLatitude?: Prisma.FloatNullableWithAggregatesFilter<"Store"> | number | null
+  gpsLongitude?: Prisma.FloatNullableWithAggregatesFilter<"Store"> | number | null
   openingHours?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
+  socialLinks?: Prisma.JsonNullableWithAggregatesFilter<"Store">
+  deliveryCoverage?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
+  announcementBanner?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
+  accentColor?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
+  storeTheme?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
+  acceptOrders?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
+  vacationMode?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
+  deliveryAvailable?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
+  pickupAvailable?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
+  chatEnabled?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
+  callsEnabled?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
+  seoTitle?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
+  seoDescription?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
   logoUrl?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
   coverUrl?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
   isVerified?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
@@ -519,13 +715,29 @@ export type StoreCreateInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -553,13 +765,29 @@ export type StoreUncheckedCreateInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -585,13 +813,29 @@ export type StoreUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -619,13 +863,29 @@ export type StoreUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -652,13 +912,29 @@ export type StoreCreateManyInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -677,13 +953,29 @@ export type StoreUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -703,13 +995,29 @@ export type StoreUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -734,13 +1042,29 @@ export type StoreCountOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   whatsapp?: Prisma.SortOrder
   momoNumber?: Prisma.SortOrder
   location?: Prisma.SortOrder
   area?: Prisma.SortOrder
   address?: Prisma.SortOrder
+  gpsLatitude?: Prisma.SortOrder
+  gpsLongitude?: Prisma.SortOrder
   openingHours?: Prisma.SortOrder
+  socialLinks?: Prisma.SortOrder
+  deliveryCoverage?: Prisma.SortOrder
+  announcementBanner?: Prisma.SortOrder
+  accentColor?: Prisma.SortOrder
+  storeTheme?: Prisma.SortOrder
+  acceptOrders?: Prisma.SortOrder
+  vacationMode?: Prisma.SortOrder
+  deliveryAvailable?: Prisma.SortOrder
+  pickupAvailable?: Prisma.SortOrder
+  chatEnabled?: Prisma.SortOrder
+  callsEnabled?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
@@ -754,6 +1078,8 @@ export type StoreCountOrderByAggregateInput = {
 }
 
 export type StoreAvgOrderByAggregateInput = {
+  gpsLatitude?: Prisma.SortOrder
+  gpsLongitude?: Prisma.SortOrder
   responseRate?: Prisma.SortOrder
   trustScore?: Prisma.SortOrder
   ratingAverage?: Prisma.SortOrder
@@ -767,13 +1093,28 @@ export type StoreMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   whatsapp?: Prisma.SortOrder
   momoNumber?: Prisma.SortOrder
   location?: Prisma.SortOrder
   area?: Prisma.SortOrder
   address?: Prisma.SortOrder
+  gpsLatitude?: Prisma.SortOrder
+  gpsLongitude?: Prisma.SortOrder
   openingHours?: Prisma.SortOrder
+  deliveryCoverage?: Prisma.SortOrder
+  announcementBanner?: Prisma.SortOrder
+  accentColor?: Prisma.SortOrder
+  storeTheme?: Prisma.SortOrder
+  acceptOrders?: Prisma.SortOrder
+  vacationMode?: Prisma.SortOrder
+  deliveryAvailable?: Prisma.SortOrder
+  pickupAvailable?: Prisma.SortOrder
+  chatEnabled?: Prisma.SortOrder
+  callsEnabled?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
@@ -793,13 +1134,28 @@ export type StoreMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   whatsapp?: Prisma.SortOrder
   momoNumber?: Prisma.SortOrder
   location?: Prisma.SortOrder
   area?: Prisma.SortOrder
   address?: Prisma.SortOrder
+  gpsLatitude?: Prisma.SortOrder
+  gpsLongitude?: Prisma.SortOrder
   openingHours?: Prisma.SortOrder
+  deliveryCoverage?: Prisma.SortOrder
+  announcementBanner?: Prisma.SortOrder
+  accentColor?: Prisma.SortOrder
+  storeTheme?: Prisma.SortOrder
+  acceptOrders?: Prisma.SortOrder
+  vacationMode?: Prisma.SortOrder
+  deliveryAvailable?: Prisma.SortOrder
+  pickupAvailable?: Prisma.SortOrder
+  chatEnabled?: Prisma.SortOrder
+  callsEnabled?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   coverUrl?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
@@ -813,6 +1169,8 @@ export type StoreMinOrderByAggregateInput = {
 }
 
 export type StoreSumOrderByAggregateInput = {
+  gpsLatitude?: Prisma.SortOrder
+  gpsLongitude?: Prisma.SortOrder
   responseRate?: Prisma.SortOrder
   trustScore?: Prisma.SortOrder
   ratingAverage?: Prisma.SortOrder
@@ -858,6 +1216,14 @@ export type StoreUncheckedUpdateOneWithoutOwnerNestedInput = {
 
 export type EnumStoreKindFieldUpdateOperationsInput = {
   set?: $Enums.StoreKind
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type EnumSellerVerificationStatusFieldUpdateOperationsInput = {
@@ -992,13 +1358,29 @@ export type StoreCreateWithoutOwnerInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1024,13 +1406,29 @@ export type StoreUncheckedCreateWithoutOwnerInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1072,13 +1470,29 @@ export type StoreUpdateWithoutOwnerInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1104,13 +1518,29 @@ export type StoreUncheckedUpdateWithoutOwnerInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1136,13 +1566,29 @@ export type StoreCreateWithoutFollowersInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1169,13 +1615,29 @@ export type StoreUncheckedCreateWithoutFollowersInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1216,13 +1678,29 @@ export type StoreUpdateWithoutFollowersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1249,13 +1727,29 @@ export type StoreUncheckedUpdateWithoutFollowersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1280,13 +1774,29 @@ export type StoreCreateWithoutProductsInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1313,13 +1823,29 @@ export type StoreUncheckedCreateWithoutProductsInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1360,13 +1886,29 @@ export type StoreUpdateWithoutProductsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1393,13 +1935,29 @@ export type StoreUncheckedUpdateWithoutProductsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1424,13 +1982,29 @@ export type StoreCreateWithoutVerificationRequestsInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1457,13 +2031,29 @@ export type StoreUncheckedCreateWithoutVerificationRequestsInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1504,13 +2094,29 @@ export type StoreUpdateWithoutVerificationRequestsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1537,13 +2143,29 @@ export type StoreUncheckedUpdateWithoutVerificationRequestsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1568,13 +2190,29 @@ export type StoreCreateWithoutReviewsInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1601,13 +2239,29 @@ export type StoreUncheckedCreateWithoutReviewsInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1648,13 +2302,29 @@ export type StoreUpdateWithoutReviewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1681,13 +2351,29 @@ export type StoreUncheckedUpdateWithoutReviewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1712,13 +2398,29 @@ export type StoreCreateWithoutFoodMenuItemsInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1745,13 +2447,29 @@ export type StoreUncheckedCreateWithoutFoodMenuItemsInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1792,13 +2510,29 @@ export type StoreUpdateWithoutFoodMenuItemsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1825,13 +2559,29 @@ export type StoreUncheckedUpdateWithoutFoodMenuItemsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1856,13 +2606,29 @@ export type StoreCreateWithoutFoodOrdersInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1889,13 +2655,29 @@ export type StoreUncheckedCreateWithoutFoodOrdersInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -1936,13 +2718,29 @@ export type StoreUpdateWithoutFoodOrdersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1969,13 +2767,29 @@ export type StoreUncheckedUpdateWithoutFoodOrdersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2000,13 +2814,29 @@ export type StoreCreateWithoutDeliveryRequestsInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -2033,13 +2863,29 @@ export type StoreUncheckedCreateWithoutDeliveryRequestsInput = {
   slug: string
   kind?: $Enums.StoreKind
   description?: string | null
+  email?: string | null
   phone?: string | null
   whatsapp?: string | null
   momoNumber?: string | null
   location?: string
   area?: string | null
   address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
   openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
   logoUrl?: string | null
   coverUrl?: string | null
   isVerified?: boolean
@@ -2080,13 +2926,29 @@ export type StoreUpdateWithoutDeliveryRequestsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2113,13 +2975,29 @@ export type StoreUncheckedUpdateWithoutDeliveryRequestsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2230,13 +3108,29 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   slug?: boolean
   kind?: boolean
   description?: boolean
+  email?: boolean
   phone?: boolean
   whatsapp?: boolean
   momoNumber?: boolean
   location?: boolean
   area?: boolean
   address?: boolean
+  gpsLatitude?: boolean
+  gpsLongitude?: boolean
   openingHours?: boolean
+  socialLinks?: boolean
+  deliveryCoverage?: boolean
+  announcementBanner?: boolean
+  accentColor?: boolean
+  storeTheme?: boolean
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   logoUrl?: boolean
   coverUrl?: boolean
   isVerified?: boolean
@@ -2265,13 +3159,29 @@ export type StoreSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   slug?: boolean
   kind?: boolean
   description?: boolean
+  email?: boolean
   phone?: boolean
   whatsapp?: boolean
   momoNumber?: boolean
   location?: boolean
   area?: boolean
   address?: boolean
+  gpsLatitude?: boolean
+  gpsLongitude?: boolean
   openingHours?: boolean
+  socialLinks?: boolean
+  deliveryCoverage?: boolean
+  announcementBanner?: boolean
+  accentColor?: boolean
+  storeTheme?: boolean
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   logoUrl?: boolean
   coverUrl?: boolean
   isVerified?: boolean
@@ -2292,13 +3202,29 @@ export type StoreSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   slug?: boolean
   kind?: boolean
   description?: boolean
+  email?: boolean
   phone?: boolean
   whatsapp?: boolean
   momoNumber?: boolean
   location?: boolean
   area?: boolean
   address?: boolean
+  gpsLatitude?: boolean
+  gpsLongitude?: boolean
   openingHours?: boolean
+  socialLinks?: boolean
+  deliveryCoverage?: boolean
+  announcementBanner?: boolean
+  accentColor?: boolean
+  storeTheme?: boolean
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   logoUrl?: boolean
   coverUrl?: boolean
   isVerified?: boolean
@@ -2319,13 +3245,29 @@ export type StoreSelectScalar = {
   slug?: boolean
   kind?: boolean
   description?: boolean
+  email?: boolean
   phone?: boolean
   whatsapp?: boolean
   momoNumber?: boolean
   location?: boolean
   area?: boolean
   address?: boolean
+  gpsLatitude?: boolean
+  gpsLongitude?: boolean
   openingHours?: boolean
+  socialLinks?: boolean
+  deliveryCoverage?: boolean
+  announcementBanner?: boolean
+  accentColor?: boolean
+  storeTheme?: boolean
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   logoUrl?: boolean
   coverUrl?: boolean
   isVerified?: boolean
@@ -2338,7 +3280,7 @@ export type StoreSelectScalar = {
   updatedAt?: boolean
 }
 
-export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "name" | "slug" | "kind" | "description" | "phone" | "whatsapp" | "momoNumber" | "location" | "area" | "address" | "openingHours" | "logoUrl" | "coverUrl" | "isVerified" | "verificationStatus" | "responseRate" | "trustScore" | "ratingAverage" | "ratingCount" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
+export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "name" | "slug" | "kind" | "description" | "email" | "phone" | "whatsapp" | "momoNumber" | "location" | "area" | "address" | "gpsLatitude" | "gpsLongitude" | "openingHours" | "socialLinks" | "deliveryCoverage" | "announcementBanner" | "accentColor" | "storeTheme" | "acceptOrders" | "vacationMode" | "deliveryAvailable" | "pickupAvailable" | "chatEnabled" | "callsEnabled" | "seoTitle" | "seoDescription" | "logoUrl" | "coverUrl" | "isVerified" | "verificationStatus" | "responseRate" | "trustScore" | "ratingAverage" | "ratingCount" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
 export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   products?: boolean | Prisma.Store$productsArgs<ExtArgs>
@@ -2376,13 +3318,29 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     slug: string
     kind: $Enums.StoreKind
     description: string | null
+    email: string | null
     phone: string | null
     whatsapp: string | null
     momoNumber: string | null
     location: string
     area: string | null
     address: string | null
+    gpsLatitude: number | null
+    gpsLongitude: number | null
     openingHours: string | null
+    socialLinks: runtime.JsonValue | null
+    deliveryCoverage: string | null
+    announcementBanner: string | null
+    accentColor: string | null
+    storeTheme: string | null
+    acceptOrders: boolean
+    vacationMode: boolean
+    deliveryAvailable: boolean
+    pickupAvailable: boolean
+    chatEnabled: boolean
+    callsEnabled: boolean
+    seoTitle: string | null
+    seoDescription: string | null
     logoUrl: string | null
     coverUrl: string | null
     isVerified: boolean
@@ -2830,13 +3788,29 @@ export interface StoreFieldRefs {
   readonly slug: Prisma.FieldRef<"Store", 'String'>
   readonly kind: Prisma.FieldRef<"Store", 'StoreKind'>
   readonly description: Prisma.FieldRef<"Store", 'String'>
+  readonly email: Prisma.FieldRef<"Store", 'String'>
   readonly phone: Prisma.FieldRef<"Store", 'String'>
   readonly whatsapp: Prisma.FieldRef<"Store", 'String'>
   readonly momoNumber: Prisma.FieldRef<"Store", 'String'>
   readonly location: Prisma.FieldRef<"Store", 'String'>
   readonly area: Prisma.FieldRef<"Store", 'String'>
   readonly address: Prisma.FieldRef<"Store", 'String'>
+  readonly gpsLatitude: Prisma.FieldRef<"Store", 'Float'>
+  readonly gpsLongitude: Prisma.FieldRef<"Store", 'Float'>
   readonly openingHours: Prisma.FieldRef<"Store", 'String'>
+  readonly socialLinks: Prisma.FieldRef<"Store", 'Json'>
+  readonly deliveryCoverage: Prisma.FieldRef<"Store", 'String'>
+  readonly announcementBanner: Prisma.FieldRef<"Store", 'String'>
+  readonly accentColor: Prisma.FieldRef<"Store", 'String'>
+  readonly storeTheme: Prisma.FieldRef<"Store", 'String'>
+  readonly acceptOrders: Prisma.FieldRef<"Store", 'Boolean'>
+  readonly vacationMode: Prisma.FieldRef<"Store", 'Boolean'>
+  readonly deliveryAvailable: Prisma.FieldRef<"Store", 'Boolean'>
+  readonly pickupAvailable: Prisma.FieldRef<"Store", 'Boolean'>
+  readonly chatEnabled: Prisma.FieldRef<"Store", 'Boolean'>
+  readonly callsEnabled: Prisma.FieldRef<"Store", 'Boolean'>
+  readonly seoTitle: Prisma.FieldRef<"Store", 'String'>
+  readonly seoDescription: Prisma.FieldRef<"Store", 'String'>
   readonly logoUrl: Prisma.FieldRef<"Store", 'String'>
   readonly coverUrl: Prisma.FieldRef<"Store", 'String'>
   readonly isVerified: Prisma.FieldRef<"Store", 'Boolean'>

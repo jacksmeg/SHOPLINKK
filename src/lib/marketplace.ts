@@ -22,6 +22,11 @@ export type PublicProduct = {
   title: string;
   slug: string;
   description: string;
+  brand?: string | null;
+  sku?: string | null;
+  tags?: string[];
+  weightKg?: number | null;
+  deliveryOptions?: string | null;
   listingType?: ListingType | string;
   priceMode?: PriceMode | string;
   price: number;

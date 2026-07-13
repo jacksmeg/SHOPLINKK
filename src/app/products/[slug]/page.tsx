@@ -153,6 +153,8 @@ export default async function ProductDetailPage({
           <div className="mt-4 grid gap-2 text-xs text-[var(--muted)]">
             <span className="inline-flex items-center gap-2"><MapPin size={16} /> {product.area ? `${product.area}, ${product.location}` : product.location}</span>
             <span className="inline-flex items-center gap-2"><Tag size={16} /> {product.category.name}</span>
+            {product.brand ? <span className="inline-flex items-center gap-2"><Tag size={16} /> Brand: {product.brand}</span> : null}
+            {product.sku ? <span className="inline-flex items-center gap-2"><Tag size={16} /> SKU: {product.sku}</span> : null}
             <span className="inline-flex items-center gap-2"><PackageCheck size={16} /> {titleCase(String(product.stockStatus))}</span>
             <span className="inline-flex items-center gap-2">Posted {compactDate(product.createdAt)}</span>
             {typeof product.quantity === "number" && product.listingType !== "SERVICE" ? (
@@ -241,6 +243,11 @@ export default async function ProductDetailPage({
       <section className="mt-8 border-t border-[var(--line)] pt-6">
         <h2 className="text-lg font-black text-[var(--ink)]">Product details</h2>
         <p className="mt-3 max-w-4xl whitespace-pre-line text-sm leading-7 text-[var(--muted)]">{product.description}</p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          {product.weightKg ? <div className="rounded-[8px] border border-[var(--line)] bg-white p-3 text-xs"><strong className="text-[var(--ink)]">Weight:</strong> {product.weightKg} kg</div> : null}
+          {product.deliveryOptions ? <div className="rounded-[8px] border border-[var(--line)] bg-white p-3 text-xs"><strong className="text-[var(--ink)]">Delivery:</strong> {product.deliveryOptions}</div> : null}
+          {product.tags?.length ? <div className="rounded-[8px] border border-[var(--line)] bg-white p-3 text-xs"><strong className="text-[var(--ink)]">Tags:</strong> {product.tags.join(", ")}</div> : null}
+        </div>
       </section>
 
       {product.videoUrl ? (

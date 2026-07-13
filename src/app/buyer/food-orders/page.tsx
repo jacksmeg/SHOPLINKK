@@ -1,24 +1,14 @@
 import Link from "next/link";
-import { Bell, ChefHat, GitCompareArrows, Heart, MapPinned, MessageCircle, Search, ShoppingBag, Truck, UserRound } from "lucide-react";
+import { ChefHat, MapPinned, Truck } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireUser } from "@/lib/auth-guards";
+import { buyerLinks } from "@/lib/buyer-navigation";
 import { prisma } from "@/lib/db";
 import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
-
-const links = [
-  { href: "/buyer", label: "Overview", icon: ShoppingBag },
-  { href: "/marketplace", label: "Browse products", icon: Search },
-  { href: "/buyer/food-orders", label: "Food orders", icon: ChefHat },
-  { href: "/favorites", label: "Favorites", icon: Heart },
-  { href: "/buyer/saved-searches", label: "Saved searches", icon: Bell },
-  { href: "/buyer/compare", label: "Compare", icon: GitCompareArrows },
-  { href: "/chat", label: "Chats", icon: MessageCircle },
-  { href: "/profile", label: "Profile", icon: UserRound },
-];
 
 export default async function BuyerFoodOrdersPage() {
   const session = await requireUser();
@@ -40,7 +30,7 @@ export default async function BuyerFoodOrdersPage() {
       eyebrow="Buyer"
       title="Food orders"
       description="Track food orders, MoMo confirmation, preparation, and delivery."
-      links={links}
+      links={buyerLinks}
     >
       <div className="grid gap-3">
         {orders.map((order) => (

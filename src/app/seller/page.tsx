@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
 import { isContactPrice } from "@/lib/pricing";
+import { sellerLinks } from "@/lib/seller-navigation";
 import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -60,16 +61,7 @@ export default async function SellerDashboardPage() {
       eyebrow="Seller"
       title="Dashboard"
       description="Manage your store, listings, stock, and buyer messages."
-      links={[
-        { href: "/seller", label: "Overview", icon: Store },
-        { href: "/seller/store", label: "Store management", icon: Settings },
-        { href: "/seller/food", label: "Food dashboard", icon: ChefHat },
-        { href: "/seller/adverts", label: "Adverts", icon: Megaphone },
-        { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
-        { href: "/seller/products/bulk", label: "Bulk upload", icon: PackagePlus },
-        { href: "/chat", label: "Buyer messages", icon: MessageCircle },
-        { href: "/profile", label: "Profile", icon: UserRound },
-      ]}
+      links={sellerLinks}
     >
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Today's food sales" value={formatCurrency(todaysFoodSales)} icon={ChefHat} helper="Confirmed and active food orders" tone="sea" />

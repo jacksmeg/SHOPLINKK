@@ -13,13 +13,29 @@ type StoreFormValue = {
   name?: string | null;
   kind?: string | null;
   description?: string | null;
+  email?: string | null;
   phone?: string | null;
   whatsapp?: string | null;
   momoNumber?: string | null;
   location?: string | null;
   area?: string | null;
   address?: string | null;
+  gpsLatitude?: number | null;
+  gpsLongitude?: number | null;
   openingHours?: string | null;
+  socialLinks?: unknown;
+  deliveryCoverage?: string | null;
+  announcementBanner?: string | null;
+  accentColor?: string | null;
+  storeTheme?: string | null;
+  acceptOrders?: boolean | null;
+  vacationMode?: boolean | null;
+  deliveryAvailable?: boolean | null;
+  pickupAvailable?: boolean | null;
+  chatEnabled?: boolean | null;
+  callsEnabled?: boolean | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
   logoUrl?: string | null;
   coverUrl?: string | null;
 };
@@ -31,6 +47,10 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [message, setMessage] = useState("");
   const [pending, startTransition] = useTransition();
+  const socialLinks =
+    store?.socialLinks && typeof store.socialLinks === "object" && !Array.isArray(store.socialLinks)
+      ? (store.socialLinks as { facebook?: string; instagram?: string; tiktok?: string; x?: string })
+      : {};
 
   async function upload(target: "logo" | "cover", file?: File) {
     if (!file) return;
@@ -69,13 +89,34 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
           name: formData.get("name"),
           kind: formData.get("kind"),
           description: formData.get("description"),
+          email: formData.get("email"),
           phone: formData.get("phone"),
           whatsapp: formData.get("whatsapp"),
           momoNumber: formData.get("momoNumber"),
           location: formData.get("location"),
           area: formData.get("area"),
           address: formData.get("address"),
+          gpsLatitude: formData.get("gpsLatitude") || null,
+          gpsLongitude: formData.get("gpsLongitude") || null,
           openingHours: formData.get("openingHours"),
+          socialLinks: {
+            facebook: String(formData.get("facebook") ?? ""),
+            instagram: String(formData.get("instagram") ?? ""),
+            tiktok: String(formData.get("tiktok") ?? ""),
+            x: String(formData.get("x") ?? ""),
+          },
+          deliveryCoverage: formData.get("deliveryCoverage"),
+          announcementBanner: formData.get("announcementBanner"),
+          accentColor: formData.get("accentColor"),
+          storeTheme: formData.get("storeTheme"),
+          acceptOrders: Boolean(formData.get("acceptOrders")),
+          vacationMode: Boolean(formData.get("vacationMode")),
+          deliveryAvailable: Boolean(formData.get("deliveryAvailable")),
+          pickupAvailable: Boolean(formData.get("pickupAvailable")),
+          chatEnabled: Boolean(formData.get("chatEnabled")),
+          callsEnabled: Boolean(formData.get("callsEnabled")),
+          seoTitle: formData.get("seoTitle"),
+          seoDescription: formData.get("seoDescription"),
           logoUrl,
           coverUrl,
         }),
@@ -127,6 +168,10 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
           <input name="phone" defaultValue={store?.phone ?? ""} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
         </label>
         <label className="text-sm font-bold text-[var(--ink)]">
+          Store email
+          <input name="email" type="email" defaultValue={store?.email ?? ""} placeholder="store@example.com" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+        </label>
+        <label className="text-sm font-bold text-[var(--ink)]">
           WhatsApp number
           <input name="whatsapp" defaultValue={store?.whatsapp ?? store?.phone ?? ""} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
         </label>
@@ -169,10 +214,96 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
           <input name="openingHours" defaultValue={store?.openingHours ?? ""} placeholder="Mon-Sat, 8am-6pm" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
         </label>
       </div>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <label className="text-sm font-bold text-[var(--ink)]">
+          GPS latitude
+          <input name="gpsLatitude" type="number" step="any" defaultValue={store?.gpsLatitude ?? ""} placeholder="5.965..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+        </label>
+        <label className="text-sm font-bold text-[var(--ink)]">
+          GPS longitude
+          <input name="gpsLongitude" type="number" step="any" defaultValue={store?.gpsLongitude ?? ""} placeholder="-1.78..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+        </label>
+      </div>
       <label className="mt-4 block text-sm font-bold text-[var(--ink)]">
         Description
         <textarea name="description" defaultValue={store?.description ?? ""} rows={4} className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
       </label>
+      <label className="mt-4 block text-sm font-bold text-[var(--ink)]">
+        Delivery coverage area
+        <textarea name="deliveryCoverage" defaultValue={store?.deliveryCoverage ?? ""} rows={3} placeholder="Dunkwa market, Atechem, Abankesieso, Jukwa..." className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+      </label>
+      <label className="mt-4 block text-sm font-bold text-[var(--ink)]">
+        Announcement banner
+        <input name="announcementBanner" defaultValue={store?.announcementBanner ?? ""} placeholder="10% off all phones this weekend" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+      </label>
+
+      <div className="mt-5 rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-4">
+        <h2 className="text-sm font-black text-[var(--ink)]">Store theme and social links</h2>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <label className="text-sm font-bold text-[var(--ink)]">
+            Accent colour
+            <input name="accentColor" type="color" defaultValue={store?.accentColor ?? "#0f3b78"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-2" />
+          </label>
+          <label className="text-sm font-bold text-[var(--ink)]">
+            Store theme
+            <select name="storeTheme" defaultValue={store?.storeTheme ?? "clean"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
+              <option value="clean">Clean white</option>
+              <option value="bold">Bold blue</option>
+              <option value="food">Food seller</option>
+              <option value="premium">Premium store</option>
+            </select>
+          </label>
+          <label className="text-sm font-bold text-[var(--ink)]">
+            Facebook
+            <input name="facebook" defaultValue={socialLinks.facebook ?? ""} placeholder="https://facebook.com/..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+          </label>
+          <label className="text-sm font-bold text-[var(--ink)]">
+            Instagram
+            <input name="instagram" defaultValue={socialLinks.instagram ?? ""} placeholder="https://instagram.com/..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+          </label>
+          <label className="text-sm font-bold text-[var(--ink)]">
+            TikTok
+            <input name="tiktok" defaultValue={socialLinks.tiktok ?? ""} placeholder="https://tiktok.com/@..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+          </label>
+          <label className="text-sm font-bold text-[var(--ink)]">
+            X / Twitter
+            <input name="x" defaultValue={socialLinks.x ?? ""} placeholder="https://x.com/..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+          </label>
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-[8px] border border-[var(--line)] bg-white p-4">
+        <h2 className="text-sm font-black text-[var(--ink)]">Store settings</h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ["acceptOrders", "Accept orders", store?.acceptOrders ?? true],
+            ["vacationMode", "Vacation mode", store?.vacationMode ?? false],
+            ["deliveryAvailable", "Delivery available", store?.deliveryAvailable ?? true],
+            ["pickupAvailable", "Pickup available", store?.pickupAvailable ?? true],
+            ["chatEnabled", "Chat enabled", store?.chatEnabled ?? true],
+            ["callsEnabled", "Phone calls enabled", store?.callsEnabled ?? true],
+          ].map(([name, label, checked]) => (
+            <label key={String(name)} className="flex min-h-12 items-center gap-3 rounded-[8px] border border-[var(--line)] px-3 text-xs font-black text-[var(--ink)]">
+              <input name={String(name)} type="checkbox" defaultChecked={Boolean(checked)} className="size-4 accent-[var(--brand)]" />
+              {label}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-[8px] border border-[var(--line)] bg-white p-4">
+        <h2 className="text-sm font-black text-[var(--ink)]">Store SEO and sharing</h2>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <label className="text-sm font-bold text-[var(--ink)]">
+            SEO title
+            <input name="seoTitle" defaultValue={store?.seoTitle ?? ""} placeholder="Kofi Electronics in Dunkwa-on-Offin" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+          </label>
+          <label className="text-sm font-bold text-[var(--ink)]">
+            SEO description
+            <input name="seoDescription" defaultValue={store?.seoDescription ?? ""} placeholder="Trusted local shop for phones, accessories, and repairs." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+          </label>
+        </div>
+      </div>
       {message ? <p className="mt-4 rounded-[8px] bg-blue-50 p-3 text-sm font-semibold text-[var(--brand-dark)]">{message}</p> : null}
       <Button type="submit" disabled={pending} className="mt-5">
         <Save size={17} />

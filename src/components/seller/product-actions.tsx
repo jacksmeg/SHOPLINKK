@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Copy, Eye, PackageCheck, RefreshCw, Trash2 } from "lucide-react";
+import { Archive, Copy, Eye, PackageCheck, PauseCircle, RefreshCw, RotateCcw, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ export function SellerProductActions({
   const router = useRouter();
   const [pending, startTransition] = useTransition();
 
-  function run(action: "duplicate" | "sold" | "renew") {
+  function run(action: "duplicate" | "sold" | "renew" | "pause" | "reactivate" | "archive") {
     startTransition(async () => {
       await fetch(`/api/products/${productId}/${action}`, { method: "POST" });
       router.refresh();
@@ -55,9 +55,21 @@ export function SellerProductActions({
         <PackageCheck size={14} />
         Sold
       </Button>
+      <Button type="button" variant="secondary" disabled={pending} onClick={() => run("pause")} className="min-h-9 px-3 text-xs">
+        <PauseCircle size={14} />
+        Pause
+      </Button>
+      <Button type="button" variant="secondary" disabled={pending} onClick={() => run("reactivate")} className="min-h-9 px-3 text-xs">
+        <RotateCcw size={14} />
+        Reactivate
+      </Button>
       <Button type="button" variant="secondary" disabled={pending} onClick={() => run("renew")} className="min-h-9 px-3 text-xs">
         <RefreshCw size={14} />
         Renew
+      </Button>
+      <Button type="button" variant="secondary" disabled={pending} onClick={() => run("archive")} className="min-h-9 px-3 text-xs">
+        <Archive size={14} />
+        Archive
       </Button>
       <Button type="button" variant="danger" disabled={pending} onClick={remove} className="min-h-9 px-3 text-xs">
         <Trash2 size={14} />

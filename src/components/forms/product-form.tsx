@@ -16,6 +16,11 @@ type ProductFormValue = {
   priceMode?: string;
   title?: string;
   description?: string;
+  brand?: string | null;
+  sku?: string | null;
+  tags?: string[];
+  weightKg?: number | string | null;
+  deliveryOptions?: string | null;
   categoryId?: string;
   price?: number | string;
   salePrice?: number | string | null;
@@ -109,6 +114,14 @@ export function ProductForm({
           listingType: formData.get("listingType"),
           title: formData.get("title"),
           description: formData.get("description"),
+          brand: formData.get("brand"),
+          sku: formData.get("sku"),
+          tags: String(formData.get("tags") ?? "")
+            .split(",")
+            .map((tag) => tag.trim())
+            .filter(Boolean),
+          weightKg: formData.get("weightKg") || null,
+          deliveryOptions: formData.get("deliveryOptions"),
           categoryId: formData.get("categoryId"),
           priceMode: formData.get("priceMode"),
           price: formData.get("price"),
@@ -192,6 +205,24 @@ export function ProductForm({
             Description
             <textarea name="description" defaultValue={product?.description ?? ""} required rows={6} className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
           </label>
+          <div className="grid gap-4 sm:grid-cols-4">
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Brand
+              <input name="brand" defaultValue={product?.brand ?? ""} placeholder="Samsung, Toyota..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              SKU
+              <input name="sku" defaultValue={product?.sku ?? ""} placeholder="Internal code" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Weight (kg)
+              <input name="weightKg" type="number" min="0" step="0.01" defaultValue={product?.weightKg ?? ""} placeholder="Optional" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Tags
+              <input name="tags" defaultValue={product?.tags?.join(", ") ?? ""} placeholder="phone, neat, fast" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+          </div>
           <div className="grid gap-4 sm:grid-cols-3">
             <label className="text-sm font-bold text-[var(--ink)]">
               Category
@@ -324,6 +355,10 @@ export function ProductForm({
           <label className="text-sm font-bold text-[var(--ink)]">
             Pickup or delivery discussion
             <textarea name="pickupNote" defaultValue={product?.pickupNote ?? ""} rows={3} placeholder="Example: Pickup around Dunkwa Market. Delivery can be discussed in chat." className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+          </label>
+          <label className="text-sm font-bold text-[var(--ink)]">
+            Delivery options
+            <textarea name="deliveryOptions" defaultValue={product?.deliveryOptions ?? ""} rows={3} placeholder="Buyer pickup, seller delivery, rider delivery, or delivery fee notes." className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
           </label>
           <div className="grid gap-3 rounded-[8px] border border-[var(--line)] p-4 sm:grid-cols-3">
             <label className="inline-flex items-center gap-2 text-sm font-bold text-[var(--ink)]">

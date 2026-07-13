@@ -1,8 +1,9 @@
-import { Bell, FolderHeart, Heart, MessageCircle, Search, ShoppingBag, UserRound } from "lucide-react";
+import { FolderHeart } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { EmptyState } from "@/components/ui/empty-state";
 import { ProductCard } from "@/components/marketplace/product-card";
 import { requireUser } from "@/lib/auth-guards";
+import { buyerLinks } from "@/lib/buyer-navigation";
 import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -62,14 +63,7 @@ export default async function FavoritesPage() {
       eyebrow="Buyer"
       title="Favorites"
       description="Products you saved for later."
-      links={[
-        { href: "/buyer", label: "Overview", icon: ShoppingBag },
-        { href: "/marketplace", label: "Browse products", icon: Search },
-        { href: "/favorites", label: "Favorites", icon: Heart },
-        { href: "/buyer/saved-searches", label: "Saved searches", icon: Bell },
-        { href: "/chat", label: "Chats", icon: MessageCircle },
-        { href: "/profile", label: "Profile", icon: UserRound },
-      ]}
+      links={buyerLinks}
     >
       {folders.length ? (
         <div className="mb-5 flex flex-wrap gap-2">

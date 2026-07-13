@@ -103,6 +103,34 @@ export const demoCategories = [
     description: "Everything useful that does not fit anywhere else.",
     icon: "Package",
   },
+  {
+    id: "cat-events",
+    name: "Events",
+    slug: "events",
+    description: "Weddings, funerals, church programs, concerts, and community events.",
+    icon: "CalendarDays",
+  },
+  {
+    id: "cat-property",
+    name: "Property",
+    slug: "property",
+    description: "Houses, land, shops, apartments, and commercial spaces.",
+    icon: "Building2",
+  },
+  {
+    id: "cat-professional-services",
+    name: "Professional Services",
+    slug: "professional-services",
+    description: "Plumbers, electricians, barbers, hairdressers, mechanics, carpenters, painters, and tutors.",
+    icon: "Wrench",
+  },
+  {
+    id: "cat-emergency-delivery",
+    name: "Emergency Delivery",
+    slug: "emergency-delivery",
+    description: "Documents, parcels, medicines, groceries, and urgent local delivery requests.",
+    icon: "Truck",
+  },
 ];
 
 export const demoStores = [

@@ -25,6 +25,11 @@ const optionalDateSchema = z.preprocess(
   z.union([z.coerce.date(), z.null()]).optional(),
 );
 
+const optionalFloatSchema = z.preprocess(
+  (value) => (value === "" ? null : value),
+  z.union([z.coerce.number(), z.null()]).optional(),
+);
+
 export const ghanaPhoneSchema = z.preprocess(
   (value) => (typeof value === "string" ? value.replace(/[\s-]/g, "") : value),
   z
@@ -98,13 +103,36 @@ export const storeSchema = z.object({
   name: z.string().min(2),
   kind: z.enum(["GENERAL", "FOOD"]).default("GENERAL"),
   description: z.string().max(900).optional().or(z.literal("")),
+  email: z.email("Enter a valid store email").optional().or(z.literal("")),
   phone: ghanaPhoneSchema,
   whatsapp: ghanaPhoneSchema.optional().or(z.literal("")),
   momoNumber: ghanaPhoneSchema.optional().or(z.literal("")),
   location: z.string().min(2).default("Dunkwa-on-Offin"),
   area: z.string().max(80).optional().or(z.literal("")),
   address: z.string().max(160).optional().or(z.literal("")),
+  gpsLatitude: optionalFloatSchema.refine((value) => value === null || value === undefined || (value >= -90 && value <= 90), "Latitude must be between -90 and 90"),
+  gpsLongitude: optionalFloatSchema.refine((value) => value === null || value === undefined || (value >= -180 && value <= 180), "Longitude must be between -180 and 180"),
   openingHours: z.string().max(160).optional().or(z.literal("")),
+  socialLinks: z
+    .object({
+      facebook: z.url().optional().or(z.literal("")),
+      instagram: z.url().optional().or(z.literal("")),
+      tiktok: z.url().optional().or(z.literal("")),
+      x: z.url().optional().or(z.literal("")),
+    })
+    .optional(),
+  deliveryCoverage: z.string().max(500).optional().or(z.literal("")),
+  announcementBanner: z.string().max(180).optional().or(z.literal("")),
+  accentColor: z.string().max(40).optional().or(z.literal("")),
+  storeTheme: z.string().max(40).optional().or(z.literal("")),
+  acceptOrders: z.coerce.boolean().default(true),
+  vacationMode: z.coerce.boolean().default(false),
+  deliveryAvailable: z.coerce.boolean().default(true),
+  pickupAvailable: z.coerce.boolean().default(true),
+  chatEnabled: z.coerce.boolean().default(true),
+  callsEnabled: z.coerce.boolean().default(true),
+  seoTitle: z.string().max(80).optional().or(z.literal("")),
+  seoDescription: z.string().max(160).optional().or(z.literal("")),
   logoUrl: imageValue.optional().or(z.literal("")),
   coverUrl: imageValue.optional().or(z.literal("")),
 });
@@ -114,6 +142,11 @@ export const productSchema = z.object({
   priceMode: z.enum(["FIXED", "CONTACT"]).default("FIXED"),
   title: z.string().min(4),
   description: z.string().min(20),
+  brand: z.string().max(80).optional().or(z.literal("")),
+  sku: z.string().max(80).optional().or(z.literal("")),
+  tags: z.array(z.string().trim().min(1).max(40)).max(20).optional().default([]),
+  weightKg: optionalFloatSchema.refine((value) => value === null || value === undefined || (value >= 0 && value <= 100000), "Weight is too high"),
+  deliveryOptions: z.string().max(500).optional().or(z.literal("")),
   categoryId: z.string().min(1),
   price: z.preprocess((value) => (value === "" || value === null || value === undefined ? 0 : value), z.coerce.number().min(0)),
   salePrice: optionalPriceSchema,

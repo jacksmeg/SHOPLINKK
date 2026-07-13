@@ -7,6 +7,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { ButtonLink } from "@/components/ui/button";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
+import { sellerLinks } from "@/lib/seller-navigation";
 import { titleCase } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -28,14 +29,7 @@ export default async function SellerStorePage() {
       eyebrow="Seller"
       title="Store management"
       description="Manage your public seller identity, contact details, store photos, verification, and buyer trust signals."
-      links={[
-        { href: "/seller", label: "Overview", icon: Store },
-        { href: "/seller/store", label: "Store management", icon: Settings },
-        { href: "/seller/adverts", label: "Adverts", icon: Megaphone },
-        { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
-        { href: "/chat", label: "Buyer messages", icon: MessageCircle },
-        { href: "/profile", label: "Profile", icon: UserRound },
-      ]}
+      links={sellerLinks}
     >
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Store trust" value={`${store?.trustScore ?? 50}%`} icon={BadgeCheck} helper={`Verification: ${titleCase(store?.verificationStatus ?? "NOT_SUBMITTED")}`} tone="sea" />

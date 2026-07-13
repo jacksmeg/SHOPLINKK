@@ -6,6 +6,7 @@ import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { StatCard } from "@/components/ui/stat-card";
 import { ButtonLink } from "@/components/ui/button";
 import { requireUser } from "@/lib/auth-guards";
+import { buyerLinks } from "@/lib/buyer-navigation";
 import { prisma } from "@/lib/db";
 import { formatCurrency } from "@/lib/utils";
 
@@ -43,17 +44,7 @@ export default async function BuyerDashboardPage() {
       eyebrow="Buyer"
       title="Dashboard"
       description="Saved products, chats, and local buying shortcuts."
-      links={[
-        { href: "/buyer", label: "Overview", icon: ShoppingBag },
-        { href: "/marketplace", label: "Browse products", icon: Search },
-        { href: "/buyer/food-orders", label: "Food orders", icon: ChefHat },
-        { href: "/buyer/following", label: "Following", icon: Users },
-        { href: "/favorites", label: "Favorites", icon: Heart },
-        { href: "/buyer/saved-searches", label: "Saved searches", icon: Bell },
-        { href: "/buyer/compare", label: "Compare", icon: GitCompareArrows },
-        { href: "/chat", label: "Chats", icon: MessageCircle },
-        { href: "/profile", label: "Profile", icon: UserRound },
-      ]}
+      links={buyerLinks}
     >
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         <StatCard label="Saved products" value={favorites} icon={Heart} helper="Favorites stay private to you" />

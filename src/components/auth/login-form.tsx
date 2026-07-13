@@ -6,6 +6,7 @@ import { AlertCircle, ArrowRight, CheckCircle2, LockKeyhole, UserRound } from "l
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { AuthLogoMark, AuthPanel, GoogleIcon } from "@/components/auth/auth-panel";
+import { TurnstileWidget } from "@/components/security/turnstile-widget";
 import { Button } from "@/components/ui/button";
 
 function getDeviceId() {
@@ -17,7 +18,7 @@ function getDeviceId() {
   return generated;
 }
 
-export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
+export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: boolean; turnstileSiteKey?: string }) {
   const router = useRouter();
   const params = useSearchParams();
   const requestedCallbackUrl = params.get("callbackUrl");
@@ -28,7 +29,15 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
   const verifiedNext = params.get("next");
   const [error, setError] = useState("");
   const [accepted, setAccepted] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileReset, setTurnstileReset] = useState(0);
   const [pending, startTransition] = useTransition();
+  const securityEnabled = Boolean(turnstileSiteKey);
+
+  function resetSecurityCheck() {
+    setTurnstileToken("");
+    setTurnstileReset((value) => value + 1);
+  }
 
   function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -42,17 +51,29 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
       return;
     }
 
+    if (securityEnabled && !turnstileToken) {
+      setError("Complete the Cloudflare security check before signing in.");
+      return;
+    }
+
     startTransition(async () => {
       try {
         const check = await fetch("/api/auth/check-login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ identifier, password, termsAccepted: true }),
+          body: JSON.stringify({ identifier, password, termsAccepted: true, turnstileToken }),
         });
         const checkData = await check.json().catch(() => null);
 
         if (!check.ok || checkData?.ok === false) {
           setError(checkData?.message ?? "Could not check your account. Try again.");
+          resetSecurityCheck();
+          return;
+        }
+
+        if (!checkData?.loginGuard) {
+          setError("Security verification did not complete. Please try again.");
+          resetSecurityCheck();
           return;
         }
 
@@ -60,12 +81,14 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
           redirect: false,
           identifier,
           password,
+          loginGuard: checkData.loginGuard,
           termsAccepted: "true",
           callbackUrl,
         });
 
         if (!result || result.error) {
           setError("The email/phone or password is not correct. Check the details and try again.");
+          resetSecurityCheck();
           return;
         }
 
@@ -127,6 +150,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
           type="button"
           onClick={() => {
             if (!accepted) { setError("Tick the agreement box before continuing with Google."); return; }
+            if (securityEnabled && !turnstileToken) { setError("Complete the Cloudflare security check before continuing with Google."); return; }
             if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?callback=${encodeURIComponent(callbackUrl)}` });
           }}
           disabled={!googleEnabled}
@@ -181,6 +205,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
             <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} className="mt-0.5 size-4 shrink-0 accent-[var(--brand)]" />
             <span>I agree to the <Link href="/terms" target="_blank" className="font-bold text-[var(--brand-dark)]">Terms</Link>, <Link href="/privacy" target="_blank" className="font-bold text-[var(--brand-dark)]">Privacy Policy</Link>, and <Link href="/license-agreement" target="_blank" className="font-bold text-[var(--brand-dark)]">License Agreement</Link>.</span>
           </label>
+          <TurnstileWidget key={turnstileReset} siteKey={turnstileSiteKey} onVerify={setTurnstileToken} />
           {error ? (
             <p className="flex items-start gap-2 rounded-[8px] bg-red-50 p-3 text-sm font-semibold text-red-700">
               <AlertCircle className="mt-0.5 shrink-0" size={16} />

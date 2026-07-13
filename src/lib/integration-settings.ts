@@ -46,6 +46,10 @@ const envValues: Record<IntegrationProviderKey, ProviderValues> = {
     webhookSecret: process.env.KORA_WEBHOOK_SECRET ?? "",
     baseUrl: process.env.KORA_BASE_URL ?? "https://api.korapay.com/merchant/api/v1",
   },
+  CLOUDFLARE_TURNSTILE: {
+    siteKey: process.env.CLOUDFLARE_TURNSTILE_SITE_KEY ?? process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "",
+    secretKey: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY ?? "",
+  },
   WEB_PUSH: {
     publicKey: process.env.WEB_PUSH_PUBLIC_KEY ?? "",
     privateKey: process.env.WEB_PUSH_PRIVATE_KEY ?? "",

@@ -8,7 +8,9 @@ import { brandedEmail } from "@/lib/email-template";
 import { slugify, uniqueSlug } from "@/lib/slug";
 import { registerSchema } from "@/lib/validators";
 import { formatGhanaPhone } from "@/lib/ghana";
+import { createLoginGuard } from "@/lib/login-guard";
 import { getPlatformConfig } from "@/lib/platform-settings";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 import { TERMS_VERSION } from "@/lib/legal";
 
 function registrationErrorMessage(issues: { path: PropertyKey[]; message: string }[]) {
@@ -39,6 +41,12 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const platform = await getPlatformConfig();
   if (!platform.allowRegistration) return jsonError("New registrations are temporarily paused", 503);
+
+  const turnstile = await verifyTurnstileToken((body as { turnstileToken?: unknown } | null)?.turnstileToken, request);
+  if (!turnstile.ok) {
+    return jsonError(turnstile.message, 400);
+  }
+
   const parsed = registerSchema.safeParse(body);
 
   if (!parsed.success) {
@@ -122,5 +130,6 @@ export async function POST(request: Request) {
     // The account is valid even if the welcome provider is temporarily unavailable.
   }
 
-  return NextResponse.json({ id: user.id, role: user.role, requiresVerification: platform.requireEmailVerification }, { status: 201 });
+  const loginGuard = platform.requireEmailVerification ? "" : await createLoginGuard(email);
+  return NextResponse.json({ id: user.id, role: user.role, requiresVerification: platform.requireEmailVerification, loginGuard }, { status: 201 });
 }

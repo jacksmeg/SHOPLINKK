@@ -6,10 +6,11 @@ import { AlertCircle, ArrowRight, CheckCircle2, LockKeyhole, Mail, MapPin, Phone
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { AuthPanel, GoogleIcon } from "@/components/auth/auth-panel";
+import { TurnstileWidget } from "@/components/security/turnstile-widget";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
+export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: boolean; turnstileSiteKey?: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const requestedRole = searchParams.get("role")?.toLowerCase();
@@ -21,7 +22,15 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [accepted, setAccepted] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileReset, setTurnstileReset] = useState(0);
   const [pending, startTransition] = useTransition();
+  const securityEnabled = Boolean(turnstileSiteKey);
+
+  function resetSecurityCheck() {
+    setTurnstileToken("");
+    setTurnstileReset((value) => value + 1);
+  }
 
   function handleRegister(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -35,6 +44,11 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
 
     if (!accepted) {
       setError("Tick the agreement box before creating your account.");
+      return;
+    }
+
+    if (securityEnabled && !turnstileToken) {
+      setError("Complete the Cloudflare security check before creating your account.");
       return;
     }
 
@@ -58,12 +72,14 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
             role,
             storeKind: role === "SELLER" ? storeKind : "GENERAL",
             termsAccepted: true,
+            turnstileToken,
           }),
         });
 
         if (!response.ok) {
           const data = await response.json().catch(() => null);
           setError(data?.message ?? "Could not create account.");
+          resetSecurityCheck();
           return;
         }
 
@@ -78,12 +94,14 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
           redirect: false,
           identifier: email,
           password,
+          loginGuard: created?.loginGuard ?? "",
           termsAccepted: "true",
           callbackUrl: role === "SELLER" ? "/seller" : role === "RIDER" ? "/rider/profile" : "/buyer",
         });
 
         if (!login || login.error) {
           setError("Your account is ready, but automatic sign-in did not finish. Use the same email and password on the login page.");
+          resetSecurityCheck();
           return;
         }
 
@@ -137,6 +155,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
           type="button"
           onClick={() => {
             if (!accepted) { setError("Tick the agreement box before continuing with Google."); return; }
+            if (securityEnabled && !turnstileToken) { setError("Complete the Cloudflare security check before continuing with Google."); return; }
             if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?role=${role}&storeKind=${storeKind}` });
           }}
           disabled={!googleEnabled}
@@ -238,6 +257,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
               <input name="location" defaultValue="Dunkwa-on-Offin" required className="form-control w-full pl-10 pr-3 text-sm" />
             </span>
           </label>
+          <TurnstileWidget key={turnstileReset} siteKey={turnstileSiteKey} onVerify={setTurnstileToken} />
 
           {error ? (
             <p className="flex items-start gap-2 rounded-[8px] bg-red-50 p-3 text-sm font-semibold text-red-700">

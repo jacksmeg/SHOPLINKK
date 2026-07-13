@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Boxes, Flame, MapPin, MessageCircle, PackageCheck, Phone, Share2, ShieldAlert, ShieldCheck, Store, Tag, Wrench } from "lucide-react";
+import { Boxes, Flame, MapPin, MessageCircle, PackageCheck, Phone, ShieldAlert, ShieldCheck, Store, Tag, Wrench } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { AddProductToCartButton } from "@/components/marketplace/add-product-to-cart-button";
@@ -11,6 +11,7 @@ import { CompareButton } from "@/components/marketplace/compare-button";
 import { FavoriteButton } from "@/components/marketplace/favorite-button";
 import { ProductImageGallery } from "@/components/marketplace/product-image-gallery";
 import { ProductRail } from "@/components/marketplace/product-rail";
+import { ProductShareActions } from "@/components/marketplace/product-share-actions";
 import { FlashSaleCountdown } from "@/components/marketplace/flash-sale-countdown";
 import { PriceAlertButton } from "@/components/marketplace/price-alert-button";
 import { ReportButton } from "@/components/marketplace/report-button";
@@ -162,7 +163,9 @@ export default async function ProductDetailPage({
             ) : null}
           </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+          <div className="mt-5 rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-3">
+            <p className="text-xs font-black text-[var(--ink)]">Buy safely from this seller</p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 [&_a]:w-full [&_button]:w-full [&_span]:w-full [&_span>button]:w-full">
             <AddProductToCartButton
               product={{
                 id: product.id,
@@ -180,26 +183,35 @@ export default async function ProductDetailPage({
             />
             <ContactSellerButton productId={product.id} sellerId={product.seller.id} />
             {whatsappHref ? (
-              <ButtonLink href={whatsappHref} target="_blank" rel="noreferrer" variant="secondary">
+              <ButtonLink href={whatsappHref} target="_blank" rel="noreferrer" variant="secondary" className="w-full">
                 <MessageCircle size={17} />
                 WhatsApp
               </ButtonLink>
             ) : null}
             {product.allowCalls && sellerPhone ? (
-              <ButtonLink href={`tel:${formatGhanaPhone(sellerPhone)}`} variant="secondary">
+              <ButtonLink href={`tel:${formatGhanaPhone(sellerPhone)}`} variant="secondary" className="w-full">
                 <Phone size={17} />
                 Call
               </ButtonLink>
             ) : null}
+            </div>
+          </div>
+
+          <div className="mt-3 grid gap-2 sm:grid-cols-2 [&_a]:w-full [&_button]:w-full [&_span]:w-full [&_span>button]:w-full">
             <FavoriteButton productId={product.id} />
             <CompareButton productId={product.id} />
-            {!contactPrice ? <PriceAlertButton productId={product.id} currentPrice={visiblePrice} /> : null}
             <ReportButton productId={product.id} reportedUserId={product.seller.id} />
             <BlockUserButton userId={product.seller.id} />
-            <ButtonLink href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`} target="_blank" rel="noreferrer" variant="ghost">
-              <Share2 size={17} />
-              Share
-            </ButtonLink>
+          </div>
+
+          {!contactPrice ? (
+            <div className="mt-3 rounded-[8px] border border-[var(--line)] p-3">
+              <PriceAlertButton productId={product.id} currentPrice={visiblePrice} />
+            </div>
+          ) : null}
+
+          <div className="mt-3">
+            <ProductShareActions title={product.title} url={productUrl} />
           </div>
 
           <div className="mt-5 rounded-[8px] bg-[var(--brand-soft)] p-3.5">

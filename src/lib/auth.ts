@@ -7,6 +7,7 @@ import { loginSchema } from "@/lib/validators";
 import { prisma } from "@/lib/db";
 import { formatGhanaPhone } from "@/lib/ghana";
 import { getIntegrationConfig } from "@/lib/integration-settings";
+import { consumeLoginGuard } from "@/lib/login-guard";
 import { getPlatformConfig } from "@/lib/platform-settings";
 import { TERMS_VERSION } from "@/lib/legal";
 
@@ -44,12 +45,18 @@ function createAuthOptions(google?: { clientId: string; clientSecret: string }):
       credentials: {
         identifier: { label: "Email or phone", type: "text" },
         password: { label: "Password", type: "password" },
+        loginGuard: { label: "Security guard", type: "text" },
         termsAccepted: { label: "Legal agreement accepted", type: "text" },
       },
       async authorize(credentials) {
         const parsed = loginSchema.safeParse(credentials);
 
         if (!parsed.success) {
+          return null;
+        }
+
+        const loginGuardOk = await consumeLoginGuard(parsed.data.identifier, credentials?.loginGuard);
+        if (!loginGuardOk) {
           return null;
         }
 

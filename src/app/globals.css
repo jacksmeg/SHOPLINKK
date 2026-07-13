@@ -472,6 +472,14 @@ textarea::placeholder {
   scrollbar-width: thin;
 }
 
+.seller-marquee-track {
+  animation: seller-marquee 22s linear infinite;
+}
+
+.seller-word-track {
+  animation: seller-word-cycle 9s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
 @media (min-width: 1024px) {
   .dashboard-nav-scroll {
     scrollbar-width: thin;
@@ -534,6 +542,20 @@ textarea::placeholder {
 
 @keyframes advert-scroll {
   to { transform: translateX(-50%); }
+}
+
+@keyframes seller-marquee {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes seller-word-cycle {
+  0%, 12% { transform: translateY(0); }
+  16%, 28% { transform: translateY(-1.75rem); }
+  32%, 44% { transform: translateY(-3.5rem); }
+  48%, 60% { transform: translateY(-5.25rem); }
+  64%, 76% { transform: translateY(-7rem); }
+  80%, 92% { transform: translateY(-8.75rem); }
+  100% { transform: translateY(0); }
 }
 
 @keyframes page-enter {

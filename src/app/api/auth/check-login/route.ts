@@ -3,7 +3,9 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { enforceRateLimit, jsonError } from "@/lib/api";
 import { formatGhanaPhone } from "@/lib/ghana";
+import { createLoginGuard } from "@/lib/login-guard";
 import { getPlatformConfig } from "@/lib/platform-settings";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 import { loginSchema } from "@/lib/validators";
 
 async function findUserForLogin(identifier: string) {
@@ -24,6 +26,11 @@ export async function POST(request: Request) {
 
   if (!parsed.success) {
     return jsonError("Enter your username, email or phone number and password.", 400);
+  }
+
+  const turnstile = await verifyTurnstileToken((body as { turnstileToken?: unknown } | null)?.turnstileToken, request);
+  if (!turnstile.ok) {
+    return jsonError(turnstile.message, 400);
   }
 
   const user = await findUserForLogin(parsed.data.identifier);
@@ -65,5 +72,6 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true });
+  const loginGuard = await createLoginGuard(parsed.data.identifier);
+  return NextResponse.json({ ok: true, loginGuard });
 }

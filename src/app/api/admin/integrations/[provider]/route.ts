@@ -104,6 +104,21 @@ export async function POST(_request: Request, context: { params: Promise<{ provi
     } else if (provider === "KORA") {
       ok = /^https:\/\/.+/i.test(config.values.baseUrl || "") && Boolean(config.values.secretKey);
       message = ok ? "Kora settings are saved and ready for a live checkout test." : "Kora needs a live API base URL and secret key.";
+    } else if (provider === "CLOUDFLARE_TURNSTILE") {
+      const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        body: new URLSearchParams({
+          secret: config.values.secretKey,
+          response: "shoplinkk-admin-test",
+        }),
+        cache: "no-store",
+      });
+      const result = await response.json().catch(() => null) as { "error-codes"?: string[] } | null;
+      const errors = result?.["error-codes"] ?? [];
+      ok = response.ok && !errors.includes("invalid-input-secret") && !errors.includes("missing-input-secret");
+      message = ok
+        ? "Cloudflare accepted the Turnstile secret. Login and registration security checks are ready."
+        : "Cloudflare rejected the Turnstile secret key.";
     } else if (provider === "WEB_PUSH") {
       const publicKey = config.values.publicKey;
       const privateKey = config.values.privateKey;

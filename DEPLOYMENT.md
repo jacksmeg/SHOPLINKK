@@ -58,6 +58,8 @@ GOOGLE_MAPS_API_KEY="..."
 WEB_PUSH_PUBLIC_KEY="..."
 WEB_PUSH_PRIVATE_KEY="..."
 WEB_PUSH_SUBJECT="mailto:hello@shoplinkk.com"
+CLOUDFLARE_TURNSTILE_SITE_KEY="..."
+CLOUDFLARE_TURNSTILE_SECRET_KEY="..."
 ```
 
 If you are not using the Render blueprint, generate secrets locally:
@@ -142,6 +144,13 @@ https://www.shoplinkk.com/api/health
 https://www.shoplinkk.com
 https://www.shoplinkk.com/login
 https://www.shoplinkk.com/admin
+```
+
+Cloudflare Turnstile domains:
+
+```txt
+www.shoplinkk.com
+localhost
 ```
 
 Then create one buyer account and one seller account with real emails, verify both, and test chat.

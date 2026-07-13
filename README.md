@@ -12,7 +12,7 @@ Online payment is intentionally not included yet. The system is shaped so featur
 - bcrypt password hashing
 - Zod form and API validation
 - Tailwind CSS 4
-- Admin-managed Google OAuth, Resend, Cloudinary, TinyPNG/Tinify, Arkesel OTP, Pusher, and monitoring connections
+- Admin-managed Google OAuth, Resend, Cloudinary, TinyPNG/Tinify, Arkesel OTP, Pusher, Cloudflare Turnstile, and monitoring connections
 - Cloudinary server-signed uploads, TinyPNG/Tinify compression, and a local development fallback
 
 ## Feature Coverage
@@ -189,6 +189,15 @@ npm run push:keys
 
 Copy the three printed values into `.env`, or open **Admin > API connections > Browser notifications** and save them there. The browser push key is only used in a secure context (HTTPS or localhost), and each user must allow device notifications once. A push subscription stays active when the user is signed out or ShopLinkk is not open, until the browser or device revokes it.
 
+Cloudflare Turnstile login and registration protection:
+
+```env
+CLOUDFLARE_TURNSTILE_SITE_KEY="..."
+CLOUDFLARE_TURNSTILE_SECRET_KEY="..."
+```
+
+Create a Turnstile widget in Cloudflare, allow `www.shoplinkk.com` and `localhost`, then save the Site key and Secret key in **Admin > API connections > Cloudflare Turnstile**. When enabled, email/password login and registration must pass server-side Cloudflare verification before the account action continues.
+
 Google Maps town browsing:
 
 ```env
@@ -219,7 +228,7 @@ npm run db:cleanup:demo
 
 ## Admin API Connections
 
-After logging in as an admin, open `/admin/integrations`. Connect Google sign-in, email, media storage, TinyPNG/Tinify optimization, Arkesel OTP, optional Pusher realtime, and monitoring from one screen. Environment variables remain a safe deployment fallback, but enabled admin-managed connections take precedence.
+After logging in as an admin, open `/admin/integrations`. Connect Google sign-in, email, media storage, TinyPNG/Tinify optimization, Arkesel OTP, optional Pusher realtime, Cloudflare Turnstile security, and monitoring from one screen. Environment variables remain a safe deployment fallback, but enabled admin-managed connections take precedence.
 
 Secret values are encrypted before storage and are never shown again. Keep `INTEGRATION_ENCRYPTION_KEY` server-only and do not change it after provider values have been saved.
 

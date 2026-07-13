@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import { AlertCircle, ArrowRight, BadgeCheck, Building2, CheckCircle2, Globe2, Mail, MapPin, PackagePlus, ShieldCheck, Store, Truck, Users, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { Button, ButtonLink } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 
 const steps = [
   "Create or use your ShopLinkk account",
@@ -22,49 +23,35 @@ const benefits = [
 
 function StorefrontIllustration() {
   return (
-    <div className="relative min-h-[390px] overflow-hidden rounded-[8px] bg-white p-6 shadow-sm lg:min-h-[560px]">
-      <div className="absolute inset-x-0 bottom-16 mx-auto h-2 w-[82%] rounded-full bg-slate-900/30" />
-      <div className="absolute left-[10%] top-[18%] h-[52%] w-[32%] rounded-t-[18px] bg-[#FACC15] shadow-lg">
-        <div className="grid h-20 grid-cols-4 overflow-hidden rounded-t-[18px]">
-          {["#0891B2", "#DCE7F8", "#0891B2", "#DCE7F8"].map((color, index) => (
-            <div key={index} style={{ background: color }} className="rounded-b-[22px]" />
+    <div className="relative min-h-[390px] overflow-hidden rounded-[8px] bg-[#061A3A] shadow-xl lg:min-h-[560px]">
+      <Image
+        src="/marketing/sell-on-shoplinkk-hero.png"
+        alt="A Ghanaian seller outside a ShopLinkk-style local store"
+        fill
+        priority
+        sizes="(min-width: 1024px) 48vw, 100vw"
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#061A3A]/40 via-transparent to-[#061A3A]/10" />
+      <div className="absolute right-4 top-4 max-w-[230px] overflow-hidden rounded-[8px] border border-white/30 bg-white/92 p-3 shadow-xl backdrop-blur">
+        <p className="text-[0.66rem] font-black uppercase tracking-[0.1em] text-[#0B2F66]">ShopLinkk seller tools</p>
+        <div className="seller-word-viewport mt-2 h-7 overflow-hidden">
+          <div className="seller-word-track">
+            {["Products", "Food orders", "Services", "Riders", "Adverts", "Local buyers"].map((word) => (
+              <p key={word} className="h-7 text-lg font-black leading-7 text-[#E6007E]">{word}</p>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="absolute bottom-5 left-5 right-5 overflow-hidden rounded-full border border-white/25 bg-[#061A3A]/88 py-2 shadow-xl backdrop-blur">
+        <div className="seller-marquee-track flex w-max gap-3 text-xs font-black uppercase tracking-[0.08em] text-white">
+          {[...steps, ...steps].map((step, index) => (
+            <span key={`${step}-${index}`} className="inline-flex items-center gap-2 px-3">
+              <CheckCircle2 size={14} className="text-[#FACC15]" />
+              {step}
+            </span>
           ))}
         </div>
-        <div className="mx-auto mt-5 h-[54%] w-[58%] rounded-[8px] bg-[#DCE7F8] ring-8 ring-[#0B2F66]/25" />
-      </div>
-      <div className="absolute right-[9%] top-[18%] h-[52%] w-[36%] rounded-t-[18px] bg-[#E6007E] shadow-lg">
-        <div className="grid h-20 grid-cols-5 overflow-hidden rounded-t-[18px]">
-          {["#0891B2", "#DCE7F8", "#0891B2", "#DCE7F8", "#0891B2"].map((color, index) => (
-            <div key={index} style={{ background: color }} className="rounded-b-[22px]" />
-          ))}
-        </div>
-        <div className="mx-auto mt-7 grid h-[42%] w-[68%] place-items-center rounded-[8px] bg-white/90">
-          <Store className="text-[#061A3A]" size={58} strokeWidth={1.7} />
-        </div>
-      </div>
-      <div className="absolute bottom-[17%] left-[43%] h-[250px] w-[96px]">
-        <div className="mx-auto size-14 rounded-full bg-[#F59E0B]" />
-        <div className="mx-auto mt-2 h-28 w-20 rounded-t-[28px] bg-[#0B2F66]" />
-        <div className="mx-auto -mt-2 h-28 w-16 rounded-b-[18px] bg-[#0891B2]" />
-        <div className="absolute left-0 top-[78px] h-24 w-5 rotate-[23deg] rounded-full bg-[#F59E0B]" />
-        <div className="absolute right-0 top-[78px] h-24 w-5 -rotate-[23deg] rounded-full bg-[#F59E0B]" />
-      </div>
-      <div className="absolute bottom-[10%] left-[8%] h-24 w-24 rounded-[8px] bg-[#0891B2]/20 p-3">
-        <div className="mx-auto h-16 w-3 rounded-full bg-[#0B2F66]" />
-        <div className="absolute left-7 top-5 size-5 rounded-full bg-[#0891B2]" />
-        <div className="absolute right-7 top-9 size-4 rounded-full bg-[#E6007E]" />
-        <div className="absolute left-12 top-11 size-4 rounded-full bg-[#FACC15]" />
-      </div>
-      <div className="absolute bottom-[10%] right-[8%] h-24 w-24 rounded-[8px] bg-[#0891B2]/20 p-3">
-        <div className="mx-auto h-16 w-3 rounded-full bg-[#0B2F66]" />
-        <div className="absolute left-8 top-5 size-5 rounded-full bg-[#0891B2]" />
-        <div className="absolute right-6 top-8 size-4 rounded-full bg-[#E6007E]" />
-        <div className="absolute left-12 top-12 size-4 rounded-full bg-[#FACC15]" />
-      </div>
-      <div className="absolute bottom-7 left-[10%] flex w-[80%] items-center justify-between">
-        {steps.map((_, index) => (
-          <span key={index} className="size-5 rounded-full bg-[#F59E0B] ring-8 ring-[#F59E0B]/15" />
-        ))}
       </div>
     </div>
   );

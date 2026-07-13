@@ -8,6 +8,7 @@ export const integrationProviders = [
   "GOOGLE_MAPS",
   "PAYSTACK",
   "KORA",
+  "CLOUDFLARE_TURNSTILE",
   "WEB_PUSH",
   "MONITORING",
 ] as const;
@@ -139,6 +140,17 @@ export const integrationDefinitions: IntegrationDefinition[] = [
       { key: "secretKey", label: "Secret key", placeholder: "Kora secret key", secret: true },
       { key: "webhookSecret", label: "Webhook secret", placeholder: "Optional Kora webhook secret", secret: true },
       { key: "baseUrl", label: "API base URL", placeholder: "https://api.korapay.com/merchant/api/v1", help: "Leave this as the default unless Kora gives you a different live endpoint." },
+    ],
+  },
+  {
+    provider: "CLOUDFLARE_TURNSTILE",
+    name: "Cloudflare Turnstile",
+    category: "Security",
+    description: "Protect login and account creation from automated bots and suspicious form abuse.",
+    docsUrl: "https://developers.cloudflare.com/turnstile/",
+    fields: [
+      { key: "siteKey", label: "Site key", placeholder: "0x4AAAA..." },
+      { key: "secretKey", label: "Secret key", placeholder: "0x4AAAA...", secret: true },
     ],
   },
   {

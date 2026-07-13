@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BarChart3, Bell, Boxes, ChefHat, ClipboardList, Eye, Megaphone, MessageCircle, PackagePlus, Settings, ShieldCheck, Star, Store, Truck, UserRound, Users, Warehouse } from "lucide-react";
+import { BarChart3, Bell, Boxes, BriefcaseBusiness, ChefHat, ClipboardList, Eye, Megaphone, MessageCircle, PackagePlus, Settings, ShieldCheck, Star, Store, Truck, Users, Warehouse } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { SellerProductActions } from "@/components/seller/product-actions";
 import { VerificationForm } from "@/components/seller/verification-form";
@@ -120,8 +120,9 @@ export default async function SellerDashboardPage() {
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {[
-              { href: "/seller/products/new", label: "Add product or service", text: "Post products, services, prices, stock, images, videos, and area.", icon: PackagePlus },
-              { href: "/seller/food", label: "Food management", text: "Manage restaurant menu, food photos, add-ons, preparation time, and orders.", icon: ChefHat },
+              { href: "/seller/products/new", label: "Add product", text: "Post physical items with quantity, stock, condition, photos, video, and area.", icon: PackagePlus },
+              { href: "/seller/services/new", label: "Add service", text: "Post repairs, beauty, delivery, tutoring, skilled work, booking notes, and portfolio photos.", icon: BriefcaseBusiness },
+              { href: "/seller/food/menu", label: "Add food", text: "Post meals with menu photos, add-ons, preparation time, delivery estimate, and approval.", icon: ChefHat },
               { href: "/seller/adverts", label: "Promotions", text: "Request homepage adverts, track fees, extensions, and live campaigns.", icon: Megaphone },
               { href: "/chat", label: "Customer chat", text: "Reply to buyers, share product details, and keep response rate strong.", icon: MessageCircle },
               { href: "/seller/store", label: "Verification", text: "Upload business documents and improve trust badge status.", icon: ShieldCheck },
@@ -162,6 +163,7 @@ export default async function SellerDashboardPage() {
           <p className="mt-1 text-xs text-[var(--muted)]">New and edited products go through approval before going public.</p>
         </div>
         <ButtonLink href="/seller/products/new">Add product</ButtonLink>
+        <ButtonLink href="/seller/services/new" variant="secondary">Add service</ButtonLink>
         <ButtonLink href="/seller/products/bulk" variant="secondary">Bulk upload</ButtonLink>
       </div>
 

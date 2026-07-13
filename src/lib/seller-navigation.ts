@@ -1,6 +1,7 @@
 import {
   BarChart3,
   Bell,
+  BriefcaseBusiness,
   ChefHat,
   ClipboardList,
   CreditCard,
@@ -22,6 +23,7 @@ export const sellerLinks = [
   { href: "/seller", label: "Overview", icon: Store },
   { href: "/seller/store", label: "Store management", icon: Settings },
   { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
+  { href: "/seller/services/new", label: "Add service", icon: BriefcaseBusiness },
   { href: "/seller/inventory", label: "Inventory", icon: Warehouse },
   { href: "/seller/orders", label: "Orders", icon: ClipboardList },
   { href: "/seller/food", label: "Food dashboard", icon: ChefHat },

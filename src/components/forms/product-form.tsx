@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowDown, ArrowUp, CreditCard, ImagePlus, Save, Send, Trash2, Video } from "lucide-react";
+import { ArrowDown, ArrowUp, BriefcaseBusiness, CreditCard, ImagePlus, PackageCheck, Save, Send, Trash2, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import type { PublicCategory } from "@/lib/marketplace";
@@ -42,6 +42,8 @@ type ProductFormValue = {
   images?: { url: string; alt?: string | null }[];
 };
 
+type ListingMode = "PRODUCT" | "SERVICE";
+
 function datetimeLocal(value?: Date | string | null) {
   if (!value) return "";
   const date = new Date(value);
@@ -55,13 +57,18 @@ export function ProductForm({
   product,
   listingPackages = [],
   maxImages = 8,
+  mode,
 }: {
   categories: PublicCategory[];
   product?: ProductFormValue | null;
   listingPackages?: { id: string; name: string; description?: string | null; price: number; currency: string }[];
   maxImages?: number;
+  mode?: ListingMode;
 }) {
   const router = useRouter();
+  const listingMode: ListingMode = mode ?? (product?.listingType === "SERVICE" ? "SERVICE" : "PRODUCT");
+  const isService = listingMode === "SERVICE";
+  const itemLabel = isService ? "service" : "product";
   const [images, setImages] = useState<string[]>(product?.images?.map((image) => image.url) ?? []);
   const [videoUrl, setVideoUrl] = useState(product?.videoUrl ?? "");
   const [priceMode, setPriceMode] = useState(product?.priceMode ?? "FIXED");
@@ -75,7 +82,7 @@ export function ProductForm({
       setMessage(`A listing can have up to ${maxImages} images.`);
       return;
     }
-    setMessage("Uploading product images...");
+    setMessage(`Uploading ${itemLabel} images...`);
     try {
       const selected = Array.from(files).slice(0, remaining);
       const uploaded = await Promise.all(selected.map((file) => uploadImage(file, "product")));
@@ -88,7 +95,7 @@ export function ProductForm({
 
   async function uploadProductVideo(file?: File | null) {
     if (!file) return;
-    setMessage("Uploading product video...");
+    setMessage(`Uploading ${itemLabel} video...`);
     try {
       const uploaded = await uploadVideo(file);
       setVideoUrl(uploaded);
@@ -111,7 +118,7 @@ export function ProductForm({
         method: product?.id ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          listingType: formData.get("listingType"),
+          listingType: listingMode,
           title: formData.get("title"),
           description: formData.get("description"),
           brand: formData.get("brand"),
@@ -168,7 +175,7 @@ export function ProductForm({
         return;
       }
 
-      setMessage(listingStatus === "DRAFT" ? "Draft saved." : product?.id ? "Product updated for admin approval." : "Product submitted for admin approval.");
+      setMessage(listingStatus === "DRAFT" ? "Draft saved." : product?.id ? `${isService ? "Service" : "Product"} updated for admin approval.` : `${isService ? "Service" : "Product"} submitted for admin approval.`);
       router.push("/seller");
       router.refresh();
     });
@@ -188,46 +195,95 @@ export function ProductForm({
     <form method="post" onSubmit={submit} className="rounded-[8px] border border-[var(--line)] bg-white p-6 shadow-sm">
       <div className="grid gap-4 lg:grid-cols-[1fr_330px]">
         <div className="grid gap-4">
-          <div className="grid gap-4 sm:grid-cols-3">
-            <label className="text-sm font-bold text-[var(--ink)]">
-              Listing type
-              <select name="listingType" defaultValue={product?.listingType ?? "PRODUCT"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
-                <option value="PRODUCT">Product</option>
-                <option value="SERVICE">Service</option>
-              </select>
-            </label>
-            <label className="text-sm font-bold text-[var(--ink)] sm:col-span-2">
-              Product title or service name
-              <input name="title" defaultValue={product?.title ?? ""} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
-            </label>
+          <input type="hidden" name="listingType" value={listingMode} />
+          {isService ? (
+            <>
+              <input type="hidden" name="weightKg" value="" />
+              <input type="hidden" name="quantity" value={product?.quantity ?? 1} />
+              <input type="hidden" name="condition" value="NEW" />
+              <input type="hidden" name="stockStatus" value={product?.stockStatus ?? "AVAILABLE"} />
+            </>
+          ) : null}
+          <div className={`rounded-[8px] p-4 ${isService ? "bg-purple-700 text-white" : "bg-cyan-700 text-white"}`}>
+            <div className="flex flex-wrap items-start gap-3">
+              <span className="grid size-10 shrink-0 place-items-center rounded-[7px] bg-white/15">
+                {isService ? <BriefcaseBusiness size={19} /> : <PackageCheck size={19} />}
+              </span>
+              <div>
+                <p className="text-sm font-black">{isService ? "Service listing form" : "Product listing form"}</p>
+                <p className="mt-1 text-xs leading-5 opacity-90">
+                  {isService
+                    ? "Use this for skills, repairs, beauty, delivery, tutoring, rentals, and other bookable work."
+                    : "Use this for physical items with photos, stock, condition, quantity, pickup, or delivery details."}
+                </p>
+              </div>
+            </div>
           </div>
           <label className="text-sm font-bold text-[var(--ink)]">
-            Description
-            <textarea name="description" defaultValue={product?.description ?? ""} required rows={6} className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            {isService ? "Service name" : "Product title"}
+            <input
+              name="title"
+              defaultValue={product?.title ?? ""}
+              required
+              placeholder={isService ? "Example: Phone screen repair" : "Example: iPhone 13 Pro Max"}
+              className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100"
+            />
           </label>
-          <div className="grid gap-4 sm:grid-cols-4">
-            <label className="text-sm font-bold text-[var(--ink)]">
-              Brand
-              <input name="brand" defaultValue={product?.brand ?? ""} placeholder="Samsung, Toyota..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
-            </label>
-            <label className="text-sm font-bold text-[var(--ink)]">
-              SKU
-              <input name="sku" defaultValue={product?.sku ?? ""} placeholder="Internal code" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
-            </label>
-            <label className="text-sm font-bold text-[var(--ink)]">
-              Weight (kg)
-              <input name="weightKg" type="number" min="0" step="0.01" defaultValue={product?.weightKg ?? ""} placeholder="Optional" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
-            </label>
-            <label className="text-sm font-bold text-[var(--ink)]">
-              Tags
-              <input name="tags" defaultValue={product?.tags?.join(", ") ?? ""} placeholder="phone, neat, fast" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
-            </label>
-          </div>
+          <label className="text-sm font-bold text-[var(--ink)]">
+            {isService ? "Service description" : "Product description"}
+            <textarea
+              name="description"
+              defaultValue={product?.description ?? ""}
+              required
+              rows={6}
+              placeholder={
+                isService
+                  ? "Explain what you do, what is included, how buyers book you, and what information they should send."
+                  : "Describe condition, features, faults, receipt, warranty, accessories, and anything the buyer should inspect."
+              }
+              className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100"
+            />
+          </label>
+          {isService ? (
+            <div className="grid gap-4 sm:grid-cols-3">
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Provider or business name
+                <input name="brand" defaultValue={product?.brand ?? ""} placeholder="Example: Kwame Repairs" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Service code
+                <input name="sku" defaultValue={product?.sku ?? ""} placeholder="Optional internal code" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Skills or service tags
+                <input name="tags" defaultValue={product?.tags?.join(", ") ?? ""} placeholder="repair, makeup, delivery" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-4">
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Brand
+                <input name="brand" defaultValue={product?.brand ?? ""} placeholder="Samsung, Toyota..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+              <label className="text-sm font-bold text-[var(--ink)]">
+                SKU
+                <input name="sku" defaultValue={product?.sku ?? ""} placeholder="Internal code" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Weight (kg)
+                <input name="weightKg" type="number" min="0" step="0.01" defaultValue={product?.weightKg ?? ""} placeholder="Optional" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Tags
+                <input name="tags" defaultValue={product?.tags?.join(", ") ?? ""} placeholder="phone, neat, fast" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+            </div>
+          )}
           <div className="grid gap-4 sm:grid-cols-3">
             <label className="text-sm font-bold text-[var(--ink)]">
-              Category
+              {isService ? "Service category" : "Product category"}
               <select name="categoryId" defaultValue={product?.categoryId ?? ""} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
-                <option value="">Choose category</option>
+                <option value="">{isService ? "Choose service category" : "Choose product category"}</option>
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
                     {category.name}
@@ -236,22 +292,22 @@ export function ProductForm({
               </select>
             </label>
             <label className="text-sm font-bold text-[var(--ink)]">
-              Price type
+              {isService ? "Service price type" : "Price type"}
               <select name="priceMode" value={priceMode} onChange={(event) => setPriceMode(event.target.value)} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
                 <option value="FIXED">Enter price</option>
                 <option value="CONTACT">Contact for price</option>
               </select>
             </label>
             <label className="text-sm font-bold text-[var(--ink)]">
-              Price
-              <input name="price" type="number" min="0" defaultValue={product?.price ? Number(product.price) : ""} required={priceMode === "FIXED"} placeholder={priceMode === "CONTACT" ? "Optional" : "Enter price"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              {isService ? "Starting price" : "Price"}
+              <input name="price" type="number" min="0" defaultValue={product?.price ? Number(product.price) : ""} required={priceMode === "FIXED"} placeholder={priceMode === "CONTACT" ? "Optional" : isService ? "Starting from" : "Enter price"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
             </label>
           </div>
           {priceMode === "FIXED" ? <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
-                <p className="text-sm font-black text-[var(--ink)]">Flash sale</p>
-                <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Optional. Add a lower price with a start and end time.</p>
+                <p className="text-sm font-black text-[var(--ink)]">{isService ? "Service promo" : "Flash sale"}</p>
+                <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{isService ? "Optional. Add a lower promotional service price with start and end time." : "Optional. Add a lower price with a start and end time."}</p>
               </div>
               <span className="rounded-full bg-[var(--flash-yellow)] px-2.5 py-1 text-[0.68rem] font-black text-slate-950">SALE</span>
             </div>
@@ -270,32 +326,45 @@ export function ProductForm({
               </label>
             </div>
           </div> : null}
-          <div className="grid gap-4 sm:grid-cols-4">
-            <label className="text-sm font-bold text-[var(--ink)]">
-              Quantity
-              <input name="quantity" type="number" min="0" defaultValue={product?.quantity ?? 1} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
-            </label>
-            <label className="text-sm font-bold text-[var(--ink)]">
-              Condition
-              <select name="condition" defaultValue={product?.condition ?? "USED"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
-                <option value="NEW">New</option>
-                <option value="USED">Used</option>
-                <option value="REFURBISHED">Refurbished</option>
-              </select>
-            </label>
-            <label className="text-sm font-bold text-[var(--ink)]">
-              Stock
-              <select name="stockStatus" defaultValue={product?.stockStatus ?? "AVAILABLE"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
-                <option value="AVAILABLE">Available</option>
-                <option value="SOLD">Sold</option>
-                <option value="OUT_OF_STOCK">Out of stock</option>
-              </select>
-            </label>
-            <label className="text-sm font-bold text-[var(--ink)]">
-              Location
-              <input name="location" defaultValue={product?.location ?? "Dunkwa-on-Offin"} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
-            </label>
-          </div>
+          {isService ? (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Base town
+                <input name="location" defaultValue={product?.location ?? "Dunkwa-on-Offin"} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Service availability
+                <input defaultValue={product?.stockStatus === "OUT_OF_STOCK" ? "Currently unavailable" : "Available for booking"} readOnly className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] px-3 text-[var(--muted)] outline-none" />
+              </label>
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-4">
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Quantity
+                <input name="quantity" type="number" min="0" defaultValue={product?.quantity ?? 1} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Condition
+                <select name="condition" defaultValue={product?.condition ?? "USED"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
+                  <option value="NEW">New</option>
+                  <option value="USED">Used</option>
+                  <option value="REFURBISHED">Refurbished</option>
+                </select>
+              </label>
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Stock
+                <select name="stockStatus" defaultValue={product?.stockStatus ?? "AVAILABLE"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
+                  <option value="AVAILABLE">Available</option>
+                  <option value="SOLD">Sold</option>
+                  <option value="OUT_OF_STOCK">Out of stock</option>
+                </select>
+              </label>
+              <label className="text-sm font-bold text-[var(--ink)]">
+                Location
+                <input name="location" defaultValue={product?.location ?? "Dunkwa-on-Offin"} required className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+            </div>
+          )}
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="text-sm font-bold text-[var(--ink)]">
               Area in town
@@ -309,7 +378,7 @@ export function ProductForm({
               </select>
             </label>
               <label className="text-sm font-bold text-[var(--ink)]">
-              Short product video
+              {isService ? "Portfolio or service video" : "Short product video"}
               <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto]">
                 <input
                   name="videoUrl"
@@ -324,13 +393,15 @@ export function ProductForm({
                   <input type="file" accept="video/mp4,video/webm,video/quicktime" className="sr-only" onChange={(event) => uploadProductVideo(event.target.files?.[0])} />
                 </label>
               </div>
-              <p className="mt-1 text-xs font-normal leading-5 text-[var(--muted)]">Upload MP4, WebM, or MOV up to 50MB. A short, clear inspection clip works best.</p>
+              <p className="mt-1 text-xs font-normal leading-5 text-[var(--muted)]">
+                {isService ? "Upload MP4, WebM, or MOV up to 50MB. Show past work, equipment, or a short intro." : "Upload MP4, WebM, or MOV up to 50MB. A short, clear inspection clip works best."}
+              </p>
               {videoUrl && (videoUrl.includes("/uploads/") || videoUrl.includes("cloudinary.com")) ? (
                 <div className="mt-2 overflow-hidden rounded-[7px] border border-[var(--line)] bg-black">
-                  <video controls preload="metadata" playsInline src={videoUrl} className="aspect-video w-full object-contain" aria-label="Product video preview" />
+                  <video controls preload="metadata" playsInline src={videoUrl} className="aspect-video w-full object-contain" aria-label={`${isService ? "Service" : "Product"} video preview`} />
                 </div>
               ) : null}
-              {videoUrl ? <button type="button" onClick={() => setVideoUrl("")} className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-red-700 hover:underline"><Trash2 size={13} /> Remove product video</button> : null}
+              {videoUrl ? <button type="button" onClick={() => setVideoUrl("")} className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-red-700 hover:underline"><Trash2 size={13} /> Remove {itemLabel} video</button> : null}
             </label>
           </div>
           {!product?.id && listingPackages.length ? (
@@ -353,17 +424,17 @@ export function ProductForm({
             </div>
           ) : null}
           <label className="text-sm font-bold text-[var(--ink)]">
-            Pickup or delivery discussion
-            <textarea name="pickupNote" defaultValue={product?.pickupNote ?? ""} rows={3} placeholder="Example: Pickup around Dunkwa Market. Delivery can be discussed in chat." className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            {isService ? "Booking note" : "Pickup or delivery discussion"}
+            <textarea name="pickupNote" defaultValue={product?.pickupNote ?? ""} rows={3} placeholder={isService ? "Example: Available Mondays to Saturdays. Buyer should call before visiting." : "Example: Pickup around Dunkwa Market. Delivery can be discussed in chat."} className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
           </label>
           <label className="text-sm font-bold text-[var(--ink)]">
-            Delivery options
-            <textarea name="deliveryOptions" defaultValue={product?.deliveryOptions ?? ""} rows={3} placeholder="Buyer pickup, seller delivery, rider delivery, or delivery fee notes." className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            {isService ? "Service coverage and booking options" : "Delivery options"}
+            <textarea name="deliveryOptions" defaultValue={product?.deliveryOptions ?? ""} rows={3} placeholder={isService ? "Example: Home visits in Dunkwa, Jukwa and Ayanfuri. Booking fee may apply." : "Buyer pickup, seller delivery, rider delivery, or delivery fee notes."} className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
           </label>
           <div className="grid gap-3 rounded-[8px] border border-[var(--line)] p-4 sm:grid-cols-3">
             <label className="inline-flex items-center gap-2 text-sm font-bold text-[var(--ink)]">
               <input name="negotiable" type="checkbox" defaultChecked={product?.negotiable ?? true} className="size-4 accent-[var(--brand)]" />
-              Negotiable price
+              {isService ? "Price can be discussed" : "Negotiable price"}
             </label>
             <label className="inline-flex items-center gap-2 text-sm font-bold text-[var(--ink)]">
               <input name="allowCalls" type="checkbox" defaultChecked={product?.allowCalls ?? true} className="size-4 accent-[var(--brand)]" />
@@ -386,16 +457,16 @@ export function ProductForm({
           </div>
         </div>
 
-        <aside className="rounded-[8px] bg-blue-50 p-4">
-          <label className="flex min-h-28 cursor-pointer flex-col items-center justify-center gap-2 rounded-[8px] border border-dashed border-blue-300 bg-white text-sm font-black text-[var(--brand-dark)]">
+        <aside className={`rounded-[8px] p-4 ${isService ? "bg-purple-50" : "bg-blue-50"}`}>
+          <label className={`flex min-h-28 cursor-pointer flex-col items-center justify-center gap-2 rounded-[8px] border border-dashed bg-white text-sm font-black text-[var(--brand-dark)] ${isService ? "border-purple-300" : "border-blue-300"}`}>
             <ImagePlus size={24} />
-            Upload images
+            {isService ? "Upload work photos" : "Upload product images"}
             <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple className="sr-only" onChange={(event) => uploadFiles(event.target.files)} />
           </label>
           <div className="mt-4 grid grid-cols-2 gap-3">
             {images.map((url, index) => (
               <div key={url} className="group relative aspect-square overflow-hidden rounded-[8px] bg-white">
-                <Image src={url} alt="Product image" fill className="object-cover" unoptimized />
+                <Image src={url} alt={`${isService ? "Service" : "Product"} image`} fill className="object-cover" unoptimized />
                 <div className="absolute left-2 top-2 flex gap-1 opacity-0 transition group-hover:opacity-100">
                   <button
                     type="button"
@@ -426,7 +497,9 @@ export function ProductForm({
             ))}
           </div>
           <p className="mt-4 text-xs leading-5 text-[var(--muted)]">
-            Add up to {maxImages} clear images. JPEG, PNG, WebP, or GIF files up to 5MB each. Sellers should not request payment before the buyer has inspected or agreed safely.
+            {isService
+              ? `Add up to ${maxImages} clear portfolio images. Show finished work, tools, location, or service examples. JPEG, PNG, WebP, or GIF files up to 5MB each.`
+              : `Add up to ${maxImages} clear product images. JPEG, PNG, WebP, or GIF files up to 5MB each. Sellers should not request payment before the buyer has inspected or agreed safely.`}
           </p>
           {product?.priceMode === "CONTACT" ? (
             <p className="mt-3 rounded-[8px] bg-white p-3 text-sm font-black text-[var(--brand-dark)]">
@@ -434,7 +507,7 @@ export function ProductForm({
             </p>
           ) : product?.price ? (
             <p className="mt-3 rounded-[8px] bg-white p-3 text-sm font-black text-[var(--brand-dark)]">
-              Current price: {formatCurrency(product.price)}
+              {isService ? "Current starting price" : "Current price"}: {formatCurrency(product.price)}
             </p>
           ) : null}
         </aside>
@@ -443,7 +516,7 @@ export function ProductForm({
       <div className="mt-5 flex flex-wrap gap-3">
         <Button type="submit" name="intent" value="PENDING" disabled={pending}>
           <Send size={17} />
-          {pending ? "Saving..." : product?.id ? "Submit for review" : "Submit listing"}
+          {pending ? "Saving..." : product?.id ? "Submit for review" : isService ? "Submit service" : "Submit product"}
         </Button>
         <Button type="submit" name="intent" value="DRAFT" variant="secondary" disabled={pending}>
           <Save size={17} />

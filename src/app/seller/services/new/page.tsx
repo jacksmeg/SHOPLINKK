@@ -8,7 +8,7 @@ import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-export default async function NewProductPage() {
+export default async function NewServicePage() {
   await requireRole(["SELLER", "ADMIN"]);
   const [categories, platform, listingPackages] = await Promise.all([
     getCategories(),
@@ -23,8 +23,8 @@ export default async function NewProductPage() {
   return (
     <DashboardShell
       eyebrow="Seller"
-      title="Add product"
-      description="Create a physical product listing with images, price, quantity, stock, and approval status."
+      title="Add service"
+      description="Create a service listing with booking details, coverage area, portfolio images, and contact options."
       links={[
         { href: "/seller", label: "Overview", icon: Store },
         { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
@@ -38,7 +38,7 @@ export default async function NewProductPage() {
         categories={categories}
         listingPackages={listingPackages.map((item) => ({ ...item, price: Number(item.price) }))}
         maxImages={platform.maxProductImages}
-        mode="PRODUCT"
+        mode="SERVICE"
       />
     </DashboardShell>
   );

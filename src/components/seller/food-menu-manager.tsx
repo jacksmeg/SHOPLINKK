@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { PlusCircle, Trash2, UploadCloud } from "lucide-react";
+import { ChefHat, PlusCircle, Trash2, UploadCloud } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { uploadImage } from "@/components/forms/upload-helper";
@@ -70,8 +70,17 @@ export function FoodMenuManager() {
 
   return (
     <form onSubmit={submit} className="app-panel p-4 sm:p-5">
-      <h2 className="text-sm font-black text-[var(--ink)]">Add food item</h2>
-      <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Add rice, meals, drinks, sides, and priced extras. New food items need admin approval before buyers can order.</p>
+      <div className="rounded-[8px] bg-pink-600 p-4 text-white">
+        <div className="flex items-start gap-3">
+          <span className="grid size-10 shrink-0 place-items-center rounded-[7px] bg-white/15">
+            <ChefHat size={19} />
+          </span>
+          <div>
+            <h2 className="text-sm font-black">Food menu form</h2>
+            <p className="mt-1 text-xs leading-5 opacity-90">Use this only for meals, drinks, sides, add-ons, preparation time, delivery estimates, and food photos.</p>
+          </div>
+        </div>
+      </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <input name="name" required placeholder="Food name, e.g. Jollof rice" className="form-control px-3 text-xs" />
         <input name="category" placeholder="Category, e.g. Rice meals" className="form-control px-3 text-xs" />

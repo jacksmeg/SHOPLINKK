@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { MessageCircle, PackagePlus, Store, UserRound } from "lucide-react";
+import { BriefcaseBusiness, ChefHat, MessageCircle, PackagePlus, Store, UserRound } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { ProductForm } from "@/components/forms/product-form";
 import { requireRole } from "@/lib/auth-guards";
@@ -37,11 +37,13 @@ export default async function EditProductPage({
   return (
     <DashboardShell
       eyebrow="Seller"
-      title="Edit product"
+      title={product.listingType === "SERVICE" ? "Edit service" : "Edit product"}
       description="Changes by sellers return the listing to pending review."
       links={[
         { href: "/seller", label: "Overview", icon: Store },
         { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
+        { href: "/seller/services/new", label: "Add service", icon: BriefcaseBusiness },
+        { href: "/seller/food/menu", label: "Add food", icon: ChefHat },
         { href: "/chat", label: "Buyer messages", icon: MessageCircle },
         { href: "/profile", label: "Profile", icon: UserRound },
       ]}
@@ -56,6 +58,7 @@ export default async function EditProductPage({
           saleEndsAt: product.saleEndsAt?.toISOString() ?? null,
         }}
         maxImages={platform.maxProductImages}
+        mode={product.listingType === "SERVICE" ? "SERVICE" : "PRODUCT"}
       />
     </DashboardShell>
   );

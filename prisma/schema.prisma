@@ -201,6 +201,23 @@ enum FoodOrderStatus {
   CANCELLED
 }
 
+enum DirectPaymentStatus {
+  AWAITING_PAYMENT
+  SUBMITTED
+  CONFIRMED
+  REJECTED
+  CANCELLED
+}
+
+enum MarketplaceOrderStatus {
+  PENDING_PAYMENT
+  PAYMENT_SUBMITTED
+  PAID
+  READY
+  DELIVERED
+  CANCELLED
+}
+
 enum FoodMenuStatus {
   DRAFT
   PENDING
@@ -323,14 +340,16 @@ model User {
   trustedDevices           TrustedDevice[]
   riderProfile             RiderProfile?            @relation("RiderUser")
   reviewedRiders           RiderProfile[]           @relation("RiderReviewer")
-  deliveryRequestsAsSeller DeliveryRequest[]         @relation("DeliveryRequestSeller")
-  deliveryRequestsAsBuyer  DeliveryRequest[]         @relation("DeliveryRequestBuyer")
+  deliveryRequestsAsSeller DeliveryRequest[]        @relation("DeliveryRequestSeller")
+  deliveryRequestsAsBuyer  DeliveryRequest[]        @relation("DeliveryRequestBuyer")
   deliveriesAsSeller       Delivery[]               @relation("DeliverySeller")
   deliveriesAsBuyer        Delivery[]               @relation("DeliveryBuyer")
   riderRatingsGiven        RiderRating[]            @relation("RiderRatingAuthor")
   deliveryReportsMade      DeliveryReport[]         @relation("DeliveryReportReporter")
   deliveryReportsReviewed  DeliveryReport[]         @relation("DeliveryReportReviewer")
   foodOrders               FoodOrder[]              @relation("FoodOrderBuyer")
+  marketplaceOrdersBuyer   MarketplaceOrder[]       @relation("MarketplaceOrderBuyer")
+  marketplaceOrdersSeller  MarketplaceOrder[]       @relation("MarketplaceOrderSeller")
 }
 
 model Account {
@@ -413,6 +432,7 @@ model Store {
   verificationRequests SellerVerification[]
   foodMenuItems        FoodMenuItem[]
   foodOrders           FoodOrder[]
+  marketplaceOrders    MarketplaceOrder[]
   followers            StoreFollower[]          @relation("StoreFollowerStore")
   deliveryRequests     DeliveryRequest[]
 }
@@ -442,63 +462,64 @@ model Category {
 }
 
 model Product {
-  id              String                @id @default(cuid())
-  sellerId        String
-  storeId         String?
-  categoryId      String
-  listingType     ListingType            @default(PRODUCT)
-  priceMode       PriceMode              @default(FIXED)
-  title           String
-  slug            String                @unique
-  description     String
-  brand           String?
-  sku             String?
-  tags            String[]
-  weightKg        Float?
-  deliveryOptions String?
-  price           Decimal               @db.Decimal(12, 2)
-  salePrice       Decimal?              @db.Decimal(12, 2)
-  saleStartsAt    DateTime?
-  saleEndsAt      DateTime?
-  quantity        Int                   @default(1)
-  condition       ProductCondition      @default(USED)
-  location        String                @default("Dunkwa-on-Offin")
-  area            String?
-  pickupNote      String?
-  stockStatus     StockStatus           @default(AVAILABLE)
-  listingStatus   ListingStatus         @default(PENDING)
-  listingPaymentStatus ListingPaymentStatus @default(NOT_REQUIRED)
-  approvalNote    String?
-  rejectionReason String?
-  negotiable      Boolean               @default(true)
-  allowCalls      Boolean               @default(true)
-  allowWhatsapp   Boolean               @default(true)
-  isFeatured      Boolean               @default(false)
-  featuredUntil   DateTime?
-  expiresAt       DateTime?
-  renewedAt       DateTime?
-  videoUrl        String?
-  seoTitle        String?
-  seoDescription  String?
-  viewCount       Int                   @default(0)
-  createdAt       DateTime              @default(now())
-  updatedAt       DateTime              @updatedAt
-  seller          User                  @relation("SellerProducts", fields: [sellerId], references: [id], onDelete: Cascade)
-  store           Store?                @relation(fields: [storeId], references: [id], onDelete: SetNull)
-  category        Category              @relation(fields: [categoryId], references: [id])
-  images          ProductImage[]
-  favorites       Favorite[]
-  conversations   Conversation[]
-  reports         Report[]
-  reviews         Review[]
-  comparedBy      ComparedProduct[]
-  priceAlerts     PriceAlert[]
-  priceHistory    ProductPriceHistory[]
-  recentlyViewed  RecentlyViewed[]
-  productViews    ProductView[]
-  adminNotes      AdminNote[]
-  boostRequests   ProductBoostRequest[]
-  paymentTransactions PaymentTransaction[] @relation("ProductPayments")
+  id                    String                 @id @default(cuid())
+  sellerId              String
+  storeId               String?
+  categoryId            String
+  listingType           ListingType            @default(PRODUCT)
+  priceMode             PriceMode              @default(FIXED)
+  title                 String
+  slug                  String                 @unique
+  description           String
+  brand                 String?
+  sku                   String?
+  tags                  String[]
+  weightKg              Float?
+  deliveryOptions       String?
+  price                 Decimal                @db.Decimal(12, 2)
+  salePrice             Decimal?               @db.Decimal(12, 2)
+  saleStartsAt          DateTime?
+  saleEndsAt            DateTime?
+  quantity              Int                    @default(1)
+  condition             ProductCondition       @default(USED)
+  location              String                 @default("Dunkwa-on-Offin")
+  area                  String?
+  pickupNote            String?
+  stockStatus           StockStatus            @default(AVAILABLE)
+  listingStatus         ListingStatus          @default(PENDING)
+  listingPaymentStatus  ListingPaymentStatus   @default(NOT_REQUIRED)
+  approvalNote          String?
+  rejectionReason       String?
+  negotiable            Boolean                @default(true)
+  allowCalls            Boolean                @default(true)
+  allowWhatsapp         Boolean                @default(true)
+  isFeatured            Boolean                @default(false)
+  featuredUntil         DateTime?
+  expiresAt             DateTime?
+  renewedAt             DateTime?
+  videoUrl              String?
+  seoTitle              String?
+  seoDescription        String?
+  viewCount             Int                    @default(0)
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  seller                User                   @relation("SellerProducts", fields: [sellerId], references: [id], onDelete: Cascade)
+  store                 Store?                 @relation(fields: [storeId], references: [id], onDelete: SetNull)
+  category              Category               @relation(fields: [categoryId], references: [id])
+  images                ProductImage[]
+  favorites             Favorite[]
+  conversations         Conversation[]
+  reports               Report[]
+  reviews               Review[]
+  comparedBy            ComparedProduct[]
+  priceAlerts           PriceAlert[]
+  priceHistory          ProductPriceHistory[]
+  recentlyViewed        RecentlyViewed[]
+  productViews          ProductView[]
+  adminNotes            AdminNote[]
+  boostRequests         ProductBoostRequest[]
+  paymentTransactions   PaymentTransaction[]   @relation("ProductPayments")
+  marketplaceOrderItems MarketplaceOrderItem[]
 
   @@index([listingStatus, location])
   @@index([categoryId])
@@ -810,36 +831,36 @@ model TownArea {
 }
 
 model ProductBoostRequest {
-  id            String              @id @default(cuid())
-  productId     String
-  sellerId      String
-  status        ProductBoostStatus  @default(REQUESTED)
-  placement     AdvertPlacement     @default(HOMEPAGE)
-  requestedFor  String?
-  headline      String?
-  durationDays  Int                 @default(7)
-  feeAmount     Decimal?            @db.Decimal(12, 2)
-  paymentStatus AdvertPaymentStatus @default(PENDING)
-  feeReference  String?
-  billingPackageId String?
-  startsAt      DateTime?
-  endsAt        DateTime?
-  note          String?
-  extensionStatus        AdvertExtensionStatus @default(NONE)
-  extensionDays          Int?
-  extensionNote          String?
-  extensionRequestedAt   DateTime?
-  extensionReviewedAt    DateTime?
-  reviewedById  String?
-  reviewedAt    DateTime?
-  createdAt     DateTime            @default(now())
-  updatedAt     DateTime            @updatedAt
-  product       Product             @relation(fields: [productId], references: [id], onDelete: Cascade)
-  seller        User                @relation("BoostRequester", fields: [sellerId], references: [id], onDelete: Cascade)
-  reviewedBy    User?               @relation("BoostReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
-  billingPackage BillingPackage?    @relation(fields: [billingPackageId], references: [id], onDelete: SetNull)
-  images        AdvertImage[]
-  paymentTransactions PaymentTransaction[] @relation("AdvertPayments")
+  id                   String                @id @default(cuid())
+  productId            String
+  sellerId             String
+  status               ProductBoostStatus    @default(REQUESTED)
+  placement            AdvertPlacement       @default(HOMEPAGE)
+  requestedFor         String?
+  headline             String?
+  durationDays         Int                   @default(7)
+  feeAmount            Decimal?              @db.Decimal(12, 2)
+  paymentStatus        AdvertPaymentStatus   @default(PENDING)
+  feeReference         String?
+  billingPackageId     String?
+  startsAt             DateTime?
+  endsAt               DateTime?
+  note                 String?
+  extensionStatus      AdvertExtensionStatus @default(NONE)
+  extensionDays        Int?
+  extensionNote        String?
+  extensionRequestedAt DateTime?
+  extensionReviewedAt  DateTime?
+  reviewedById         String?
+  reviewedAt           DateTime?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  product              Product               @relation(fields: [productId], references: [id], onDelete: Cascade)
+  seller               User                  @relation("BoostRequester", fields: [sellerId], references: [id], onDelete: Cascade)
+  reviewedBy           User?                 @relation("BoostReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  billingPackage       BillingPackage?       @relation(fields: [billingPackageId], references: [id], onDelete: SetNull)
+  images               AdvertImage[]
+  paymentTransactions  PaymentTransaction[]  @relation("AdvertPayments")
 
   @@index([status, createdAt])
   @@index([placement, status, startsAt, endsAt])
@@ -848,13 +869,13 @@ model ProductBoostRequest {
 }
 
 model AdvertImage {
-  id            String              @id @default(cuid())
+  id             String              @id @default(cuid())
   boostRequestId String
-  url           String
-  alt           String?
-  sortOrder     Int                 @default(0)
-  createdAt     DateTime            @default(now())
-  boostRequest  ProductBoostRequest @relation(fields: [boostRequestId], references: [id], onDelete: Cascade)
+  url            String
+  alt            String?
+  sortOrder      Int                 @default(0)
+  createdAt      DateTime            @default(now())
+  boostRequest   ProductBoostRequest @relation(fields: [boostRequestId], references: [id], onDelete: Cascade)
 
   @@index([boostRequestId, sortOrder])
 }
@@ -998,28 +1019,28 @@ model PlatformSetting {
 }
 
 model FoodMenuItem {
-  id          String           @id @default(cuid())
-  storeId     String
-  status      FoodMenuStatus   @default(PENDING)
-  name        String
-  description String?
-  category    String?
-  basePrice   Decimal          @db.Decimal(12, 2)
-  imageUrl    String?
-  prepMinutes Int?
+  id              String           @id @default(cuid())
+  storeId         String
+  status          FoodMenuStatus   @default(PENDING)
+  name            String
+  description     String?
+  category        String?
+  basePrice       Decimal          @db.Decimal(12, 2)
+  imageUrl        String?
+  prepMinutes     Int?
   deliveryMinutes Int?
-  isSpicy     Boolean          @default(false)
-  isVegetarian Boolean         @default(false)
-  isAvailable Boolean          @default(true)
+  isSpicy         Boolean          @default(false)
+  isVegetarian    Boolean          @default(false)
+  isAvailable     Boolean          @default(true)
   rejectionReason String?
-  approvedAt  DateTime?
-  sortOrder   Int              @default(0)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  store       Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  options     FoodMenuOption[]
-  orderItems  FoodOrderItem[]
-  images      FoodMenuImage[]
+  approvedAt      DateTime?
+  sortOrder       Int              @default(0)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  store           Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  options         FoodMenuOption[]
+  orderItems      FoodOrderItem[]
+  images          FoodMenuImage[]
 
   @@index([status, isAvailable])
   @@index([storeId, isAvailable])
@@ -1049,104 +1070,160 @@ model FoodMenuOption {
 }
 
 model FoodOrder {
-  id                 String          @id @default(cuid())
-  storeId            String
-  buyerId            String
-  status             FoodOrderStatus @default(PENDING_PAYMENT)
-  buyerName          String?
-  buyerPhone         String?
-  deliveryAddress    String?
-  deliveryNote       String?
-  paymentReference   String?
-  sellerPaymentNote  String?
+  id                       String              @id @default(cuid())
+  storeId                  String
+  buyerId                  String
+  status                   FoodOrderStatus     @default(PENDING_PAYMENT)
+  directPaymentStatus      DirectPaymentStatus @default(AWAITING_PAYMENT)
+  buyerName                String?
+  buyerPhone               String?
+  deliveryAddress          String?
+  deliveryNote             String?
+  paymentReference         String?
+  paymentProofUrl          String?
+  buyerPaymentNote         String?
+  sellerPaymentNote        String?
+  paymentSubmittedAt       DateTime?
+  paymentRejectedReason    String?
   estimatedDeliveryMinutes Int?
-  totalAmount        Decimal         @db.Decimal(12, 2)
-  paymentConfirmedAt DateTime?
-  outForDeliveryAt   DateTime?
-  deliveredAt        DateTime?
-  createdAt          DateTime        @default(now())
-  updatedAt          DateTime        @updatedAt
-  store              Store           @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  buyer              User            @relation("FoodOrderBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
-  items              FoodOrderItem[]
-  deliveryRequests   DeliveryRequest[]
-  deliveries         Delivery[]
+  totalAmount              Decimal             @db.Decimal(12, 2)
+  paymentConfirmedAt       DateTime?
+  outForDeliveryAt         DateTime?
+  deliveredAt              DateTime?
+  createdAt                DateTime            @default(now())
+  updatedAt                DateTime            @updatedAt
+  store                    Store               @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  buyer                    User                @relation("FoodOrderBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+  items                    FoodOrderItem[]
+  deliveryRequests         DeliveryRequest[]
+  deliveries               Delivery[]
 
   @@index([storeId, status])
   @@index([buyerId, createdAt])
+  @@index([directPaymentStatus, createdAt])
+}
+
+model MarketplaceOrder {
+  id                  String                 @id @default(cuid())
+  buyerId             String
+  sellerId            String
+  storeId             String?
+  status              MarketplaceOrderStatus @default(PENDING_PAYMENT)
+  directPaymentStatus DirectPaymentStatus    @default(AWAITING_PAYMENT)
+  buyerName           String?
+  buyerPhone          String?
+  deliveryAddress     String?
+  deliveryNote        String?
+  paymentReference    String?
+  paymentProofUrl     String?
+  buyerPaymentNote    String?
+  sellerPaymentNote   String?
+  paymentSubmittedAt  DateTime?
+  paymentConfirmedAt  DateTime?
+  deliveredAt         DateTime?
+  cancelledAt         DateTime?
+  totalAmount         Decimal                @db.Decimal(12, 2)
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+  buyer               User                   @relation("MarketplaceOrderBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+  seller              User                   @relation("MarketplaceOrderSeller", fields: [sellerId], references: [id], onDelete: Cascade)
+  store               Store?                 @relation(fields: [storeId], references: [id], onDelete: SetNull)
+  items               MarketplaceOrderItem[]
+
+  @@index([buyerId, createdAt])
+  @@index([sellerId, status])
+  @@index([storeId, createdAt])
+  @@index([directPaymentStatus, createdAt])
+}
+
+model MarketplaceOrderItem {
+  id        String           @id @default(cuid())
+  orderId   String
+  productId String?
+  title     String
+  slug      String?
+  imageUrl  String?
+  quantity  Int              @default(1)
+  unitPrice Decimal          @db.Decimal(12, 2)
+  lineTotal Decimal          @db.Decimal(12, 2)
+  order     MarketplaceOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product?         @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([orderId])
+  @@index([productId])
 }
 
 model RiderProfile {
-  id                   String                   @id @default(cuid())
-  userId               String                   @unique
-  status               RiderVerificationStatus  @default(DRAFT)
-  availability         RiderAvailability        @default(OFFLINE)
-  vehicleType          RiderVehicleType?
-  profilePhotoUrl      String?
-  ghanaCardUrl         String?
-  licenseUrl           String?
-  vehicleDocumentUrl   String?
-  emergencyContactName String?
+  id                    String                  @id @default(cuid())
+  userId                String                  @unique
+  status                RiderVerificationStatus @default(DRAFT)
+  availability          RiderAvailability       @default(OFFLINE)
+  vehicleType           RiderVehicleType?
+  profilePhotoUrl       String?
+  ghanaCardUrl          String?
+  licenseUrl            String?
+  vehicleDocumentUrl    String?
+  emergencyContactName  String?
   emergencyContactPhone String?
-  momoName             String?
-  momoNumber           String?
-  bankName             String?
-  bankAccountName      String?
-  bankAccountNumber    String?
-  latitude             Float?
-  longitude            Float?
-  lastLocationAt       DateTime?
-  rejectionReason      String?
-  suspensionReason     String?
-  approvedAt           DateTime?
-  reviewedById         String?
-  createdAt            DateTime                 @default(now())
-  updatedAt            DateTime                 @updatedAt
-  user                 User                     @relation("RiderUser", fields: [userId], references: [id], onDelete: Cascade)
-  reviewedBy           User?                    @relation("RiderReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
-  deliveryRequests     DeliveryRequest[]        @relation("RiderRequests")
-  deliveries           Delivery[]               @relation("RiderDeliveries")
-  locationPings        RiderLocationPing[]
-  ratings              RiderRating[]
-  reports              DeliveryReport[]         @relation("RiderReports")
+  momoName              String?
+  momoNumber            String?
+  bankName              String?
+  bankAccountName       String?
+  bankAccountNumber     String?
+  latitude              Float?
+  longitude             Float?
+  lastLocationAt        DateTime?
+  rejectionReason       String?
+  suspensionReason      String?
+  approvedAt            DateTime?
+  reviewedById          String?
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  user                  User                    @relation("RiderUser", fields: [userId], references: [id], onDelete: Cascade)
+  reviewedBy            User?                   @relation("RiderReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  deliveryRequests      DeliveryRequest[]       @relation("RiderRequests")
+  deliveries            Delivery[]              @relation("RiderDeliveries")
+  locationPings         RiderLocationPing[]
+  ratings               RiderRating[]
+  reports               DeliveryReport[]        @relation("RiderReports")
 
   @@index([status, availability])
   @@index([vehicleType])
 }
 
 model DeliveryRequest {
-  id                 String                @id @default(cuid())
-  foodOrderId        String?
-  storeId            String?
-  sellerId           String
-  buyerId            String
-  riderId            String?
-  status             DeliveryRequestStatus @default(OPEN)
-  pickupName         String?
-  pickupPhone        String?
-  pickupAddress      String
-  pickupLatitude     Float?
-  pickupLongitude    Float?
-  deliveryName       String?
-  deliveryPhone      String?
-  deliveryAddress    String
-  deliveryLatitude   Float?
-  deliveryLongitude  Float?
-  productName        String
-  deliveryFee        Decimal               @db.Decimal(12, 2)
-  distanceKm         Float?
-  estimatedMinutes   Int?
-  note               String?
-  acceptedAt         DateTime?
-  rejectedAt         DateTime?
-  createdAt          DateTime              @default(now())
-  updatedAt          DateTime              @updatedAt
-  foodOrder          FoodOrder?            @relation(fields: [foodOrderId], references: [id], onDelete: SetNull)
-  store              Store?                @relation(fields: [storeId], references: [id], onDelete: SetNull)
-  seller             User                  @relation("DeliveryRequestSeller", fields: [sellerId], references: [id], onDelete: Cascade)
-  buyer              User                  @relation("DeliveryRequestBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
-  rider              RiderProfile?         @relation("RiderRequests", fields: [riderId], references: [id], onDelete: SetNull)
-  delivery           Delivery?
+  id                String                @id @default(cuid())
+  foodOrderId       String?
+  storeId           String?
+  sellerId          String
+  buyerId           String
+  riderId           String?
+  status            DeliveryRequestStatus @default(OPEN)
+  pickupName        String?
+  pickupPhone       String?
+  pickupAddress     String
+  pickupLatitude    Float?
+  pickupLongitude   Float?
+  deliveryName      String?
+  deliveryPhone     String?
+  deliveryAddress   String
+  deliveryLatitude  Float?
+  deliveryLongitude Float?
+  productName       String
+  deliveryFee       Decimal               @db.Decimal(12, 2)
+  distanceKm        Float?
+  estimatedMinutes  Int?
+  note              String?
+  acceptedAt        DateTime?
+  rejectedAt        DateTime?
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  foodOrder         FoodOrder?            @relation(fields: [foodOrderId], references: [id], onDelete: SetNull)
+  store             Store?                @relation(fields: [storeId], references: [id], onDelete: SetNull)
+  seller            User                  @relation("DeliveryRequestSeller", fields: [sellerId], references: [id], onDelete: Cascade)
+  buyer             User                  @relation("DeliveryRequestBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+  rider             RiderProfile?         @relation("RiderRequests", fields: [riderId], references: [id], onDelete: SetNull)
+  delivery          Delivery?
 
   @@index([status, createdAt])
   @@index([riderId, status])
@@ -1196,7 +1273,7 @@ model Delivery {
 }
 
 model RiderLocationPing {
-  id         String        @id @default(cuid())
+  id         String       @id @default(cuid())
   riderId    String
   deliveryId String?
   latitude   Float
@@ -1204,9 +1281,9 @@ model RiderLocationPing {
   accuracy   Float?
   heading    Float?
   speed      Float?
-  createdAt  DateTime      @default(now())
-  rider      RiderProfile  @relation(fields: [riderId], references: [id], onDelete: Cascade)
-  delivery   Delivery?     @relation(fields: [deliveryId], references: [id], onDelete: SetNull)
+  createdAt  DateTime     @default(now())
+  rider      RiderProfile @relation(fields: [riderId], references: [id], onDelete: Cascade)
+  delivery   Delivery?    @relation(fields: [deliveryId], references: [id], onDelete: SetNull)
 
   @@index([riderId, createdAt])
   @@index([deliveryId, createdAt])
@@ -1236,15 +1313,15 @@ model DeliveryReport {
   reviewedById   String?
   reason         DeliveryReportReason
   details        String?
-  status         ReportStatus          @default(OPEN)
+  status         ReportStatus         @default(OPEN)
   resolutionNote String?
   resolvedAt     DateTime?
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
-  delivery       Delivery              @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
-  rider          RiderProfile?         @relation("RiderReports", fields: [riderId], references: [id], onDelete: SetNull)
-  reporter       User                  @relation("DeliveryReportReporter", fields: [reporterId], references: [id], onDelete: Cascade)
-  reviewedBy     User?                 @relation("DeliveryReportReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  delivery       Delivery             @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  rider          RiderProfile?        @relation("RiderReports", fields: [riderId], references: [id], onDelete: SetNull)
+  reporter       User                 @relation("DeliveryReportReporter", fields: [reporterId], references: [id], onDelete: Cascade)
+  reviewedBy     User?                @relation("DeliveryReportReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
 
   @@index([status, createdAt])
   @@index([riderId, createdAt])

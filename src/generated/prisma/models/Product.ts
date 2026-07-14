@@ -532,6 +532,7 @@ export type ProductWhereInput = {
   adminNotes?: Prisma.AdminNoteListRelationFilter
   boostRequests?: Prisma.ProductBoostRequestListRelationFilter
   paymentTransactions?: Prisma.PaymentTransactionListRelationFilter
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemListRelationFilter
 }
 
 export type ProductOrderByWithRelationInput = {
@@ -592,6 +593,7 @@ export type ProductOrderByWithRelationInput = {
   adminNotes?: Prisma.AdminNoteOrderByRelationAggregateInput
   boostRequests?: Prisma.ProductBoostRequestOrderByRelationAggregateInput
   paymentTransactions?: Prisma.PaymentTransactionOrderByRelationAggregateInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemOrderByRelationAggregateInput
 }
 
 export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -655,6 +657,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   adminNotes?: Prisma.AdminNoteListRelationFilter
   boostRequests?: Prisma.ProductBoostRequestListRelationFilter
   paymentTransactions?: Prisma.PaymentTransactionListRelationFilter
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemListRelationFilter
 }, "id" | "slug">
 
 export type ProductOrderByWithAggregationInput = {
@@ -808,6 +811,7 @@ export type ProductCreateInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateInput = {
@@ -865,6 +869,7 @@ export type ProductUncheckedCreateInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductUpdateInput = {
@@ -922,6 +927,7 @@ export type ProductUpdateInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateInput = {
@@ -979,6 +985,7 @@ export type ProductUncheckedUpdateInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateManyInput = {
@@ -1649,6 +1656,22 @@ export type ProductUpdateOneWithoutAdminNotesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProductUpdateToOneWithWhereWithoutAdminNotesInput, Prisma.ProductUpdateWithoutAdminNotesInput>, Prisma.ProductUncheckedUpdateWithoutAdminNotesInput>
 }
 
+export type ProductCreateNestedOneWithoutMarketplaceOrderItemsInput = {
+  create?: Prisma.XOR<Prisma.ProductCreateWithoutMarketplaceOrderItemsInput, Prisma.ProductUncheckedCreateWithoutMarketplaceOrderItemsInput>
+  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutMarketplaceOrderItemsInput
+  connect?: Prisma.ProductWhereUniqueInput
+}
+
+export type ProductUpdateOneWithoutMarketplaceOrderItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProductCreateWithoutMarketplaceOrderItemsInput, Prisma.ProductUncheckedCreateWithoutMarketplaceOrderItemsInput>
+  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutMarketplaceOrderItemsInput
+  upsert?: Prisma.ProductUpsertWithoutMarketplaceOrderItemsInput
+  disconnect?: Prisma.ProductWhereInput | boolean
+  delete?: Prisma.ProductWhereInput | boolean
+  connect?: Prisma.ProductWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProductUpdateToOneWithWhereWithoutMarketplaceOrderItemsInput, Prisma.ProductUpdateWithoutMarketplaceOrderItemsInput>, Prisma.ProductUncheckedUpdateWithoutMarketplaceOrderItemsInput>
+}
+
 export type ProductCreateWithoutSellerInput = {
   id?: string
   listingType?: $Enums.ListingType
@@ -1703,6 +1726,7 @@ export type ProductCreateWithoutSellerInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutSellerInput = {
@@ -1759,6 +1783,7 @@ export type ProductUncheckedCreateWithoutSellerInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutSellerInput = {
@@ -1888,6 +1913,7 @@ export type ProductCreateWithoutStoreInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutStoreInput = {
@@ -1944,6 +1970,7 @@ export type ProductUncheckedCreateWithoutStoreInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutStoreInput = {
@@ -2026,6 +2053,7 @@ export type ProductCreateWithoutCategoryInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutCategoryInput = {
@@ -2082,6 +2110,7 @@ export type ProductUncheckedCreateWithoutCategoryInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutCategoryInput = {
@@ -2164,6 +2193,7 @@ export type ProductCreateWithoutImagesInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutImagesInput = {
@@ -2220,6 +2250,7 @@ export type ProductUncheckedCreateWithoutImagesInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutImagesInput = {
@@ -2292,6 +2323,7 @@ export type ProductUpdateWithoutImagesInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutImagesInput = {
@@ -2348,6 +2380,7 @@ export type ProductUncheckedUpdateWithoutImagesInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutFavoritesInput = {
@@ -2404,6 +2437,7 @@ export type ProductCreateWithoutFavoritesInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutFavoritesInput = {
@@ -2460,6 +2494,7 @@ export type ProductUncheckedCreateWithoutFavoritesInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutFavoritesInput = {
@@ -2532,6 +2567,7 @@ export type ProductUpdateWithoutFavoritesInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutFavoritesInput = {
@@ -2588,6 +2624,7 @@ export type ProductUncheckedUpdateWithoutFavoritesInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutConversationsInput = {
@@ -2644,6 +2681,7 @@ export type ProductCreateWithoutConversationsInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutConversationsInput = {
@@ -2700,6 +2738,7 @@ export type ProductUncheckedCreateWithoutConversationsInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutConversationsInput = {
@@ -2772,6 +2811,7 @@ export type ProductUpdateWithoutConversationsInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutConversationsInput = {
@@ -2828,6 +2868,7 @@ export type ProductUncheckedUpdateWithoutConversationsInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutReportsInput = {
@@ -2884,6 +2925,7 @@ export type ProductCreateWithoutReportsInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutReportsInput = {
@@ -2940,6 +2982,7 @@ export type ProductUncheckedCreateWithoutReportsInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutReportsInput = {
@@ -3012,6 +3055,7 @@ export type ProductUpdateWithoutReportsInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutReportsInput = {
@@ -3068,6 +3112,7 @@ export type ProductUncheckedUpdateWithoutReportsInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutReviewsInput = {
@@ -3124,6 +3169,7 @@ export type ProductCreateWithoutReviewsInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutReviewsInput = {
@@ -3180,6 +3226,7 @@ export type ProductUncheckedCreateWithoutReviewsInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutReviewsInput = {
@@ -3252,6 +3299,7 @@ export type ProductUpdateWithoutReviewsInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutReviewsInput = {
@@ -3308,6 +3356,7 @@ export type ProductUncheckedUpdateWithoutReviewsInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutComparedByInput = {
@@ -3364,6 +3413,7 @@ export type ProductCreateWithoutComparedByInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutComparedByInput = {
@@ -3420,6 +3470,7 @@ export type ProductUncheckedCreateWithoutComparedByInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutComparedByInput = {
@@ -3492,6 +3543,7 @@ export type ProductUpdateWithoutComparedByInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutComparedByInput = {
@@ -3548,6 +3600,7 @@ export type ProductUncheckedUpdateWithoutComparedByInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutPriceAlertsInput = {
@@ -3604,6 +3657,7 @@ export type ProductCreateWithoutPriceAlertsInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutPriceAlertsInput = {
@@ -3660,6 +3714,7 @@ export type ProductUncheckedCreateWithoutPriceAlertsInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutPriceAlertsInput = {
@@ -3732,6 +3787,7 @@ export type ProductUpdateWithoutPriceAlertsInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutPriceAlertsInput = {
@@ -3788,6 +3844,7 @@ export type ProductUncheckedUpdateWithoutPriceAlertsInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutPriceHistoryInput = {
@@ -3844,6 +3901,7 @@ export type ProductCreateWithoutPriceHistoryInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutPriceHistoryInput = {
@@ -3900,6 +3958,7 @@ export type ProductUncheckedCreateWithoutPriceHistoryInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutPriceHistoryInput = {
@@ -3972,6 +4031,7 @@ export type ProductUpdateWithoutPriceHistoryInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutPriceHistoryInput = {
@@ -4028,6 +4088,7 @@ export type ProductUncheckedUpdateWithoutPriceHistoryInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutBoostRequestsInput = {
@@ -4084,6 +4145,7 @@ export type ProductCreateWithoutBoostRequestsInput = {
   productViews?: Prisma.ProductViewCreateNestedManyWithoutProductInput
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutBoostRequestsInput = {
@@ -4140,6 +4202,7 @@ export type ProductUncheckedCreateWithoutBoostRequestsInput = {
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutProductInput
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutBoostRequestsInput = {
@@ -4212,6 +4275,7 @@ export type ProductUpdateWithoutBoostRequestsInput = {
   productViews?: Prisma.ProductViewUpdateManyWithoutProductNestedInput
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutBoostRequestsInput = {
@@ -4268,6 +4332,7 @@ export type ProductUncheckedUpdateWithoutBoostRequestsInput = {
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutProductNestedInput
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutPaymentTransactionsInput = {
@@ -4324,6 +4389,7 @@ export type ProductCreateWithoutPaymentTransactionsInput = {
   productViews?: Prisma.ProductViewCreateNestedManyWithoutProductInput
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutPaymentTransactionsInput = {
@@ -4380,6 +4446,7 @@ export type ProductUncheckedCreateWithoutPaymentTransactionsInput = {
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutProductInput
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutPaymentTransactionsInput = {
@@ -4452,6 +4519,7 @@ export type ProductUpdateWithoutPaymentTransactionsInput = {
   productViews?: Prisma.ProductViewUpdateManyWithoutProductNestedInput
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutPaymentTransactionsInput = {
@@ -4508,6 +4576,7 @@ export type ProductUncheckedUpdateWithoutPaymentTransactionsInput = {
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutProductNestedInput
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutRecentlyViewedInput = {
@@ -4564,6 +4633,7 @@ export type ProductCreateWithoutRecentlyViewedInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutRecentlyViewedInput = {
@@ -4620,6 +4690,7 @@ export type ProductUncheckedCreateWithoutRecentlyViewedInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutRecentlyViewedInput = {
@@ -4692,6 +4763,7 @@ export type ProductUpdateWithoutRecentlyViewedInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutRecentlyViewedInput = {
@@ -4748,6 +4820,7 @@ export type ProductUncheckedUpdateWithoutRecentlyViewedInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutProductViewsInput = {
@@ -4804,6 +4877,7 @@ export type ProductCreateWithoutProductViewsInput = {
   adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutProductViewsInput = {
@@ -4860,6 +4934,7 @@ export type ProductUncheckedCreateWithoutProductViewsInput = {
   adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutProductViewsInput = {
@@ -4932,6 +5007,7 @@ export type ProductUpdateWithoutProductViewsInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutProductViewsInput = {
@@ -4988,6 +5064,7 @@ export type ProductUncheckedUpdateWithoutProductViewsInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutAdminNotesInput = {
@@ -5044,6 +5121,7 @@ export type ProductCreateWithoutAdminNotesInput = {
   productViews?: Prisma.ProductViewCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutAdminNotesInput = {
@@ -5100,6 +5178,7 @@ export type ProductUncheckedCreateWithoutAdminNotesInput = {
   productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutProductInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutAdminNotesInput = {
@@ -5172,6 +5251,7 @@ export type ProductUpdateWithoutAdminNotesInput = {
   productViews?: Prisma.ProductViewUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutAdminNotesInput = {
@@ -5226,6 +5306,251 @@ export type ProductUncheckedUpdateWithoutAdminNotesInput = {
   priceHistory?: Prisma.ProductPriceHistoryUncheckedUpdateManyWithoutProductNestedInput
   recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutProductNestedInput
   productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutProductNestedInput
+  boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
+  paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
+}
+
+export type ProductCreateWithoutMarketplaceOrderItemsInput = {
+  id?: string
+  listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
+  title: string
+  slug: string
+  description: string
+  brand?: string | null
+  sku?: string | null
+  tags?: Prisma.ProductCreatetagsInput | string[]
+  weightKg?: number | null
+  deliveryOptions?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  salePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  saleStartsAt?: Date | string | null
+  saleEndsAt?: Date | string | null
+  quantity?: number
+  condition?: $Enums.ProductCondition
+  location?: string
+  area?: string | null
+  pickupNote?: string | null
+  stockStatus?: $Enums.StockStatus
+  listingStatus?: $Enums.ListingStatus
+  listingPaymentStatus?: $Enums.ListingPaymentStatus
+  approvalNote?: string | null
+  rejectionReason?: string | null
+  negotiable?: boolean
+  allowCalls?: boolean
+  allowWhatsapp?: boolean
+  isFeatured?: boolean
+  featuredUntil?: Date | string | null
+  expiresAt?: Date | string | null
+  renewedAt?: Date | string | null
+  videoUrl?: string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
+  viewCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  seller: Prisma.UserCreateNestedOneWithoutProductsInput
+  store?: Prisma.StoreCreateNestedOneWithoutProductsInput
+  category: Prisma.CategoryCreateNestedOneWithoutProductsInput
+  images?: Prisma.ProductImageCreateNestedManyWithoutProductInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutProductInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutProductInput
+  reports?: Prisma.ReportCreateNestedManyWithoutProductInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
+  comparedBy?: Prisma.ComparedProductCreateNestedManyWithoutProductInput
+  priceAlerts?: Prisma.PriceAlertCreateNestedManyWithoutProductInput
+  priceHistory?: Prisma.ProductPriceHistoryCreateNestedManyWithoutProductInput
+  recentlyViewed?: Prisma.RecentlyViewedCreateNestedManyWithoutProductInput
+  productViews?: Prisma.ProductViewCreateNestedManyWithoutProductInput
+  adminNotes?: Prisma.AdminNoteCreateNestedManyWithoutProductInput
+  boostRequests?: Prisma.ProductBoostRequestCreateNestedManyWithoutProductInput
+  paymentTransactions?: Prisma.PaymentTransactionCreateNestedManyWithoutProductInput
+}
+
+export type ProductUncheckedCreateWithoutMarketplaceOrderItemsInput = {
+  id?: string
+  sellerId: string
+  storeId?: string | null
+  categoryId: string
+  listingType?: $Enums.ListingType
+  priceMode?: $Enums.PriceMode
+  title: string
+  slug: string
+  description: string
+  brand?: string | null
+  sku?: string | null
+  tags?: Prisma.ProductCreatetagsInput | string[]
+  weightKg?: number | null
+  deliveryOptions?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  salePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  saleStartsAt?: Date | string | null
+  saleEndsAt?: Date | string | null
+  quantity?: number
+  condition?: $Enums.ProductCondition
+  location?: string
+  area?: string | null
+  pickupNote?: string | null
+  stockStatus?: $Enums.StockStatus
+  listingStatus?: $Enums.ListingStatus
+  listingPaymentStatus?: $Enums.ListingPaymentStatus
+  approvalNote?: string | null
+  rejectionReason?: string | null
+  negotiable?: boolean
+  allowCalls?: boolean
+  allowWhatsapp?: boolean
+  isFeatured?: boolean
+  featuredUntil?: Date | string | null
+  expiresAt?: Date | string | null
+  renewedAt?: Date | string | null
+  videoUrl?: string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
+  viewCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  images?: Prisma.ProductImageUncheckedCreateNestedManyWithoutProductInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutProductInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutProductInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutProductInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
+  comparedBy?: Prisma.ComparedProductUncheckedCreateNestedManyWithoutProductInput
+  priceAlerts?: Prisma.PriceAlertUncheckedCreateNestedManyWithoutProductInput
+  priceHistory?: Prisma.ProductPriceHistoryUncheckedCreateNestedManyWithoutProductInput
+  recentlyViewed?: Prisma.RecentlyViewedUncheckedCreateNestedManyWithoutProductInput
+  productViews?: Prisma.ProductViewUncheckedCreateNestedManyWithoutProductInput
+  adminNotes?: Prisma.AdminNoteUncheckedCreateNestedManyWithoutProductInput
+  boostRequests?: Prisma.ProductBoostRequestUncheckedCreateNestedManyWithoutProductInput
+  paymentTransactions?: Prisma.PaymentTransactionUncheckedCreateNestedManyWithoutProductInput
+}
+
+export type ProductCreateOrConnectWithoutMarketplaceOrderItemsInput = {
+  where: Prisma.ProductWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProductCreateWithoutMarketplaceOrderItemsInput, Prisma.ProductUncheckedCreateWithoutMarketplaceOrderItemsInput>
+}
+
+export type ProductUpsertWithoutMarketplaceOrderItemsInput = {
+  update: Prisma.XOR<Prisma.ProductUpdateWithoutMarketplaceOrderItemsInput, Prisma.ProductUncheckedUpdateWithoutMarketplaceOrderItemsInput>
+  create: Prisma.XOR<Prisma.ProductCreateWithoutMarketplaceOrderItemsInput, Prisma.ProductUncheckedCreateWithoutMarketplaceOrderItemsInput>
+  where?: Prisma.ProductWhereInput
+}
+
+export type ProductUpdateToOneWithWhereWithoutMarketplaceOrderItemsInput = {
+  where?: Prisma.ProductWhereInput
+  data: Prisma.XOR<Prisma.ProductUpdateWithoutMarketplaceOrderItemsInput, Prisma.ProductUncheckedUpdateWithoutMarketplaceOrderItemsInput>
+}
+
+export type ProductUpdateWithoutMarketplaceOrderItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  brand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sku?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.ProductUpdatetagsInput | string[]
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deliveryOptions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  salePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  saleStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  saleEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  condition?: Prisma.EnumProductConditionFieldUpdateOperationsInput | $Enums.ProductCondition
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pickupNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stockStatus?: Prisma.EnumStockStatusFieldUpdateOperationsInput | $Enums.StockStatus
+  listingStatus?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  listingPaymentStatus?: Prisma.EnumListingPaymentStatusFieldUpdateOperationsInput | $Enums.ListingPaymentStatus
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  negotiable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allowCalls?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allowWhatsapp?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featuredUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  seller?: Prisma.UserUpdateOneRequiredWithoutProductsNestedInput
+  store?: Prisma.StoreUpdateOneWithoutProductsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutProductsNestedInput
+  images?: Prisma.ProductImageUpdateManyWithoutProductNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutProductNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutProductNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutProductNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
+  comparedBy?: Prisma.ComparedProductUpdateManyWithoutProductNestedInput
+  priceAlerts?: Prisma.PriceAlertUpdateManyWithoutProductNestedInput
+  priceHistory?: Prisma.ProductPriceHistoryUpdateManyWithoutProductNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedUpdateManyWithoutProductNestedInput
+  productViews?: Prisma.ProductViewUpdateManyWithoutProductNestedInput
+  adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
+  boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
+  paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+}
+
+export type ProductUncheckedUpdateWithoutMarketplaceOrderItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sellerId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  priceMode?: Prisma.EnumPriceModeFieldUpdateOperationsInput | $Enums.PriceMode
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  brand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sku?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.ProductUpdatetagsInput | string[]
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  deliveryOptions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  salePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  saleStartsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  saleEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  condition?: Prisma.EnumProductConditionFieldUpdateOperationsInput | $Enums.ProductCondition
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pickupNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stockStatus?: Prisma.EnumStockStatusFieldUpdateOperationsInput | $Enums.StockStatus
+  listingStatus?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  listingPaymentStatus?: Prisma.EnumListingPaymentStatusFieldUpdateOperationsInput | $Enums.ListingPaymentStatus
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  negotiable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allowCalls?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allowWhatsapp?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featuredUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.ProductImageUncheckedUpdateManyWithoutProductNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutProductNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutProductNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutProductNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
+  comparedBy?: Prisma.ComparedProductUncheckedUpdateManyWithoutProductNestedInput
+  priceAlerts?: Prisma.PriceAlertUncheckedUpdateManyWithoutProductNestedInput
+  priceHistory?: Prisma.ProductPriceHistoryUncheckedUpdateManyWithoutProductNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedUncheckedUpdateManyWithoutProductNestedInput
+  productViews?: Prisma.ProductViewUncheckedUpdateManyWithoutProductNestedInput
+  adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -5327,6 +5652,7 @@ export type ProductUpdateWithoutSellerInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutSellerInput = {
@@ -5383,6 +5709,7 @@ export type ProductUncheckedUpdateWithoutSellerInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateManyWithoutSellerInput = {
@@ -5525,6 +5852,7 @@ export type ProductUpdateWithoutStoreInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutStoreInput = {
@@ -5581,6 +5909,7 @@ export type ProductUncheckedUpdateWithoutStoreInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateManyWithoutStoreInput = {
@@ -5723,6 +6052,7 @@ export type ProductUpdateWithoutCategoryInput = {
   adminNotes?: Prisma.AdminNoteUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutCategoryInput = {
@@ -5779,6 +6109,7 @@ export type ProductUncheckedUpdateWithoutCategoryInput = {
   adminNotes?: Prisma.AdminNoteUncheckedUpdateManyWithoutProductNestedInput
   boostRequests?: Prisma.ProductBoostRequestUncheckedUpdateManyWithoutProductNestedInput
   paymentTransactions?: Prisma.PaymentTransactionUncheckedUpdateManyWithoutProductNestedInput
+  marketplaceOrderItems?: Prisma.MarketplaceOrderItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateManyWithoutCategoryInput = {
@@ -5843,6 +6174,7 @@ export type ProductCountOutputType = {
   adminNotes: number
   boostRequests: number
   paymentTransactions: number
+  marketplaceOrderItems: number
 }
 
 export type ProductCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5859,6 +6191,7 @@ export type ProductCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   adminNotes?: boolean | ProductCountOutputTypeCountAdminNotesArgs
   boostRequests?: boolean | ProductCountOutputTypeCountBoostRequestsArgs
   paymentTransactions?: boolean | ProductCountOutputTypeCountPaymentTransactionsArgs
+  marketplaceOrderItems?: boolean | ProductCountOutputTypeCountMarketplaceOrderItemsArgs
 }
 
 /**
@@ -5962,6 +6295,13 @@ export type ProductCountOutputTypeCountPaymentTransactionsArgs<ExtArgs extends r
   where?: Prisma.PaymentTransactionWhereInput
 }
 
+/**
+ * ProductCountOutputType without action
+ */
+export type ProductCountOutputTypeCountMarketplaceOrderItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MarketplaceOrderItemWhereInput
+}
+
 
 export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -6021,6 +6361,7 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   adminNotes?: boolean | Prisma.Product$adminNotesArgs<ExtArgs>
   boostRequests?: boolean | Prisma.Product$boostRequestsArgs<ExtArgs>
   paymentTransactions?: boolean | Prisma.Product$paymentTransactionsArgs<ExtArgs>
+  marketplaceOrderItems?: boolean | Prisma.Product$marketplaceOrderItemsArgs<ExtArgs>
   _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["product"]>
 
@@ -6180,6 +6521,7 @@ export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   adminNotes?: boolean | Prisma.Product$adminNotesArgs<ExtArgs>
   boostRequests?: boolean | Prisma.Product$boostRequestsArgs<ExtArgs>
   paymentTransactions?: boolean | Prisma.Product$paymentTransactionsArgs<ExtArgs>
+  marketplaceOrderItems?: boolean | Prisma.Product$marketplaceOrderItemsArgs<ExtArgs>
   _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProductIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -6212,6 +6554,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     adminNotes: Prisma.$AdminNotePayload<ExtArgs>[]
     boostRequests: Prisma.$ProductBoostRequestPayload<ExtArgs>[]
     paymentTransactions: Prisma.$PaymentTransactionPayload<ExtArgs>[]
+    marketplaceOrderItems: Prisma.$MarketplaceOrderItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -6665,6 +7008,7 @@ export interface Prisma__ProductClient<T, Null = never, ExtArgs extends runtime.
   adminNotes<T extends Prisma.Product$adminNotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$adminNotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdminNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   boostRequests<T extends Prisma.Product$boostRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$boostRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductBoostRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   paymentTransactions<T extends Prisma.Product$paymentTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$paymentTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  marketplaceOrderItems<T extends Prisma.Product$marketplaceOrderItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$marketplaceOrderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MarketplaceOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7464,6 +7808,30 @@ export type Product$paymentTransactionsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.PaymentTransactionScalarFieldEnum | Prisma.PaymentTransactionScalarFieldEnum[]
+}
+
+/**
+ * Product.marketplaceOrderItems
+ */
+export type Product$marketplaceOrderItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MarketplaceOrderItem
+   */
+  select?: Prisma.MarketplaceOrderItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MarketplaceOrderItem
+   */
+  omit?: Prisma.MarketplaceOrderItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MarketplaceOrderItemInclude<ExtArgs> | null
+  where?: Prisma.MarketplaceOrderItemWhereInput
+  orderBy?: Prisma.MarketplaceOrderItemOrderByWithRelationInput | Prisma.MarketplaceOrderItemOrderByWithRelationInput[]
+  cursor?: Prisma.MarketplaceOrderItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MarketplaceOrderItemScalarFieldEnum | Prisma.MarketplaceOrderItemScalarFieldEnum[]
 }
 
 /**

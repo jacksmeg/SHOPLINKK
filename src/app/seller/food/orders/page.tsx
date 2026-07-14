@@ -85,6 +85,11 @@ export default async function SellerFoodOrdersPage() {
               </div>
               <div className="text-right">
                 <Badge tone={order.status === "DELIVERED" ? "green" : order.status === "CANCELLED" ? "red" : "gold"}>{titleCase(order.status)}</Badge>
+                <div className="mt-1">
+                  <Badge tone={order.directPaymentStatus === "CONFIRMED" ? "green" : order.directPaymentStatus === "SUBMITTED" ? "blue" : "neutral"}>
+                    {titleCase(order.directPaymentStatus)}
+                  </Badge>
+                </div>
                 <p className="mt-2 text-sm font-black text-[var(--brand-dark)]">{formatCurrency(Number(order.totalAmount))}</p>
               </div>
             </div>
@@ -110,6 +115,12 @@ export default async function SellerFoodOrdersPage() {
               {order.estimatedDeliveryMinutes ? <p className="inline-flex items-center gap-2 rounded-[8px] bg-cyan-50 p-3 text-cyan-950"><Clock size={15} /> Estimated delivery: {order.estimatedDeliveryMinutes} mins</p> : null}
               {order.deliveryNote ? <p className="rounded-[8px] bg-[var(--surface-muted)] p-3">{order.deliveryNote}</p> : null}
               {order.paymentReference ? <p className="rounded-[8px] bg-[var(--brand-soft)] p-3 text-[var(--brand-dark)]">Payment reference: <strong>{order.paymentReference}</strong></p> : null}
+              {order.buyerPaymentNote ? <p className="rounded-[8px] bg-white p-3">Buyer payment note: <strong>{order.buyerPaymentNote}</strong></p> : null}
+              {order.paymentProofUrl ? (
+                <ButtonLink href={order.paymentProofUrl} target="_blank" rel="noreferrer" variant="secondary">
+                  View payment proof
+                </ButtonLink>
+              ) : null}
             </div>
             <FoodOrderActions orderId={order.id} />
             <DeliveryRequestForm

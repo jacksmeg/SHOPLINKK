@@ -861,6 +861,13 @@ export type EnumFoodOrderStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel> | $Enums.FoodOrderStatus
 }
 
+export type EnumDirectPaymentStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.DirectPaymentStatus | Prisma.EnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DirectPaymentStatus[] | Prisma.ListEnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DirectPaymentStatus[] | Prisma.ListEnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDirectPaymentStatusFilter<$PrismaModel> | $Enums.DirectPaymentStatus
+}
+
 export type EnumFoodOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.FoodOrderStatus | Prisma.EnumFoodOrderStatusFieldRefInput<$PrismaModel>
   in?: $Enums.FoodOrderStatus[] | Prisma.ListEnumFoodOrderStatusFieldRefInput<$PrismaModel>
@@ -869,6 +876,33 @@ export type EnumFoodOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel>
+}
+
+export type EnumDirectPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DirectPaymentStatus | Prisma.EnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DirectPaymentStatus[] | Prisma.ListEnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DirectPaymentStatus[] | Prisma.ListEnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDirectPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.DirectPaymentStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDirectPaymentStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDirectPaymentStatusFilter<$PrismaModel>
+}
+
+export type EnumMarketplaceOrderStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.MarketplaceOrderStatus | Prisma.EnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.MarketplaceOrderStatus[] | Prisma.ListEnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MarketplaceOrderStatus[] | Prisma.ListEnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMarketplaceOrderStatusFilter<$PrismaModel> | $Enums.MarketplaceOrderStatus
+}
+
+export type EnumMarketplaceOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MarketplaceOrderStatus | Prisma.EnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.MarketplaceOrderStatus[] | Prisma.ListEnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MarketplaceOrderStatus[] | Prisma.ListEnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMarketplaceOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.MarketplaceOrderStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMarketplaceOrderStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMarketplaceOrderStatusFilter<$PrismaModel>
 }
 
 export type EnumRiderVerificationStatusFilter<$PrismaModel = never> = {
@@ -1757,6 +1791,13 @@ export type NestedEnumFoodOrderStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel> | $Enums.FoodOrderStatus
 }
 
+export type NestedEnumDirectPaymentStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.DirectPaymentStatus | Prisma.EnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DirectPaymentStatus[] | Prisma.ListEnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DirectPaymentStatus[] | Prisma.ListEnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDirectPaymentStatusFilter<$PrismaModel> | $Enums.DirectPaymentStatus
+}
+
 export type NestedEnumFoodOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.FoodOrderStatus | Prisma.EnumFoodOrderStatusFieldRefInput<$PrismaModel>
   in?: $Enums.FoodOrderStatus[] | Prisma.ListEnumFoodOrderStatusFieldRefInput<$PrismaModel>
@@ -1765,6 +1806,33 @@ export type NestedEnumFoodOrderStatusWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumFoodOrderStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumDirectPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DirectPaymentStatus | Prisma.EnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DirectPaymentStatus[] | Prisma.ListEnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DirectPaymentStatus[] | Prisma.ListEnumDirectPaymentStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDirectPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.DirectPaymentStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDirectPaymentStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDirectPaymentStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumMarketplaceOrderStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.MarketplaceOrderStatus | Prisma.EnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.MarketplaceOrderStatus[] | Prisma.ListEnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MarketplaceOrderStatus[] | Prisma.ListEnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMarketplaceOrderStatusFilter<$PrismaModel> | $Enums.MarketplaceOrderStatus
+}
+
+export type NestedEnumMarketplaceOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MarketplaceOrderStatus | Prisma.EnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.MarketplaceOrderStatus[] | Prisma.ListEnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MarketplaceOrderStatus[] | Prisma.ListEnumMarketplaceOrderStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMarketplaceOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.MarketplaceOrderStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMarketplaceOrderStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMarketplaceOrderStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumRiderVerificationStatusFilter<$PrismaModel = never> = {

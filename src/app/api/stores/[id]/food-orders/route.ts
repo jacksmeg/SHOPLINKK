@@ -87,11 +87,17 @@ export async function POST(
     data: {
       storeId: store.id,
       buyerId: session.user.id,
+      directPaymentStatus: parsed.data.paymentReference || parsed.data.paymentProofUrl || parsed.data.buyerPaymentNote
+        ? "SUBMITTED"
+        : "AWAITING_PAYMENT",
       buyerName: parsed.data.buyerName || session.user.name,
       buyerPhone: parsed.data.buyerPhone || session.user.phone,
       deliveryAddress: parsed.data.deliveryAddress,
       deliveryNote: parsed.data.deliveryNote || null,
       paymentReference: parsed.data.paymentReference || null,
+      paymentProofUrl: parsed.data.paymentProofUrl || null,
+      buyerPaymentNote: parsed.data.buyerPaymentNote || null,
+      paymentSubmittedAt: parsed.data.paymentReference || parsed.data.paymentProofUrl || parsed.data.buyerPaymentNote ? new Date() : null,
       estimatedDeliveryMinutes: estimatedDeliveryMinutes || null,
       totalAmount: total,
       items: {

@@ -16,6 +16,7 @@ export const uploadPurposes = [
   "advert",
   "seller-document",
   "rider-document",
+  "payment-proof",
   "chat",
   "product-video",
 ] as const;
@@ -32,6 +33,7 @@ const uploadFolders: Record<UploadPurpose, string> = {
   advert: "shoplinkk/adverts",
   "seller-document": "shoplinkk/seller-documents",
   "rider-document": "shoplinkk/rider-documents",
+  "payment-proof": "shoplinkk/payment-proofs",
   chat: "shoplinkk/chat",
   "product-video": "shoplinkk/products/videos",
 };

@@ -45,6 +45,7 @@ export async function prepareImage(file: File, purpose: Exclude<UploadPurpose, "
     chat: { width: 1280, height: 1280, crop: false },
     "seller-document": { width: 1600, height: 1600, crop: false },
     "rider-document": { width: 1600, height: 1600, crop: false },
+    "payment-proof": { width: 1600, height: 1600, crop: false },
   } satisfies Record<Exclude<UploadPurpose, "product-video">, { width: number; height: number; crop: boolean }>;
 
   const target = settings[purpose];

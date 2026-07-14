@@ -278,6 +278,29 @@ export const FoodOrderStatus = {
 export type FoodOrderStatus = (typeof FoodOrderStatus)[keyof typeof FoodOrderStatus]
 
 
+export const DirectPaymentStatus = {
+  AWAITING_PAYMENT: 'AWAITING_PAYMENT',
+  SUBMITTED: 'SUBMITTED',
+  CONFIRMED: 'CONFIRMED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type DirectPaymentStatus = (typeof DirectPaymentStatus)[keyof typeof DirectPaymentStatus]
+
+
+export const MarketplaceOrderStatus = {
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  PAYMENT_SUBMITTED: 'PAYMENT_SUBMITTED',
+  PAID: 'PAID',
+  READY: 'READY',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type MarketplaceOrderStatus = (typeof MarketplaceOrderStatus)[keyof typeof MarketplaceOrderStatus]
+
+
 export const FoodMenuStatus = {
   DRAFT: 'DRAFT',
   PENDING: 'PENDING',

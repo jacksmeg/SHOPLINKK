@@ -107,9 +107,12 @@ export function ProductCard({
               salePrice,
               priceMode: product.priceMode,
               quantity: product.quantity,
+              sellerId: product.seller.id,
+              storeId: product.store?.id,
               storeName: product.store?.name,
               storeSlug: product.store?.slug,
               sellerPhone: product.store?.phone ?? product.seller.phone,
+              momoNumber: product.store?.momoNumber,
             }}
           />
           <Link href={`/products/${product.slug}`} className="inline-flex min-h-9 items-center rounded-[7px] px-3 text-xs font-bold text-[var(--brand-dark)] hover:bg-[var(--brand-soft)]">

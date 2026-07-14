@@ -313,6 +313,8 @@ export const foodOrderSchema = z.object({
   deliveryAddress: z.string().min(5, "Enter the delivery address").max(240),
   deliveryNote: z.string().max(500).optional().or(z.literal("")),
   paymentReference: z.string().max(120).optional().or(z.literal("")),
+  paymentProofUrl: imageValue.optional().or(z.literal("")),
+  buyerPaymentNote: z.string().max(500).optional().or(z.literal("")),
   items: z
     .array(
       z.object({
@@ -328,8 +330,40 @@ export const foodOrderSchema = z.object({
     .min(1, "Choose at least one food item"),
 });
 
+export const directPaymentProofSchema = z.object({
+  paymentReference: z.string().max(120).optional().or(z.literal("")),
+  paymentProofUrl: imageValue.optional().or(z.literal("")),
+  buyerPaymentNote: z.string().max(500).optional().or(z.literal("")),
+}).refine((value) => Boolean(value.paymentReference || value.paymentProofUrl || value.buyerPaymentNote), {
+  message: "Add a MoMo reference, payment proof, or short payment note.",
+  path: ["paymentReference"],
+});
+
 export const foodOrderStatusSchema = z.object({
   status: z.enum(["PAID", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED"]),
+  note: z.string().max(500).optional().or(z.literal("")),
+});
+
+export const marketplaceOrderSchema = z.object({
+  buyerName: z.string().min(2).max(120).optional().or(z.literal("")),
+  buyerPhone: ghanaPhoneSchema.optional().or(z.literal("")),
+  deliveryAddress: z.string().min(5, "Enter the pickup or delivery address").max(240),
+  deliveryNote: z.string().max(500).optional().or(z.literal("")),
+  paymentReference: z.string().max(120).optional().or(z.literal("")),
+  paymentProofUrl: imageValue.optional().or(z.literal("")),
+  buyerPaymentNote: z.string().max(500).optional().or(z.literal("")),
+  items: z
+    .array(
+      z.object({
+        productId: z.string().min(1),
+        quantity: z.coerce.number().int().min(1).max(999),
+      }),
+    )
+    .min(1, "Choose at least one product or service"),
+});
+
+export const marketplaceOrderStatusSchema = z.object({
+  status: z.enum(["PAID", "READY", "DELIVERED", "CANCELLED"]),
   note: z.string().max(500).optional().or(z.literal("")),
 });
 

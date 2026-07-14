@@ -18,9 +18,12 @@ export function AddProductToCartButton({
     salePrice?: number | null;
     priceMode?: string | null;
     quantity?: number | null;
+    sellerId?: string | null;
+    storeId?: string | null;
     storeName?: string | null;
     storeSlug?: string | null;
     sellerPhone?: string | null;
+    momoNumber?: string | null;
   };
   compact?: boolean;
 }) {
@@ -43,10 +46,13 @@ export function AddProductToCartButton({
       price: product.price,
       salePrice: product.salePrice,
       priceMode: product.priceMode,
+      sellerId: product.sellerId,
+      storeId: product.storeId,
       maxQuantity: product.quantity,
       storeName: product.storeName,
       storeSlug: product.storeSlug,
       sellerPhone: product.sellerPhone,
+      momoNumber: product.momoNumber,
     });
     setMessage("Added to cart.");
   }

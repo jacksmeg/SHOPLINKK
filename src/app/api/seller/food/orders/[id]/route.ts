@@ -29,6 +29,11 @@ export async function PATCH(
     where: { id },
     data: {
       status: parsed.data.status,
+      directPaymentStatus: parsed.data.status === "PAID"
+        ? "CONFIRMED"
+        : parsed.data.status === "CANCELLED"
+          ? "CANCELLED"
+          : undefined,
       sellerPaymentNote: parsed.data.note || order.sellerPaymentNote,
       paymentConfirmedAt: parsed.data.status === "PAID" ? now : undefined,
       outForDeliveryAt: parsed.data.status === "OUT_FOR_DELIVERY" ? now : undefined,

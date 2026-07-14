@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ChefHat, ClipboardList, MessageCircle, PackageCheck, Truck } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { MarketplaceOrderActions } from "@/components/seller/marketplace-order-actions";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { StatCard } from "@/components/ui/stat-card";
@@ -13,10 +14,16 @@ export const dynamic = "force-dynamic";
 
 export default async function SellerOrdersPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
-  const [foodOrders, conversations, deliveries] = await Promise.all([
+  const [foodOrders, marketplaceOrders, conversations, deliveries] = await Promise.all([
     prisma.foodOrder.findMany({
       where: { store: { ownerId: session.user.id } },
       include: { buyer: { select: { name: true, phone: true } }, items: true, deliveries: { orderBy: { createdAt: "desc" }, take: 1 } },
+      orderBy: { createdAt: "desc" },
+      take: 80,
+    }),
+    prisma.marketplaceOrder.findMany({
+      where: session.user.role === "ADMIN" ? {} : { sellerId: session.user.id },
+      include: { buyer: { select: { name: true, phone: true } }, store: { select: { name: true, slug: true, momoNumber: true, phone: true } }, items: true },
       orderBy: { createdAt: "desc" },
       take: 80,
     }),
@@ -29,10 +36,13 @@ export default async function SellerOrdersPage() {
     prisma.delivery.count({ where: { sellerId: session.user.id, status: { in: ["ACCEPTED", "HEADING_TO_SELLER", "ITEM_PICKED_UP", "ON_THE_WAY"] } } }),
   ]);
 
-  const pending = foodOrders.filter((order) => ["PENDING_PAYMENT", "PAID"].includes(order.status)).length;
+  const pending = foodOrders.filter((order) => ["PENDING_PAYMENT", "PAID"].includes(order.status)).length
+    + marketplaceOrders.filter((order) => ["PENDING_PAYMENT", "PAYMENT_SUBMITTED"].includes(order.status)).length;
   const preparing = foodOrders.filter((order) => order.status === "PREPARING").length;
-  const delivered = foodOrders.filter((order) => order.status === "DELIVERED").length;
-  const revenue = foodOrders.filter((order) => order.status !== "CANCELLED").reduce((sum, order) => sum + Number(order.totalAmount), 0);
+  const delivered = foodOrders.filter((order) => order.status === "DELIVERED").length
+    + marketplaceOrders.filter((order) => order.status === "DELIVERED").length;
+  const revenue = foodOrders.filter((order) => order.status !== "CANCELLED").reduce((sum, order) => sum + Number(order.totalAmount), 0)
+    + marketplaceOrders.filter((order) => order.status !== "CANCELLED").reduce((sum, order) => sum + Number(order.totalAmount), 0);
 
   return (
     <DashboardShell eyebrow="Seller" title="Order management" description="Manage product enquiries, food orders, delivery requests, and buyer conversations." links={sellerLinks}>
@@ -45,6 +55,51 @@ export default async function SellerOrdersPage() {
       </div>
 
       <div className="mt-5 grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
+        <section className="app-panel p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-black text-[var(--ink)]">Marketplace direct MoMo orders</h2>
+              <p className="mt-1 text-xs text-[var(--muted)]">Confirm product/service payments and update order status.</p>
+            </div>
+            <ButtonLink href="/seller/products" variant="secondary">Manage products</ButtonLink>
+          </div>
+          <div className="mt-4 grid gap-3">
+            {marketplaceOrders.slice(0, 10).map((order) => (
+              <article key={order.id} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-black text-[var(--ink)]">{order.buyerName || order.buyer.name || "Buyer"}</p>
+                    <p className="mt-1 text-[0.68rem] text-[var(--muted)]">{order.items.map((item) => `${item.quantity}x ${item.title}`).join(", ")}</p>
+                    <p className="mt-1 text-[0.68rem] text-[var(--muted)]">{order.buyerPhone || order.buyer.phone || "No phone"} - {compactDate(order.createdAt)}</p>
+                  </div>
+                  <div className="text-right">
+                    <Badge tone={order.status === "DELIVERED" ? "green" : order.status === "CANCELLED" ? "red" : "gold"}>{titleCase(order.status)}</Badge>
+                    <div className="mt-1">
+                      <Badge tone={order.directPaymentStatus === "CONFIRMED" ? "green" : order.directPaymentStatus === "SUBMITTED" ? "blue" : "neutral"}>
+                        {titleCase(order.directPaymentStatus)}
+                      </Badge>
+                    </div>
+                    <p className="mt-2 text-xs font-black text-[var(--brand-dark)]">{formatCurrency(Number(order.totalAmount))}</p>
+                  </div>
+                </div>
+                <div className="mt-3 grid gap-2 text-xs text-[var(--muted)] sm:grid-cols-2">
+                  <p className="rounded-[8px] bg-[var(--surface-muted)] p-3">Address: {order.deliveryAddress || "Buyer will confirm"}</p>
+                  <p className="rounded-[8px] bg-[var(--surface-muted)] p-3">MoMo expected: {order.store?.momoNumber || order.store?.phone || "Store MoMo not set"}</p>
+                  {order.paymentReference ? <p className="rounded-[8px] bg-[var(--brand-soft)] p-3 text-[var(--brand-dark)]">Payment reference: <strong>{order.paymentReference}</strong></p> : null}
+                  {order.buyerPaymentNote ? <p className="rounded-[8px] bg-white p-3">Buyer note: <strong>{order.buyerPaymentNote}</strong></p> : null}
+                  {order.paymentProofUrl ? (
+                    <ButtonLink href={order.paymentProofUrl} target="_blank" rel="noreferrer" variant="secondary">
+                      View payment proof
+                    </ButtonLink>
+                  ) : null}
+                </div>
+                <MarketplaceOrderActions orderId={order.id} />
+              </article>
+            ))}
+            {!marketplaceOrders.length ? <p className="text-xs text-[var(--muted)]">No marketplace direct payment orders yet.</p> : null}
+          </div>
+        </section>
+
         <section className="app-panel p-4 sm:p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>

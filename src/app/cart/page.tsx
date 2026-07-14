@@ -10,7 +10,11 @@ export default async function CartPage() {
   return (
     <>
       <div className="mx-auto max-w-[1180px] px-4 pt-6 sm:px-6 sm:pt-8 lg:px-8">
-        <ProductCartSection />
+        <ProductCartSection
+          signedIn={Boolean(session?.user?.id)}
+          defaultName={session?.user?.name}
+          defaultPhone={session?.user?.phone}
+        />
       </div>
       <FoodCartPage
         signedIn={Boolean(session?.user?.id)}

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ChefHat, Clock3, MapPinned, Phone, ReceiptText, Truck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
+import { DirectPaymentProofForm } from "@/components/payments/direct-payment-proof-form";
 import { requireUser } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
 import { formatGhanaPhone } from "@/lib/ghana";
@@ -154,6 +155,17 @@ export default async function FoodOrderTrackerPage({ params }: { params: Promise
             <p className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--muted)]">Total</p>
             <p className="mt-2 text-2xl font-black text-[var(--brand-dark)]">{formatCurrency(Number(order.totalAmount))}</p>
             <p className="mt-2 flex items-center gap-2 text-xs text-[var(--muted)]"><Clock3 size={14} /> Estimated delivery: {order.estimatedDeliveryMinutes ? `${order.estimatedDeliveryMinutes} minutes` : "Seller will confirm"}</p>
+            <div className="mt-3 rounded-[8px] bg-[var(--surface-muted)] p-3 text-xs leading-5 text-[var(--muted)]">
+              <p><strong className="text-[var(--ink)]">Payment status:</strong> {titleCase(order.directPaymentStatus)}</p>
+              {order.paymentReference ? <p><strong className="text-[var(--ink)]">Reference:</strong> {order.paymentReference}</p> : null}
+              {order.buyerPaymentNote ? <p><strong className="text-[var(--ink)]">Buyer note:</strong> {order.buyerPaymentNote}</p> : null}
+              {order.sellerPaymentNote ? <p><strong className="text-[var(--ink)]">Seller note:</strong> {order.sellerPaymentNote}</p> : null}
+              {order.paymentProofUrl ? (
+                <Link href={order.paymentProofUrl} target="_blank" rel="noreferrer" className="mt-1 inline-flex font-black text-[var(--brand-dark)]">
+                  View payment proof
+                </Link>
+              ) : null}
+            </div>
           </div>
 
           <div className="app-panel p-4">
@@ -170,6 +182,10 @@ export default async function FoodOrderTrackerPage({ params }: { params: Promise
               <ButtonLink href="/buyer/food-orders" variant="ghost">All orders</ButtonLink>
             </div>
           </div>
+
+          {session.user.id === order.buyerId && !["CONFIRMED", "CANCELLED"].includes(order.directPaymentStatus) ? (
+            <DirectPaymentProofForm endpoint={`/api/food-orders/${order.id}/payment`} />
+          ) : null}
         </aside>
       </div>
     </main>

@@ -183,7 +183,7 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
           </select>
         </label>
         <label className="text-sm font-bold text-[var(--ink)]">
-          MoMo number for food orders
+          MoMo number for direct payments
           <input name="momoNumber" defaultValue={store?.momoNumber ?? store?.phone ?? ""} placeholder="024..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
         </label>
       </div>

@@ -176,9 +176,12 @@ export default async function ProductDetailPage({
                 salePrice,
                 priceMode: product.priceMode,
                 quantity: product.quantity,
+                sellerId: product.seller.id,
+                storeId: product.store?.id,
                 storeName: product.store?.name,
                 storeSlug: product.store?.slug,
                 sellerPhone,
+                momoNumber: product.store?.momoNumber,
               }}
             />
             <ContactSellerButton productId={product.id} sellerId={product.seller.id} />
@@ -218,7 +221,7 @@ export default async function ProductDetailPage({
             <div className="flex gap-3">
               <ShieldAlert className="mt-0.5 text-[var(--brand)]" size={20} />
               <p className="text-xs leading-5 text-[var(--brand-dark)]">
-                ShopLinkk does not process payments yet. Chat with the seller, inspect the item, and agree safely before paying.
+                Pay sellers directly only after you agree on the item. ShopLinkk records your MoMo reference or proof, but you should still inspect items before final payment.
               </p>
             </div>
           </div>

@@ -9,9 +9,12 @@ export type ProductCartItem = {
   price: number;
   salePrice?: number | null;
   priceMode?: string | null;
+  sellerId?: string | null;
+  storeId?: string | null;
   storeName?: string | null;
   storeSlug?: string | null;
   sellerPhone?: string | null;
+  momoNumber?: string | null;
   quantity: number;
   maxQuantity?: number | null;
   addedAt: string;

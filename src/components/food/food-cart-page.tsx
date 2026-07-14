@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle2, LocateFixed, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
+import { CheckCircle2, LocateFixed, Minus, Plus, ShoppingCart, Trash2, UploadCloud } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, useTransition } from "react";
+import { uploadImage } from "@/components/forms/upload-helper";
 import { Button, ButtonLink } from "@/components/ui/button";
 import {
   FOOD_CART_CHANGED_EVENT,
@@ -34,6 +35,9 @@ export function FoodCartPage({
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryNote, setDeliveryNote] = useState("");
   const [paymentReference, setPaymentReference] = useState("");
+  const [paymentProofUrl, setPaymentProofUrl] = useState("");
+  const [buyerPaymentNote, setBuyerPaymentNote] = useState("");
+  const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [placedOrders, setPlacedOrders] = useState<{ id: string; storeName: string }[]>([]);
@@ -110,6 +114,23 @@ export function FoodCartPage({
     );
   }
 
+  async function uploadProof(file?: File | null) {
+    if (!file) return;
+    setMessage("");
+    setUploading(true);
+    try {
+      const url = await uploadImage(file, "payment-proof");
+      setPaymentProofUrl(url);
+      setMessage("Payment proof uploaded.");
+      setSuccess(true);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not upload payment proof.");
+      setSuccess(false);
+    } finally {
+      setUploading(false);
+    }
+  }
+
   function submitOrders() {
     setMessage("");
     setSuccess(false);
@@ -141,6 +162,8 @@ export function FoodCartPage({
             deliveryAddress,
             deliveryNote,
             paymentReference,
+            paymentProofUrl,
+            buyerPaymentNote,
             items: group.items.map((item) => ({
               itemId: item.itemId,
               quantity: item.quantity,
@@ -174,6 +197,8 @@ export function FoodCartPage({
       setSuccess(true);
       setDeliveryNote("");
       setPaymentReference("");
+      setPaymentProofUrl("");
+      setBuyerPaymentNote("");
       if (createdOrders.length === 1) {
         router.push(`/food-orders/${createdOrders[0].id}`);
       }
@@ -276,6 +301,12 @@ export function FoodCartPage({
             </div>
             <textarea value={deliveryNote} onChange={(event) => setDeliveryNote(event.target.value)} rows={3} placeholder="Landmark, room number, or delivery note" className="form-control resize-none px-3 py-2 text-xs" />
             <input value={paymentReference} onChange={(event) => setPaymentReference(event.target.value)} placeholder="MoMo reference after payment (optional)" className="form-control px-3 text-xs" />
+            <textarea value={buyerPaymentNote} onChange={(event) => setBuyerPaymentNote(event.target.value)} rows={3} placeholder="Optional payment note, e.g. paid from 054..." className="form-control resize-none px-3 py-2 text-xs" />
+            <label className="flex cursor-pointer items-center justify-center gap-2 rounded-[8px] border border-dashed border-[var(--line-strong)] bg-white px-3 py-3 text-xs font-bold text-[var(--brand-dark)]">
+              <UploadCloud size={16} />
+              {uploading ? "Uploading proof..." : paymentProofUrl ? "Proof uploaded. Choose another" : "Upload payment proof"}
+              <input type="file" accept="image/*" className="hidden" disabled={uploading} onChange={(event) => uploadProof(event.target.files?.[0])} />
+            </label>
           </div>
           <div className="mt-4 rounded-[8px] bg-[var(--surface-muted)] p-3">
             <div className="flex items-center justify-between text-xs">
@@ -298,7 +329,7 @@ export function FoodCartPage({
               ))}
             </div>
           ) : null}
-          <Button type="button" disabled={pending || !items.length} onClick={submitOrders} className="mt-4 w-full">
+          <Button type="button" disabled={pending || uploading || !items.length} onClick={submitOrders} className="mt-4 w-full">
             <ShoppingCart size={16} />
             {pending ? "Sending order..." : "Confirm order"}
           </Button>

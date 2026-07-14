@@ -5,6 +5,7 @@ import { uploadImageAsset, uploadPurposes, uploadVideoAsset, type UploadPurpose 
 const sellerPurposes: UploadPurpose[] = ["store-logo", "store-cover", "advert", "product", "seller-document", "product-video"];
 const adminOnlyPurposes: UploadPurpose[] = ["category", "platform-logo"];
 const riderPurposes: UploadPurpose[] = ["rider-document"];
+const signedInPurposes: UploadPurpose[] = ["payment-proof", "chat", "profile"];
 
 export async function POST(request: Request) {
   const limited = enforceRateLimit(request, "uploads", 30, 60_000);
@@ -33,6 +34,10 @@ export async function POST(request: Request) {
 
   if (riderPurposes.includes(uploadPurpose) && !["BUYER", "SELLER", "RIDER", "ADMIN"].includes(session.user.role)) {
     return jsonError("Only signed-in rider applicants can upload rider documents", 403);
+  }
+
+  if (signedInPurposes.includes(uploadPurpose) && !session.user.id) {
+    return jsonError("Please sign in before uploading this file", 401);
   }
 
   if (adminOnlyPurposes.includes(uploadPurpose) && session.user.role !== "ADMIN") {

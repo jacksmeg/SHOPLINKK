@@ -94,6 +94,8 @@ export const ModelName = {
   FoodMenuImage: 'FoodMenuImage',
   FoodMenuOption: 'FoodMenuOption',
   FoodOrder: 'FoodOrder',
+  MarketplaceOrder: 'MarketplaceOrder',
+  MarketplaceOrderItem: 'MarketplaceOrderItem',
   RiderProfile: 'RiderProfile',
   DeliveryRequest: 'DeliveryRequest',
   Delivery: 'Delivery',
@@ -798,12 +800,17 @@ export const FoodOrderScalarFieldEnum = {
   storeId: 'storeId',
   buyerId: 'buyerId',
   status: 'status',
+  directPaymentStatus: 'directPaymentStatus',
   buyerName: 'buyerName',
   buyerPhone: 'buyerPhone',
   deliveryAddress: 'deliveryAddress',
   deliveryNote: 'deliveryNote',
   paymentReference: 'paymentReference',
+  paymentProofUrl: 'paymentProofUrl',
+  buyerPaymentNote: 'buyerPaymentNote',
   sellerPaymentNote: 'sellerPaymentNote',
+  paymentSubmittedAt: 'paymentSubmittedAt',
+  paymentRejectedReason: 'paymentRejectedReason',
   estimatedDeliveryMinutes: 'estimatedDeliveryMinutes',
   totalAmount: 'totalAmount',
   paymentConfirmedAt: 'paymentConfirmedAt',
@@ -814,6 +821,48 @@ export const FoodOrderScalarFieldEnum = {
 } as const
 
 export type FoodOrderScalarFieldEnum = (typeof FoodOrderScalarFieldEnum)[keyof typeof FoodOrderScalarFieldEnum]
+
+
+export const MarketplaceOrderScalarFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  sellerId: 'sellerId',
+  storeId: 'storeId',
+  status: 'status',
+  directPaymentStatus: 'directPaymentStatus',
+  buyerName: 'buyerName',
+  buyerPhone: 'buyerPhone',
+  deliveryAddress: 'deliveryAddress',
+  deliveryNote: 'deliveryNote',
+  paymentReference: 'paymentReference',
+  paymentProofUrl: 'paymentProofUrl',
+  buyerPaymentNote: 'buyerPaymentNote',
+  sellerPaymentNote: 'sellerPaymentNote',
+  paymentSubmittedAt: 'paymentSubmittedAt',
+  paymentConfirmedAt: 'paymentConfirmedAt',
+  deliveredAt: 'deliveredAt',
+  cancelledAt: 'cancelledAt',
+  totalAmount: 'totalAmount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MarketplaceOrderScalarFieldEnum = (typeof MarketplaceOrderScalarFieldEnum)[keyof typeof MarketplaceOrderScalarFieldEnum]
+
+
+export const MarketplaceOrderItemScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  productId: 'productId',
+  title: 'title',
+  slug: 'slug',
+  imageUrl: 'imageUrl',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  lineTotal: 'lineTotal'
+} as const
+
+export type MarketplaceOrderItemScalarFieldEnum = (typeof MarketplaceOrderItemScalarFieldEnum)[keyof typeof MarketplaceOrderItemScalarFieldEnum]
 
 
 export const RiderProfileScalarFieldEnum = {

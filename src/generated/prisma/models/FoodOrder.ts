@@ -41,12 +41,17 @@ export type FoodOrderMinAggregateOutputType = {
   storeId: string | null
   buyerId: string | null
   status: $Enums.FoodOrderStatus | null
+  directPaymentStatus: $Enums.DirectPaymentStatus | null
   buyerName: string | null
   buyerPhone: string | null
   deliveryAddress: string | null
   deliveryNote: string | null
   paymentReference: string | null
+  paymentProofUrl: string | null
+  buyerPaymentNote: string | null
   sellerPaymentNote: string | null
+  paymentSubmittedAt: Date | null
+  paymentRejectedReason: string | null
   estimatedDeliveryMinutes: number | null
   totalAmount: runtime.Decimal | null
   paymentConfirmedAt: Date | null
@@ -61,12 +66,17 @@ export type FoodOrderMaxAggregateOutputType = {
   storeId: string | null
   buyerId: string | null
   status: $Enums.FoodOrderStatus | null
+  directPaymentStatus: $Enums.DirectPaymentStatus | null
   buyerName: string | null
   buyerPhone: string | null
   deliveryAddress: string | null
   deliveryNote: string | null
   paymentReference: string | null
+  paymentProofUrl: string | null
+  buyerPaymentNote: string | null
   sellerPaymentNote: string | null
+  paymentSubmittedAt: Date | null
+  paymentRejectedReason: string | null
   estimatedDeliveryMinutes: number | null
   totalAmount: runtime.Decimal | null
   paymentConfirmedAt: Date | null
@@ -81,12 +91,17 @@ export type FoodOrderCountAggregateOutputType = {
   storeId: number
   buyerId: number
   status: number
+  directPaymentStatus: number
   buyerName: number
   buyerPhone: number
   deliveryAddress: number
   deliveryNote: number
   paymentReference: number
+  paymentProofUrl: number
+  buyerPaymentNote: number
   sellerPaymentNote: number
+  paymentSubmittedAt: number
+  paymentRejectedReason: number
   estimatedDeliveryMinutes: number
   totalAmount: number
   paymentConfirmedAt: number
@@ -113,12 +128,17 @@ export type FoodOrderMinAggregateInputType = {
   storeId?: true
   buyerId?: true
   status?: true
+  directPaymentStatus?: true
   buyerName?: true
   buyerPhone?: true
   deliveryAddress?: true
   deliveryNote?: true
   paymentReference?: true
+  paymentProofUrl?: true
+  buyerPaymentNote?: true
   sellerPaymentNote?: true
+  paymentSubmittedAt?: true
+  paymentRejectedReason?: true
   estimatedDeliveryMinutes?: true
   totalAmount?: true
   paymentConfirmedAt?: true
@@ -133,12 +153,17 @@ export type FoodOrderMaxAggregateInputType = {
   storeId?: true
   buyerId?: true
   status?: true
+  directPaymentStatus?: true
   buyerName?: true
   buyerPhone?: true
   deliveryAddress?: true
   deliveryNote?: true
   paymentReference?: true
+  paymentProofUrl?: true
+  buyerPaymentNote?: true
   sellerPaymentNote?: true
+  paymentSubmittedAt?: true
+  paymentRejectedReason?: true
   estimatedDeliveryMinutes?: true
   totalAmount?: true
   paymentConfirmedAt?: true
@@ -153,12 +178,17 @@ export type FoodOrderCountAggregateInputType = {
   storeId?: true
   buyerId?: true
   status?: true
+  directPaymentStatus?: true
   buyerName?: true
   buyerPhone?: true
   deliveryAddress?: true
   deliveryNote?: true
   paymentReference?: true
+  paymentProofUrl?: true
+  buyerPaymentNote?: true
   sellerPaymentNote?: true
+  paymentSubmittedAt?: true
+  paymentRejectedReason?: true
   estimatedDeliveryMinutes?: true
   totalAmount?: true
   paymentConfirmedAt?: true
@@ -260,12 +290,17 @@ export type FoodOrderGroupByOutputType = {
   storeId: string
   buyerId: string
   status: $Enums.FoodOrderStatus
+  directPaymentStatus: $Enums.DirectPaymentStatus
   buyerName: string | null
   buyerPhone: string | null
   deliveryAddress: string | null
   deliveryNote: string | null
   paymentReference: string | null
+  paymentProofUrl: string | null
+  buyerPaymentNote: string | null
   sellerPaymentNote: string | null
+  paymentSubmittedAt: Date | null
+  paymentRejectedReason: string | null
   estimatedDeliveryMinutes: number | null
   totalAmount: runtime.Decimal
   paymentConfirmedAt: Date | null
@@ -303,12 +338,17 @@ export type FoodOrderWhereInput = {
   storeId?: Prisma.StringFilter<"FoodOrder"> | string
   buyerId?: Prisma.StringFilter<"FoodOrder"> | string
   status?: Prisma.EnumFoodOrderStatusFilter<"FoodOrder"> | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFilter<"FoodOrder"> | $Enums.DirectPaymentStatus
   buyerName?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   buyerPhone?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   deliveryAddress?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   deliveryNote?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   paymentReference?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
+  paymentProofUrl?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
+  buyerPaymentNote?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   sellerPaymentNote?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
+  paymentSubmittedAt?: Prisma.DateTimeNullableFilter<"FoodOrder"> | Date | string | null
+  paymentRejectedReason?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   estimatedDeliveryMinutes?: Prisma.IntNullableFilter<"FoodOrder"> | number | null
   totalAmount?: Prisma.DecimalFilter<"FoodOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.DateTimeNullableFilter<"FoodOrder"> | Date | string | null
@@ -328,12 +368,17 @@ export type FoodOrderOrderByWithRelationInput = {
   storeId?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  directPaymentStatus?: Prisma.SortOrder
   buyerName?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryNote?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentReference?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentProofUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  buyerPaymentNote?: Prisma.SortOrderInput | Prisma.SortOrder
   sellerPaymentNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentSubmittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentRejectedReason?: Prisma.SortOrderInput | Prisma.SortOrder
   estimatedDeliveryMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   paymentConfirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -356,12 +401,17 @@ export type FoodOrderWhereUniqueInput = Prisma.AtLeast<{
   storeId?: Prisma.StringFilter<"FoodOrder"> | string
   buyerId?: Prisma.StringFilter<"FoodOrder"> | string
   status?: Prisma.EnumFoodOrderStatusFilter<"FoodOrder"> | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFilter<"FoodOrder"> | $Enums.DirectPaymentStatus
   buyerName?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   buyerPhone?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   deliveryAddress?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   deliveryNote?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   paymentReference?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
+  paymentProofUrl?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
+  buyerPaymentNote?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   sellerPaymentNote?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
+  paymentSubmittedAt?: Prisma.DateTimeNullableFilter<"FoodOrder"> | Date | string | null
+  paymentRejectedReason?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   estimatedDeliveryMinutes?: Prisma.IntNullableFilter<"FoodOrder"> | number | null
   totalAmount?: Prisma.DecimalFilter<"FoodOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.DateTimeNullableFilter<"FoodOrder"> | Date | string | null
@@ -381,12 +431,17 @@ export type FoodOrderOrderByWithAggregationInput = {
   storeId?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  directPaymentStatus?: Prisma.SortOrder
   buyerName?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryNote?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentReference?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentProofUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  buyerPaymentNote?: Prisma.SortOrderInput | Prisma.SortOrder
   sellerPaymentNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentSubmittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentRejectedReason?: Prisma.SortOrderInput | Prisma.SortOrder
   estimatedDeliveryMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   paymentConfirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -409,12 +464,17 @@ export type FoodOrderScalarWhereWithAggregatesInput = {
   storeId?: Prisma.StringWithAggregatesFilter<"FoodOrder"> | string
   buyerId?: Prisma.StringWithAggregatesFilter<"FoodOrder"> | string
   status?: Prisma.EnumFoodOrderStatusWithAggregatesFilter<"FoodOrder"> | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusWithAggregatesFilter<"FoodOrder"> | $Enums.DirectPaymentStatus
   buyerName?: Prisma.StringNullableWithAggregatesFilter<"FoodOrder"> | string | null
   buyerPhone?: Prisma.StringNullableWithAggregatesFilter<"FoodOrder"> | string | null
   deliveryAddress?: Prisma.StringNullableWithAggregatesFilter<"FoodOrder"> | string | null
   deliveryNote?: Prisma.StringNullableWithAggregatesFilter<"FoodOrder"> | string | null
   paymentReference?: Prisma.StringNullableWithAggregatesFilter<"FoodOrder"> | string | null
+  paymentProofUrl?: Prisma.StringNullableWithAggregatesFilter<"FoodOrder"> | string | null
+  buyerPaymentNote?: Prisma.StringNullableWithAggregatesFilter<"FoodOrder"> | string | null
   sellerPaymentNote?: Prisma.StringNullableWithAggregatesFilter<"FoodOrder"> | string | null
+  paymentSubmittedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FoodOrder"> | Date | string | null
+  paymentRejectedReason?: Prisma.StringNullableWithAggregatesFilter<"FoodOrder"> | string | null
   estimatedDeliveryMinutes?: Prisma.IntNullableWithAggregatesFilter<"FoodOrder"> | number | null
   totalAmount?: Prisma.DecimalWithAggregatesFilter<"FoodOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FoodOrder"> | Date | string | null
@@ -427,12 +487,17 @@ export type FoodOrderScalarWhereWithAggregatesInput = {
 export type FoodOrderCreateInput = {
   id?: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -452,12 +517,17 @@ export type FoodOrderUncheckedCreateInput = {
   storeId: string
   buyerId: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -473,12 +543,17 @@ export type FoodOrderUncheckedCreateInput = {
 export type FoodOrderUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -498,12 +573,17 @@ export type FoodOrderUncheckedUpdateInput = {
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -521,12 +601,17 @@ export type FoodOrderCreateManyInput = {
   storeId: string
   buyerId: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -539,12 +624,17 @@ export type FoodOrderCreateManyInput = {
 export type FoodOrderUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -559,12 +649,17 @@ export type FoodOrderUncheckedUpdateManyInput = {
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -589,12 +684,17 @@ export type FoodOrderCountOrderByAggregateInput = {
   storeId?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  directPaymentStatus?: Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerPhone?: Prisma.SortOrder
   deliveryAddress?: Prisma.SortOrder
   deliveryNote?: Prisma.SortOrder
   paymentReference?: Prisma.SortOrder
+  paymentProofUrl?: Prisma.SortOrder
+  buyerPaymentNote?: Prisma.SortOrder
   sellerPaymentNote?: Prisma.SortOrder
+  paymentSubmittedAt?: Prisma.SortOrder
+  paymentRejectedReason?: Prisma.SortOrder
   estimatedDeliveryMinutes?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   paymentConfirmedAt?: Prisma.SortOrder
@@ -614,12 +714,17 @@ export type FoodOrderMaxOrderByAggregateInput = {
   storeId?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  directPaymentStatus?: Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerPhone?: Prisma.SortOrder
   deliveryAddress?: Prisma.SortOrder
   deliveryNote?: Prisma.SortOrder
   paymentReference?: Prisma.SortOrder
+  paymentProofUrl?: Prisma.SortOrder
+  buyerPaymentNote?: Prisma.SortOrder
   sellerPaymentNote?: Prisma.SortOrder
+  paymentSubmittedAt?: Prisma.SortOrder
+  paymentRejectedReason?: Prisma.SortOrder
   estimatedDeliveryMinutes?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   paymentConfirmedAt?: Prisma.SortOrder
@@ -634,12 +739,17 @@ export type FoodOrderMinOrderByAggregateInput = {
   storeId?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  directPaymentStatus?: Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerPhone?: Prisma.SortOrder
   deliveryAddress?: Prisma.SortOrder
   deliveryNote?: Prisma.SortOrder
   paymentReference?: Prisma.SortOrder
+  paymentProofUrl?: Prisma.SortOrder
+  buyerPaymentNote?: Prisma.SortOrder
   sellerPaymentNote?: Prisma.SortOrder
+  paymentSubmittedAt?: Prisma.SortOrder
+  paymentRejectedReason?: Prisma.SortOrder
   estimatedDeliveryMinutes?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   paymentConfirmedAt?: Prisma.SortOrder
@@ -752,6 +862,10 @@ export type EnumFoodOrderStatusFieldUpdateOperationsInput = {
   set?: $Enums.FoodOrderStatus
 }
 
+export type EnumDirectPaymentStatusFieldUpdateOperationsInput = {
+  set?: $Enums.DirectPaymentStatus
+}
+
 export type FoodOrderCreateNestedOneWithoutDeliveryRequestsInput = {
   create?: Prisma.XOR<Prisma.FoodOrderCreateWithoutDeliveryRequestsInput, Prisma.FoodOrderUncheckedCreateWithoutDeliveryRequestsInput>
   connectOrCreate?: Prisma.FoodOrderCreateOrConnectWithoutDeliveryRequestsInput
@@ -801,12 +915,17 @@ export type FoodOrderUpdateOneRequiredWithoutItemsNestedInput = {
 export type FoodOrderCreateWithoutBuyerInput = {
   id?: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -824,12 +943,17 @@ export type FoodOrderUncheckedCreateWithoutBuyerInput = {
   id?: string
   storeId: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -876,12 +1000,17 @@ export type FoodOrderScalarWhereInput = {
   storeId?: Prisma.StringFilter<"FoodOrder"> | string
   buyerId?: Prisma.StringFilter<"FoodOrder"> | string
   status?: Prisma.EnumFoodOrderStatusFilter<"FoodOrder"> | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFilter<"FoodOrder"> | $Enums.DirectPaymentStatus
   buyerName?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   buyerPhone?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   deliveryAddress?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   deliveryNote?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   paymentReference?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
+  paymentProofUrl?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
+  buyerPaymentNote?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   sellerPaymentNote?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
+  paymentSubmittedAt?: Prisma.DateTimeNullableFilter<"FoodOrder"> | Date | string | null
+  paymentRejectedReason?: Prisma.StringNullableFilter<"FoodOrder"> | string | null
   estimatedDeliveryMinutes?: Prisma.IntNullableFilter<"FoodOrder"> | number | null
   totalAmount?: Prisma.DecimalFilter<"FoodOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.DateTimeNullableFilter<"FoodOrder"> | Date | string | null
@@ -894,12 +1023,17 @@ export type FoodOrderScalarWhereInput = {
 export type FoodOrderCreateWithoutStoreInput = {
   id?: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -917,12 +1051,17 @@ export type FoodOrderUncheckedCreateWithoutStoreInput = {
   id?: string
   buyerId: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -964,12 +1103,17 @@ export type FoodOrderUpdateManyWithWhereWithoutStoreInput = {
 export type FoodOrderCreateWithoutDeliveryRequestsInput = {
   id?: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -988,12 +1132,17 @@ export type FoodOrderUncheckedCreateWithoutDeliveryRequestsInput = {
   storeId: string
   buyerId: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -1024,12 +1173,17 @@ export type FoodOrderUpdateToOneWithWhereWithoutDeliveryRequestsInput = {
 export type FoodOrderUpdateWithoutDeliveryRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1048,12 +1202,17 @@ export type FoodOrderUncheckedUpdateWithoutDeliveryRequestsInput = {
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1068,12 +1227,17 @@ export type FoodOrderUncheckedUpdateWithoutDeliveryRequestsInput = {
 export type FoodOrderCreateWithoutDeliveriesInput = {
   id?: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -1092,12 +1256,17 @@ export type FoodOrderUncheckedCreateWithoutDeliveriesInput = {
   storeId: string
   buyerId: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -1128,12 +1297,17 @@ export type FoodOrderUpdateToOneWithWhereWithoutDeliveriesInput = {
 export type FoodOrderUpdateWithoutDeliveriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1152,12 +1326,17 @@ export type FoodOrderUncheckedUpdateWithoutDeliveriesInput = {
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1172,12 +1351,17 @@ export type FoodOrderUncheckedUpdateWithoutDeliveriesInput = {
 export type FoodOrderCreateWithoutItemsInput = {
   id?: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -1196,12 +1380,17 @@ export type FoodOrderUncheckedCreateWithoutItemsInput = {
   storeId: string
   buyerId: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -1232,12 +1421,17 @@ export type FoodOrderUpdateToOneWithWhereWithoutItemsInput = {
 export type FoodOrderUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1256,12 +1450,17 @@ export type FoodOrderUncheckedUpdateWithoutItemsInput = {
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1277,12 +1476,17 @@ export type FoodOrderCreateManyBuyerInput = {
   id?: string
   storeId: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -1295,12 +1499,17 @@ export type FoodOrderCreateManyBuyerInput = {
 export type FoodOrderUpdateWithoutBuyerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1318,12 +1527,17 @@ export type FoodOrderUncheckedUpdateWithoutBuyerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1340,12 +1554,17 @@ export type FoodOrderUncheckedUpdateManyWithoutBuyerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1359,12 +1578,17 @@ export type FoodOrderCreateManyStoreInput = {
   id?: string
   buyerId: string
   status?: $Enums.FoodOrderStatus
+  directPaymentStatus?: $Enums.DirectPaymentStatus
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
   deliveryNote?: string | null
   paymentReference?: string | null
+  paymentProofUrl?: string | null
+  buyerPaymentNote?: string | null
   sellerPaymentNote?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentRejectedReason?: string | null
   estimatedDeliveryMinutes?: number | null
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Date | string | null
@@ -1377,12 +1601,17 @@ export type FoodOrderCreateManyStoreInput = {
 export type FoodOrderUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1400,12 +1629,17 @@ export type FoodOrderUncheckedUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1422,12 +1656,17 @@ export type FoodOrderUncheckedUpdateManyWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFoodOrderStatusFieldUpdateOperationsInput | $Enums.FoodOrderStatus
+  directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerPaymentNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentRejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimatedDeliveryMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1491,12 +1730,17 @@ export type FoodOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   storeId?: boolean
   buyerId?: boolean
   status?: boolean
+  directPaymentStatus?: boolean
   buyerName?: boolean
   buyerPhone?: boolean
   deliveryAddress?: boolean
   deliveryNote?: boolean
   paymentReference?: boolean
+  paymentProofUrl?: boolean
+  buyerPaymentNote?: boolean
   sellerPaymentNote?: boolean
+  paymentSubmittedAt?: boolean
+  paymentRejectedReason?: boolean
   estimatedDeliveryMinutes?: boolean
   totalAmount?: boolean
   paymentConfirmedAt?: boolean
@@ -1517,12 +1761,17 @@ export type FoodOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   storeId?: boolean
   buyerId?: boolean
   status?: boolean
+  directPaymentStatus?: boolean
   buyerName?: boolean
   buyerPhone?: boolean
   deliveryAddress?: boolean
   deliveryNote?: boolean
   paymentReference?: boolean
+  paymentProofUrl?: boolean
+  buyerPaymentNote?: boolean
   sellerPaymentNote?: boolean
+  paymentSubmittedAt?: boolean
+  paymentRejectedReason?: boolean
   estimatedDeliveryMinutes?: boolean
   totalAmount?: boolean
   paymentConfirmedAt?: boolean
@@ -1539,12 +1788,17 @@ export type FoodOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   storeId?: boolean
   buyerId?: boolean
   status?: boolean
+  directPaymentStatus?: boolean
   buyerName?: boolean
   buyerPhone?: boolean
   deliveryAddress?: boolean
   deliveryNote?: boolean
   paymentReference?: boolean
+  paymentProofUrl?: boolean
+  buyerPaymentNote?: boolean
   sellerPaymentNote?: boolean
+  paymentSubmittedAt?: boolean
+  paymentRejectedReason?: boolean
   estimatedDeliveryMinutes?: boolean
   totalAmount?: boolean
   paymentConfirmedAt?: boolean
@@ -1561,12 +1815,17 @@ export type FoodOrderSelectScalar = {
   storeId?: boolean
   buyerId?: boolean
   status?: boolean
+  directPaymentStatus?: boolean
   buyerName?: boolean
   buyerPhone?: boolean
   deliveryAddress?: boolean
   deliveryNote?: boolean
   paymentReference?: boolean
+  paymentProofUrl?: boolean
+  buyerPaymentNote?: boolean
   sellerPaymentNote?: boolean
+  paymentSubmittedAt?: boolean
+  paymentRejectedReason?: boolean
   estimatedDeliveryMinutes?: boolean
   totalAmount?: boolean
   paymentConfirmedAt?: boolean
@@ -1576,7 +1835,7 @@ export type FoodOrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type FoodOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "storeId" | "buyerId" | "status" | "buyerName" | "buyerPhone" | "deliveryAddress" | "deliveryNote" | "paymentReference" | "sellerPaymentNote" | "estimatedDeliveryMinutes" | "totalAmount" | "paymentConfirmedAt" | "outForDeliveryAt" | "deliveredAt" | "createdAt" | "updatedAt", ExtArgs["result"]["foodOrder"]>
+export type FoodOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "storeId" | "buyerId" | "status" | "directPaymentStatus" | "buyerName" | "buyerPhone" | "deliveryAddress" | "deliveryNote" | "paymentReference" | "paymentProofUrl" | "buyerPaymentNote" | "sellerPaymentNote" | "paymentSubmittedAt" | "paymentRejectedReason" | "estimatedDeliveryMinutes" | "totalAmount" | "paymentConfirmedAt" | "outForDeliveryAt" | "deliveredAt" | "createdAt" | "updatedAt", ExtArgs["result"]["foodOrder"]>
 export type FoodOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1608,12 +1867,17 @@ export type $FoodOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     storeId: string
     buyerId: string
     status: $Enums.FoodOrderStatus
+    directPaymentStatus: $Enums.DirectPaymentStatus
     buyerName: string | null
     buyerPhone: string | null
     deliveryAddress: string | null
     deliveryNote: string | null
     paymentReference: string | null
+    paymentProofUrl: string | null
+    buyerPaymentNote: string | null
     sellerPaymentNote: string | null
+    paymentSubmittedAt: Date | null
+    paymentRejectedReason: string | null
     estimatedDeliveryMinutes: number | null
     totalAmount: runtime.Decimal
     paymentConfirmedAt: Date | null
@@ -2053,12 +2317,17 @@ export interface FoodOrderFieldRefs {
   readonly storeId: Prisma.FieldRef<"FoodOrder", 'String'>
   readonly buyerId: Prisma.FieldRef<"FoodOrder", 'String'>
   readonly status: Prisma.FieldRef<"FoodOrder", 'FoodOrderStatus'>
+  readonly directPaymentStatus: Prisma.FieldRef<"FoodOrder", 'DirectPaymentStatus'>
   readonly buyerName: Prisma.FieldRef<"FoodOrder", 'String'>
   readonly buyerPhone: Prisma.FieldRef<"FoodOrder", 'String'>
   readonly deliveryAddress: Prisma.FieldRef<"FoodOrder", 'String'>
   readonly deliveryNote: Prisma.FieldRef<"FoodOrder", 'String'>
   readonly paymentReference: Prisma.FieldRef<"FoodOrder", 'String'>
+  readonly paymentProofUrl: Prisma.FieldRef<"FoodOrder", 'String'>
+  readonly buyerPaymentNote: Prisma.FieldRef<"FoodOrder", 'String'>
   readonly sellerPaymentNote: Prisma.FieldRef<"FoodOrder", 'String'>
+  readonly paymentSubmittedAt: Prisma.FieldRef<"FoodOrder", 'DateTime'>
+  readonly paymentRejectedReason: Prisma.FieldRef<"FoodOrder", 'String'>
   readonly estimatedDeliveryMinutes: Prisma.FieldRef<"FoodOrder", 'Int'>
   readonly totalAmount: Prisma.FieldRef<"FoodOrder", 'Decimal'>
   readonly paymentConfirmedAt: Prisma.FieldRef<"FoodOrder", 'DateTime'>

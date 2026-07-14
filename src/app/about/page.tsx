@@ -96,7 +96,7 @@ export default function AboutPage() {
           <div className="relative overflow-hidden rounded-[10px] border border-white/20 bg-white/10 p-5 shadow-2xl shadow-black/20">
             <div className="absolute right-4 top-4 rounded-full bg-cyan-200 px-3 py-1 text-xs font-black text-[#061a3a]">Dunkwa first</div>
             <div className="grid min-h-[260px] place-items-center rounded-[8px] bg-white">
-              <Image src="/brand/shoplinkk-mark.webp" alt="ShopLinkk" width={220} height={220} className="scale-125 object-contain" priority unoptimized />
+              <Image src="/api/platform/logo" alt="ShopLinkk" width={220} height={220} className="scale-125 object-contain" priority unoptimized />
             </div>
             <div className="mt-4 grid gap-2 sm:grid-cols-3">
               {["Products", "Food", "Riders"].map((item) => (

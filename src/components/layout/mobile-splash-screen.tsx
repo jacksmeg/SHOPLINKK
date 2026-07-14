@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const fallbackLogo = "/brand/shoplinkk-mark.webp";
+const fallbackLogo = "/brand/shoplinkk-default.svg";
 
 export function MobileSplashScreen() {
   const [visible, setVisible] = useState(false);

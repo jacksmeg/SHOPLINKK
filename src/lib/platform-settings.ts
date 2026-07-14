@@ -1,4 +1,5 @@
 import type { Prisma } from "@/generated/prisma/client";
+import { defaultLogoUrl } from "@/lib/brand-assets";
 import { prisma } from "@/lib/db";
 
 export type PlatformConfig = {
@@ -19,7 +20,7 @@ export type PlatformConfig = {
 
 export const defaultPlatformConfig: PlatformConfig = {
   brandName: "ShopLinkk",
-  logoUrl: "/brand/shoplinkk-mark.webp",
+  logoUrl: defaultLogoUrl,
   supportEmail: "hello@shoplinkk.com",
   supportPhone: "+233240000000",
   defaultTown: "Dunkwa-on-Offin",
@@ -36,7 +37,12 @@ export const defaultPlatformConfig: PlatformConfig = {
 export async function getPlatformConfig(): Promise<PlatformConfig> {
   const setting = await prisma.platformSetting.findUnique({ where: { key: "marketplace" } }).catch(() => null);
   if (!setting?.value || Array.isArray(setting.value) || typeof setting.value !== "object") return defaultPlatformConfig;
-  return { ...defaultPlatformConfig, ...(setting.value as Partial<PlatformConfig>) };
+  const config = { ...defaultPlatformConfig, ...(setting.value as Partial<PlatformConfig>) };
+  const usesRemovedBundledLogo = config.logoUrl.startsWith("/brand/shoplinkk-") && config.logoUrl !== defaultLogoUrl;
+  return {
+    ...config,
+    logoUrl: !config.logoUrl || usesRemovedBundledLogo ? defaultLogoUrl : config.logoUrl,
+  };
 }
 
 export async function savePlatformConfig(value: PlatformConfig, updatedById: string) {

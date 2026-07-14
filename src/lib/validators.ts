@@ -21,8 +21,8 @@ const optionalPriceSchema = z.preprocess(
 );
 
 const optionalDateSchema = z.preprocess(
-  (value) => (value === "" ? null : value),
-  z.union([z.coerce.date(), z.null()]).optional(),
+  (value) => (value === "" || value === null || value === undefined ? null : value),
+  z.union([z.null(), z.coerce.date()]).optional(),
 );
 
 const optionalFloatSchema = z.preprocess(
@@ -169,6 +169,9 @@ export const productSchema = z.object({
 }).refine((value) => value.priceMode === "CONTACT" || value.price > 0, {
   message: "Enter a price or choose Contact for price",
   path: ["price"],
+}).refine((value) => value.listingType !== "SERVICE" || (!value.salePrice && !value.saleStartsAt && !value.saleEndsAt), {
+  message: "Flash sale is only for products and food, not services",
+  path: ["salePrice"],
 }).refine((value) => value.priceMode === "FIXED" || !value.salePrice, {
   message: "Flash sale price is only available when a fixed price is entered",
   path: ["salePrice"],

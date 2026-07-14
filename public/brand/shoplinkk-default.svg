@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="ShopLinkk">
+  <defs>
+    <linearGradient id="bg" x1="32" y1="24" x2="224" y2="232" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b2f66"/>
+      <stop offset="1" stop-color="#061a3a"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="url(#bg)"/>
+  <path d="M78 142.5 60.3 124.8c-18-18-18-47.2 0-65.2 18-18.1 47.3-18.1 65.3 0l13.5 13.5-25.7 25.7-13.5-13.5a10.7 10.7 0 0 0-15.1 15.1l17.7 17.7L78 142.5Z" fill="#8ee7ff"/>
+  <path d="m116.9 182.3-13.5-13.5 25.7-25.7 13.5 13.5a10.7 10.7 0 1 0 15.1-15.1L140 123.8l24.5-24.5 17.7 17.7c18 18 18 47.2 0 65.3-18.1 18-47.3 18-65.3 0Z" fill="#ffffff"/>
+  <path d="m100.4 150.9 50.5-50.5 11.9 11.9-50.5 50.5-11.9-11.9Z" fill="#2dd4bf"/>
+  <circle cx="193" cy="63" r="16" fill="#facc15"/>
+</svg>

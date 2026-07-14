@@ -132,9 +132,9 @@ export function ProductForm({
           categoryId: formData.get("categoryId"),
           priceMode: formData.get("priceMode"),
           price: formData.get("price"),
-          salePrice: priceMode === "CONTACT" ? null : formData.get("salePrice") || null,
-          saleStartsAt: formData.get("saleStartsAt") || null,
-          saleEndsAt: formData.get("saleEndsAt") || null,
+          salePrice: !isService && priceMode === "FIXED" ? formData.get("salePrice") || null : null,
+          saleStartsAt: !isService && priceMode === "FIXED" ? formData.get("saleStartsAt") || null : null,
+          saleEndsAt: !isService && priceMode === "FIXED" ? formData.get("saleEndsAt") || null : null,
           quantity: formData.get("quantity"),
           condition: formData.get("condition"),
           location: formData.get("location"),
@@ -303,29 +303,31 @@ export function ProductForm({
               <input name="price" type="number" min="0" defaultValue={product?.price ? Number(product.price) : ""} required={priceMode === "FIXED"} placeholder={priceMode === "CONTACT" ? "Optional" : isService ? "Starting from" : "Enter price"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
             </label>
           </div>
-          {priceMode === "FIXED" ? <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-4">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <p className="text-sm font-black text-[var(--ink)]">{isService ? "Service promo" : "Flash sale"}</p>
-                <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{isService ? "Optional. Add a lower promotional service price with start and end time." : "Optional. Add a lower price with a start and end time."}</p>
+          {!isService && priceMode === "FIXED" ? (
+            <details className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-4" open={Boolean(product?.salePrice)}>
+              <summary className="flex cursor-pointer list-none flex-wrap items-center justify-between gap-2">
+                <span>
+                  <span className="block text-sm font-black text-[var(--ink)]">Optional flash sale</span>
+                  <span className="mt-1 block text-xs leading-5 text-[var(--muted)]">Only fill this when you want a product discount with a start and end time.</span>
+                </span>
+                <span className="rounded-full bg-[var(--flash-yellow)] px-2.5 py-1 text-[0.68rem] font-black text-slate-950">PRODUCT ONLY</span>
+              </summary>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                <label className="text-xs font-bold text-[var(--ink)]">
+                  Sale price
+                  <input name="salePrice" type="number" min="1" defaultValue={product?.salePrice ? Number(product.salePrice) : ""} placeholder="Optional" className="form-control mt-1.5 w-full px-3 text-xs" />
+                </label>
+                <label className="text-xs font-bold text-[var(--ink)]">
+                  Starts
+                  <input name="saleStartsAt" type="datetime-local" defaultValue={datetimeLocal(product?.saleStartsAt)} className="form-control mt-1.5 w-full px-3 text-xs" />
+                </label>
+                <label className="text-xs font-bold text-[var(--ink)]">
+                  Ends
+                  <input name="saleEndsAt" type="datetime-local" defaultValue={datetimeLocal(product?.saleEndsAt)} className="form-control mt-1.5 w-full px-3 text-xs" />
+                </label>
               </div>
-              <span className="rounded-full bg-[var(--flash-yellow)] px-2.5 py-1 text-[0.68rem] font-black text-slate-950">SALE</span>
-            </div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              <label className="text-xs font-bold text-[var(--ink)]">
-                Sale price
-                <input name="salePrice" type="number" min="1" defaultValue={product?.salePrice ? Number(product.salePrice) : ""} placeholder="Optional" className="form-control mt-1.5 w-full px-3 text-xs" />
-              </label>
-              <label className="text-xs font-bold text-[var(--ink)]">
-                Starts
-                <input name="saleStartsAt" type="datetime-local" defaultValue={datetimeLocal(product?.saleStartsAt)} className="form-control mt-1.5 w-full px-3 text-xs" />
-              </label>
-              <label className="text-xs font-bold text-[var(--ink)]">
-                Ends
-                <input name="saleEndsAt" type="datetime-local" defaultValue={datetimeLocal(product?.saleEndsAt)} className="form-control mt-1.5 w-full px-3 text-xs" />
-              </label>
-            </div>
-          </div> : null}
+            </details>
+          ) : null}
           {isService ? (
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="text-sm font-bold text-[var(--ink)]">
@@ -445,16 +447,19 @@ export function ProductForm({
               Allow WhatsApp
             </label>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <label className="text-sm font-bold text-[var(--ink)]">
-              SEO title
-              <input name="seoTitle" defaultValue={product?.seoTitle ?? ""} maxLength={80} placeholder="Optional search title" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
-            </label>
-            <label className="text-sm font-bold text-[var(--ink)]">
-              SEO description
-              <input name="seoDescription" defaultValue={product?.seoDescription ?? ""} maxLength={160} placeholder="Short Google/social description" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
-            </label>
-          </div>
+          <details className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-4">
+            <summary className="cursor-pointer text-sm font-black text-[var(--ink)]">Optional search and sharing details</summary>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <label className="text-sm font-bold text-[var(--ink)]">
+                SEO title
+                <input name="seoTitle" defaultValue={product?.seoTitle ?? ""} maxLength={80} placeholder="Optional search title" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+              <label className="text-sm font-bold text-[var(--ink)]">
+                SEO description
+                <input name="seoDescription" defaultValue={product?.seoDescription ?? ""} maxLength={160} placeholder="Short Google/social description" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+              </label>
+            </div>
+          </details>
         </div>
 
         <aside className={`rounded-[8px] p-4 ${isService ? "bg-purple-50" : "bg-blue-50"}`}>

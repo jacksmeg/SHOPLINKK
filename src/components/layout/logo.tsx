@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const fallbackLogo = "/brand/shoplinkk-mark.webp";
+const fallbackLogo = "/brand/shoplinkk-default.svg";
 
 type BrandState = {
   brandName: string;

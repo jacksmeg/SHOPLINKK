@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Save, ShieldCheck, UploadCloud } from "lucide-react";
 import { useState, useTransition, type ChangeEvent, type FormEvent } from "react";
+import { defaultLogoUrl } from "@/lib/brand-assets";
 import type { PlatformConfig } from "@/lib/platform-settings";
 import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/components/forms/upload-helper";
@@ -17,7 +18,7 @@ const toggles: { key: keyof PlatformConfig; label: string; description: string }
 
 export function PlatformSettingsForm({ config }: { config: PlatformConfig }) {
   const [message, setMessage] = useState("");
-  const [logoUrl, setLogoUrl] = useState(config.logoUrl || "/brand/shoplinkk-mark.webp");
+  const [logoUrl, setLogoUrl] = useState(config.logoUrl || defaultLogoUrl);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [pending, startTransition] = useTransition();
 
@@ -80,7 +81,7 @@ export function PlatformSettingsForm({ config }: { config: PlatformConfig }) {
           <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 sm:col-span-2">
             <div className="flex flex-wrap items-center gap-3">
               <span className="relative grid size-16 place-items-center overflow-hidden rounded-[8px] bg-white shadow-sm ring-1 ring-[var(--line)]">
-                <Image src={logoUrl || "/brand/shoplinkk-mark.webp"} alt="Current ShopLinkk logo" fill className="object-contain" unoptimized />
+                <Image src={logoUrl || defaultLogoUrl} alt="Current ShopLinkk logo" fill className="object-contain" unoptimized />
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-black text-[var(--ink)]">System logo</p>

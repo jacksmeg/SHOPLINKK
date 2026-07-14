@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 type AuthMode = "login" | "register";
-const fallbackLogo = "/brand/shoplinkk-mark.webp";
+const fallbackLogo = "/brand/shoplinkk-default.svg";
 
 const content = {
   login: {

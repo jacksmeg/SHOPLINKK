@@ -18,8 +18,8 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
-      icon: "/brand/shoplinkk-mark.webp",
-      badge: "/brand/shoplinkk-mark.webp",
+      icon: "/api/platform/logo",
+      badge: "/api/platform/logo",
       tag: data.tag || "shoplinkk-update",
       renotify: true,
       data: { href: data.href || "/notifications" },

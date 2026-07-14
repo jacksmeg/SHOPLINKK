@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ShieldAlert, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Footer } from "@/components/layout/footer";
+import { GlobalInteractionLoader } from "@/components/layout/global-interaction-loader";
 import { InstallAppButton } from "@/components/layout/install-app-button";
 import { MobileSplashScreen } from "@/components/layout/mobile-splash-screen";
 import { NavBar } from "@/components/layout/navbar";
@@ -51,6 +52,7 @@ export function AppChrome({ children }: { children: React.ReactNode }) {
       </main>
       {authPage ? null : <Footer />}
       {authPage ? null : <InstallAppButton />}
+      <GlobalInteractionLoader />
       <NotificationHub />
     </div>
   );

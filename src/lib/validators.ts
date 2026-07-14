@@ -266,7 +266,7 @@ export const checkoutSchema = z.object({
   packageId: z.string().min(1),
   productId: z.string().optional(),
   boostRequestId: z.string().optional(),
-  provider: z.enum(["PAYSTACK", "KORA"]).optional(),
+  provider: z.enum(["PAYSTACK", "KORA", "HUBTEL"]).optional(),
 });
 
 export const advertExtensionSchema = z.object({

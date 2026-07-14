@@ -46,6 +46,14 @@ const envValues: Record<IntegrationProviderKey, ProviderValues> = {
     webhookSecret: process.env.KORA_WEBHOOK_SECRET ?? "",
     baseUrl: process.env.KORA_BASE_URL ?? "https://api.korapay.com/merchant/api/v1",
   },
+  HUBTEL: {
+    apiId: process.env.HUBTEL_API_ID ?? "",
+    apiKey: process.env.HUBTEL_API_KEY ?? "",
+    merchantAccountNumber: process.env.HUBTEL_MERCHANT_ACCOUNT_NUMBER ?? "",
+    initiateUrl: process.env.HUBTEL_INITIATE_URL ?? "https://payproxyapi.hubtel.com/items/initiate",
+    statusUrl: process.env.HUBTEL_STATUS_URL ?? "https://api-txnstatus.hubtel.com/transactions/{merchantAccountNumber}/status?clientReference={reference}",
+    webhookToken: process.env.HUBTEL_WEBHOOK_TOKEN ?? "",
+  },
   CLOUDFLARE_TURNSTILE: {
     siteKey: process.env.CLOUDFLARE_TURNSTILE_SITE_KEY ?? process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "",
     secretKey: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY ?? "",

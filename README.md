@@ -12,7 +12,7 @@ Online payment is intentionally not included yet. The system is shaped so featur
 - bcrypt password hashing
 - Zod form and API validation
 - Tailwind CSS 4
-- Admin-managed Google OAuth, Resend, Cloudinary, TinyPNG/Tinify, Arkesel OTP, Pusher, Cloudflare Turnstile, and monitoring connections
+- Admin-managed Google OAuth, Resend, Cloudinary, TinyPNG/Tinify, Arkesel OTP, Paystack, Kora, Hubtel, Pusher, Cloudflare Turnstile, and monitoring connections
 - Cloudinary server-signed uploads, TinyPNG/Tinify compression, and a local development fallback
 
 ## Feature Coverage
@@ -228,9 +228,19 @@ npm run db:cleanup:demo
 
 ## Admin API Connections
 
-After logging in as an admin, open `/admin/integrations`. Connect Google sign-in, email, media storage, TinyPNG/Tinify optimization, Arkesel OTP, optional Pusher realtime, Cloudflare Turnstile security, and monitoring from one screen. Environment variables remain a safe deployment fallback, but enabled admin-managed connections take precedence.
+After logging in as an admin, open `/admin/integrations`. Connect Google sign-in, email, media storage, TinyPNG/Tinify optimization, Arkesel OTP, Paystack, Kora, Hubtel payments, optional Pusher realtime, Cloudflare Turnstile security, and monitoring from one screen. Environment variables remain a safe deployment fallback, but enabled admin-managed connections take precedence.
 
 Secret values are encrypted before storage and are never shown again. Keep `INTEGRATION_ENCRYPTION_KEY` server-only and do not change it after provider values have been saved.
+
+## Hubtel Payment Setup
+
+Hubtel can be selected from **Admin > Billing** after you connect it in **Admin > API connections > Hubtel payments**. Add the API ID, API key, merchant account number, checkout initiate URL, transaction status URL, and a long webhook token. The Hubtel callback URL is:
+
+```txt
+https://www.shoplinkk.com/api/payments/hubtel/webhook?token=YOUR_HUBTEL_WEBHOOK_TOKEN
+```
+
+When a seller pays for a listing or advert package through Hubtel, ShopLinkk verifies the transaction against Hubtel before marking the payment successful. If admin billing settings allow it, paid listings are approved and paid adverts start automatically.
 
 ## Homepage Advert Workflow
 

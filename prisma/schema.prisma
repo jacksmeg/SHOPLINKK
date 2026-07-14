@@ -105,6 +105,7 @@ enum IntegrationProvider {
   GOOGLE_MAPS
   PAYSTACK
   KORA
+  HUBTEL
   CLOUDFLARE_TURNSTILE
   WEB_PUSH
   MONITORING
@@ -159,6 +160,7 @@ enum ListingPaymentStatus {
 enum BillingProvider {
   PAYSTACK
   KORA
+  HUBTEL
 }
 
 enum BillingPackageType {

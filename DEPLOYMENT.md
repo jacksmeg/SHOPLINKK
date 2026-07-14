@@ -50,6 +50,10 @@ CLOUDINARY_API_KEY="..."
 CLOUDINARY_API_SECRET="..."
 ARKESEL_API_KEY="..."
 ARKESEL_SENDER_ID="ShopLinkk"
+HUBTEL_API_ID="..."
+HUBTEL_API_KEY="..."
+HUBTEL_MERCHANT_ACCOUNT_NUMBER="..."
+HUBTEL_WEBHOOK_TOKEN="..."
 PUSHER_APP_ID="..."
 PUSHER_KEY="..."
 PUSHER_SECRET="..."
@@ -127,6 +131,12 @@ Google OAuth redirect URI:
 
 ```txt
 https://www.shoplinkk.com/api/auth/callback/google
+```
+
+Hubtel payment callback URL:
+
+```txt
+https://www.shoplinkk.com/api/payments/hubtel/webhook?token=YOUR_HUBTEL_WEBHOOK_TOKEN
 ```
 
 Email verification and password reset links use:

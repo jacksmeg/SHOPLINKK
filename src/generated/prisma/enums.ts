@@ -137,6 +137,7 @@ export const IntegrationProvider = {
   GOOGLE_MAPS: 'GOOGLE_MAPS',
   PAYSTACK: 'PAYSTACK',
   KORA: 'KORA',
+  HUBTEL: 'HUBTEL',
   CLOUDFLARE_TURNSTILE: 'CLOUDFLARE_TURNSTILE',
   WEB_PUSH: 'WEB_PUSH',
   MONITORING: 'MONITORING'
@@ -214,7 +215,8 @@ export type ListingPaymentStatus = (typeof ListingPaymentStatus)[keyof typeof Li
 
 export const BillingProvider = {
   PAYSTACK: 'PAYSTACK',
-  KORA: 'KORA'
+  KORA: 'KORA',
+  HUBTEL: 'HUBTEL'
 } as const
 
 export type BillingProvider = (typeof BillingProvider)[keyof typeof BillingProvider]

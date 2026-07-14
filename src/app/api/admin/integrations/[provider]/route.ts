@@ -104,6 +104,13 @@ export async function POST(_request: Request, context: { params: Promise<{ provi
     } else if (provider === "KORA") {
       ok = /^https:\/\/.+/i.test(config.values.baseUrl || "") && Boolean(config.values.secretKey);
       message = ok ? "Kora settings are saved and ready for a live checkout test." : "Kora needs a live API base URL and secret key.";
+    } else if (provider === "HUBTEL") {
+      ok = /^https:\/\/.+/i.test(config.values.initiateUrl || "")
+        && /^https:\/\/.+/i.test(config.values.statusUrl || "")
+        && Boolean(config.values.apiId && config.values.apiKey && config.values.merchantAccountNumber && config.values.webhookToken);
+      message = ok
+        ? "Hubtel settings are saved and ready for a live checkout test."
+        : "Hubtel needs API ID, API key, merchant account number, HTTPS endpoints, and a webhook token.";
     } else if (provider === "CLOUDFLARE_TURNSTILE") {
       const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
         method: "POST",

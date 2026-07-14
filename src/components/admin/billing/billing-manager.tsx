@@ -163,6 +163,7 @@ export function BillingManager({
             <select value={provider} onChange={(event) => setProvider(event.target.value as BillingConfig["activeProvider"])} className="form-control mt-1.5 w-full bg-white px-3 text-xs">
               <option value="PAYSTACK">Paystack</option>
               <option value="KORA">Kora</option>
+              <option value="HUBTEL">Hubtel</option>
             </select>
           </label>
           <label className="flex items-center gap-2 rounded-[8px] border border-[var(--line)] bg-white p-3 text-xs font-bold text-[var(--ink)]">

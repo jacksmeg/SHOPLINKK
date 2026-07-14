@@ -12,13 +12,13 @@ export async function PATCH(request: Request) {
   const { session, error } = await requireApiSession(["ADMIN"]);
   if (error) return error;
   const body = await request.json().catch(() => null) as {
-    activeProvider?: "PAYSTACK" | "KORA";
+    activeProvider?: "PAYSTACK" | "KORA" | "HUBTEL";
     autoApprovePaidListings?: boolean;
     autoRunPaidAdverts?: boolean;
   } | null;
 
-  if (!body?.activeProvider || !["PAYSTACK", "KORA"].includes(body.activeProvider)) {
-    return jsonError("Choose Paystack or Kora as the active provider.");
+  if (!body?.activeProvider || !["PAYSTACK", "KORA", "HUBTEL"].includes(body.activeProvider)) {
+    return jsonError("Choose Paystack, Kora, or Hubtel as the active provider.");
   }
 
   const saved = await saveBillingConfig({

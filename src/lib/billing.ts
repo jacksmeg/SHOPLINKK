@@ -44,6 +44,57 @@ function amountInMinorUnit(amount: number) {
   return Math.round(amount * 100);
 }
 
+function basicAuth(username: string, password: string) {
+  return `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`;
+}
+
+function hubtelPhone(value?: string | null) {
+  const digits = String(value ?? "").replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("233")) return digits;
+  if (digits.startsWith("0")) return `233${digits.slice(1)}`;
+  return digits;
+}
+
+function hubtelStatusUrl(template: string, merchantAccountNumber: string, reference: string) {
+  const baseTemplate = template || "https://api-txnstatus.hubtel.com/transactions/{merchantAccountNumber}/status?clientReference={reference}";
+  const replaced = baseTemplate
+    .replaceAll("{merchantAccountNumber}", encodeURIComponent(merchantAccountNumber))
+    .replaceAll("{reference}", encodeURIComponent(reference))
+    .replaceAll("{clientReference}", encodeURIComponent(reference));
+
+  if (replaced.includes(encodeURIComponent(reference))) return replaced;
+  const url = new URL(replaced);
+  url.searchParams.set("clientReference", reference);
+  return url.toString();
+}
+
+function readString(value: unknown, paths: string[][]) {
+  for (const path of paths) {
+    let current: unknown = value;
+    for (const part of path) {
+      if (!current || typeof current !== "object" || !(part in current)) {
+        current = undefined;
+        break;
+      }
+      current = (current as Record<string, unknown>)[part];
+    }
+    if (typeof current === "string" && current.trim()) return current.trim();
+    if (typeof current === "number") return String(current);
+  }
+  return "";
+}
+
+function hubtelSuccess(value: string) {
+  const status = value.toLowerCase().replace(/[\s_-]+/g, "");
+  return ["success", "successful", "paid", "completed", "complete", "paymentcompleted", "paymentsuccessful", "0000"].includes(status);
+}
+
+function hubtelPending(value: string) {
+  const status = value.toLowerCase().replace(/[\s_-]+/g, "");
+  return ["pending", "processing", "initiated", "ongoing", "0001"].includes(status);
+}
+
 type CheckoutInput = {
   userId: string;
   packageId: string;
@@ -109,6 +160,7 @@ export async function createCheckout(input: CheckoutInput) {
     currency: billingPackage.currency,
     email: user.email ?? `${user.id}@shoplinkk.local`,
     name: user.name ?? "ShopLinkk seller",
+    phone: user.phone ?? "",
     purpose,
     productId: input.productId,
     boostRequestId: input.boostRequestId,
@@ -130,6 +182,7 @@ async function initializeProviderCheckout(
     currency: string;
     email: string;
     name: string;
+    phone: string;
     purpose: PaymentPurpose;
     productId?: string;
     boostRequestId?: string;
@@ -165,24 +218,68 @@ async function initializeProviderCheckout(
     return result.data.authorization_url;
   }
 
-  const config = await getIntegrationConfig("KORA");
-  if (!config.enabled) throw new Error("Kora is not connected in admin API connections.");
-  const baseUrl = (config.values.baseUrl || "https://api.korapay.com/merchant/api/v1").replace(/\/$/, "");
-  const response = await fetch(`${baseUrl}/charges/initialize`, {
+  if (provider === "KORA") {
+    const config = await getIntegrationConfig("KORA");
+    if (!config.enabled) throw new Error("Kora is not connected in admin API connections.");
+    const baseUrl = (config.values.baseUrl || "https://api.korapay.com/merchant/api/v1").replace(/\/$/, "");
+    const response = await fetch(`${baseUrl}/charges/initialize`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${config.values.secretKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: input.amount,
+        currency: input.currency,
+        reference: input.reference,
+        redirect_url: appUrl(`/billing/complete?reference=${encodeURIComponent(input.reference)}`),
+        customer: {
+          name: input.name,
+          email: input.email,
+        },
+        metadata: {
+          shoplinkk_reference: input.reference,
+          purpose: input.purpose,
+          productId: input.productId,
+          boostRequestId: input.boostRequestId,
+        },
+      }),
+    });
+    const result = await response.json().catch(() => null) as { data?: Record<string, string>; message?: string } | null;
+    const checkoutUrl = result?.data?.checkout_url || result?.data?.payment_url || result?.data?.authorization_url;
+    if (!response.ok || !checkoutUrl) {
+      throw new Error(result?.message ?? "Kora could not start checkout.");
+    }
+    return checkoutUrl;
+  }
+
+  const config = await getIntegrationConfig("HUBTEL");
+  if (!config.enabled) throw new Error("Hubtel is not connected in admin API connections.");
+  const callbackUrl = appUrl(`/api/payments/hubtel/webhook?token=${encodeURIComponent(config.values.webhookToken)}`);
+  const response = await fetch(config.values.initiateUrl || "https://payproxyapi.hubtel.com/items/initiate", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${config.values.secretKey}`,
+      Authorization: basicAuth(config.values.apiId, config.values.apiKey),
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      totalAmount: input.amount,
       amount: input.amount,
       currency: input.currency,
+      description: `ShopLinkk ${input.purpose === "ADVERT" ? "advert" : "listing"} payment`,
+      title: "ShopLinkk payment",
+      callbackUrl,
+      returnUrl: appUrl(`/billing/complete?reference=${encodeURIComponent(input.reference)}`),
+      cancellationUrl: appUrl(`/billing/complete?reference=${encodeURIComponent(input.reference)}&cancelled=1`),
+      merchantAccountNumber: config.values.merchantAccountNumber,
+      clientReference: input.reference,
       reference: input.reference,
-      redirect_url: appUrl(`/billing/complete?reference=${encodeURIComponent(input.reference)}`),
-      customer: {
-        name: input.name,
-        email: input.email,
-      },
+      customerName: input.name,
+      customerEmail: input.email,
+      customerMobileNumber: hubtelPhone(input.phone),
+      payeeName: input.name,
+      payeeEmail: input.email,
+      payeeMobileNumber: hubtelPhone(input.phone),
       metadata: {
         shoplinkk_reference: input.reference,
         purpose: input.purpose,
@@ -191,10 +288,22 @@ async function initializeProviderCheckout(
       },
     }),
   });
-  const result = await response.json().catch(() => null) as { data?: Record<string, string>; message?: string } | null;
-  const checkoutUrl = result?.data?.checkout_url || result?.data?.payment_url || result?.data?.authorization_url;
+  const result = await response.json().catch(() => null) as unknown;
+  const checkoutUrl = readString(result, [
+    ["data", "checkoutUrl"],
+    ["data", "checkout_url"],
+    ["data", "CheckoutUrl"],
+    ["Data", "checkoutUrl"],
+    ["Data", "checkout_url"],
+    ["Data", "CheckoutUrl"],
+    ["checkoutUrl"],
+    ["checkout_url"],
+    ["paymentUrl"],
+    ["payment_url"],
+  ]);
   if (!response.ok || !checkoutUrl) {
-    throw new Error(result?.message ?? "Kora could not start checkout.");
+    const message = readString(result, [["message"], ["Message"], ["data", "message"], ["Data", "Message"]]);
+    throw new Error(message || "Hubtel could not start checkout.");
   }
   return checkoutUrl;
 }
@@ -212,22 +321,67 @@ async function verifyProviderPayment(provider: BillingProvider, reference: strin
       providerReference: result?.data?.reference,
       payload: result,
       message: result?.message,
+      pending: false,
     };
   }
 
-  const config = await getIntegrationConfig("KORA");
-  const baseUrl = (config.values.baseUrl || "https://api.korapay.com/merchant/api/v1").replace(/\/$/, "");
-  const response = await fetch(`${baseUrl}/charges/${encodeURIComponent(reference)}`, {
-    headers: { Authorization: `Bearer ${config.values.secretKey}` },
+  if (provider === "KORA") {
+    const config = await getIntegrationConfig("KORA");
+    const baseUrl = (config.values.baseUrl || "https://api.korapay.com/merchant/api/v1").replace(/\/$/, "");
+    const response = await fetch(`${baseUrl}/charges/${encodeURIComponent(reference)}`, {
+      headers: { Authorization: `Bearer ${config.values.secretKey}` },
+      cache: "no-store",
+    });
+    const result = await response.json().catch(() => null) as { data?: { status?: string; reference?: string }; message?: string } | null;
+    const status = String(result?.data?.status ?? "").toLowerCase();
+    return {
+      ok: response.ok && ["success", "successful", "paid"].includes(status),
+      providerReference: result?.data?.reference,
+      payload: result,
+      message: result?.message,
+      pending: response.ok && ["pending", "processing", "initialized", "initiated"].includes(status),
+    };
+  }
+
+  const config = await getIntegrationConfig("HUBTEL");
+  const statusUrl = hubtelStatusUrl(config.values.statusUrl, config.values.merchantAccountNumber, reference);
+  const response = await fetch(statusUrl, {
+    headers: {
+      Authorization: basicAuth(config.values.apiId, config.values.apiKey),
+      "Content-Type": "application/json",
+    },
     cache: "no-store",
   });
-  const result = await response.json().catch(() => null) as { data?: { status?: string; reference?: string }; message?: string } | null;
-  const status = String(result?.data?.status ?? "").toLowerCase();
+  const result = await response.json().catch(() => null) as unknown;
+  const status = readString(result, [
+    ["data", "status"],
+    ["data", "transactionStatus"],
+    ["data", "paymentStatus"],
+    ["Data", "Status"],
+    ["Data", "TransactionStatus"],
+    ["Data", "PaymentStatus"],
+    ["status"],
+    ["transactionStatus"],
+    ["paymentStatus"],
+  ]);
+  const responseCode = readString(result, [["responseCode"], ["ResponseCode"], ["data", "responseCode"], ["Data", "ResponseCode"]]);
+  const providerReference = readString(result, [
+    ["data", "transactionId"],
+    ["data", "transactionReference"],
+    ["data", "hubtelTransactionId"],
+    ["Data", "TransactionId"],
+    ["Data", "TransactionReference"],
+    ["transactionId"],
+    ["transactionReference"],
+  ]) || reference;
+  const message = readString(result, [["message"], ["Message"], ["data", "message"], ["Data", "Message"]]);
+  const successSignal = responseCode || status;
   return {
-    ok: response.ok && ["success", "successful", "paid"].includes(status),
-    providerReference: result?.data?.reference,
+    ok: response.ok && hubtelSuccess(successSignal),
+    providerReference,
     payload: result,
-    message: result?.message,
+    message,
+    pending: response.ok && hubtelPending(successSignal),
   };
 }
 
@@ -245,14 +399,16 @@ export async function completePayment(reference: string, options?: { rawPayload?
   if (transaction.status === "SUCCESS") return transaction;
 
   const verified = options?.trustedFreePackage
-    ? { ok: true, providerReference: reference, payload: options.rawPayload ?? { freePackage: true }, message: "Free package completed." }
+    ? { ok: true, providerReference: reference, payload: options.rawPayload ?? { freePackage: true }, message: "Free package completed.", pending: false }
     : await verifyProviderPayment(transaction.provider, reference);
 
   if (!verified.ok) {
-    await prisma.paymentTransaction.update({
-      where: { id: transaction.id },
-      data: { status: "FAILED", rawPayload: (verified.payload ?? options?.rawPayload ?? {}) as Prisma.InputJsonValue },
-    });
+    if (!verified.pending) {
+      await prisma.paymentTransaction.update({
+        where: { id: transaction.id },
+        data: { status: "FAILED", rawPayload: (verified.payload ?? options?.rawPayload ?? {}) as Prisma.InputJsonValue },
+      });
+    }
     throw new Error(verified.message || "The payment has not been confirmed yet.");
   }
 

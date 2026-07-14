@@ -1,14 +1,18 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   Bike,
   CheckCircle2,
   ChefHat,
+  Clock3,
+  LocateFixed,
   MapPinned,
   MessageCircle,
   PackageCheck,
+  Search,
+  ShoppingBag,
   ShieldCheck,
   Store,
+  Truck,
   Users,
 } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
@@ -93,11 +97,66 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-[10px] border border-white/20 bg-white/10 p-5 shadow-2xl shadow-black/20">
-            <div className="absolute right-4 top-4 rounded-full bg-cyan-200 px-3 py-1 text-xs font-black text-[#061a3a]">Dunkwa first</div>
-            <div className="grid min-h-[260px] place-items-center rounded-[8px] bg-white">
-              <Image src="/api/platform/logo" alt="ShopLinkk" width={220} height={220} className="scale-125 object-contain" priority unoptimized />
+          <div className="relative overflow-hidden rounded-[10px] border border-white/20 bg-[#12264a] p-4 shadow-2xl shadow-black/20 sm:p-5">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+              <span className="rounded-full bg-cyan-200 px-3 py-1 text-xs font-black text-[#061a3a]">Dunkwa first</span>
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold text-blue-100 ring-1 ring-white/15">Products, food, riders</span>
             </div>
+
+            <div className="grid gap-3 sm:grid-cols-[1.05fr_0.95fr]">
+              <div className="rounded-[10px] bg-white p-4 text-[#061a3a] shadow-xl">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[0.7rem] font-black uppercase tracking-[0.12em] text-cyan-700">Marketplace live</p>
+                    <h2 className="mt-1 text-lg font-black">Find, chat, inspect</h2>
+                  </div>
+                  <span className="grid size-10 place-items-center rounded-[8px] bg-[#0057ff] text-white">
+                    <Search size={18} />
+                  </span>
+                </div>
+                <div className="mt-4 grid gap-2">
+                  {[
+                    { title: "Fresh rice meal", meta: "Food seller nearby", tone: "bg-[#e6007e]", icon: ChefHat },
+                    { title: "Samsung phone", meta: "Verified local store", tone: "bg-[#0098b6]", icon: ShoppingBag },
+                    { title: "Fast rider pickup", meta: "Track delivery status", tone: "bg-[#8f00e8]", icon: Truck },
+                  ].map((item) => (
+                    <div key={item.title} className="flex items-center gap-3 rounded-[8px] border border-slate-200 p-3">
+                      <span className={`grid size-9 shrink-0 place-items-center rounded-[8px] ${item.tone} text-white`}>
+                        <item.icon size={17} />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-sm font-black">{item.title}</span>
+                        <span className="block truncate text-xs text-slate-500">{item.meta}</span>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid gap-3">
+                <div className="rounded-[10px] bg-[#ffc400] p-4 text-slate-950 shadow-xl">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black uppercase tracking-[0.12em]">Food order</span>
+                    <Clock3 size={18} />
+                  </div>
+                  <p className="mt-3 text-2xl font-black">25 mins</p>
+                  <p className="mt-1 text-xs font-semibold">Estimated preparation and delivery update.</p>
+                </div>
+                <div className="rounded-[10px] bg-[#0057ff] p-4 text-white shadow-xl">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black uppercase tracking-[0.12em]">Rider tracking</span>
+                    <LocateFixed size={18} />
+                  </div>
+                  <div className="mt-4 grid grid-cols-[auto_1fr_auto] items-center gap-2">
+                    <span className="size-3 rounded-full bg-white" />
+                    <span className="h-1 rounded-full bg-white/35" />
+                    <span className="size-3 rounded-full bg-cyan-200" />
+                  </div>
+                  <p className="mt-3 text-xs font-semibold text-blue-100">Buyer, seller, and rider stay updated.</p>
+                </div>
+              </div>
+            </div>
+
             <div className="mt-4 grid gap-2 sm:grid-cols-3">
               {["Products", "Food", "Riders"].map((item) => (
                 <div key={item} className="rounded-[8px] bg-white/10 px-3 py-3 text-center text-xs font-black text-white ring-1 ring-white/10">

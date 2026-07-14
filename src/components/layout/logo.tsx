@@ -11,7 +11,7 @@ type BrandState = {
   logoUrl: string;
 };
 
-export function Logo() {
+export function Logo({ variant = "default" }: { variant?: "default" | "light" }) {
   const [brand, setBrand] = useState<BrandState>({ brandName: "ShopLinkk", logoUrl: fallbackLogo });
 
   useEffect(() => {
@@ -28,10 +28,11 @@ export function Logo() {
   }, []);
 
   const customLogo = brand.logoUrl !== fallbackLogo;
+  const light = variant === "light";
 
   return (
     <Link href="/" className="group inline-flex items-center gap-2" aria-label={`${brand.brandName} home`}>
-      <span className="grid size-9 place-items-center overflow-hidden rounded-[8px] bg-[var(--brand-soft)] shadow-sm ring-1 ring-blue-100 transition duration-200 group-hover:-rotate-3 group-hover:shadow-lg">
+      <span className={`grid size-9 place-items-center overflow-hidden rounded-[8px] shadow-sm ring-1 transition duration-200 group-hover:-rotate-3 group-hover:shadow-lg ${light ? "bg-white ring-white/20" : "bg-[var(--brand-soft)] ring-blue-100"}`}>
         <Image
           src={brand.logoUrl}
           alt=""
@@ -42,8 +43,8 @@ export function Logo() {
           unoptimized
         />
       </span>
-      <span className="text-lg font-black text-[var(--ink)]">
-        {brand.brandName === "ShopLinkk" ? <>Shop<span className="text-[var(--brand)]">Linkk</span></> : brand.brandName}
+      <span className={`text-lg font-black ${light ? "text-white" : "text-[var(--ink)]"}`}>
+        {brand.brandName === "ShopLinkk" ? <>Shop<span className={light ? "text-cyan-200" : "text-[var(--brand)]"}>Linkk</span></> : brand.brandName}
       </span>
     </Link>
   );

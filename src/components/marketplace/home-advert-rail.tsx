@@ -36,8 +36,8 @@ export function HomeAdvertRail({
 
   const media = useMemo(() => {
     if (!advert) return [];
-    const advertImages = advert.images?.length ? advert.images : advert.product.images;
-    return advertImages.length ? advertImages : [{ url: "/window.svg", alt: advert.product.title }];
+    const advertImages = advert.images?.length ? advert.images : (advert.product?.images ?? []);
+    return advertImages.length ? advertImages : [{ url: "/window.svg", alt: advert.headline ?? advert.product?.title ?? "ShopLinkk advert" }];
   }, [advert]);
 
   useEffect(() => {
@@ -59,7 +59,11 @@ export function HomeAdvertRail({
 
   if (!advert) return null;
 
-  const product = advert.product;
+  const product = advert.product ?? null;
+  const advertHref = advert.href || (product ? `/products/${product.slug}` : "/marketplace");
+  const advertTitle = advert.headline || product?.title || "ShopLinkk advert";
+  const sellerLabel = advert.subline || product?.store?.name || product?.seller.name || "ShopLinkk";
+  const priceLine = product ? `${formatCurrency(product.price)} - runs until ${compactDate(advert.endsAt)}` : `Runs until ${compactDate(advert.endsAt)}`;
   const flashEnd = flashSales.find((item) => item.saleEndsAt)?.saleEndsAt;
 
   function move(direction: -1 | 1) {
@@ -111,19 +115,19 @@ export function HomeAdvertRail({
             <Image
               key={media[imageIndex]?.url}
               src={media[imageIndex]?.url ?? "/window.svg"}
-              alt={media[imageIndex]?.alt ?? product.title}
+              alt={media[imageIndex]?.alt ?? advertTitle}
               fill
               className="object-cover transition duration-700 group-hover:scale-[1.025]"
               sizes="(min-width: 1024px) 54vw, 100vw"
               unoptimized
             />
-            <Link href={`/products/${product.slug}`} className="absolute inset-0 z-[1]" aria-label={`View ${product.title}`} />
+            <Link href={advertHref} className="absolute inset-0 z-[1]" aria-label={`View ${advertTitle}`} />
             <div className="absolute inset-x-0 bottom-0 z-[2] bg-gradient-to-t from-black/78 via-black/30 to-transparent p-4 text-white sm:p-5">
               <p className="inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2 py-1 text-[0.64rem] font-black uppercase tracking-[0.08em] shadow-sm">
                 <Megaphone size={12} /> Sponsored
               </p>
-              <h3 className="mt-2 max-w-2xl text-lg font-black leading-6 sm:text-2xl">{advert.headline}</h3>
-              <p className="mt-1 text-xs font-semibold text-white/78">{formatCurrency(product.price)} - runs until {compactDate(advert.endsAt)}</p>
+              <h3 className="mt-2 max-w-2xl text-lg font-black leading-6 sm:text-2xl">{advertTitle}</h3>
+              <p className="mt-1 text-xs font-semibold text-white/78">{priceLine}</p>
             </div>
 
             {media.length > 1 ? (
@@ -172,10 +176,10 @@ export function HomeAdvertRail({
                 <span className="text-xs font-bold text-[var(--muted)]">Food and deliveries</span>
               </span>
             </Link>
-            <Link href={`/products/${product.slug}`} className="uiverse-depth-card relative min-h-[150px] overflow-hidden rounded-[8px] border border-[var(--line)] bg-red-600 p-4 text-white shadow-sm">
+            <Link href={advertHref} className="uiverse-depth-card relative min-h-[150px] overflow-hidden rounded-[8px] border border-[var(--line)] bg-red-600 p-4 text-white shadow-sm">
               <ShoppingBag size={24} />
-              <p className="mt-4 text-xl font-black leading-6">Sponsored deal</p>
-              <p className="mt-1 text-xs font-bold text-white/80">{product.store?.name ?? product.seller.name ?? "ShopLinkk seller"}</p>
+              <p className="mt-4 text-xl font-black leading-6">{advert.kind === "ADMIN" ? "Official advert" : "Sponsored deal"}</p>
+              <p className="mt-1 text-xs font-bold text-white/80">{sellerLabel}</p>
               <ArrowUpRight className="absolute right-4 top-4" size={18} />
             </Link>
           </aside>
@@ -227,8 +231,8 @@ export function HomeAdvertRail({
         </div>
 
         <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[0.68rem] leading-5 text-[var(--muted)]">
-          {product.store?.isVerified ? <BadgeCheck className="text-green-600" size={14} /> : <MessageCircle size={14} />}
-          Sponsored seller advert. Inspect items, chat clearly, and meet safely before buying.
+          {product?.store?.isVerified ? <BadgeCheck className="text-green-600" size={14} /> : <MessageCircle size={14} />}
+          {advert.kind === "ADMIN" ? "Official ShopLinkk advert. Tap the image to view the linked page." : "Sponsored seller advert. Inspect items, chat clearly, and meet safely before buying."}
         </p>
       </div>
     </section>

@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, CircleDollarSign, Clock3, Megaphone, Settings2 } from "lucide-react";
 import { AdvertExtensionActions } from "@/components/admin/advert-extension-actions";
+import { AdminImageAdvertForm } from "@/components/admin/admin-image-advert-form";
 import { BoostActions } from "@/components/admin/boost-actions";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
+import { getAdminImageAdverts } from "@/lib/admin-adverts";
 import { adminLinks } from "@/lib/admin-navigation";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
@@ -19,24 +21,27 @@ type BadgeTone = "green" | "gold" | "red" | "blue" | "neutral";
 export default async function AdminBoostsPage() {
   await requireRole(["ADMIN"]);
   const now = new Date();
-  const requests = await prisma.productBoostRequest.findMany({
-    include: {
-      product: {
-        select: {
-          title: true,
-          slug: true,
-          price: true,
-          listingStatus: true,
-          stockStatus: true,
-          isFeatured: true,
-          images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true, alt: true } },
+  const [requests, adminImageAdverts] = await Promise.all([
+    prisma.productBoostRequest.findMany({
+      include: {
+        product: {
+          select: {
+            title: true,
+            slug: true,
+            price: true,
+            listingStatus: true,
+            stockStatus: true,
+            isFeatured: true,
+            images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true, alt: true } },
+          },
         },
+        images: { orderBy: { sortOrder: "asc" }, select: { url: true, alt: true } },
+        seller: { select: { name: true, email: true, phone: true } },
       },
-      images: { orderBy: { sortOrder: "asc" }, select: { url: true, alt: true } },
-      seller: { select: { name: true, email: true, phone: true } },
-    },
-    orderBy: [{ status: "asc" }, { createdAt: "desc" }],
-  });
+      orderBy: [{ status: "asc" }, { createdAt: "desc" }],
+    }),
+    getAdminImageAdverts(),
+  ]);
 
   return (
     <DashboardShell eyebrow="Admin" title="Homepage adverts" description="Review seller advert creative, confirm fee records, approve live campaigns, and handle extension requests." links={adminLinks}>
@@ -44,6 +49,7 @@ export default async function AdminBoostsPage() {
         <Megaphone className="mt-0.5 shrink-0" size={16} />
         Approved homepage adverts appear automatically on the buyer homepage until their expiry date.
       </div>
+      <AdminImageAdvertForm initialAdverts={adminImageAdverts} />
       <section className="mb-4 rounded-[8px] border border-red-200 bg-[#fff7ed] p-3">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <div>

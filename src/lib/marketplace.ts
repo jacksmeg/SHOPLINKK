@@ -9,6 +9,7 @@ import type {
   StockStatus,
   StoreKind,
 } from "@/generated/prisma/client";
+import { getActiveAdminImageAdverts, getAdminImageAdverts } from "@/lib/admin-adverts";
 import { prisma } from "@/lib/db";
 import { demoCategories, demoProducts, demoStores, townCoordinates, townLocations } from "@/lib/demo-data";
 
@@ -129,7 +130,10 @@ export type PublicHomepageAdvert = {
   headline: string;
   endsAt: Date | string;
   images: { url: string; alt?: string | null }[];
-  product: PublicProduct;
+  product?: PublicProduct | null;
+  href?: string;
+  subline?: string;
+  kind?: "PRODUCT" | "ADMIN";
 };
 
 const productInclude = {
@@ -402,33 +406,52 @@ export async function getFlashSaleProducts() {
 export async function getHomepageAdverts(): Promise<PublicHomepageAdvert[]> {
   try {
     const now = new Date();
-    const adverts = await prisma.productBoostRequest.findMany({
-      where: {
-        status: "APPROVED",
-        placement: "HOMEPAGE",
-        paymentStatus: { in: ["CONFIRMED", "WAIVED"] },
-        startsAt: { lte: now },
-        endsAt: { gt: now },
-        product: { listingStatus: "APPROVED", stockStatus: { not: "SOLD" } },
-      },
-      include: {
-        product: { include: productInclude },
-        images: {
-          orderBy: { sortOrder: "asc" },
-          select: { url: true, alt: true },
+    const [adverts, adminAdvertRecords] = await Promise.all([
+      prisma.productBoostRequest.findMany({
+        where: {
+          status: "APPROVED",
+          placement: "HOMEPAGE",
+          paymentStatus: { in: ["CONFIRMED", "WAIVED"] },
+          startsAt: { lte: now },
+          endsAt: { gt: now },
+          product: { listingStatus: "APPROVED", stockStatus: { not: "SOLD" } },
         },
-      },
-      orderBy: [{ startsAt: "desc" }, { createdAt: "desc" }],
-      take: 12,
-    });
+        include: {
+          product: { include: productInclude },
+          images: {
+            orderBy: { sortOrder: "asc" },
+            select: { url: true, alt: true },
+          },
+        },
+        orderBy: [{ startsAt: "desc" }, { createdAt: "desc" }],
+        take: 12,
+      }),
+      getAdminImageAdverts(),
+    ]);
 
-    return adverts.map((advert) => ({
+    const adminAdverts: PublicHomepageAdvert[] = getActiveAdminImageAdverts(adminAdvertRecords, now).map((advert) => ({
+      id: `admin-${advert.id}`,
+      headline: advert.headline || "ShopLinkk advert",
+      endsAt: advert.endsAt,
+      images: [{ url: advert.imageUrl, alt: advert.headline || "ShopLinkk advert" }],
+      product: null,
+      href: advert.href || "/marketplace",
+      subline: "Official ShopLinkk advert",
+      kind: "ADMIN",
+    }));
+
+    const productAdverts: PublicHomepageAdvert[] = adverts.map((advert) => ({
       id: advert.id,
       headline: advert.headline || advert.product.title,
       endsAt: advert.endsAt!,
       images: advert.images,
       product: normalizeProduct(advert.product),
+      href: `/products/${advert.product.slug}`,
+      subline: advert.product.store?.name ?? advert.product.seller.name ?? "ShopLinkk seller",
+      kind: "PRODUCT",
     }));
+
+    return [...adminAdverts, ...productAdverts].slice(0, 12);
   } catch {
     return [];
   }

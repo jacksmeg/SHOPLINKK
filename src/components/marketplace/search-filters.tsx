@@ -27,6 +27,7 @@ export function SearchFilters({
   const [sort, setSort] = useState(searchParams.get("sort") ?? "featured");
   const [min, setMin] = useState(searchParams.get("min") ?? "");
   const [max, setMax] = useState(searchParams.get("max") ?? "");
+  const hasFilters = ["q", "category", "location", "area", "condition", "min", "max", "sort"].some((key) => Boolean(searchParams.get(key)));
 
   function applyFilters(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -36,11 +37,32 @@ export function SearchFilters({
     router.push(`/marketplace?${params.toString()}`);
   }
 
+  function clearFilters() {
+    setQ("");
+    setCategory("");
+    setLocation("");
+    setArea("");
+    setCondition("");
+    setSort("featured");
+    setMin("");
+    setMax("");
+
+    const params = new URLSearchParams();
+    if (kind !== "products") params.set("type", kind);
+    router.push(`/marketplace${params.toString() ? `?${params.toString()}` : ""}`);
+  }
+
   return (
     <form onSubmit={applyFilters} className="rounded-[8px] border border-[var(--line)] bg-white p-3 shadow-sm sm:p-4">
       <div className="flex gap-2">
         <SearchSuggestBox value={q} onChange={setQ} className="min-w-0 flex-1" placeholder="Search products, services, stores..." />
         <Button type="submit" className="px-4"><Search size={15} /><span className="hidden sm:inline">Search</span></Button>
+        {hasFilters ? (
+          <Button type="button" variant="secondary" onClick={clearFilters} className="px-3">
+            <X size={15} />
+            <span className="hidden sm:inline">Clear</span>
+          </Button>
+        ) : null}
         <Button type="button" variant="secondary" onClick={() => setAdvanced((value) => !value)} className="lg:hidden" aria-expanded={advanced}>{advanced ? <X size={15} /> : <SlidersHorizontal size={15} />}<span className="hidden sm:inline">Filters</span></Button>
       </div>
       <div className={`${advanced ? "grid" : "hidden"} mt-3 gap-2 sm:grid-cols-2 lg:grid lg:grid-cols-4`}>
@@ -52,6 +74,7 @@ export function SearchFilters({
         <input value={max} onChange={(event) => setMax(event.target.value)} placeholder="Maximum price" type="number" className="form-control px-3 text-xs" />
         <select value={sort} onChange={(event) => setSort(event.target.value)} className="form-control bg-white px-3 text-xs"><option value="featured">Featured first</option><option value="newest">Newest first</option><option value="price_low">Lowest price</option><option value="price_high">Highest price</option><option value="popular">Most viewed</option><option value="nearest">Nearest area</option></select>
         <Button type="submit"><SlidersHorizontal size={15} /> Apply filters</Button>
+        <Button type="button" variant="secondary" onClick={clearFilters}><X size={15} /> Clear filters</Button>
       </div>
     </form>
   );

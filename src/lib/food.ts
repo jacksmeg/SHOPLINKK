@@ -58,6 +58,8 @@ function normalizeFoodItem(item: Prisma.FoodMenuItemGetPayload<{ include: typeof
 export async function getPublicFoodItems(filters?: {
   q?: string;
   category?: string;
+  min?: number;
+  max?: number;
   area?: string;
   location?: string;
   take?: number;
@@ -80,6 +82,12 @@ export async function getPublicFoodItems(filters?: {
   }
 
   if (filters?.category) where.category = { contains: filters.category, mode: "insensitive" };
+  if (filters?.min || filters?.max) {
+    where.basePrice = {
+      ...(filters.min ? { gte: filters.min } : {}),
+      ...(filters.max ? { lte: filters.max } : {}),
+    };
+  }
   if (filters?.area) storeWhere.area = { contains: filters.area, mode: "insensitive" };
   if (filters?.location) storeWhere.location = { contains: filters.location, mode: "insensitive" };
 

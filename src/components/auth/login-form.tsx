@@ -28,7 +28,6 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
   const verifiedEmail = params.get("email") ?? "";
   const verifiedNext = params.get("next");
   const [error, setError] = useState("");
-  const [accepted, setAccepted] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileReset, setTurnstileReset] = useState(0);
   const [pending, startTransition] = useTransition();
@@ -45,11 +44,6 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
     const identifier = String(formData.get("identifier") ?? "").trim();
     const password = String(formData.get("password") ?? "");
     setError("");
-
-    if (!accepted) {
-      setError("Tick the agreement box before signing in.");
-      return;
-    }
 
     if (securityEnabled && !turnstileToken) {
       setError("Complete the Cloudflare security check before signing in.");
@@ -146,28 +140,7 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
           </p>
         ) : null}
 
-        <button
-          type="button"
-          onClick={() => {
-            if (!accepted) { setError("Tick the agreement box before continuing with Google."); return; }
-            if (securityEnabled && !turnstileToken) { setError("Complete the Cloudflare security check before continuing with Google."); return; }
-            if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?callback=${encodeURIComponent(callbackUrl)}` });
-          }}
-          disabled={!googleEnabled}
-          className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[7px] border border-[var(--line-strong)] bg-white px-5 text-xs font-semibold text-[var(--ink)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <GoogleIcon />
-          Continue with Google
-        </button>
-        {!googleEnabled ? <p className="mt-2 text-center text-xs text-[var(--muted)]">Google sign-in is not connected yet.</p> : null}
-
-        <div className="my-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-          <span className="h-px flex-1 bg-[var(--line)]" />
-          or
-          <span className="h-px flex-1 bg-[var(--line)]" />
-        </div>
-
-        <form method="post" onSubmit={handleLogin} className="grid gap-3.5">
+        <form method="post" onSubmit={handleLogin} className="mt-5 grid gap-3.5">
           <label className="text-xs font-semibold text-[var(--ink)]">
             Username, email, or phone number
             <span className="relative mt-2 block">
@@ -201,11 +174,20 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
               />
             </span>
           </label>
-          <label className="flex cursor-pointer items-start gap-2.5 rounded-[7px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 text-[0.68rem] leading-5 text-[var(--muted)]">
-            <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} className="mt-0.5 size-4 shrink-0 accent-[var(--brand)]" />
-            <span>I agree to the <Link href="/terms" target="_blank" className="font-bold text-[var(--brand-dark)]">Terms</Link>, <Link href="/privacy" target="_blank" className="font-bold text-[var(--brand-dark)]">Privacy Policy</Link>, and <Link href="/license-agreement" target="_blank" className="font-bold text-[var(--brand-dark)]">License Agreement</Link>.</span>
-          </label>
           <TurnstileWidget key={turnstileReset} siteKey={turnstileSiteKey} onVerify={setTurnstileToken} />
+          <button
+            type="button"
+            onClick={() => {
+              if (securityEnabled && !turnstileToken) { setError("Complete the Cloudflare security check before continuing with Google."); return; }
+              if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?callback=${encodeURIComponent(callbackUrl)}` });
+            }}
+            disabled={!googleEnabled}
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[7px] border border-[var(--line-strong)] bg-white px-5 text-xs font-semibold text-[var(--ink)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <GoogleIcon />
+            Continue with Google
+          </button>
+          {!googleEnabled ? <p className="text-center text-xs text-[var(--muted)]">Google sign-in is not connected yet.</p> : null}
           {error ? (
             <p className="flex items-start gap-2 rounded-[8px] bg-red-50 p-3 text-sm font-semibold text-red-700">
               <AlertCircle className="mt-0.5 shrink-0" size={16} />

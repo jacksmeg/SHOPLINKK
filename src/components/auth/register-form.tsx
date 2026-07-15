@@ -146,33 +146,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
           ))}
         </div>
 
-        <label className="mt-4 flex cursor-pointer items-start gap-2.5 rounded-[7px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 text-[0.68rem] leading-5 text-[var(--muted)]">
-          <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} className="mt-0.5 size-4 shrink-0 accent-[var(--brand)]" />
-          <span>I agree to the <Link href="/terms" target="_blank" className="font-bold text-[var(--brand-dark)]">Terms</Link>, <Link href="/privacy" target="_blank" className="font-bold text-[var(--brand-dark)]">Privacy Policy</Link>, and <Link href="/license-agreement" target="_blank" className="font-bold text-[var(--brand-dark)]">License Agreement</Link>.</span>
-        </label>
-
-        <button
-          type="button"
-          onClick={() => {
-            if (!accepted) { setError("Tick the agreement box before continuing with Google."); return; }
-            if (securityEnabled && !turnstileToken) { setError("Complete the Cloudflare security check before continuing with Google."); return; }
-            if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?role=${role}&storeKind=${storeKind}` });
-          }}
-          disabled={!googleEnabled}
-          className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[7px] border border-[var(--line-strong)] bg-white px-5 text-xs font-semibold text-[var(--ink)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <GoogleIcon />
-          Continue with Google
-        </button>
-        {!googleEnabled ? <p className="mt-2 text-center text-xs text-[var(--muted)]">Google sign-in needs OAuth keys.</p> : null}
-
-        <div className="my-4 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-          <span className="h-px flex-1 bg-[var(--line)]" />
-          or
-          <span className="h-px flex-1 bg-[var(--line)]" />
-        </div>
-
-        <form method="post" onSubmit={handleRegister} className="grid gap-3.5">
+        <form method="post" onSubmit={handleRegister} className="mt-4 grid gap-3.5">
           {role === "SELLER" ? (
             <div className="rounded-[8px] border border-[var(--line)] bg-white p-2">
               <p className="px-1 pb-2 text-xs font-black text-[var(--ink)]">What will you sell?</p>
@@ -257,7 +231,25 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
               <input name="location" defaultValue="Dunkwa-on-Offin" required className="form-control w-full pl-10 pr-3 text-sm" />
             </span>
           </label>
+          <label className="flex cursor-pointer items-start gap-2.5 rounded-[7px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 text-[0.68rem] leading-5 text-[var(--muted)]">
+            <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} className="mt-0.5 size-4 shrink-0 accent-[var(--brand)]" />
+            <span>I agree to the <Link href="/terms" target="_blank" className="font-bold text-[var(--brand-dark)]">Terms</Link>, <Link href="/privacy" target="_blank" className="font-bold text-[var(--brand-dark)]">Privacy Policy</Link>, and <Link href="/license-agreement" target="_blank" className="font-bold text-[var(--brand-dark)]">License Agreement</Link>.</span>
+          </label>
           <TurnstileWidget key={turnstileReset} siteKey={turnstileSiteKey} onVerify={setTurnstileToken} />
+          <button
+            type="button"
+            onClick={() => {
+              if (!accepted) { setError("Tick the agreement box before continuing with Google."); return; }
+              if (securityEnabled && !turnstileToken) { setError("Complete the Cloudflare security check before continuing with Google."); return; }
+              if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?role=${role}&storeKind=${storeKind}` });
+            }}
+            disabled={!googleEnabled}
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[7px] border border-[var(--line-strong)] bg-white px-5 text-xs font-semibold text-[var(--ink)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <GoogleIcon />
+            Continue with Google
+          </button>
+          {!googleEnabled ? <p className="text-center text-xs text-[var(--muted)]">Google sign-in needs OAuth keys.</p> : null}
 
           {error ? (
             <p className="flex items-start gap-2 rounded-[8px] bg-red-50 p-3 text-sm font-semibold text-red-700">

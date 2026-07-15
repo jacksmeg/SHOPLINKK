@@ -19,9 +19,11 @@ import {
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
+import { BackButton } from "@/components/layout/back-button";
 import { Logo } from "@/components/layout/logo";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { FOOD_CART_CHANGED_EVENT, foodCartCount, readFoodCart } from "@/lib/food-cart";
+import { PRODUCT_CART_CHANGED_EVENT, productCartCount, readProductCart } from "@/lib/product-cart";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -47,13 +49,15 @@ export function NavBar() {
 
   useEffect(() => {
     function syncCart() {
-      setCartCount(foodCartCount(readFoodCart()));
+      setCartCount(foodCartCount(readFoodCart()) + productCartCount(readProductCart()));
     }
     syncCart();
     window.addEventListener(FOOD_CART_CHANGED_EVENT, syncCart);
+    window.addEventListener(PRODUCT_CART_CHANGED_EVENT, syncCart);
     window.addEventListener("storage", syncCart);
     return () => {
       window.removeEventListener(FOOD_CART_CHANGED_EVENT, syncCart);
+      window.removeEventListener(PRODUCT_CART_CHANGED_EVENT, syncCart);
       window.removeEventListener("storage", syncCart);
     };
   }, []);
@@ -88,7 +92,11 @@ export function NavBar() {
     <>
       <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-white/95 backdrop-blur-xl">
         <div className="mx-auto flex min-h-[64px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <Logo />
+          <div className="flex min-w-0 items-center gap-2">
+            <BackButton label="" compact className="shrink-0 lg:hidden" />
+            <BackButton label="Back" className="hidden shrink-0 lg:inline-flex" />
+            <Logo />
+          </div>
           {status === "authenticated" ? (
             <p className="hidden max-w-[190px] truncate rounded-full bg-[var(--brand-soft)] px-3 py-1.5 text-xs font-black text-[var(--brand-dark)] xl:block">
               {greeting(session.user.name)}
@@ -122,6 +130,15 @@ export function NavBar() {
               <Search size={16} />
               Search
             </ButtonLink>
+            <Link href="/cart" className="relative inline-flex min-h-10 items-center gap-2 rounded-[7px] border border-[var(--line)] bg-white px-3 text-xs font-bold text-[var(--brand-dark)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm" aria-label="Cart">
+              <ShoppingCart size={16} />
+              Cart
+              {cartCount ? (
+                <span className="absolute -right-2 -top-2 grid min-w-5 place-items-center rounded-full bg-red-600 px-1.5 text-[0.62rem] font-black leading-5 text-white">
+                  {cartCount > 99 ? "99+" : cartCount}
+                </span>
+              ) : null}
+            </Link>
             {status === "authenticated" ? (
               <>
                 <Link href="/notifications" className="grid size-10 place-items-center rounded-[7px] text-[var(--muted)] transition hover:bg-[var(--brand-soft)] hover:text-[var(--brand)]" aria-label="Notifications">

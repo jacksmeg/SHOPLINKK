@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { BackButton } from "@/components/layout/back-button";
 import { Logo } from "@/components/layout/logo";
 import { cn } from "@/lib/utils";
 
@@ -23,15 +22,11 @@ export function AuthCard({
         transition={{ duration: 0.45, ease: "easeOut" }}
         className={cn("w-full", wide ? "max-w-[1128px]" : "max-w-[430px]")}
       >
-        <div className="mb-5 hidden items-center justify-between gap-4 lg:flex">
-          <Logo />
-          <Link
-            href="/marketplace"
-            className="inline-flex items-center gap-2 rounded-[7px] border border-[var(--line)] bg-white px-3 py-2 text-xs font-semibold text-[var(--muted)] transition hover:border-[var(--brand)] hover:text-[var(--brand-dark)]"
-          >
-            <ArrowLeft size={15} />
-            Browse
-          </Link>
+        <div className="mb-5 flex items-center justify-between gap-4">
+          <div className="hidden lg:block">
+            <Logo />
+          </div>
+          <BackButton label="Back" className="ml-auto" />
         </div>
 
         {wide ? (

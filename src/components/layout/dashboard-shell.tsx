@@ -1,5 +1,4 @@
 import type { LucideIcon } from "lucide-react";
-import { BackButton } from "@/components/layout/back-button";
 import { DashboardNavigation } from "@/components/layout/dashboard-navigation";
 
 export function DashboardShell({
@@ -35,13 +34,12 @@ export function DashboardShell({
         <DashboardNavigation links={navigationLinks} />
       </aside>
       <section className="page-enter min-w-0">
-        <header className="mb-5 flex flex-col gap-3 border-b border-[var(--line)] pb-5 sm:flex-row sm:items-end sm:justify-between">
+        <header className="mb-5 border-b border-[var(--line)] pb-5">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.1em] text-[var(--brand)] lg:hidden">{eyebrow}</p>
             <h1 className="mt-1 text-xl font-black text-[var(--ink)]">{title}</h1>
             <p className="mt-1 max-w-2xl text-xs leading-5 text-[var(--muted)]">{description}</p>
           </div>
-          <BackButton />
         </header>
         {children}
       </section>

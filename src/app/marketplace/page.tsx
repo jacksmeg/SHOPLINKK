@@ -50,6 +50,8 @@ export default async function MarketplacePage({
     category: value(params, "category"),
     location: value(params, "location"),
     area: value(params, "area"),
+    min: value(params, "min") ? Number(value(params, "min")) : undefined,
+    max: value(params, "max") ? Number(value(params, "max")) : undefined,
     take,
     skip: (page - 1) * take,
   }) : [];

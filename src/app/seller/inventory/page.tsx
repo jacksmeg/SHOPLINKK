@@ -6,6 +6,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { StatCard } from "@/components/ui/stat-card";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
+import { requireGeneralSellerStore } from "@/lib/seller-access";
 import { sellerLinks } from "@/lib/seller-navigation";
 import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 
@@ -13,6 +14,10 @@ export const dynamic = "force-dynamic";
 
 export default async function SellerInventoryPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
+  if (session.user.role !== "ADMIN") {
+    await requireGeneralSellerStore(session.user.id);
+  }
+
   const [products, priceHistory] = await Promise.all([
     prisma.product.findMany({
       where: { sellerId: session.user.id },

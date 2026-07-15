@@ -1,56 +1,52 @@
-import Link from "next/link";
-import { Bell, Heart, MessageCircle, Search, ShoppingBag, UserRound } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
-import { Badge } from "@/components/ui/badge";
+import { NotificationList, type NotificationListItem } from "@/components/notifications/notification-list";
 import { requireUser } from "@/lib/auth-guards";
+import { adminLinks } from "@/lib/admin-navigation";
+import { buyerLinks } from "@/lib/buyer-navigation";
 import { prisma } from "@/lib/db";
-import { compactDate, titleCase } from "@/lib/utils";
+import { riderLinks } from "@/lib/rider-navigation";
+import { sellerLinksForKind } from "@/lib/seller-access";
 
 export const dynamic = "force-dynamic";
 
 export default async function NotificationsPage() {
   const session = await requireUser();
-  const notifications = await prisma.notification.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: "desc" },
-    take: 80,
-  });
+  const [store, notifications] = await Promise.all([
+    session.user.role === "SELLER" || session.user.role === "ADMIN"
+      ? prisma.store.findUnique({ where: { ownerId: session.user.id }, select: { kind: true } })
+      : Promise.resolve(null),
+    prisma.notification.findMany({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: "desc" },
+      take: 80,
+    }),
+  ]);
+  const links =
+    session.user.role === "ADMIN"
+      ? adminLinks
+      : session.user.role === "RIDER"
+        ? riderLinks
+        : session.user.role === "SELLER"
+          ? sellerLinksForKind(store?.kind)
+          : buyerLinks;
+  const notificationItems: NotificationListItem[] = notifications.map((notification) => ({
+    id: notification.id,
+    type: notification.type,
+    title: notification.title,
+    body: notification.body,
+    href: notification.href,
+    readAt: notification.readAt?.toISOString() ?? null,
+    createdAt: notification.createdAt.toISOString(),
+  }));
 
   return (
     <DashboardShell
       eyebrow="Account"
       title="Notifications"
       description="Important updates about listings, reports, messages, and account security."
-      links={[
-        { href: "/buyer", label: "Buyer overview", icon: ShoppingBag },
-        { href: "/marketplace", label: "Browse products", icon: Search },
-        { href: "/favorites", label: "Favorites", icon: Heart },
-        { href: "/chat", label: "Chats", icon: MessageCircle },
-        { href: "/notifications", label: "Notifications", icon: Bell },
-        { href: "/profile", label: "Profile", icon: UserRound },
-      ]}
+      links={links}
     >
-      <div className="grid gap-3">
-        {notifications.map((notification) => (
-          <Link
-            key={notification.id}
-            href={notification.href ?? "/notifications"}
-            className="app-panel app-panel-interactive p-4"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <Badge tone={notification.readAt ? "neutral" : "green"}>{titleCase(notification.type)}</Badge>
-              <span className="text-xs text-[var(--muted)]">{compactDate(notification.createdAt)}</span>
-            </div>
-            <h2 className="mt-3 text-sm font-black text-[var(--ink)]">{notification.title}</h2>
-            <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{notification.body}</p>
-          </Link>
-        ))}
-        {!notifications.length ? (
-          <div className="rounded-[8px] border border-[var(--line)] bg-white p-8 text-center text-xs text-[var(--muted)]">
-            No notifications yet.
-          </div>
-        ) : null}
-      </div>
+      <NotificationList notifications={notificationItems} />
     </DashboardShell>
   );
 }

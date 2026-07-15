@@ -32,3 +32,14 @@ export async function PATCH() {
 
   return NextResponse.json({ ok: true });
 }
+
+export async function DELETE() {
+  const { session, error } = await requireApiSession();
+  if (error) return error;
+
+  await prisma.notification.deleteMany({
+    where: { userId: session.user.id },
+  });
+
+  return NextResponse.json({ ok: true });
+}

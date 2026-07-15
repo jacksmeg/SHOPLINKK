@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CalendarDays, Clock3, Megaphone, MessageCircle, PackagePlus, PlusCircle, Store, UserRound } from "lucide-react";
+import { CalendarDays, Clock3, Megaphone, PlusCircle } from "lucide-react";
 import { AdvertManageActions } from "@/components/seller/advert-manage-actions";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
@@ -8,39 +8,34 @@ import { ButtonLink } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
+import { sellerLinksForKind } from "@/lib/seller-access";
 import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-const sellerLinks = [
-  { href: "/seller", label: "Overview", icon: Store },
-  { href: "/seller/store", label: "Store management", icon: Store },
-  { href: "/seller/adverts", label: "Adverts", icon: Megaphone },
-  { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
-  { href: "/chat", label: "Buyer messages", icon: MessageCircle },
-  { href: "/profile", label: "Profile", icon: UserRound },
-];
-
 export default async function SellerAdvertsPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
   const now = new Date();
-  const adverts = await prisma.productBoostRequest.findMany({
-    where: session.user.role === "ADMIN" ? {} : { sellerId: session.user.id },
-    include: {
-      product: {
-        select: {
-          title: true,
-          slug: true,
-          price: true,
-          listingStatus: true,
-          stockStatus: true,
-          images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true, alt: true } },
+  const [store, adverts] = await Promise.all([
+    prisma.store.findUnique({ where: { ownerId: session.user.id }, select: { kind: true } }),
+    prisma.productBoostRequest.findMany({
+      where: session.user.role === "ADMIN" ? {} : { sellerId: session.user.id },
+      include: {
+        product: {
+          select: {
+            title: true,
+            slug: true,
+            price: true,
+            listingStatus: true,
+            stockStatus: true,
+            images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true, alt: true } },
+          },
         },
+        images: { orderBy: { sortOrder: "asc" }, select: { url: true, alt: true } },
       },
-      images: { orderBy: { sortOrder: "asc" }, select: { url: true, alt: true } },
-    },
-    orderBy: [{ status: "asc" }, { createdAt: "desc" }],
-  });
+      orderBy: [{ status: "asc" }, { createdAt: "desc" }],
+    }),
+  ]);
 
   const live = adverts.filter((advert) => advert.status === "APPROVED" && advert.endsAt && advert.endsAt > now).length;
   const pending = adverts.filter((advert) => advert.status === "REQUESTED").length;
@@ -51,7 +46,7 @@ export default async function SellerAdvertsPage() {
       eyebrow="Seller"
       title="Advert management"
       description="Track homepage advert requests, approved campaigns, creative images, fees, and extension requests."
-      links={sellerLinks}
+      links={sellerLinksForKind(store?.kind)}
     >
       <div className="mb-5 grid gap-3 sm:grid-cols-3">
         <div className="app-panel p-4"><p className="text-[0.68rem] font-bold uppercase tracking-[0.08em] text-[var(--muted)]">Live adverts</p><p className="mt-2 text-2xl font-black text-[var(--brand-dark)]">{live}</p></div>
@@ -61,7 +56,7 @@ export default async function SellerAdvertsPage() {
 
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <p className="max-w-xl text-xs leading-5 text-[var(--muted)]">Choose any approved product and request an advert. Admin approval makes it appear automatically on the homepage advert showcase.</p>
-        <ButtonLink href="/seller" variant="secondary"><PlusCircle size={15} /> Choose product</ButtonLink>
+        <ButtonLink href={store?.kind === "FOOD" ? "/seller/food/menu" : "/seller"} variant="secondary"><PlusCircle size={15} /> Choose item</ButtonLink>
       </div>
 
       <div className="grid gap-4">

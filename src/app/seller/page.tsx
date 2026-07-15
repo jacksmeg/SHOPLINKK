@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { BarChart3, Bell, Boxes, BriefcaseBusiness, ChefHat, ClipboardList, Eye, Megaphone, MessageCircle, PackagePlus, Settings, ShieldCheck, Star, Store, Truck, Users, Warehouse } from "lucide-react";
+import { redirect } from "next/navigation";
+import { BarChart3, Bell, Boxes, BriefcaseBusiness, ClipboardList, Eye, Megaphone, MessageCircle, PackagePlus, Settings, ShieldCheck, Star, Store, Truck, Users, Warehouse } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { SellerProductActions } from "@/components/seller/product-actions";
 import { VerificationForm } from "@/components/seller/verification-form";
@@ -16,7 +17,7 @@ export const dynamic = "force-dynamic";
 
 export default async function SellerDashboardPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
-  const [store, products, chats, followerCount, followers, foodOrders, reviews, unreadNotifications] = await Promise.all([
+  const [store, products, chats, followerCount, followers, reviews, unreadNotifications] = await Promise.all([
     prisma.store.findUnique({ where: { ownerId: session.user.id } }),
     prisma.product.findMany({
       where: { sellerId: session.user.id },
@@ -31,11 +32,6 @@ export default async function SellerDashboardPage() {
       orderBy: { createdAt: "desc" },
       take: 8,
     }),
-    prisma.foodOrder.findMany({
-      where: { store: { ownerId: session.user.id } },
-      orderBy: { createdAt: "desc" },
-      take: 20,
-    }),
     prisma.review.findMany({
       where: { sellerId: session.user.id },
       orderBy: { createdAt: "desc" },
@@ -44,16 +40,15 @@ export default async function SellerDashboardPage() {
     prisma.notification.count({ where: { userId: session.user.id, readAt: null } }),
   ]);
 
+  if (store?.kind === "FOOD" && session.user.role !== "ADMIN") {
+    redirect("/seller/food");
+  }
+
   const approved = products.filter((product) => product.listingStatus === "APPROVED").length;
   const drafts = products.filter((product) => product.listingStatus === "DRAFT").length;
+  const pendingListings = products.filter((product) => product.listingStatus === "PENDING").length;
   const views = products.reduce((total, product) => total + product.viewCount, 0);
   const lowStock = products.filter((product) => product.stockStatus !== "SOLD" && product.quantity <= 3).length;
-  const pendingOrders = foodOrders.filter((order) => ["PENDING_PAYMENT", "PAID", "PREPARING", "OUT_FOR_DELIVERY"].includes(order.status)).length;
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
-  const todaysFoodSales = foodOrders
-    .filter((order) => order.createdAt >= todayStart && order.status !== "CANCELLED")
-    .reduce((sum, order) => sum + Number(order.totalAmount), 0);
   const averageRating = reviews.length ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : store?.ratingAverage ?? 0;
 
   return (
@@ -64,9 +59,9 @@ export default async function SellerDashboardPage() {
       links={sellerLinks}
     >
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Today's food sales" value={formatCurrency(todaysFoodSales)} icon={ChefHat} helper="Confirmed and active food orders" tone="sea" />
+        <StatCard label="Active listings" value={approved} icon={Store} helper="Visible products and services" tone="sea" />
         <StatCard label="Total products" value={products.length} icon={Boxes} helper={`${approved} visible, ${drafts} drafts`} tone="pink" />
-        <StatCard label="Pending orders" value={pendingOrders} icon={ClipboardList} helper="Food orders needing action" tone="yellow" />
+        <StatCard label="Pending review" value={pendingListings} icon={ClipboardList} helper="Listings waiting for admin approval" tone="yellow" />
         <StatCard label="New messages" value={chats} icon={MessageCircle} helper="Product-linked conversations" tone="blue" />
         <StatCard label="Store visitors" value={views} icon={Eye} helper="Across your products" tone="purple" />
         <StatCard label="Low stock alerts" value={lowStock} icon={Warehouse} helper="3 units or fewer" tone="red" />
@@ -122,7 +117,6 @@ export default async function SellerDashboardPage() {
             {[
               { href: "/seller/products/new", label: "Add product", text: "Post physical items with quantity, stock, condition, photos, video, and area.", icon: PackagePlus },
               { href: "/seller/services/new", label: "Add service", text: "Post repairs, beauty, delivery, tutoring, skilled work, booking notes, and portfolio photos.", icon: BriefcaseBusiness },
-              { href: "/seller/food/menu", label: "Add food", text: "Post meals with menu photos, add-ons, preparation time, delivery estimate, and approval.", icon: ChefHat },
               { href: "/seller/adverts", label: "Promotions", text: "Request homepage adverts, track fees, extensions, and live campaigns.", icon: Megaphone },
               { href: "/chat", label: "Customer chat", text: "Reply to buyers, share product details, and keep response rate strong.", icon: MessageCircle },
               { href: "/seller/store", label: "Verification", text: "Upload business documents and improve trust badge status.", icon: ShieldCheck },
@@ -140,19 +134,13 @@ export default async function SellerDashboardPage() {
         <section className="app-panel p-4 sm:p-5">
           <div className="flex items-center gap-2">
             <Truck className="text-[var(--brand)]" size={18} />
-            <h2 className="text-sm font-black text-[var(--ink)]">Order and delivery snapshot</h2>
+            <h2 className="text-sm font-black text-[var(--ink)]">Product workflow</h2>
           </div>
-          <div className="mt-4 grid gap-3">
-            {foodOrders.slice(0, 5).map((order) => (
-              <Link key={order.id} href={`/food-orders/${order.id}`} className="rounded-[8px] border border-[var(--line)] bg-white p-3 transition hover:border-[var(--brand)]">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-xs font-black text-[var(--ink)]">{order.buyerName || "Buyer order"}</span>
-                  <Badge tone={order.status === "DELIVERED" ? "green" : order.status === "CANCELLED" ? "red" : "gold"}>{titleCase(order.status)}</Badge>
-                </div>
-                <p className="mt-1 text-[0.68rem] text-[var(--muted)]">{formatCurrency(Number(order.totalAmount))} / {compactDate(order.createdAt)}</p>
-              </Link>
-            ))}
-            {!foodOrders.length ? <p className="rounded-[8px] bg-[var(--surface-muted)] p-3 text-xs leading-5 text-[var(--muted)]">Food orders and delivery status will appear here when buyers order from your food store.</p> : null}
+          <div className="mt-4 grid gap-3 text-xs">
+            <Link href="/seller/products/new" className="rounded-[8px] border border-[var(--line)] bg-white p-3 font-black text-[var(--ink)] transition hover:border-[var(--brand)]">Add a product listing</Link>
+            <Link href="/seller/services/new" className="rounded-[8px] border border-[var(--line)] bg-white p-3 font-black text-[var(--ink)] transition hover:border-[var(--brand)]">Add a service listing</Link>
+            <Link href="/seller/inventory" className="rounded-[8px] border border-[var(--line)] bg-white p-3 font-black text-[var(--ink)] transition hover:border-[var(--brand)]">Manage inventory and stock</Link>
+            <Link href="/seller/adverts" className="rounded-[8px] border border-[var(--line)] bg-white p-3 font-black text-[var(--ink)] transition hover:border-[var(--brand)]">Request advert promotion</Link>
           </div>
         </section>
       </div>

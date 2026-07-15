@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation";
-import { BriefcaseBusiness, ChefHat, MessageCircle, PackagePlus, Store, UserRound } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { ProductForm } from "@/components/forms/product-form";
 import { requireRole } from "@/lib/auth-guards";
 import { getCategories } from "@/lib/marketplace";
 import { prisma } from "@/lib/db";
 import { getPlatformConfig } from "@/lib/platform-settings";
+import { requireGeneralSellerStore } from "@/lib/seller-access";
+import { sellerLinks } from "@/lib/seller-navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +16,10 @@ export default async function EditProductPage({
   params: Promise<{ id: string }>;
 }) {
   const session = await requireRole(["SELLER", "ADMIN"]);
+  if (session.user.role !== "ADMIN") {
+    await requireGeneralSellerStore(session.user.id);
+  }
+
   const { id } = await params;
   const [categories, product, platform] = await Promise.all([
     getCategories(),
@@ -39,14 +44,7 @@ export default async function EditProductPage({
       eyebrow="Seller"
       title={product.listingType === "SERVICE" ? "Edit service" : "Edit product"}
       description="Changes by sellers return the listing to pending review."
-      links={[
-        { href: "/seller", label: "Overview", icon: Store },
-        { href: "/seller/products/new", label: "Add product", icon: PackagePlus },
-        { href: "/seller/services/new", label: "Add service", icon: BriefcaseBusiness },
-        { href: "/seller/food/menu", label: "Add food", icon: ChefHat },
-        { href: "/chat", label: "Buyer messages", icon: MessageCircle },
-        { href: "/profile", label: "Profile", icon: UserRound },
-      ]}
+      links={sellerLinks}
     >
       <ProductForm
         categories={categories}

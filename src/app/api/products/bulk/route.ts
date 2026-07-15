@@ -26,6 +26,10 @@ export async function POST(request: Request) {
   }
 
   const store = await prisma.store.findUnique({ where: { ownerId: session.user.id } });
+  if (session.user.role !== "ADMIN" && store?.kind === "FOOD") {
+    return jsonError("Food seller accounts can only add food menu items from the food dashboard.", 403);
+  }
+
   const created = [];
 
   for (const item of parsed.data.items) {

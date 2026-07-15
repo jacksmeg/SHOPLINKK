@@ -27,6 +27,16 @@ export async function PATCH(
   if (error) return error;
 
   const { id } = await context.params;
+  if (session.user.role !== "ADMIN") {
+    const store = await prisma.store.findUnique({
+      where: { ownerId: session.user.id },
+      select: { kind: true },
+    });
+    if (store?.kind === "FOOD") {
+      return jsonError("Food seller accounts can only manage food menu items from the food dashboard.", 403);
+    }
+  }
+
   const existingProduct = await getManageableProduct(id, session.user.id, session.user.role);
 
   if (!existingProduct) {
@@ -126,6 +136,16 @@ export async function DELETE(
   if (error) return error;
 
   const { id } = await context.params;
+  if (session.user.role !== "ADMIN") {
+    const store = await prisma.store.findUnique({
+      where: { ownerId: session.user.id },
+      select: { kind: true },
+    });
+    if (store?.kind === "FOOD") {
+      return jsonError("Food seller accounts can only manage food menu items from the food dashboard.", 403);
+    }
+  }
+
   const allowed = await getManageableProduct(id, session.user.id, session.user.role);
 
   if (!allowed) {

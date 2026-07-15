@@ -7,14 +7,15 @@ import { ButtonLink } from "@/components/ui/button";
 import { StatCard } from "@/components/ui/stat-card";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
-import { sellerLinks } from "@/lib/seller-navigation";
+import { sellerLinksForKind } from "@/lib/seller-access";
 import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 export default async function SellerOrdersPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
-  const [foodOrders, marketplaceOrders, conversations, deliveries] = await Promise.all([
+  const [store, foodOrders, marketplaceOrders, conversations, deliveries] = await Promise.all([
+    prisma.store.findUnique({ where: { ownerId: session.user.id }, select: { kind: true } }),
     prisma.foodOrder.findMany({
       where: { store: { ownerId: session.user.id } },
       include: { buyer: { select: { name: true, phone: true } }, items: true, deliveries: { orderBy: { createdAt: "desc" }, take: 1 } },
@@ -45,7 +46,7 @@ export default async function SellerOrdersPage() {
     + marketplaceOrders.filter((order) => order.status !== "CANCELLED").reduce((sum, order) => sum + Number(order.totalAmount), 0);
 
   return (
-    <DashboardShell eyebrow="Seller" title="Order management" description="Manage product enquiries, food orders, delivery requests, and buyer conversations." links={sellerLinks}>
+    <DashboardShell eyebrow="Seller" title="Order management" description="Manage product enquiries, food orders, delivery requests, and buyer conversations." links={sellerLinksForKind(store?.kind)}>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         <StatCard label="Pending" value={pending} icon={ClipboardList} helper="New paid or unpaid orders" tone="yellow" />
         <StatCard label="Preparing" value={preparing} icon={ChefHat} helper="Food in progress" tone="pink" />

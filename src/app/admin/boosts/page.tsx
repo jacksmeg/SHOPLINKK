@@ -4,6 +4,7 @@ import { CalendarDays, CircleDollarSign, Clock3, Megaphone, Settings2 } from "lu
 import { AdvertExtensionActions } from "@/components/admin/advert-extension-actions";
 import { BoostDeleteButton } from "@/components/admin/boost-delete-button";
 import { AdminImageAdvertForm } from "@/components/admin/admin-image-advert-form";
+import { SellerFlashSaleManager } from "@/components/admin/seller-flash-sale-manager";
 import { BoostActions } from "@/components/admin/boost-actions";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +23,7 @@ type BadgeTone = "green" | "gold" | "red" | "blue" | "neutral";
 export default async function AdminBoostsPage() {
   await requireRole(["ADMIN"]);
   const now = new Date();
-  const [requests, adminImageAdverts] = await Promise.all([
+  const [requests, adminImageAdverts, flashProducts] = await Promise.all([
     prisma.productBoostRequest.findMany({
       include: {
         product: {
@@ -42,7 +43,38 @@ export default async function AdminBoostsPage() {
       orderBy: [{ status: "asc" }, { createdAt: "desc" }],
     }),
     getAdminImageAdverts(),
+    prisma.product.findMany({
+      where: {
+        listingType: "PRODUCT",
+        priceMode: "FIXED",
+        listingStatus: "APPROVED",
+        stockStatus: { not: "SOLD" },
+      },
+      include: {
+        seller: { select: { name: true, email: true } },
+        store: { select: { name: true } },
+        category: { select: { name: true } },
+        images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true } },
+      },
+      orderBy: [{ updatedAt: "desc" }],
+      take: 120,
+    }),
   ]);
+
+  const flashSaleProducts = flashProducts
+    .map((product) => ({
+      id: product.id,
+      title: product.title,
+      price: Number(product.price),
+      salePrice: product.salePrice ? Number(product.salePrice) : null,
+      saleStartsAt: product.saleStartsAt?.toISOString() ?? null,
+      saleEndsAt: product.saleEndsAt?.toISOString() ?? null,
+      imageUrl: product.images[0]?.url ?? "/window.svg",
+      sellerName: product.seller.name ?? product.seller.email ?? "Seller",
+      storeName: product.store?.name ?? null,
+      categoryName: product.category.name,
+    }))
+    .sort((a, b) => Number(Boolean(b.salePrice)) - Number(Boolean(a.salePrice)));
 
   return (
     <DashboardShell eyebrow="Admin" title="Homepage adverts" description="Review seller advert creative, confirm fee records, approve live campaigns, and handle extension requests." links={adminLinks}>
@@ -51,6 +83,7 @@ export default async function AdminBoostsPage() {
         Approved homepage adverts appear automatically on the buyer homepage until their expiry date.
       </div>
       <AdminImageAdvertForm initialAdverts={adminImageAdverts} />
+      <SellerFlashSaleManager products={flashSaleProducts} />
       <section className="mb-4 rounded-[8px] border border-red-200 bg-[#fff7ed] p-3">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <div>

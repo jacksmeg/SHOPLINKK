@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { AlertCircle, CheckCircle2, Megaphone, UploadCloud, X } from "lucide-react";
+import { AlertCircle, CheckCircle2, Megaphone, Sparkles, UploadCloud, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition, type ChangeEvent, type FormEvent } from "react";
 import { uploadImage } from "@/components/forms/upload-helper";
 import { Button } from "@/components/ui/button";
+import { advertTemplates } from "@/lib/promo-templates";
 
 export function AdvertRequestForm({
   productId,
@@ -20,8 +21,27 @@ export function AdvertRequestForm({
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [selectedTemplateId, setSelectedTemplateId] = useState("");
   const [uploading, setUploading] = useState(false);
   const [pending, startTransition] = useTransition();
+
+  function useTemplate(templateId: string) {
+    const template = advertTemplates.find((item) => item.id === templateId);
+    if (!template) return;
+    if (imageUrls.length >= 8 && !imageUrls.includes(template.previewUrl)) {
+      setSuccess(false);
+      setMessage("Remove one advert photo before adding this template.");
+      return;
+    }
+    setSelectedTemplateId(template.id);
+    setSuccess(false);
+    setMessage(`${template.name} selected. You can still upload your own finished flyer if you want.`);
+    setImageUrls((current) => {
+      if (current.includes(template.previewUrl)) return current;
+      if (current.length >= 8) return current;
+      return [template.previewUrl, ...current];
+    });
+  }
 
   async function handleImages(event: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(event.target.files ?? []);
@@ -60,6 +80,8 @@ export function AdvertRequestForm({
       const packageId = String(form.get("packageId") ?? "");
       const durationDays = Number(form.get("durationDays") || "7");
       const placement = String(form.get("placement") || "HOMEPAGE");
+      const selectedTemplate = advertTemplates.find((item) => item.id === selectedTemplateId);
+      const note = String(form.get("note") ?? "").trim();
       const response = await fetch(`/api/products/${productId}/boost`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -68,7 +90,7 @@ export function AdvertRequestForm({
           packageId,
           headline: String(form.get("headline") ?? "").trim(),
           durationDays: Number.isFinite(durationDays) ? durationDays : 7,
-          note: String(form.get("note") ?? "").trim(),
+          note: [selectedTemplate ? `Template: ${selectedTemplate.name} (${selectedTemplate.id})` : "", note].filter(Boolean).join("\n\n"),
           imageUrls,
         }),
       });
@@ -99,6 +121,7 @@ export function AdvertRequestForm({
       router.refresh();
       formElement.reset();
       setImageUrls([]);
+      setSelectedTemplateId("");
     });
   }
 
@@ -151,6 +174,36 @@ export function AdvertRequestForm({
           className="form-control mt-1.5 w-full px-3 text-xs"
         />
       </label>
+      <div className="mt-4 rounded-[8px] border border-[var(--line)] bg-[#fff7ed] p-3">
+        <div className="flex items-start gap-2">
+          <Sparkles className="mt-0.5 shrink-0 text-red-600" size={16} />
+          <div>
+            <p className="text-xs font-black text-slate-950">ShopLinkk advert templates</p>
+            <p className="mt-1 text-[0.68rem] leading-5 text-slate-700">Use these red and yellow designs as advert or flash-sale creative styles. They will be attached as the first advert image.</p>
+          </div>
+        </div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          {advertTemplates.map((template) => (
+            <button
+              key={template.id}
+              type="button"
+              onClick={() => useTemplate(template.id)}
+              className={`group overflow-hidden rounded-[8px] border bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg ${selectedTemplateId === template.id ? "border-red-600 ring-2 ring-yellow-300" : "border-orange-200"}`}
+            >
+              <span className="relative block aspect-[16/9] bg-red-700">
+                <Image src={template.previewUrl} alt={template.name} fill className="object-cover transition duration-500 group-hover:scale-[1.02]" unoptimized />
+              </span>
+              <span className="block p-3">
+                <span className="block text-xs font-black text-slate-950">{template.name}</span>
+                <span className="mt-1 block text-[0.68rem] leading-5 text-slate-600">{template.description}</span>
+                <span className="mt-2 inline-flex rounded-full bg-yellow-300 px-2 py-1 text-[0.64rem] font-black text-slate-950">
+                  {selectedTemplateId === template.id ? "Selected" : "Use template"}
+                </span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
       <label className="mt-4 block text-xs font-bold text-[var(--ink)]">
         Message to admin <span className="font-normal text-[var(--muted)]">(optional)</span>
         <textarea

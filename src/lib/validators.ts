@@ -8,6 +8,7 @@ const acceptedTermsSchema = z.preprocess(
 const imageValue = z.union([
   z.url(),
   z.string().regex(/^\/uploads\/.+/, "Upload image first"),
+  z.string().regex(/^\/marketing\/templates\/.+/, "Choose a valid ShopLinkk advert template"),
 ]);
 
 const mediaValue = z.union([

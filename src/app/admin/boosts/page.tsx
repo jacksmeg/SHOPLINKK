@@ -9,6 +9,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { adminLinks } from "@/lib/admin-navigation";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
+import { advertTemplates } from "@/lib/promo-templates";
 import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -43,6 +44,28 @@ export default async function AdminBoostsPage() {
         <Megaphone className="mt-0.5 shrink-0" size={16} />
         Approved homepage adverts appear automatically on the buyer homepage until their expiry date.
       </div>
+      <section className="mb-4 rounded-[8px] border border-red-200 bg-[#fff7ed] p-3">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <p className="text-xs font-black text-slate-950">ShopLinkk promo templates</p>
+            <p className="mt-1 text-[0.68rem] leading-5 text-slate-700">Use these as the standard creative direction for homepage adverts and flash sales.</p>
+          </div>
+          <Badge tone="gold">Red / yellow campaign style</Badge>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2">
+          {advertTemplates.map((template) => (
+            <article key={template.id} className="overflow-hidden rounded-[8px] border border-orange-200 bg-white shadow-sm">
+              <div className="relative aspect-[16/7] bg-red-700">
+                <Image src={template.previewUrl} alt={template.name} fill className="object-cover" unoptimized />
+              </div>
+              <div className="p-3">
+                <p className="text-xs font-black text-slate-950">{template.name}</p>
+                <p className="mt-1 text-[0.68rem] leading-5 text-slate-600">{template.bestFor}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
       <div className="grid gap-4">
         {requests.map((request) => {
           const media = request.images.length ? request.images : request.product.images;

@@ -33,6 +33,7 @@ const navItems = [
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
+const desktopNavItems = navItems.filter((item) => !["/safety", "/about", "/contact"].includes(item.href));
 
 function greeting(name?: string | null) {
   const hour = new Date().getHours();
@@ -94,7 +95,6 @@ export function NavBar() {
         <div className="mx-auto flex min-h-[64px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-2">
             <BackButton label="" compact className="shrink-0 lg:hidden" />
-            <BackButton label="Back" className="hidden shrink-0 lg:inline-flex" />
             <Logo />
           </div>
           {status === "authenticated" ? (
@@ -104,7 +104,7 @@ export function NavBar() {
           ) : null}
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Main navigation">
-            {navItems.map((item) => {
+            {desktopNavItems.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
@@ -159,6 +159,7 @@ export function NavBar() {
                 <ButtonLink href="/sell-on-shoplinkk"><Store size={16} /> Start selling</ButtonLink>
               </>
             )}
+            <BackButton label="Back" className="shrink-0" />
           </div>
 
           <div className="flex items-center gap-1 lg:hidden">

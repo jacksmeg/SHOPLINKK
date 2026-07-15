@@ -6,6 +6,13 @@ export type PublicFoodItem = {
   name: string;
   description?: string | null;
   category?: string | null;
+  foodCategory?: {
+    id: string;
+    name: string;
+    slug: string;
+    icon?: string | null;
+    imageUrl?: string | null;
+  } | null;
   basePrice: number;
   prepMinutes?: number | null;
   deliveryMinutes?: number | null;
@@ -29,6 +36,15 @@ export type PublicFoodItem = {
 };
 
 const foodInclude = {
+  foodCategory: {
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      icon: true,
+      imageUrl: true,
+    },
+  },
   images: { orderBy: { sortOrder: "asc" as const } },
   options: true,
   store: {
@@ -50,6 +66,7 @@ const foodInclude = {
 function normalizeFoodItem(item: Prisma.FoodMenuItemGetPayload<{ include: typeof foodInclude }>): PublicFoodItem {
   return {
     ...item,
+    category: item.foodCategory?.name ?? item.category,
     basePrice: Number(item.basePrice),
     options: item.options.map((option) => ({ ...option, price: Number(option.price) })),
   };
@@ -71,17 +88,27 @@ export async function getPublicFoodItems(filters?: {
     isAvailable: true,
     store: storeWhere,
   };
+  const and: Prisma.FoodMenuItemWhereInput[] = [];
 
   if (filters?.q) {
-    where.OR = [
+    and.push({ OR: [
       { name: { contains: filters.q, mode: "insensitive" } },
       { description: { contains: filters.q, mode: "insensitive" } },
       { category: { contains: filters.q, mode: "insensitive" } },
+      { foodCategory: { name: { contains: filters.q, mode: "insensitive" } } },
       { store: { name: { contains: filters.q, mode: "insensitive" } } },
-    ];
+    ] });
   }
 
-  if (filters?.category) where.category = { contains: filters.category, mode: "insensitive" };
+  if (filters?.category) {
+    and.push({
+      OR: [
+        { foodCategory: { slug: filters.category } },
+        { foodCategory: { name: { contains: filters.category, mode: "insensitive" } } },
+        { category: { contains: filters.category, mode: "insensitive" } },
+      ],
+    });
+  }
   if (filters?.min || filters?.max) {
     where.basePrice = {
       ...(filters.min ? { gte: filters.min } : {}),
@@ -90,6 +117,7 @@ export async function getPublicFoodItems(filters?: {
   }
   if (filters?.area) storeWhere.area = { contains: filters.area, mode: "insensitive" };
   if (filters?.location) storeWhere.location = { contains: filters.location, mode: "insensitive" };
+  if (and.length) where.AND = and;
 
   const items = await prisma.foodMenuItem.findMany({
     where,

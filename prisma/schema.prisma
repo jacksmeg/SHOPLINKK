@@ -461,6 +461,22 @@ model Category {
   products    Product[]
 }
 
+model FoodCategory {
+  id          String         @id @default(cuid())
+  name        String
+  slug        String         @unique
+  description String?
+  icon        String?
+  imageUrl    String?
+  sortOrder   Int            @default(0)
+  isActive    Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  items       FoodMenuItem[]
+
+  @@index([isActive, sortOrder])
+}
+
 model Product {
   id                    String                 @id @default(cuid())
   sellerId              String
@@ -1021,6 +1037,7 @@ model PlatformSetting {
 model FoodMenuItem {
   id              String           @id @default(cuid())
   storeId         String
+  foodCategoryId  String?
   status          FoodMenuStatus   @default(PENDING)
   name            String
   description     String?
@@ -1038,12 +1055,14 @@ model FoodMenuItem {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   store           Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  foodCategory    FoodCategory?    @relation(fields: [foodCategoryId], references: [id], onDelete: SetNull)
   options         FoodMenuOption[]
   orderItems      FoodOrderItem[]
   images          FoodMenuImage[]
 
   @@index([status, isAvailable])
   @@index([storeId, isAvailable])
+  @@index([foodCategoryId])
 }
 
 model FoodMenuImage {

@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { uploadImage } from "@/components/forms/upload-helper";
 import { Button } from "@/components/ui/button";
+import type { PublicFoodCategory } from "@/lib/food-categories";
 
-export function FoodMenuManager() {
+export function FoodMenuManager({ categories }: { categories: PublicFoodCategory[] }) {
   const router = useRouter();
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [message, setMessage] = useState("");
@@ -43,7 +44,7 @@ export function FoodMenuManager() {
         body: JSON.stringify({
           name: form.get("name"),
           description: form.get("description"),
-          category: form.get("category"),
+          foodCategoryId: form.get("foodCategoryId"),
           basePrice: form.get("basePrice"),
           imageUrls,
           prepMinutes: form.get("prepMinutes"),
@@ -83,7 +84,12 @@ export function FoodMenuManager() {
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <input name="name" required placeholder="Food name, e.g. Jollof rice" className="form-control px-3 text-xs" />
-        <input name="category" placeholder="Category, e.g. Rice meals" className="form-control px-3 text-xs" />
+        <select name="foodCategoryId" required className="form-control bg-white px-3 text-xs">
+          <option value="">Choose Ghanaian food category</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>{category.name}</option>
+          ))}
+        </select>
         <input name="basePrice" required type="number" min="1" placeholder="Base price" className="form-control px-3 text-xs" />
         <input name="prepMinutes" type="number" min="1" max="240" placeholder="Prep time in minutes" className="form-control px-3 text-xs" />
         <input name="deliveryMinutes" type="number" min="1" max="240" placeholder="Delivery estimate in minutes" className="form-control px-3 text-xs" />

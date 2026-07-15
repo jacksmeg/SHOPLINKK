@@ -32,7 +32,7 @@ export const adminLinks = [
   { href: "/admin/riders", label: "Riders", icon: Truck },
   { href: "/admin/products", label: "Products", icon: Boxes },
   { href: "/admin/restaurants", label: "Restaurants", icon: ChefHat },
-  { href: "/admin/food", label: "Food menu", icon: ChefHat },
+  { href: "/admin/food", label: "Food menu & categories", icon: ChefHat },
   { href: "/admin/orders", label: "Orders", icon: ClipboardList },
   { href: "/admin/deliveries", label: "Deliveries", icon: MapPinned },
   { href: "/admin/chats", label: "Chats", icon: MessageCircle },

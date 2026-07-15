@@ -17,12 +17,25 @@ export async function POST(request: Request) {
   if (!store) return jsonError("Create your store before adding food items.", 404);
   if (store.kind !== "FOOD") return jsonError("Change your store type to Food seller before adding a food menu.", 409);
 
+  let foodCategoryId = parsed.data.foodCategoryId || null;
+  let categoryName = parsed.data.category || null;
+  if (foodCategoryId) {
+    const foodCategory = await prisma.foodCategory.findFirst({
+      where: { id: foodCategoryId, isActive: true },
+      select: { id: true, name: true },
+    });
+    if (!foodCategory) return jsonError("Choose a valid food category.");
+    foodCategoryId = foodCategory.id;
+    categoryName = foodCategory.name;
+  }
+
   const item = await prisma.foodMenuItem.create({
     data: {
       storeId: store.id,
+      foodCategoryId,
       name: parsed.data.name,
       description: parsed.data.description || null,
-      category: parsed.data.category || null,
+      category: categoryName,
       basePrice: parsed.data.basePrice,
       imageUrl: parsed.data.imageUrls[0] || parsed.data.imageUrl || null,
       prepMinutes: parsed.data.prepMinutes === "" ? null : parsed.data.prepMinutes || null,
@@ -53,7 +66,7 @@ export async function POST(request: Request) {
           }
         : undefined,
     },
-    include: { options: true, images: { orderBy: { sortOrder: "asc" } } },
+    include: { foodCategory: true, options: true, images: { orderBy: { sortOrder: "asc" } } },
   });
 
   return NextResponse.json(item, { status: 201 });

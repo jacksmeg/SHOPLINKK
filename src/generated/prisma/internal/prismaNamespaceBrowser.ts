@@ -58,6 +58,7 @@ export const ModelName = {
   Store: 'Store',
   StoreFollower: 'StoreFollower',
   Category: 'Category',
+  FoodCategory: 'FoodCategory',
   Product: 'Product',
   ProductImage: 'ProductImage',
   FavoriteFolder: 'FavoriteFolder',
@@ -255,6 +256,22 @@ export const CategoryScalarFieldEnum = {
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const FoodCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  icon: 'icon',
+  imageUrl: 'imageUrl',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FoodCategoryScalarFieldEnum = (typeof FoodCategoryScalarFieldEnum)[keyof typeof FoodCategoryScalarFieldEnum]
 
 
 export const ProductScalarFieldEnum = {
@@ -751,6 +768,7 @@ export type PlatformSettingScalarFieldEnum = (typeof PlatformSettingScalarFieldE
 export const FoodMenuItemScalarFieldEnum = {
   id: 'id',
   storeId: 'storeId',
+  foodCategoryId: 'foodCategoryId',
   status: 'status',
   name: 'name',
   description: 'description',

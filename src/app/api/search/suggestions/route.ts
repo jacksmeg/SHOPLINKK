@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   const q = (url.searchParams.get("q") ?? "").trim();
   if (q.length < 2) return NextResponse.json({ products: [], categories: [], stores: [] });
 
-  const [products, foodItems, categories, stores] = await Promise.all([
+  const [products, foodItems, categories, foodCategories, stores] = await Promise.all([
     prisma.product.findMany({
       where: {
         listingStatus: "APPROVED",
@@ -40,6 +40,7 @@ export async function GET(request: Request) {
           { name: { contains: q, mode: "insensitive" } },
           { description: { contains: q, mode: "insensitive" } },
           { category: { contains: q, mode: "insensitive" } },
+          { foodCategory: { name: { contains: q, mode: "insensitive" } } },
           { store: { name: { contains: q, mode: "insensitive" } } },
         ],
       },
@@ -50,6 +51,7 @@ export async function GET(request: Request) {
         name: true,
         basePrice: true,
         category: true,
+        foodCategory: { select: { name: true, slug: true } },
         imageUrl: true,
         images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true } },
         store: { select: { slug: true, name: true, area: true, location: true } },
@@ -74,6 +76,26 @@ export async function GET(request: Request) {
         },
       },
     }),
+    prisma.foodCategory.findMany({
+      where: {
+        isActive: true,
+        OR: [
+          { name: { contains: q, mode: "insensitive" } },
+          { description: { contains: q, mode: "insensitive" } },
+        ],
+      },
+      take: 5,
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        _count: {
+          select: {
+            items: { where: { status: "APPROVED", isAvailable: true } },
+          },
+        },
+      },
+    }),
     prisma.store.findMany({
       where: {
         OR: [
@@ -94,30 +116,39 @@ export async function GET(request: Request) {
         slug: product.slug,
         href: `/products/${product.slug}`,
         image: product.images[0]?.url,
-        meta: `${product.listingType === "SERVICE" ? "Service" : product.priceMode === "CONTACT" ? "Contact for price" : formatCurrency(Number(product.price))} · ${product.area ?? product.location}`,
+        meta: `${product.listingType === "SERVICE" ? "Service" : product.priceMode === "CONTACT" ? "Contact for price" : formatCurrency(Number(product.price))} - ${product.area ?? product.location}`,
       })),
       ...foodItems.map((item) => ({
         id: item.id,
-        title: `${item.name} · ${item.store.name}`,
+        title: `${item.name} - ${item.store.name}`,
         slug: item.id,
         href: `/food/${item.id}`,
         image: item.images[0]?.url ?? item.imageUrl,
-        meta: `Food · ${item.category || "Menu"} · ${formatCurrency(Number(item.basePrice))} · ${item.store.area ?? item.store.location}`,
+        meta: `Food - ${item.foodCategory?.name || item.category || "Menu"} - ${formatCurrency(Number(item.basePrice))} - ${item.store.area ?? item.store.location}`,
       })),
     ].slice(0, 8),
-    categories: categories.map((category) => ({
-      id: category.id,
-      name: category.name,
-      slug: category.slug,
-      href: `/marketplace?category=${category.slug}`,
-      count: category._count.products,
-    })),
+    categories: [
+      ...categories.map((category) => ({
+        id: category.id,
+        name: category.name,
+        slug: category.slug,
+        href: `/marketplace?category=${category.slug}`,
+        count: category._count.products,
+      })),
+      ...foodCategories.map((category) => ({
+        id: category.id,
+        name: category.name,
+        slug: category.slug,
+        href: `/marketplace?type=food&category=${category.slug}`,
+        count: category._count.items,
+      })),
+    ].slice(0, 8),
     stores: stores.map((store) => ({
       id: store.id,
       name: store.name,
       href: `/stores/${store.slug}`,
       image: store.logoUrl,
-      meta: `${store.location}${store.isVerified ? " · Verified" : ""}`,
+      meta: `${store.location}${store.isVerified ? " - Verified" : ""}`,
     })),
   });
 }

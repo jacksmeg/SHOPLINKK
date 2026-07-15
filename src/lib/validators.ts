@@ -289,6 +289,7 @@ export const reviewSchema = z.object({
 export const foodMenuItemSchema = z.object({
   name: z.string().min(2, "Name the food item"),
   description: z.string().max(500).optional().or(z.literal("")),
+  foodCategoryId: z.string().optional().or(z.literal("")),
   category: z.string().max(80).optional().or(z.literal("")),
   basePrice: z.coerce.number().positive("Enter the base price"),
   imageUrl: imageValue.optional().or(z.literal("")),

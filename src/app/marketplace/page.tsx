@@ -6,6 +6,7 @@ import { FoodCard } from "@/components/marketplace/food-card";
 import { ProductCard } from "@/components/marketplace/product-card";
 import { SearchFilters } from "@/components/marketplace/search-filters";
 import { getPublicFoodItems } from "@/lib/food";
+import { getFoodCategories } from "@/lib/food-categories";
 import { getCategories, getPublicProducts } from "@/lib/marketplace";
 
 type SearchParams = Record<string, string | string[] | undefined>;
@@ -28,7 +29,7 @@ export default async function MarketplacePage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
-  const categories = await getCategories();
+  const [categories, foodCategories] = await Promise.all([getCategories(), getFoodCategories()]);
   const page = Math.max(1, Number(value(params, "page") ?? 1));
   const take = 18;
   const mode = modeFromParams(params);
@@ -99,7 +100,7 @@ export default async function MarketplacePage({
         })}
       </div>
 
-      <SearchFilters categories={categories} kind={mode} />
+      <SearchFilters categories={categories} foodCategories={foodCategories} kind={mode} />
 
       <div className="mt-7 flex items-center justify-between gap-4">
         <p className="text-xs font-semibold text-[var(--muted)]">

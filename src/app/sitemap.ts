@@ -23,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: path === "" ? 1 : path === "/marketplace" ? 0.95 : 0.75,
   }));
 
-  const [products, stores, categories, foodItems] = await Promise.all([
+  const [products, stores, categories, foodCategories, foodItems] = await Promise.all([
     prisma.product.findMany({
       where: { listingStatus: "APPROVED", stockStatus: { not: "SOLD" } },
       select: { slug: true, updatedAt: true },
@@ -34,6 +34,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       take: 800,
     }).catch(() => []),
     prisma.category.findMany({
+      select: { slug: true, updatedAt: true },
+      take: 200,
+    }).catch(() => []),
+    prisma.foodCategory.findMany({
+      where: { isActive: true },
       select: { slug: true, updatedAt: true },
       take: 200,
     }).catch(() => []),
@@ -48,6 +53,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticRoutes,
     ...categories.map((category) => ({
       url: `${base}/marketplace?category=${category.slug}`,
+      lastModified: category.updatedAt,
+      changeFrequency: "daily" as const,
+      priority: 0.82,
+    })),
+    ...foodCategories.map((category) => ({
+      url: `${base}/marketplace?type=food&category=${category.slug}`,
       lastModified: category.updatedAt,
       changeFrequency: "daily" as const,
       priority: 0.82,

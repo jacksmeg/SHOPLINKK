@@ -8,6 +8,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
+import { getFoodCategories } from "@/lib/food-categories";
 import { sellerFoodLinks } from "@/lib/seller-food-navigation";
 import { formatCurrency, titleCase } from "@/lib/utils";
 
@@ -15,15 +16,18 @@ export const dynamic = "force-dynamic";
 
 export default async function SellerFoodMenuPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
-  const store = await prisma.store.findUnique({
-    where: { ownerId: session.user.id },
-    include: {
-      foodMenuItems: {
-        include: { options: true, images: { orderBy: { sortOrder: "asc" } } },
-        orderBy: [{ isAvailable: "desc" }, { createdAt: "desc" }],
+  const [store, foodCategories] = await Promise.all([
+    prisma.store.findUnique({
+      where: { ownerId: session.user.id },
+      include: {
+        foodMenuItems: {
+          include: { foodCategory: true, options: true, images: { orderBy: { sortOrder: "asc" } } },
+          orderBy: [{ isAvailable: "desc" }, { createdAt: "desc" }],
+        },
       },
-    },
-  });
+    }),
+    getFoodCategories(),
+  ]);
 
   if (store?.kind !== "FOOD") {
     return (
@@ -45,7 +49,7 @@ export default async function SellerFoodMenuPage() {
       links={sellerFoodLinks}
     >
       <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-        <FoodMenuManager />
+        <FoodMenuManager categories={foodCategories} />
 
         <section className="app-panel p-4 sm:p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -70,7 +74,7 @@ export default async function SellerFoodMenuPage() {
                     </div>
                     <p className="mt-1 text-xs font-black text-[var(--brand-dark)]">{formatCurrency(Number(item.basePrice))}</p>
                     <p className="mt-1 text-xs text-[var(--muted)]">
-                      {item.category || "Food"} - prep {item.prepMinutes || "?"} mins - delivery {item.deliveryMinutes || "?"} mins - {item.images.length} photo{item.images.length === 1 ? "" : "s"} - {item.options.length} add-on{item.options.length === 1 ? "" : "s"}
+                      {item.foodCategory?.name || item.category || "Food"} - prep {item.prepMinutes || "?"} mins - delivery {item.deliveryMinutes || "?"} mins - {item.images.length} photo{item.images.length === 1 ? "" : "s"} - {item.options.length} add-on{item.options.length === 1 ? "" : "s"}
                     </p>
                     {item.rejectionReason ? <p className="mt-2 rounded-[7px] bg-red-50 p-2 text-xs font-semibold text-red-700">{item.rejectionReason}</p> : null}
                     <FoodMenuItemActions
@@ -78,6 +82,7 @@ export default async function SellerFoodMenuPage() {
                         id: item.id,
                         name: item.name,
                         description: item.description,
+                        foodCategoryId: item.foodCategoryId,
                         category: item.category,
                         basePrice: Number(item.basePrice),
                         prepMinutes: item.prepMinutes,
@@ -90,6 +95,7 @@ export default async function SellerFoodMenuPage() {
                         images: item.images,
                         options: item.options.map((option) => ({ id: option.id, name: option.name, price: Number(option.price) })),
                       }}
+                      categories={foodCategories}
                     />
                   </div>
                 </div>

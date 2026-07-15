@@ -6,7 +6,7 @@ export async function GET() {
   const { error } = await requireApiSession(["ADMIN"]);
   if (error) return error;
 
-  const [counts, categories, towns, stores, products, foodItems, billingPackages] = await Promise.all([
+  const [counts, categories, foodCategories, towns, stores, products, foodItems, billingPackages] = await Promise.all([
     Promise.all([
       prisma.user.count(),
       prisma.store.count(),
@@ -17,6 +17,7 @@ export async function GET() {
       prisma.productBoostRequest.count(),
     ]),
     prisma.category.findMany({ orderBy: { name: "asc" } }),
+    prisma.foodCategory.findMany({ orderBy: [{ sortOrder: "asc" }, { name: "asc" }] }),
     prisma.town.findMany({ include: { areas: { orderBy: { sortOrder: "asc" } } }, orderBy: [{ sortOrder: "asc" }, { name: "asc" }] }),
     prisma.store.findMany({
       select: {
@@ -59,6 +60,7 @@ export async function GET() {
       select: {
         id: true,
         storeId: true,
+        foodCategoryId: true,
         name: true,
         category: true,
         status: true,
@@ -88,6 +90,7 @@ export async function GET() {
       advertRequests,
     },
     categories,
+    foodCategories,
     towns,
     stores,
     products,

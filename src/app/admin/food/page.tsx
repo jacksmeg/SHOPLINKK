@@ -2,12 +2,14 @@ import Image from "next/image";
 import { ChefHat, Clock, MapPin } from "lucide-react";
 import type { FoodMenuStatus } from "@/generated/prisma/client";
 import { FoodModerationActions } from "@/components/admin/admin-actions";
+import { FoodCategoryManager } from "@/components/admin/food-category-manager";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { adminLinks } from "@/lib/admin-navigation";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
+import { getFoodCategories } from "@/lib/food-categories";
 import { formatCurrency, titleCase } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -29,26 +31,31 @@ export default async function AdminFoodPage({
   const status = value(params, "status") ?? "";
   const q = value(params, "q") ?? "";
   const statusFilter = ["PENDING", "APPROVED", "REJECTED", "DRAFT"].includes(status) ? status as FoodMenuStatus : undefined;
-  const items = await prisma.foodMenuItem.findMany({
-    where: {
-      ...(statusFilter ? { status: statusFilter } : {}),
-      ...(q
-        ? {
-            OR: [
-              { name: { contains: q, mode: "insensitive" } },
-              { category: { contains: q, mode: "insensitive" } },
-              { store: { name: { contains: q, mode: "insensitive" } } },
-            ],
-          }
-        : {}),
-    },
-    include: {
-      images: { orderBy: { sortOrder: "asc" }, take: 1 },
-      options: true,
-      store: { select: { name: true, slug: true, area: true, location: true, owner: { select: { name: true, email: true } } } },
-    },
-    orderBy: [{ status: "desc" }, { createdAt: "desc" }],
-  });
+  const [items, foodCategories] = await Promise.all([
+    prisma.foodMenuItem.findMany({
+      where: {
+        ...(statusFilter ? { status: statusFilter } : {}),
+        ...(q
+          ? {
+              OR: [
+                { name: { contains: q, mode: "insensitive" } },
+                { category: { contains: q, mode: "insensitive" } },
+                { foodCategory: { name: { contains: q, mode: "insensitive" } } },
+                { store: { name: { contains: q, mode: "insensitive" } } },
+              ],
+            }
+          : {}),
+      },
+      include: {
+        foodCategory: true,
+        images: { orderBy: { sortOrder: "asc" }, take: 1 },
+        options: true,
+        store: { select: { name: true, slug: true, area: true, location: true, owner: { select: { name: true, email: true } } } },
+      },
+      orderBy: [{ status: "desc" }, { createdAt: "desc" }],
+    }),
+    getFoodCategories({ activeOnly: false }),
+  ]);
 
   return (
     <DashboardShell
@@ -57,6 +64,8 @@ export default async function AdminFoodPage({
       description="Approve food items before buyers can see or order them."
       links={adminLinks}
     >
+      <FoodCategoryManager categories={foodCategories} />
+
       <form className="mb-4 grid gap-2 rounded-[8px] border border-[var(--line)] bg-white p-3 sm:grid-cols-[1fr_180px_auto]">
         <input name="q" defaultValue={q} placeholder="Search food, store, category..." className="form-control px-3 text-xs" />
         <select name="status" defaultValue={status} className="form-control bg-white px-3 text-xs">
@@ -90,7 +99,7 @@ export default async function AdminFoodPage({
                     <p className="mt-1 text-xs font-black text-[var(--brand-dark)]">{formatCurrency(Number(item.basePrice))}</p>
                     <p className="mt-2 text-xs leading-5 text-[var(--muted)]">{item.description || "No description."}</p>
                     <div className="mt-3 flex flex-wrap gap-2 text-[0.68rem] font-bold text-[var(--muted)]">
-                      <span className="rounded-full bg-[var(--surface-muted)] px-2 py-1">{item.category || "Food"}</span>
+                      <span className="rounded-full bg-[var(--surface-muted)] px-2 py-1">{item.foodCategory?.name || item.category || "Food"}</span>
                       {item.prepMinutes ? <span className="inline-flex items-center gap-1 rounded-full bg-[var(--surface-muted)] px-2 py-1"><Clock size={12} /> {item.prepMinutes} mins</span> : null}
                       <span className="rounded-full bg-[var(--surface-muted)] px-2 py-1">{item.options.length} add-ons</span>
                       <span className="inline-flex items-center gap-1 rounded-full bg-[var(--surface-muted)] px-2 py-1"><MapPin size={12} /> {item.store.area || item.store.location}</span>

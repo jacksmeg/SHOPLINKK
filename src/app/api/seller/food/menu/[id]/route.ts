@@ -11,6 +11,7 @@ const imageValue = z.union([
 const patchSchema = z.object({
   name: z.string().min(2, "Name the food item").optional(),
   description: z.string().max(500).optional().or(z.literal("")),
+  foodCategoryId: z.string().optional().or(z.literal("")),
   category: z.string().max(80).optional().or(z.literal("")),
   basePrice: z.coerce.number().positive("Enter the base price").optional(),
   imageUrl: imageValue.optional().or(z.literal("")),
@@ -51,6 +52,7 @@ export async function PATCH(
   const shouldResetApproval = Boolean(
     data.name !== undefined ||
     data.description !== undefined ||
+    data.foodCategoryId !== undefined ||
     data.category !== undefined ||
     data.basePrice !== undefined ||
     data.prepMinutes !== undefined ||
@@ -60,13 +62,28 @@ export async function PATCH(
     data.options !== undefined,
   );
   const imageUrls = data.imageUrls ?? [];
+  let foodCategoryUpdate: { foodCategoryId?: string | null; category?: string | null } = {};
+  if (data.foodCategoryId !== undefined) {
+    const foodCategoryId = data.foodCategoryId || null;
+    if (foodCategoryId) {
+      const foodCategory = await prisma.foodCategory.findFirst({
+        where: { id: foodCategoryId, isActive: true },
+        select: { id: true, name: true },
+      });
+      if (!foodCategory) return jsonError("Choose a valid food category.");
+      foodCategoryUpdate = { foodCategoryId: foodCategory.id, category: foodCategory.name };
+    } else {
+      foodCategoryUpdate = { foodCategoryId: null, category: data.category || null };
+    }
+  }
 
   const updated = await prisma.foodMenuItem.update({
     where: { id },
     data: {
       ...(data.name !== undefined ? { name: data.name } : {}),
       ...(data.description !== undefined ? { description: data.description || null } : {}),
-      ...(data.category !== undefined ? { category: data.category || null } : {}),
+      ...(data.category !== undefined && data.foodCategoryId === undefined ? { category: data.category || null } : {}),
+      ...foodCategoryUpdate,
       ...(data.basePrice !== undefined ? { basePrice: data.basePrice } : {}),
       ...(data.prepMinutes !== undefined ? { prepMinutes: data.prepMinutes === "" ? null : data.prepMinutes || null } : {}),
       ...(data.deliveryMinutes !== undefined ? { deliveryMinutes: data.deliveryMinutes === "" ? null : data.deliveryMinutes || null } : {}),
@@ -94,7 +111,7 @@ export async function PATCH(
           }
         : {}),
     },
-    include: { images: { orderBy: { sortOrder: "asc" } }, options: true },
+    include: { foodCategory: true, images: { orderBy: { sortOrder: "asc" } }, options: true },
   });
   return NextResponse.json(updated);
 }

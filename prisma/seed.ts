@@ -9,6 +9,7 @@ import {
   StockStatus,
 } from "../src/generated/prisma/client";
 import { demoCategories, demoProducts, townCoordinates, townLocations } from "../src/lib/demo-data";
+import { ghanaianFoodCategorySeeds } from "../src/lib/food-categories";
 import { dunkwaAreas } from "../src/lib/ghana";
 
 const connectionString =
@@ -137,6 +138,27 @@ async function main() {
       },
     });
     categoryBySlug.set(category.slug, saved);
+  }
+
+  for (const category of ghanaianFoodCategorySeeds) {
+    await prisma.foodCategory.upsert({
+      where: { slug: category.slug },
+      update: {
+        name: category.name,
+        description: category.description,
+        icon: category.icon,
+        sortOrder: category.sortOrder,
+        isActive: true,
+      },
+      create: {
+        name: category.name,
+        slug: category.slug,
+        description: category.description,
+        icon: category.icon,
+        sortOrder: category.sortOrder,
+        isActive: true,
+      },
+    });
   }
 
   for (const [index, town] of townLocations.entries()) {

@@ -6,17 +6,20 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { uploadImage } from "@/components/forms/upload-helper";
 import { Button } from "@/components/ui/button";
+import type { PublicFoodCategory } from "@/lib/food-categories";
 
 type FoodOption = { id: string; name: string; price: number };
 type FoodImage = { id: string; url: string; alt?: string | null; sortOrder: number };
 
 export function FoodMenuItemActions({
   item,
+  categories,
 }: {
   item: {
     id: string;
     name: string;
     description?: string | null;
+    foodCategoryId?: string | null;
     category?: string | null;
     basePrice: number;
     prepMinutes?: number | null;
@@ -29,6 +32,7 @@ export function FoodMenuItemActions({
     imageUrl?: string | null;
     options: FoodOption[];
   };
+  categories: PublicFoodCategory[];
 }) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
@@ -87,7 +91,7 @@ export function FoodMenuItemActions({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.get("name"),
-          category: form.get("category"),
+          foodCategoryId: form.get("foodCategoryId"),
           description: form.get("description"),
           basePrice: form.get("basePrice"),
           prepMinutes: form.get("prepMinutes"),
@@ -115,7 +119,12 @@ export function FoodMenuItemActions({
       <form onSubmit={submit} className="mt-3 rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-3">
         <div className="grid gap-2 sm:grid-cols-2">
           <input name="name" defaultValue={item.name} required className="form-control px-3 text-xs" />
-          <input name="category" defaultValue={item.category ?? ""} placeholder="Category" className="form-control px-3 text-xs" />
+          <select name="foodCategoryId" defaultValue={item.foodCategoryId ?? ""} className="form-control bg-white px-3 text-xs">
+            <option value="">Choose category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>{category.name}</option>
+            ))}
+          </select>
           <input name="basePrice" defaultValue={item.basePrice} type="number" min="1" required className="form-control px-3 text-xs" />
           <input name="prepMinutes" defaultValue={item.prepMinutes ?? ""} type="number" min="1" max="240" placeholder="Prep minutes" className="form-control px-3 text-xs" />
           <input name="deliveryMinutes" defaultValue={item.deliveryMinutes ?? ""} type="number" min="1" max="240" placeholder="Delivery minutes" className="form-control px-3 text-xs" />

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, CircleDollarSign, Clock3, Megaphone, Settings2 } from "lucide-react";
 import { AdvertExtensionActions } from "@/components/admin/advert-extension-actions";
+import { BoostDeleteButton } from "@/components/admin/boost-delete-button";
 import { AdminImageAdvertForm } from "@/components/admin/admin-image-advert-form";
 import { BoostActions } from "@/components/admin/boost-actions";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
@@ -128,6 +129,7 @@ export default async function AdminBoostsPage() {
                       <Settings2 size={15} />
                       Process advert
                     </Link>
+                    <BoostDeleteButton requestId={request.id} />
                   </div>
                   {request.status === "REQUESTED" ? <BoostActions requestId={request.id} initialDays={request.durationDays} initialFee={request.feeAmount ? Number(request.feeAmount) : null} initialPaymentStatus={request.paymentStatus} initialReference={request.feeReference} /> : null}
                   {request.extensionStatus === "REQUESTED" ? <AdvertExtensionActions requestId={request.id} requestedDays={request.extensionDays} requestedNote={request.extensionNote} /> : null}

@@ -80,3 +80,65 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   });
   return NextResponse.json({ ok: true });
 }
+
+export async function DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
+  const { session, error } = await requireApiSession(["ADMIN"]);
+  if (error) return error;
+
+  const { id } = await context.params;
+  const advert = await prisma.productBoostRequest.findUnique({
+    where: { id },
+    include: {
+      product: { select: { id: true, title: true } },
+    },
+  });
+  if (!advert) return jsonError("Advert request not found", 404);
+
+  await prisma.$transaction(async (tx) => {
+    await tx.productBoostRequest.delete({ where: { id: advert.id } });
+
+    const activeProductAdvert = await tx.productBoostRequest.findFirst({
+      where: {
+        productId: advert.productId,
+        status: "APPROVED",
+        placement: "HOMEPAGE",
+        endsAt: { gt: new Date() },
+      },
+      select: { id: true },
+    });
+
+    if (!activeProductAdvert) {
+      await tx.product.update({
+        where: { id: advert.productId },
+        data: { isFeatured: false, featuredUntil: null },
+      });
+    }
+
+    await tx.adminAuditLog.create({
+      data: {
+        actorId: session.user.id,
+        action: "BOOST_REJECTED",
+        targetType: "ProductBoostRequest",
+        targetId: advert.id,
+        metadata: {
+          deleted: true,
+          productId: advert.productId,
+          productTitle: advert.product.title,
+          sellerId: advert.sellerId,
+          status: advert.status,
+          placement: advert.placement,
+        },
+      },
+    });
+  });
+
+  await notifyUser({
+    userId: advert.sellerId,
+    type: "BOOST",
+    title: "Advert removed",
+    body: `Admin removed the advert request for ${advert.product.title}.`,
+    href: "/seller/adverts",
+  }).catch(() => null);
+
+  return NextResponse.json({ ok: true });
+}

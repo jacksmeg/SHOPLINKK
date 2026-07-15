@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { jsonError, requireApiSession } from "@/lib/api";
 import { prisma } from "@/lib/db";
-import { notifyUser } from "@/lib/notifications";
+import { notifySellerOrderAlert } from "@/lib/notifications";
 import { foodOrderSchema } from "@/lib/validators";
 
 export async function POST(
@@ -114,12 +114,14 @@ export async function POST(
     include: { items: true },
   });
 
-  await notifyUser({
-    userId: store.ownerId,
-    type: "SYSTEM",
+  await notifySellerOrderAlert({
+    sellerId: store.ownerId,
     title: "New food order",
     body: `${session.user.name || "A buyer"} placed a food order from ${store.name}.`,
-    href: "/seller/food/orders",
+    href: "/seller/orders",
+    buyerName: session.user.name,
+    storeName: store.name,
+    amount: total,
   });
 
   return NextResponse.json(order, { status: 201 });

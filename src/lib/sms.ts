@@ -84,6 +84,33 @@ export async function verifyOtp(phone: string, code: string) {
   return response.ok && String(body.code) === "1100";
 }
 
+export async function sendSmsAlert(phone: string, message: string) {
+  const config = await arkeselConfig();
+  const normalizedPhone = formatGhanaPhone(phone);
+
+  if (!config) {
+    console.info(`[ShopLinkk SMS preview] ${normalizedPhone}: ${message}`);
+    return { queued: false, preview: true };
+  }
+
+  const response = await fetch("https://sms.arkesel.com/api/v2/sms/send", {
+    method: "POST",
+    headers: { "api-key": config.apiKey, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      sender: config.senderId || "ShopLinkk",
+      message,
+      recipients: [normalizedPhone],
+    }),
+  });
+  const body = (await response.json().catch(() => ({}))) as ArkeselResponse;
+
+  if (!response.ok) {
+    throw new Error(body.message || "Arkesel could not send the SMS alert");
+  }
+
+  return { queued: true, preview: false };
+}
+
 export function createOtp() {
   return String(Math.floor(100000 + Math.random() * 900000));
 }

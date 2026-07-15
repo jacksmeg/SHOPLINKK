@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { jsonError, requireApiSession } from "@/lib/api";
 import { prisma } from "@/lib/db";
-import { notifyUser } from "@/lib/notifications";
+import { notifySellerOrderAlert } from "@/lib/notifications";
 import { getActiveSalePrice } from "@/lib/pricing";
 import { marketplaceOrderSchema } from "@/lib/validators";
 
@@ -138,12 +138,14 @@ export async function POST(request: Request) {
     return orders;
   });
 
-  await Promise.all(createdOrders.map((order) => notifyUser({
-    userId: order.sellerId,
-    type: "SYSTEM",
+  await Promise.all(createdOrders.map((order) => notifySellerOrderAlert({
+    sellerId: order.sellerId,
     title: paymentSubmitted ? "Marketplace payment submitted" : "New marketplace order",
     body: `${session.user.name || "A buyer"} placed a direct MoMo order with ${order.storeName}.`,
     href: "/seller/orders",
+    buyerName: session.user.name,
+    storeName: order.storeName,
+    amount: order.totalAmount,
   }))).catch(() => null);
 
   return NextResponse.json({ orders: createdOrders }, { status: 201 });

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ChefHat, Clock, MapPin } from "lucide-react";
 import type { FoodMenuStatus } from "@/generated/prisma/client";
 import { FoodModerationActions } from "@/components/admin/admin-actions";
@@ -92,7 +93,7 @@ export default async function AdminFoodPage({
                   </div>
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="text-sm font-black text-[var(--ink)]">{item.name}</h2>
+                      <Link href={`/admin/food/${item.id}`} className="text-sm font-black text-[var(--ink)] hover:text-[var(--brand)]">{item.name}</Link>
                       <Badge tone={item.status === "APPROVED" ? "green" : item.status === "REJECTED" ? "red" : item.status === "DRAFT" ? "neutral" : "gold"}>{titleCase(item.status)}</Badge>
                       {item.isAvailable ? <Badge tone="blue">Seller available</Badge> : <Badge tone="neutral">Hidden</Badge>}
                     </div>
@@ -107,6 +108,9 @@ export default async function AdminFoodPage({
                     <p className="mt-3 text-xs text-[var(--muted)]">
                       Store: <a href={`/stores/${item.store.slug}`} className="font-black text-[var(--brand-dark)]">{item.store.name}</a> by {item.store.owner.name || item.store.owner.email}
                     </p>
+                    <Link href={`/admin/food/${item.id}`} className="mt-3 inline-flex text-xs font-black text-[var(--brand-dark)]">
+                      View before approval
+                    </Link>
                     {item.rejectionReason ? <p className="mt-2 rounded-[7px] bg-red-50 p-2 text-xs font-semibold text-red-700">{item.rejectionReason}</p> : null}
                   </div>
                   <div className="md:min-w-[210px]">

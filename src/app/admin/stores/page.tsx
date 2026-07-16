@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BadgeCheck, PackageCheck, Star, Store, Users } from "lucide-react";
+import { AdminStoreActions } from "@/components/admin/admin-store-actions";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
@@ -27,7 +28,7 @@ export default async function AdminStoresPage() {
       </div>
       <div className="mt-5 overflow-hidden rounded-[8px] border border-[var(--line)] bg-white">
         <table className="data-table w-full min-w-[900px] text-left text-xs">
-          <thead className="bg-[var(--surface-muted)] text-[var(--muted-strong)]"><tr><th className="px-4 py-3">Store</th><th className="px-4 py-3">Owner</th><th className="px-4 py-3">Type</th><th className="px-4 py-3">Trust</th><th className="px-4 py-3">Products</th><th className="px-4 py-3">Followers</th><th className="px-4 py-3">Created</th></tr></thead>
+          <thead className="bg-[var(--surface-muted)] text-[var(--muted-strong)]"><tr><th className="px-4 py-3">Store</th><th className="px-4 py-3">Owner</th><th className="px-4 py-3">Type</th><th className="px-4 py-3">Trust</th><th className="px-4 py-3">Products</th><th className="px-4 py-3">Followers</th><th className="px-4 py-3">Created</th><th className="px-4 py-3">Admin action</th></tr></thead>
           <tbody className="divide-y divide-[var(--line)]">
             {stores.map((store) => (
               <tr key={store.id}>
@@ -38,6 +39,12 @@ export default async function AdminStoresPage() {
                 <td className="px-4 py-4">{store._count.products}</td>
                 <td className="px-4 py-4">{store._count.followers}</td>
                 <td className="px-4 py-4 text-[var(--muted)]">{compactDate(store.createdAt)}</td>
+                <td className="px-4 py-4">
+                  <div className="flex flex-wrap gap-2">
+                    <Link href={`/stores/${store.slug}`} className="inline-flex min-h-8 items-center rounded-[7px] border border-[var(--line)] px-2.5 text-[0.68rem] font-black text-[var(--brand-dark)]">View</Link>
+                    <AdminStoreActions storeId={store.id} storeName={store.name} verified={store.isVerified} />
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>

@@ -27,6 +27,9 @@ export async function PATCH(
   if (!deliveryRequest || deliveryRequest.status !== "OPEN") {
     return jsonError("This delivery request is no longer available", 409);
   }
+  if (deliveryRequest.riderId && deliveryRequest.riderId !== profile.id) {
+    return jsonError("This delivery was sent to another rider", 403);
+  }
 
   if (parsed.data.action === "REJECT") {
     const rejected = await prisma.deliveryRequest.update({

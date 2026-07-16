@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Flag, MapPinned, Truck } from "lucide-react";
+import { AdminDeleteButton } from "@/components/admin/admin-delete-button";
 import { AdminDeliveryAssignForm } from "@/components/delivery/admin-delivery-assign-form";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
@@ -61,7 +62,10 @@ export default async function AdminDeliveriesPage() {
                   <h3 className="mt-2 text-sm font-black text-[var(--ink)]">{request.productName}</h3>
                   <p className="mt-1 text-xs text-[var(--muted)]">{request.store?.name || request.seller.name || "Seller"} - {compactDate(request.createdAt)}</p>
                 </div>
-                <p className="text-sm font-black text-[var(--brand-dark)]">{formatCurrency(Number(request.deliveryFee))}</p>
+                <div className="flex flex-wrap items-center justify-end gap-2 text-right">
+                  <p className="text-sm font-black text-[var(--brand-dark)]">{formatCurrency(Number(request.deliveryFee))}</p>
+                  <AdminDeleteButton endpoint={`/api/admin/deliveries/${request.id}?type=request`} label="Delete request" confirmText="Delete this delivery request?" />
+                </div>
               </div>
               <p className="mt-3 text-xs text-[var(--muted)]">{request.pickupAddress} to {request.deliveryAddress}</p>
               <AdminDeliveryAssignForm requestId={request.id} riders={riderOptions} />
@@ -75,16 +79,19 @@ export default async function AdminDeliveriesPage() {
         <h2 className="text-sm font-black text-[var(--ink)]">Live and recent deliveries</h2>
         <div className="mt-4 grid gap-3">
           {deliveries.map((delivery) => (
-            <Link key={delivery.id} href={`/deliveries/${delivery.id}`} className="rounded-[10px] border border-[var(--line)] bg-white p-4 transition hover:border-[var(--brand)]">
+            <article key={delivery.id} className="rounded-[10px] border border-[var(--line)] bg-white p-4 transition hover:border-[var(--brand)]">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <Badge tone={delivery.status === "DELIVERED" ? "green" : delivery.status === "CANCELLED" ? "red" : "blue"}>{titleCase(delivery.status)}</Badge>
-                  <h3 className="mt-2 text-sm font-black text-[var(--ink)]">{delivery.request.productName}</h3>
+                  <Link href={`/deliveries/${delivery.id}`} className="mt-2 inline-flex text-sm font-black text-[var(--ink)] hover:text-[var(--brand-dark)]">{delivery.request.productName}</Link>
                   <p className="mt-1 text-xs text-[var(--muted)]">Rider: {delivery.rider.user.name || "Unnamed rider"} - {compactDate(delivery.createdAt)}</p>
                 </div>
-                <p className="text-sm font-black text-[var(--brand-dark)]">{formatCurrency(Number(delivery.deliveryFee))}</p>
+                <div className="flex flex-wrap items-center justify-end gap-2 text-right">
+                  <p className="text-sm font-black text-[var(--brand-dark)]">{formatCurrency(Number(delivery.deliveryFee))}</p>
+                  <AdminDeleteButton endpoint={`/api/admin/deliveries/${delivery.id}?type=delivery`} label="Delete delivery" confirmText="Delete this delivery record?" />
+                </div>
               </div>
-            </Link>
+            </article>
           ))}
           {!deliveries.length ? <EmptyState title="No deliveries yet" description="Accepted delivery requests will appear here." icon={MapPinned} /> : null}
         </div>

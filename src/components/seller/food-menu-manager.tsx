@@ -125,7 +125,6 @@ export function FoodMenuManager({ categories }: { categories: PublicFoodCategory
       <div className="mt-4 rounded-[8px] border border-[var(--line)] p-3">
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs font-black text-[var(--ink)]">Add-ons</p>
-          <button type="button" className="text-xs font-bold text-[var(--brand-dark)]" onClick={() => setOptions((current) => [...current, { name: "", price: "" }])}>Add option</button>
         </div>
         <div className="mt-3 grid gap-2">
           {options.map((option, index) => (
@@ -138,6 +137,14 @@ export function FoodMenuManager({ categories }: { categories: PublicFoodCategory
             </div>
           ))}
         </div>
+        <button
+          type="button"
+          className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-[8px] bg-[var(--brand-dark)] px-4 text-xs font-black text-white shadow-sm transition hover:-translate-y-0.5"
+          onClick={() => setOptions((current) => [...current, { name: "", price: "" }])}
+        >
+          <PlusCircle size={14} />
+          Add option
+        </button>
       </div>
       {message ? <p className="mt-3 rounded-[8px] bg-[var(--brand-soft)] p-3 text-xs font-semibold text-[var(--brand-dark)]">{message}</p> : null}
       <Button type="submit" disabled={pending} className="mt-4">

@@ -21,6 +21,13 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
   const [storeKind, setStoreKind] = useState<"GENERAL" | "FOOD">(requestedKind === "food" ? "FOOD" : "GENERAL");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+  const [phoneValue, setPhoneValue] = useState("");
+  const [emailCode, setEmailCode] = useState("");
+  const [phoneCode, setPhoneCode] = useState("");
+  const [emailProofToken, setEmailProofToken] = useState("");
+  const [phoneProofToken, setPhoneProofToken] = useState("");
+  const [verifying, setVerifying] = useState<"email-send" | "email-check" | "phone-send" | "phone-check" | "">("");
   const [accepted, setAccepted] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileReset, setTurnstileReset] = useState(0);
@@ -57,6 +64,11 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
       return;
     }
 
+    if (!emailProofToken || !phoneProofToken) {
+      setError("Verify both your email and phone number before creating your account.");
+      return;
+    }
+
     startTransition(async () => {
       try {
         const response = await fetch("/api/auth/register", {
@@ -72,6 +84,8 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
             role,
             storeKind: role === "SELLER" ? storeKind : "GENERAL",
             termsAccepted: true,
+            emailProofToken,
+            phoneProofToken,
             turnstileToken,
           }),
         });
@@ -117,6 +131,94 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
         setError("We could not reach ShopLinkk just now. Check your connection and try again.");
       }
     });
+  }
+
+  async function sendEmailCode() {
+    setError("");
+    setSuccess("");
+    setVerifying("email-send");
+    try {
+      const response = await fetch("/api/auth/preflight/email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailValue }),
+      });
+      const result = await response.json().catch(() => null);
+      if (!response.ok) {
+        setError(result?.message ?? "Could not send email code.");
+        return;
+      }
+      setEmailProofToken("");
+      setSuccess(result?.message ?? "Email code sent.");
+    } finally {
+      setVerifying("");
+    }
+  }
+
+  async function verifyEmailCode() {
+    setError("");
+    setSuccess("");
+    setVerifying("email-check");
+    try {
+      const response = await fetch("/api/auth/preflight/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "email", email: emailValue, code: emailCode }),
+      });
+      const result = await response.json().catch(() => null);
+      if (!response.ok) {
+        setError(result?.message ?? "Email code is not valid.");
+        return;
+      }
+      setEmailProofToken(result.proofToken ?? "");
+      setSuccess("Email verified.");
+    } finally {
+      setVerifying("");
+    }
+  }
+
+  async function sendPhoneCode() {
+    setError("");
+    setSuccess("");
+    setVerifying("phone-send");
+    try {
+      const response = await fetch("/api/auth/preflight/phone", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: phoneValue }),
+      });
+      const result = await response.json().catch(() => null);
+      if (!response.ok) {
+        setError(result?.message ?? "Could not send phone code.");
+        return;
+      }
+      setPhoneProofToken("");
+      setSuccess(result?.message ?? "Phone code sent.");
+    } finally {
+      setVerifying("");
+    }
+  }
+
+  async function verifyPhoneCode() {
+    setError("");
+    setSuccess("");
+    setVerifying("phone-check");
+    try {
+      const response = await fetch("/api/auth/preflight/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "phone", phone: phoneValue, code: phoneCode }),
+      });
+      const result = await response.json().catch(() => null);
+      if (!response.ok) {
+        setError(result?.message ?? "Phone code is not valid.");
+        return;
+      }
+      setPhoneProofToken(result.proofToken ?? "");
+      setSuccess("Phone verified.");
+    } finally {
+      setVerifying("");
+    }
   }
 
   return (
@@ -195,16 +297,73 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
               Email
               <span className="relative mt-2 block">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
-                <input name="email" type="email" autoComplete="email" required className="form-control w-full pl-10 pr-3 text-sm" />
+                <input
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={emailValue}
+                  onChange={(event) => {
+                    setEmailValue(event.target.value);
+                    setEmailProofToken("");
+                  }}
+                  className="form-control w-full pl-10 pr-3 text-sm"
+                />
               </span>
             </label>
             <label className="text-xs font-semibold text-[var(--ink)]">
               Phone
               <span className="relative mt-2 block">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
-                <input name="phone" type="tel" inputMode="tel" autoComplete="tel" required placeholder="024 000 0000" className="form-control w-full pl-10 pr-3 text-sm" />
+                <input
+                  name="phone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  required
+                  placeholder="024 000 0000"
+                  value={phoneValue}
+                  onChange={(event) => {
+                    setPhoneValue(event.target.value);
+                    setPhoneProofToken("");
+                  }}
+                  className="form-control w-full pl-10 pr-3 text-sm"
+                />
               </span>
             </label>
+          </div>
+
+          <div className="grid gap-3 rounded-[8px] border border-[var(--line)] bg-white p-3 sm:grid-cols-2">
+            <div>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-black text-[var(--ink)]">Verify email</p>
+                {emailProofToken ? <span className="text-[0.68rem] font-black text-emerald-700">Verified</span> : null}
+              </div>
+              <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto]">
+                <input value={emailCode} onChange={(event) => setEmailCode(event.target.value)} inputMode="numeric" maxLength={6} placeholder="Email code" className="form-control px-3 text-xs" />
+                <Button type="button" variant="secondary" disabled={!emailValue || verifying === "email-send"} onClick={sendEmailCode} className="min-h-11">
+                  {verifying === "email-send" ? "Sending..." : "Send"}
+                </Button>
+              </div>
+              <Button type="button" disabled={!emailCode || verifying === "email-check"} onClick={verifyEmailCode} className="mt-2 w-full min-h-10">
+                {verifying === "email-check" ? "Checking..." : "Verify email"}
+              </Button>
+            </div>
+            <div>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-black text-[var(--ink)]">Verify phone</p>
+                {phoneProofToken ? <span className="text-[0.68rem] font-black text-emerald-700">Verified</span> : null}
+              </div>
+              <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto]">
+                <input value={phoneCode} onChange={(event) => setPhoneCode(event.target.value)} inputMode="numeric" maxLength={6} placeholder="SMS code" className="form-control px-3 text-xs" />
+                <Button type="button" variant="secondary" disabled={!phoneValue || verifying === "phone-send"} onClick={sendPhoneCode} className="min-h-11">
+                  {verifying === "phone-send" ? "Sending..." : "Send"}
+                </Button>
+              </div>
+              <Button type="button" disabled={!phoneCode || verifying === "phone-check"} onClick={verifyPhoneCode} className="mt-2 w-full min-h-10">
+                {verifying === "phone-check" ? "Checking..." : "Verify phone"}
+              </Button>
+            </div>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
@@ -263,7 +422,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
               {success}
             </p>
           ) : null}
-          <Button type="submit" disabled={pending} className="mt-1 w-full">
+          <Button type="submit" disabled={pending || !emailProofToken || !phoneProofToken} className="mt-1 w-full">
             {pending ? "Creating..." : "Create account"}
             <ArrowRight size={16} />
           </Button>

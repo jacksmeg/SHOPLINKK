@@ -62,6 +62,13 @@ export async function POST(request: Request) {
   const productName = foodOrder
     ? foodOrder.items.map((item) => `${item.quantity}x ${item.name}`).join(", ")
     : parsed.data.productName;
+  const selectedRider = parsed.data.riderId
+    ? await prisma.riderProfile.findFirst({
+        where: { id: parsed.data.riderId, status: "APPROVED", availability: "ONLINE" },
+        select: { id: true, userId: true },
+      })
+    : null;
+  if (parsed.data.riderId && !selectedRider) return jsonError("That rider is not available right now.", 404);
 
   const deliveryRequest = await prisma.deliveryRequest.create({
     data: {
@@ -69,6 +76,7 @@ export async function POST(request: Request) {
       storeId: store.id,
       sellerId: store.ownerId,
       buyerId: foodOrder?.buyerId ?? session.user.id,
+      riderId: selectedRider?.id ?? null,
       pickupName: store.name,
       pickupPhone: store.phone || store.owner.phone,
       pickupAddress: parsed.data.pickupAddress || store.address || store.location,
@@ -88,7 +96,9 @@ export async function POST(request: Request) {
   });
 
   const riders = await prisma.riderProfile.findMany({
-    where: { status: "APPROVED", availability: "ONLINE" },
+    where: selectedRider
+      ? { id: selectedRider.id }
+      : { status: "APPROVED", availability: "ONLINE" },
     select: { userId: true },
     take: 25,
   });

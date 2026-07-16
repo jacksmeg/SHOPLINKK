@@ -11,13 +11,16 @@ import { compactDate, formatCurrency } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 export default async function RiderRequestsPage() {
-  await requireRole(["RIDER", "ADMIN"]);
-  const requests = await prisma.deliveryRequest.findMany({
-    where: { status: "OPEN" },
-    include: { store: { select: { name: true } }, buyer: { select: { name: true, phone: true } } },
-    orderBy: { createdAt: "desc" },
-    take: 100,
-  });
+  const session = await requireRole(["RIDER", "ADMIN"]);
+  const profile = await prisma.riderProfile.findUnique({ where: { userId: session.user.id }, select: { id: true } });
+  const requests = profile
+    ? await prisma.deliveryRequest.findMany({
+        where: { status: "OPEN", OR: [{ riderId: null }, { riderId: profile.id }] },
+        include: { store: { select: { name: true } }, buyer: { select: { name: true, phone: true } } },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      })
+    : [];
 
   return (
     <DashboardShell eyebrow="Rider" title="Delivery requests" description="Accept available deliveries from sellers near you." links={riderLinks}>

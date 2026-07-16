@@ -123,7 +123,6 @@ export function FoodOrderBuilder({
                 {store.name}
               </Link>
             </div>
-            <p className="rounded-[8px] bg-yellow-400 px-3 py-2 text-sm font-black text-slate-950">{formatCurrency(total)}</p>
           </div>
 
           <div className="mt-5 rounded-[8px] border border-[var(--line)]">
@@ -189,6 +188,14 @@ export function FoodOrderBuilder({
               {message}
             </p>
           ) : null}
+
+          <div className="mt-5 rounded-[10px] bg-yellow-400 p-4 text-slate-950">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs font-black uppercase tracking-[0.08em]">Total item price</span>
+              <span className="text-xl font-black">{formatCurrency(total)}</span>
+            </div>
+            <p className="mt-1 text-[0.68rem] font-bold">Add to cart first. Payment details show after the seller confirms the order.</p>
+          </div>
 
           <div className="mt-5 flex flex-wrap gap-2">
             <Button type="button" onClick={addToCart}>

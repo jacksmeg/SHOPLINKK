@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { ChefHat, Clock3, MapPinned, Phone, ReceiptText, Truck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
+import { AutoRefresh } from "@/components/ui/auto-refresh";
+import { CancelFoodOrderButton } from "@/components/food/cancel-food-order-button";
 import { DirectPaymentProofForm } from "@/components/payments/direct-payment-proof-form";
 import { requireUser } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
@@ -41,6 +43,9 @@ export default async function FoodOrderTrackerPage({ params }: { params: Promise
   const deliveryRequest = order.deliveryRequests[0];
   const sellerPhone = order.store.whatsapp || order.store.phone;
   const buyerPhone = order.buyerPhone || order.buyer.phone;
+  const canBuyerCancel = session.user.id === order.buyerId
+    && !["PAID", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED"].includes(order.status)
+    && order.directPaymentStatus !== "CONFIRMED";
 
   return (
     <main className="mx-auto max-w-[1180px] px-4 py-6 sm:px-6 lg:px-8">
@@ -53,6 +58,7 @@ export default async function FoodOrderTrackerPage({ params }: { params: Promise
         <Badge tone={order.status === "DELIVERED" ? "green" : order.status === "CANCELLED" ? "red" : "gold"}>
           {titleCase(order.status)}
         </Badge>
+        <AutoRefresh seconds={15} />
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -180,6 +186,7 @@ export default async function FoodOrderTrackerPage({ params }: { params: Promise
             <div className="mt-4 flex flex-wrap gap-2">
               {sellerPhone ? <ButtonLink href={`tel:${formatGhanaPhone(sellerPhone)}`} variant="secondary"><Phone size={15} /> Call seller</ButtonLink> : null}
               <ButtonLink href="/buyer/food-orders" variant="ghost">All orders</ButtonLink>
+              {canBuyerCancel ? <CancelFoodOrderButton orderId={order.id} /> : null}
             </div>
           </div>
 

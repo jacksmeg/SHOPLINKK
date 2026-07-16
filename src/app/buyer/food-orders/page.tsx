@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ChefHat, MapPinned, Truck } from "lucide-react";
+import { CancelFoodOrderButton } from "@/components/food/cancel-food-order-button";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { AutoRefresh } from "@/components/ui/auto-refresh";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireUser } from "@/lib/auth-guards";
@@ -32,12 +34,17 @@ export default async function BuyerFoodOrdersPage() {
       description="Track food orders, MoMo confirmation, preparation, and delivery."
       links={buyerLinks}
     >
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-[10px] bg-white p-3 shadow-sm ring-1 ring-[var(--line)]">
+        <p className="text-xs font-black text-[var(--ink)]">Live food order updates</p>
+        <AutoRefresh seconds={15} />
+      </div>
       <div className="grid gap-3">
         {orders.map((order) => (
           <article key={order.id} className="app-panel p-4 sm:p-5">
             {(() => {
               const activeDelivery = order.deliveries[0];
               const activeRequest = order.deliveryRequests[0];
+              const canCancel = !["PAID", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED"].includes(order.status) && order.directPaymentStatus !== "CONFIRMED";
               return (
                 <>
             <div className="flex flex-wrap items-start justify-between gap-3">
@@ -96,6 +103,7 @@ export default async function BuyerFoodOrdersPage() {
               <MapPinned size={14} />
               Open order tracker
             </Link>
+            {canCancel ? <div className="mt-3"><CancelFoodOrderButton orderId={order.id} /></div> : null}
                 </>
               );
             })()}

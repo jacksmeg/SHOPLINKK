@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Edit3, Eye, EyeOff, Save, Send, Trash2, UploadCloud, X } from "lucide-react";
+import { Edit3, Eye, EyeOff, PlusCircle, Save, Send, Trash2, UploadCloud, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { uploadImage } from "@/components/forms/upload-helper";
@@ -158,7 +158,6 @@ export function FoodMenuItemActions({
         <div className="mt-3 rounded-[8px] border border-[var(--line)] bg-white p-3">
           <div className="flex items-center justify-between gap-2">
             <p className="text-xs font-black text-[var(--ink)]">Add-ons</p>
-            <button type="button" onClick={() => setOptions((current) => [...current, { name: "", price: "" }])} className="text-xs font-black text-[var(--brand-dark)]">Add option</button>
           </div>
           <div className="mt-2 grid gap-2">
             {options.map((option, index) => (
@@ -169,6 +168,14 @@ export function FoodMenuItemActions({
               </div>
             ))}
           </div>
+          <button
+            type="button"
+            onClick={() => setOptions((current) => [...current, { name: "", price: "" }])}
+            className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-[8px] bg-[var(--brand-dark)] px-4 text-xs font-black text-white shadow-sm transition hover:-translate-y-0.5"
+          >
+            <PlusCircle size={14} />
+            Add option
+          </button>
         </div>
         {message ? <p className="mt-3 text-xs font-semibold text-[var(--muted)]">{message}</p> : null}
         <div className="mt-3 flex flex-wrap gap-2">

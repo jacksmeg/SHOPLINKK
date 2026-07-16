@@ -118,7 +118,7 @@ export async function POST(
     sellerId: store.ownerId,
     title: "New food order",
     body: `${session.user.name || "A buyer"} placed a food order from ${store.name}.`,
-    href: "/seller/orders",
+    href: "/seller/food/orders",
     buyerName: session.user.name,
     storeName: store.name,
     amount: total,

@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
@@ -56,10 +55,45 @@ export async function POST(request: Request) {
   const email = parsed.data.email.toLowerCase();
   const username = parsed.data.username.toLowerCase();
   const phone = formatGhanaPhone(parsed.data.phone);
-  const existing = await prisma.user.findFirst({ where: { OR: [{ email }, { phone }, { username }] } });
+  const existing = await prisma.user.findFirst({
+    where: {
+      OR: [
+        { email: { equals: email, mode: "insensitive" } },
+        { phone },
+        { username: { equals: username, mode: "insensitive" } },
+      ],
+    },
+  });
 
   if (existing) {
     return jsonError("An account already exists with this email, username, or phone number", 409);
+  }
+
+  const [emailProof, phoneProof] = await Promise.all([
+    prisma.verificationToken.findUnique({
+      where: {
+        identifier_token: {
+          identifier: `signup-email-proof:${email}`,
+          token: parsed.data.emailProofToken,
+        },
+      },
+    }),
+    prisma.verificationToken.findUnique({
+      where: {
+        identifier_token: {
+          identifier: `signup-phone-proof:${phone}`,
+          token: parsed.data.phoneProofToken,
+        },
+      },
+    }),
+  ]);
+
+  if (!emailProof || emailProof.expires < new Date()) {
+    return jsonError("Verify your email before creating the account.", 428);
+  }
+
+  if (!phoneProof || phoneProof.expires < new Date()) {
+    return jsonError("Verify your phone number before creating the account.", 428);
   }
 
   const passwordHash = await bcrypt.hash(parsed.data.password, 12);
@@ -69,9 +103,11 @@ export async function POST(request: Request) {
       name: parsed.data.name,
       email,
       username,
+      emailVerified: new Date(),
       passwordHash,
       role: parsed.data.role,
       phone,
+      phoneVerifiedAt: new Date(),
       whatsapp: phone,
       location: parsed.data.location,
       termsAcceptedAt: new Date(),
@@ -103,22 +139,23 @@ export async function POST(request: Request) {
     },
   });
 
-  const token = randomUUID();
-  await prisma.verificationToken.create({
-    data: {
-      identifier: `email-verify:${email}`,
-      token,
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+  await prisma.verificationToken.deleteMany({
+    where: {
+      OR: [
+        { identifier: `signup-email:${email}` },
+        { identifier: `signup-email-proof:${email}` },
+        { identifier: `signup-phone:${phone}` },
+        { identifier: `signup-phone-proof:${phone}` },
+      ],
     },
   });
 
   try {
-    const verifyUrl = appUrl(`/api/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`);
     const emailContent = brandedEmail({
       title: "Welcome to ShopLinkk",
-      intro: "Your account is ready. Verify your email to improve account trust and keep your marketplace account secure.",
-      ctaLabel: "Verify email",
-      ctaUrl: verifyUrl,
+      intro: "Your email and phone number are verified. Your ShopLinkk account is ready.",
+      ctaLabel: "Open ShopLinkk",
+      ctaUrl: appUrl("/login"),
     });
     await sendEmail({
       to: email,

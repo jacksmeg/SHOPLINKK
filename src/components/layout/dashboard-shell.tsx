@@ -11,13 +11,14 @@ export function DashboardShell({
   eyebrow: string;
   title: string;
   description: string;
-  links: { href: string; label: string; icon: LucideIcon }[];
+  links: { href: string; label: string; icon: LucideIcon; group?: string }[];
   children: React.ReactNode;
 }) {
   const navigationLinks = links.map((link) => ({
     href: link.href,
     label: link.label,
     icon: link.icon.displayName || link.icon.name || "Circle",
+    group: link.group,
   }));
 
   return (

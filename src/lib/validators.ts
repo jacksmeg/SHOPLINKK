@@ -55,6 +55,8 @@ export const registerSchema = z.object({
   phone: ghanaPhoneSchema,
   location: z.string().min(2).default("Dunkwa-on-Offin"),
   termsAccepted: acceptedTermsSchema,
+  emailProofToken: z.string().min(10, "Verify your email first"),
+  phoneProofToken: z.string().min(10, "Verify your phone number first"),
 });
 
 export const loginSchema = z.object({
@@ -422,6 +424,7 @@ export const riderLocationSchema = z.object({
 
 export const deliveryRequestSchema = z.object({
   foodOrderId: z.string().optional().or(z.literal("")),
+  riderId: z.string().optional().or(z.literal("")),
   pickupAddress: z.string().min(5, "Enter the pickup address").max(240),
   pickupLatitude: z.coerce.number().min(-90).max(90).optional().or(z.literal("")),
   pickupLongitude: z.coerce.number().min(-180).max(180).optional().or(z.literal("")),

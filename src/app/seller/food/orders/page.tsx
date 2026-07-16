@@ -2,6 +2,7 @@ import { Clock, Truck } from "lucide-react";
 import { DeliveryRequestForm } from "@/components/seller/delivery-request-form";
 import { FoodOrderActions } from "@/components/seller/food-order-actions";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { AutoRefresh } from "@/components/ui/auto-refresh";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -22,21 +23,36 @@ const statusColumns = [
 
 export default async function SellerFoodOrdersPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
-  const store = await prisma.store.findUnique({
-    where: { ownerId: session.user.id },
-    include: {
-      foodOrders: {
-        include: {
-          buyer: { select: { name: true, phone: true } },
-          items: true,
-          deliveries: { select: { id: true, status: true }, orderBy: { createdAt: "desc" }, take: 1 },
-          deliveryRequests: { select: { status: true }, orderBy: { createdAt: "desc" }, take: 1 },
+  const [store, availableRiders] = await Promise.all([
+    prisma.store.findUnique({
+      where: { ownerId: session.user.id },
+      include: {
+        foodOrders: {
+          include: {
+            buyer: { select: { name: true, phone: true } },
+            items: true,
+            deliveries: { select: { id: true, status: true }, orderBy: { createdAt: "desc" }, take: 1 },
+            deliveryRequests: { select: { status: true }, orderBy: { createdAt: "desc" }, take: 1 },
+          },
+          orderBy: { createdAt: "desc" },
+          take: 100,
         },
-        orderBy: { createdAt: "desc" },
-        take: 100,
       },
-    },
-  });
+    }),
+    prisma.riderProfile.findMany({
+      where: { status: "APPROVED", availability: "ONLINE" },
+      include: { user: { select: { name: true, phone: true } } },
+      orderBy: { updatedAt: "desc" },
+      take: 30,
+    }),
+  ]);
+  const riderOptions = availableRiders.map((rider) => ({
+    id: rider.id,
+    name: rider.user.name,
+    phone: rider.user.phone || rider.momoNumber,
+    vehicleType: rider.vehicleType,
+    availability: rider.availability,
+  }));
 
   if (store?.kind !== "FOOD") {
     return (
@@ -59,6 +75,13 @@ export default async function SellerFoodOrdersPage() {
       description="Track each order from MoMo payment to preparation, dispatch, and delivery."
       links={sellerFoodLinks}
     >
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-[10px] bg-white p-3 shadow-sm ring-1 ring-[var(--line)]">
+        <div>
+          <p className="text-xs font-black text-[var(--ink)]">Live order board</p>
+          <p className="mt-1 text-[0.68rem] text-[var(--muted)]">Keep this screen open on your phone or tablet. New orders and rider updates refresh automatically.</p>
+        </div>
+        <AutoRefresh seconds={12} />
+      </div>
       <div className="mb-5 grid gap-2 sm:grid-cols-5">
         {statusColumns.map((column) => (
           <div key={column.key} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
@@ -131,6 +154,7 @@ export default async function SellerFoodOrdersPage() {
               estimatedMinutes={order.estimatedDeliveryMinutes}
               activeDeliveryId={activeDelivery?.id}
               activeRequestStatus={activeRequest?.status}
+              riders={riderOptions}
             />
                 </>
               );

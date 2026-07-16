@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle2, LocateFixed, Minus, Plus, ShoppingCart, Trash2, UploadCloud } from "lucide-react";
+import { CheckCircle2, LocateFixed, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, useTransition } from "react";
-import { uploadImage } from "@/components/forms/upload-helper";
 import { Button, ButtonLink } from "@/components/ui/button";
 import {
   FOOD_CART_CHANGED_EVENT,
@@ -34,10 +33,6 @@ export function FoodCartPage({
   const [buyerPhone, setBuyerPhone] = useState(defaultPhone ?? "");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryNote, setDeliveryNote] = useState("");
-  const [paymentReference, setPaymentReference] = useState("");
-  const [paymentProofUrl, setPaymentProofUrl] = useState("");
-  const [buyerPaymentNote, setBuyerPaymentNote] = useState("");
-  const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [placedOrders, setPlacedOrders] = useState<{ id: string; storeName: string }[]>([]);
@@ -114,23 +109,6 @@ export function FoodCartPage({
     );
   }
 
-  async function uploadProof(file?: File | null) {
-    if (!file) return;
-    setMessage("");
-    setUploading(true);
-    try {
-      const url = await uploadImage(file, "payment-proof");
-      setPaymentProofUrl(url);
-      setMessage("Payment proof uploaded.");
-      setSuccess(true);
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Could not upload payment proof.");
-      setSuccess(false);
-    } finally {
-      setUploading(false);
-    }
-  }
-
   function submitOrders() {
     setMessage("");
     setSuccess(false);
@@ -161,9 +139,6 @@ export function FoodCartPage({
             buyerPhone,
             deliveryAddress,
             deliveryNote,
-            paymentReference,
-            paymentProofUrl,
-            buyerPaymentNote,
             items: group.items.map((item) => ({
               itemId: item.itemId,
               quantity: item.quantity,
@@ -192,13 +167,10 @@ export function FoodCartPage({
       setMessage(
         createdOrders.length > 1
           ? "Food orders sent. Choose an order below to track it."
-          : "Food order sent. Opening your order tracker...",
+          : "Food order sent. Opening your order tracker for seller confirmation and payment details...",
       );
       setSuccess(true);
       setDeliveryNote("");
-      setPaymentReference("");
-      setPaymentProofUrl("");
-      setBuyerPaymentNote("");
       if (createdOrders.length === 1) {
         router.push(`/food-orders/${createdOrders[0].id}`);
       }
@@ -211,7 +183,7 @@ export function FoodCartPage({
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--brand)]">Food cart</p>
           <h1 className="mt-1 text-xl font-black text-[var(--ink)]">Confirm your order</h1>
-          <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Order from one or more food sellers. Send MoMo directly to each seller and track updates in ShopLinkk.</p>
+          <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Order from one or more food sellers first. The seller confirms the order before payment details appear on the tracker.</p>
         </div>
         <div className="rounded-[8px] bg-yellow-400 px-4 py-3 text-sm font-black text-slate-950">
           {foodCartCount(items)} item{foodCartCount(items) === 1 ? "" : "s"} / {formatCurrency(total)}
@@ -238,7 +210,7 @@ export function FoodCartPage({
                   ) : (
                     <h2 className="text-sm font-black text-[var(--ink)]">{group.storeName}</h2>
                   )}
-                  <p className="mt-1 text-xs text-[var(--muted)]">MoMo/contact: {group.momoNumber || "seller will confirm"}</p>
+                  <p className="mt-1 text-xs text-[var(--muted)]">Seller will confirm payment details after the order is sent.</p>
                 </div>
                 <p className="text-sm font-black text-[var(--brand-dark)]">
                   {formatCurrency(group.items.reduce((sum, item) => sum + foodCartItemTotal(item), 0))}
@@ -300,19 +272,13 @@ export function FoodCartPage({
               </Button>
             </div>
             <textarea value={deliveryNote} onChange={(event) => setDeliveryNote(event.target.value)} rows={3} placeholder="Landmark, room number, or delivery note" className="form-control resize-none px-3 py-2 text-xs" />
-            <input value={paymentReference} onChange={(event) => setPaymentReference(event.target.value)} placeholder="MoMo reference after payment (optional)" className="form-control px-3 text-xs" />
-            <textarea value={buyerPaymentNote} onChange={(event) => setBuyerPaymentNote(event.target.value)} rows={3} placeholder="Optional payment note, e.g. paid from 054..." className="form-control resize-none px-3 py-2 text-xs" />
-            <label className="flex cursor-pointer items-center justify-center gap-2 rounded-[8px] border border-dashed border-[var(--line-strong)] bg-white px-3 py-3 text-xs font-bold text-[var(--brand-dark)]">
-              <UploadCloud size={16} />
-              {uploading ? "Uploading proof..." : paymentProofUrl ? "Proof uploaded. Choose another" : "Upload payment proof"}
-              <input type="file" accept="image/*" className="hidden" disabled={uploading} onChange={(event) => uploadProof(event.target.files?.[0])} />
-            </label>
           </div>
-          <div className="mt-4 rounded-[8px] bg-[var(--surface-muted)] p-3">
+          <div className="mt-4 rounded-[8px] bg-[var(--surface-muted)] p-4">
             <div className="flex items-center justify-between text-xs">
               <span className="font-bold text-[var(--muted)]">Total</span>
               <span className="text-lg font-black text-[var(--brand-dark)]">{formatCurrency(total)}</span>
             </div>
+            <p className="mt-2 text-[0.68rem] leading-5 text-[var(--muted)]">Payment comes on the next page after the order is created.</p>
           </div>
           {message ? (
             <p className={`mt-3 flex items-start gap-2 rounded-[8px] p-3 text-xs font-semibold ${success ? "bg-blue-50 text-[var(--brand-dark)]" : "bg-red-50 text-red-700"}`}>
@@ -329,7 +295,7 @@ export function FoodCartPage({
               ))}
             </div>
           ) : null}
-          <Button type="button" disabled={pending || uploading || !items.length} onClick={submitOrders} className="mt-4 w-full">
+          <Button type="button" disabled={pending || !items.length} onClick={submitOrders} className="mt-4 w-full">
             <ShoppingCart size={16} />
             {pending ? "Sending order..." : "Confirm order"}
           </Button>

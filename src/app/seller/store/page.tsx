@@ -8,9 +8,20 @@ import { ButtonLink } from "@/components/ui/button";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
 import { sellerLinksForKind } from "@/lib/seller-access";
-import { titleCase } from "@/lib/utils";
+import { formatCurrency, titleCase } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
+
+type FoodProfile = {
+  cuisineTypes?: string;
+  signatureDishes?: string;
+  averagePrepMinutes?: number | string | null;
+  averageDeliveryMinutes?: number | string | null;
+  minimumOrderAmount?: number | string | null;
+  deliveryFee?: number | string | null;
+  kitchenStatus?: string;
+  serviceModes?: string[];
+};
 
 export default async function SellerStorePage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
@@ -23,6 +34,11 @@ export default async function SellerStorePage() {
     prisma.foodOrder.count({ where: { store: { ownerId: session.user.id }, status: { in: ["PENDING_PAYMENT", "PAID", "PREPARING", "OUT_FOR_DELIVERY"] } } }),
   ]);
   const publicStorePath = store ? `/stores/${store.slug}` : "/seller/store/edit";
+  const socialLinks =
+    store?.socialLinks && typeof store.socialLinks === "object" && !Array.isArray(store.socialLinks)
+      ? (store.socialLinks as { foodProfile?: FoodProfile })
+      : {};
+  const foodProfile = socialLinks.foodProfile ?? {};
 
   return (
     <DashboardShell
@@ -109,6 +125,42 @@ export default async function SellerStorePage() {
           </div>
         </section>
       </div>
+
+      {store?.kind === "FOOD" ? (
+        <section className="mt-5 app-panel p-4 sm:p-5">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-black text-[var(--ink)]">Advanced food shop controls</h2>
+              <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
+                Food sellers get extra restaurant controls for cuisine, kitchen status, preparation timing, delivery fees, and order modes.
+              </p>
+            </div>
+            <ButtonLink href="/seller/food/store" variant="secondary">Open food shop setup</ButtonLink>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+            {[
+              { label: "Kitchen", value: titleCase(foodProfile.kitchenStatus ?? "OPEN"), helper: store.openingHours || "Opening hours not added" },
+              { label: "Cuisine", value: foodProfile.cuisineTypes || "Not added", helper: foodProfile.signatureDishes || "Add signature dishes" },
+              { label: "Prep time", value: `${foodProfile.averagePrepMinutes || "?"} min`, helper: "Average food preparation" },
+              { label: "Delivery", value: `${foodProfile.averageDeliveryMinutes || "?"} min`, helper: foodProfile.deliveryFee ? formatCurrency(Number(foodProfile.deliveryFee)) : "No fee set" },
+              { label: "Minimum order", value: foodProfile.minimumOrderAmount ? formatCurrency(Number(foodProfile.minimumOrderAmount)) : "None", helper: "Buyer order rule" },
+            ].map((item) => (
+              <div key={item.label} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
+                <p className="text-[0.68rem] font-bold uppercase tracking-[0.08em] text-[var(--muted)]">{item.label}</p>
+                <p className="mt-2 truncate text-sm font-black text-[var(--brand-dark)]">{item.value}</p>
+                <p className="mt-1 line-clamp-2 text-xs leading-5 text-[var(--muted)]">{item.helper}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {(foodProfile.serviceModes?.length ? foodProfile.serviceModes : ["Delivery", "Pickup"]).map((mode) => (
+              <span key={mode} className="rounded-full bg-[var(--brand-soft)] px-3 py-1 text-[0.72rem] font-bold text-[var(--brand-dark)]">
+                {mode}
+              </span>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <div className="mt-5 grid gap-4 lg:grid-cols-3">
         <Link href={publicStorePath} className="app-panel app-panel-interactive p-4 sm:p-5">

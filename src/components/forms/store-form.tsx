@@ -9,6 +9,22 @@ import { uploadImage } from "@/components/forms/upload-helper";
 import { ImageCropper } from "@/components/forms/image-cropper";
 import { dunkwaAreas } from "@/lib/ghana";
 
+type FoodProfile = {
+  cuisineTypes?: string;
+  signatureDishes?: string;
+  averagePrepMinutes?: number | string | null;
+  averageDeliveryMinutes?: number | string | null;
+  minimumOrderAmount?: number | string | null;
+  deliveryFee?: number | string | null;
+  kitchenStatus?: string;
+  serviceModes?: string[];
+  acceptsPreorders?: boolean;
+  allowsScheduledOrders?: boolean;
+  packagingNote?: string;
+  allergyNote?: string;
+  orderInstructions?: string;
+};
+
 type StoreFormValue = {
   name?: string | null;
   kind?: string | null;
@@ -40,17 +56,26 @@ type StoreFormValue = {
   coverUrl?: string | null;
 };
 
-export function StoreForm({ store }: { store?: StoreFormValue | null }) {
+export function StoreForm({
+  store,
+  preferredKind,
+}: {
+  store?: StoreFormValue | null;
+  preferredKind?: "GENERAL" | "FOOD";
+}) {
   const router = useRouter();
   const [logoUrl, setLogoUrl] = useState(store?.logoUrl ?? "");
   const [coverUrl, setCoverUrl] = useState(store?.coverUrl ?? "");
   const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [selectedKind, setSelectedKind] = useState(store?.kind ?? preferredKind ?? "GENERAL");
   const [message, setMessage] = useState("");
   const [pending, startTransition] = useTransition();
   const socialLinks =
     store?.socialLinks && typeof store.socialLinks === "object" && !Array.isArray(store.socialLinks)
-      ? (store.socialLinks as { facebook?: string; instagram?: string; tiktok?: string; x?: string })
+      ? (store.socialLinks as { facebook?: string; instagram?: string; tiktok?: string; x?: string; foodProfile?: FoodProfile })
       : {};
+  const foodProfile = socialLinks.foodProfile ?? {};
+  const isFood = selectedKind === "FOOD";
 
   async function upload(target: "logo" | "cover", file?: File) {
     if (!file) return;
@@ -104,6 +129,25 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
             instagram: String(formData.get("instagram") ?? ""),
             tiktok: String(formData.get("tiktok") ?? ""),
             x: String(formData.get("x") ?? ""),
+            ...(String(formData.get("kind") ?? selectedKind) === "FOOD"
+              ? {
+                  foodProfile: {
+                    cuisineTypes: String(formData.get("foodCuisineTypes") ?? ""),
+                    signatureDishes: String(formData.get("foodSignatureDishes") ?? ""),
+                    averagePrepMinutes: formData.get("foodAveragePrepMinutes") || "",
+                    averageDeliveryMinutes: formData.get("foodAverageDeliveryMinutes") || "",
+                    minimumOrderAmount: formData.get("foodMinimumOrderAmount") || "",
+                    deliveryFee: formData.get("foodDeliveryFee") || "",
+                    kitchenStatus: String(formData.get("foodKitchenStatus") ?? "OPEN"),
+                    serviceModes: formData.getAll("foodServiceModes").map(String),
+                    acceptsPreorders: Boolean(formData.get("foodAcceptsPreorders")),
+                    allowsScheduledOrders: Boolean(formData.get("foodAllowsScheduledOrders")),
+                    packagingNote: String(formData.get("foodPackagingNote") ?? ""),
+                    allergyNote: String(formData.get("foodAllergyNote") ?? ""),
+                    orderInstructions: String(formData.get("foodOrderInstructions") ?? ""),
+                  },
+                }
+              : {}),
           },
           deliveryCoverage: formData.get("deliveryCoverage"),
           announcementBanner: formData.get("announcementBanner"),
@@ -134,6 +178,16 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
 
   return (
     <form method="post" onSubmit={submit} className="rounded-[8px] border border-[var(--line)] bg-white p-6 shadow-sm">
+      <div className={`mb-5 rounded-[8px] p-4 ${isFood ? "bg-pink-600 text-white" : "bg-[var(--brand-dark)] text-white"}`}>
+        <p className="text-xs font-black uppercase tracking-[0.12em] opacity-80">{isFood ? "Food seller shop setup" : "Marketplace store setup"}</p>
+        <h2 className="mt-2 text-lg font-black">{isFood ? "Build your restaurant / food shop profile" : "Build your public seller store"}</h2>
+        <p className="mt-2 max-w-3xl text-xs leading-5 opacity-90">
+          {isFood
+            ? "Food sellers get menu, preparation time, delivery settings, order instructions, packaging notes, and buyer-ready food trust details."
+            : "Product and service sellers can manage store identity, contact details, delivery coverage, verification, and buyer trust details."}
+        </p>
+      </div>
+
       <div className="relative aspect-[16/9] overflow-hidden rounded-[8px] bg-blue-50">
         {coverUrl ? <Image src={coverUrl} alt="Store cover" fill className="object-cover" unoptimized /> : null}
         <label className="absolute bottom-3 right-3 inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-[7px] bg-white px-4 text-xs font-semibold shadow">
@@ -177,7 +231,7 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
         </label>
         <label className="text-sm font-bold text-[var(--ink)]">
           Store type
-          <select name="kind" defaultValue={store?.kind ?? "GENERAL"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
+          <select name="kind" value={selectedKind} onChange={(event) => setSelectedKind(event.target.value)} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
             <option value="GENERAL">General marketplace store</option>
             <option value="FOOD">Food seller / restaurant</option>
           </select>
@@ -224,6 +278,87 @@ export function StoreForm({ store }: { store?: StoreFormValue | null }) {
           <input name="gpsLongitude" type="number" step="any" defaultValue={store?.gpsLongitude ?? ""} placeholder="-1.78..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
         </label>
       </div>
+      {isFood ? (
+        <div className="mt-5 rounded-[8px] border border-pink-200 bg-pink-50 p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-black text-pink-950">Advanced food shop settings</h2>
+              <p className="mt-1 text-xs leading-5 text-pink-900">These details help buyers know what you cook, how long it takes, and how ordering should work.</p>
+            </div>
+            <span className="rounded-full bg-pink-600 px-3 py-1 text-[0.68rem] font-black uppercase tracking-[0.08em] text-white">Restaurant tools</span>
+          </div>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Cuisine or food types
+              <input name="foodCuisineTypes" defaultValue={foodProfile.cuisineTypes ?? ""} placeholder="Ghanaian meals, rice, banku, waakye, grills..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Signature dishes
+              <input name="foodSignatureDishes" defaultValue={foodProfile.signatureDishes ?? ""} placeholder="Jollof with chicken, fufu, fried rice..." className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Average preparation time
+              <input name="foodAveragePrepMinutes" type="number" min="0" max="360" defaultValue={foodProfile.averagePrepMinutes ?? ""} placeholder="30 minutes" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Average delivery time
+              <input name="foodAverageDeliveryMinutes" type="number" min="0" max="360" defaultValue={foodProfile.averageDeliveryMinutes ?? ""} placeholder="25 minutes" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Minimum order amount
+              <input name="foodMinimumOrderAmount" type="number" min="0" defaultValue={foodProfile.minimumOrderAmount ?? ""} placeholder="Example: 20" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Default delivery fee
+              <input name="foodDeliveryFee" type="number" min="0" defaultValue={foodProfile.deliveryFee ?? ""} placeholder="Example: 8" className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Kitchen status
+              <select name="foodKitchenStatus" defaultValue={foodProfile.kitchenStatus ?? "OPEN"} className="mt-2 min-h-12 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100">
+                <option value="OPEN">Open for orders</option>
+                <option value="BUSY">Busy but accepting orders</option>
+                <option value="CLOSING_SOON">Closing soon</option>
+                <option value="CLOSED">Temporarily closed</option>
+              </select>
+            </label>
+            <div className="rounded-[8px] border border-[var(--line)] bg-white p-3">
+              <p className="text-sm font-bold text-[var(--ink)]">Food service modes</p>
+              <div className="mt-3 grid gap-2 text-xs font-bold text-[var(--ink)]">
+                {["Delivery", "Pickup", "Pre-order", "Scheduled orders", "Office lunch", "Party orders"].map((mode) => (
+                  <label key={mode} className="flex items-center gap-2">
+                    <input name="foodServiceModes" type="checkbox" value={mode} defaultChecked={foodProfile.serviceModes?.includes(mode)} className="size-4 accent-[var(--brand)]" />
+                    {mode}
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <label className="flex min-h-12 items-center gap-3 rounded-[8px] border border-[var(--line)] bg-white px-3 text-xs font-black text-[var(--ink)]">
+              <input name="foodAcceptsPreorders" type="checkbox" defaultChecked={foodProfile.acceptsPreorders ?? false} className="size-4 accent-[var(--brand)]" />
+              Accept pre-orders
+            </label>
+            <label className="flex min-h-12 items-center gap-3 rounded-[8px] border border-[var(--line)] bg-white px-3 text-xs font-black text-[var(--ink)]">
+              <input name="foodAllowsScheduledOrders" type="checkbox" defaultChecked={foodProfile.allowsScheduledOrders ?? false} className="size-4 accent-[var(--brand)]" />
+              Allow scheduled orders
+            </label>
+          </div>
+          <div className="mt-4 grid gap-4 lg:grid-cols-3">
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Packaging note
+              <textarea name="foodPackagingNote" defaultValue={foodProfile.packagingNote ?? ""} rows={3} placeholder="Example: Meals are sealed and packed separately." className="mt-2 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Allergy / spice note
+              <textarea name="foodAllergyNote" defaultValue={foodProfile.allergyNote ?? ""} rows={3} placeholder="Example: Tell us if you do not want pepper, onions, or groundnut." className="mt-2 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+            <label className="text-sm font-bold text-[var(--ink)]">
+              Order instructions
+              <textarea name="foodOrderInstructions" defaultValue={foodProfile.orderInstructions ?? ""} rows={3} placeholder="Example: Buyer should confirm MoMo payment before preparation starts." className="mt-2 w-full rounded-[8px] border border-[var(--line)] bg-white px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+            </label>
+          </div>
+        </div>
+      ) : null}
       <label className="mt-4 block text-sm font-bold text-[var(--ink)]">
         Description
         <textarea name="description" defaultValue={store?.description ?? ""} rows={4} className="mt-2 w-full rounded-[8px] border border-[var(--line)] px-3 py-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />

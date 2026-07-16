@@ -120,6 +120,23 @@ export const storeSchema = z.object({
       instagram: z.url().optional().or(z.literal("")),
       tiktok: z.url().optional().or(z.literal("")),
       x: z.url().optional().or(z.literal("")),
+      foodProfile: z
+        .object({
+          cuisineTypes: z.string().max(240).optional().or(z.literal("")),
+          signatureDishes: z.string().max(300).optional().or(z.literal("")),
+          averagePrepMinutes: z.coerce.number().int().min(0).max(360).optional().or(z.literal("")),
+          averageDeliveryMinutes: z.coerce.number().int().min(0).max(360).optional().or(z.literal("")),
+          minimumOrderAmount: optionalFloatSchema.refine((value) => value === null || value === undefined || value >= 0, "Minimum order cannot be negative"),
+          deliveryFee: optionalFloatSchema.refine((value) => value === null || value === undefined || value >= 0, "Delivery fee cannot be negative"),
+          kitchenStatus: z.enum(["OPEN", "BUSY", "CLOSING_SOON", "CLOSED"]).default("OPEN"),
+          serviceModes: z.array(z.string().max(40)).max(6).optional().default([]),
+          acceptsPreorders: z.coerce.boolean().default(false),
+          allowsScheduledOrders: z.coerce.boolean().default(false),
+          packagingNote: z.string().max(300).optional().or(z.literal("")),
+          allergyNote: z.string().max(300).optional().or(z.literal("")),
+          orderInstructions: z.string().max(500).optional().or(z.literal("")),
+        })
+        .optional(),
     })
     .optional(),
   deliveryCoverage: z.string().max(500).optional().or(z.literal("")),

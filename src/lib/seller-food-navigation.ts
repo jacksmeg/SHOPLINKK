@@ -9,7 +9,7 @@ export const sellerFoodLinks = [
   { href: "/seller/returns", label: "Returns", icon: RotateCcw },
   { href: "/seller/adverts", label: "Adverts", icon: Megaphone },
   { href: "/seller/reports", label: "Reports", icon: FileText },
-  { href: "/seller/store", label: "Store settings", icon: Settings },
+  { href: "/seller/food/store", label: "Food shop", icon: Settings },
   { href: "/seller/notifications", label: "Notifications", icon: Bell },
   { href: "/chat", label: "Buyer messages", icon: MessageCircle },
 ];

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChefHat, Clock, ClipboardList, Megaphone, ShoppingBasket, Truck } from "lucide-react";
+import { ChefHat, Clock, ClipboardList, Megaphone, Settings, ShoppingBasket, Truck } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
@@ -10,6 +10,19 @@ import { sellerFoodLinks } from "@/lib/seller-food-navigation";
 import { compactDate, formatCurrency, titleCase } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
+
+type FoodProfile = {
+  cuisineTypes?: string;
+  signatureDishes?: string;
+  averagePrepMinutes?: number | string | null;
+  averageDeliveryMinutes?: number | string | null;
+  minimumOrderAmount?: number | string | null;
+  deliveryFee?: number | string | null;
+  kitchenStatus?: "OPEN" | "BUSY" | "CLOSING_SOON" | "CLOSED";
+  serviceModes?: string[];
+  acceptsPreorders?: boolean;
+  allowsScheduledOrders?: boolean;
+};
 
 export default async function SellerFoodDashboardPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
@@ -33,12 +46,17 @@ export default async function SellerFoodDashboardPage() {
           <p className="mt-2 max-w-2xl text-xs leading-5 text-[var(--muted)]">
             Open Store settings, set your store type to Food seller, add your MoMo number, then return here to manage menu items and orders.
           </p>
-          <ButtonLink href="/seller/store/edit" className="mt-4">Edit store</ButtonLink>
+          <ButtonLink href="/seller/food/store" className="mt-4">Create food shop</ButtonLink>
         </div>
       </DashboardShell>
     );
   }
 
+  const socialLinks =
+    store.socialLinks && typeof store.socialLinks === "object" && !Array.isArray(store.socialLinks)
+      ? (store.socialLinks as { foodProfile?: FoodProfile })
+      : {};
+  const foodProfile = socialLinks.foodProfile ?? {};
   const orders = store.foodOrders;
   const activeOrders = orders.filter((order) => ["PENDING_PAYMENT", "PAID", "PREPARING", "OUT_FOR_DELIVERY"].includes(order.status)).length;
   const delivered = orders.filter((order) => order.status === "DELIVERED").length;
@@ -50,6 +68,13 @@ export default async function SellerFoodDashboardPage() {
   const pendingMenu = store.foodMenuItems.filter((item) => item.status === "PENDING").length;
 
   const modules = [
+    {
+      href: "/seller/food/store",
+      title: "Food shop setup",
+      body: "Manage cuisine, kitchen status, delivery timing, pre-orders, and public restaurant profile.",
+      icon: Settings,
+      tone: "bg-[var(--brand-dark)] text-white",
+    },
     {
       href: "/seller/food/menu",
       title: "Menu management",
@@ -88,7 +113,7 @@ export default async function SellerFoodDashboardPage() {
         <StatCard label="Food sales" value={formatCurrency(revenue)} icon={ChefHat} helper="Non-cancelled orders" tone="blue" />
       </div>
 
-      <section className="mt-5 grid gap-3 lg:grid-cols-3">
+      <section className="mt-5 grid gap-3 lg:grid-cols-4">
         {modules.map((module) => (
           <Link key={module.href} href={module.href} className={`rounded-[8px] p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg ${module.tone}`}>
             <div className="flex items-start justify-between gap-4">
@@ -102,6 +127,49 @@ export default async function SellerFoodDashboardPage() {
             </div>
           </Link>
         ))}
+      </section>
+
+      <section className="mt-5 app-panel p-4 sm:p-5">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="text-sm font-black text-[var(--ink)]">Food shop profile</h2>
+            <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
+              These settings control how buyers understand your restaurant before they order.
+            </p>
+          </div>
+          <ButtonLink href="/seller/food/store" variant="secondary">Edit food shop</ButtonLink>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {[
+            { label: "Kitchen status", value: titleCase(foodProfile.kitchenStatus ?? "OPEN"), helper: store.openingHours || "Add opening hours" },
+            { label: "Cuisine", value: foodProfile.cuisineTypes || "Not added", helper: foodProfile.signatureDishes || "Add signature dishes" },
+            {
+              label: "Timing",
+              value: `${foodProfile.averagePrepMinutes || "?"} min prep`,
+              helper: `${foodProfile.averageDeliveryMinutes || "?"} min average delivery`,
+            },
+            {
+              label: "Order rules",
+              value: foodProfile.minimumOrderAmount ? `Min ${formatCurrency(Number(foodProfile.minimumOrderAmount))}` : "No minimum",
+              helper: foodProfile.deliveryFee ? `Default delivery ${formatCurrency(Number(foodProfile.deliveryFee))}` : "Delivery fee not set",
+            },
+          ].map((item) => (
+            <div key={item.label} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
+              <p className="text-[0.68rem] font-bold uppercase tracking-[0.08em] text-[var(--muted)]">{item.label}</p>
+              <p className="mt-2 truncate text-sm font-black text-[var(--brand-dark)]">{item.value}</p>
+              <p className="mt-1 line-clamp-2 text-xs leading-5 text-[var(--muted)]">{item.helper}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {(foodProfile.serviceModes?.length ? foodProfile.serviceModes : ["Delivery", "Pickup"]).map((mode) => (
+            <span key={mode} className="rounded-full bg-[var(--brand-soft)] px-3 py-1 text-[0.72rem] font-bold text-[var(--brand-dark)]">
+              {mode}
+            </span>
+          ))}
+          {foodProfile.acceptsPreorders ? <span className="rounded-full bg-yellow-300 px-3 py-1 text-[0.72rem] font-bold text-slate-950">Pre-orders</span> : null}
+          {foodProfile.allowsScheduledOrders ? <span className="rounded-full bg-pink-600 px-3 py-1 text-[0.72rem] font-bold text-white">Scheduled orders</span> : null}
+        </div>
       </section>
 
       <section className="mt-5 app-panel p-4 sm:p-5">

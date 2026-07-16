@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { jsonError, requireApiSession } from "@/lib/api";
 import { prisma } from "@/lib/db";
-import { notifyUser } from "@/lib/notifications";
+import { notifyBuyerPaymentRequest, notifyUser } from "@/lib/notifications";
 import { marketplaceOrderStatusSchema } from "@/lib/validators";
 
 export async function PATCH(
@@ -22,17 +22,42 @@ export async function PATCH(
       id,
       ...(session.user.role === "ADMIN" ? {} : { sellerId: session.user.id }),
     },
-    include: { items: true, store: { select: { name: true } } },
+    include: { items: true, store: { select: { name: true, momoNumber: true, phone: true } } },
   });
   if (!order) return jsonError("Marketplace order not found.", 404);
 
-  if (["READY", "DELIVERED"].includes(parsed.data.status) && order.directPaymentStatus !== "CONFIRMED") {
+  if (parsed.data.status === "REQUEST_PAYMENT") {
+    const paymentTarget = order.store?.momoNumber || order.store?.phone || "seller Mobile Money number";
+    const sellerNote = parsed.data.note ? `PAYMENT_REQUESTED: ${parsed.data.note}` : "PAYMENT_REQUESTED";
+    const updated = await prisma.marketplaceOrder.update({
+      where: { id },
+      data: {
+        sellerPaymentNote: sellerNote,
+        directPaymentStatus: "AWAITING_PAYMENT",
+      },
+    });
+
+    await notifyBuyerPaymentRequest({
+      buyerId: order.buyerId,
+      title: "Seller approved your order",
+      body: `${order.store?.name || "The seller"} approved your order. Pay to ${paymentTarget}, then upload your proof in ShopLinkk.`,
+      href: "/buyer/orders",
+      storeName: order.store?.name,
+      amount: Number(order.totalAmount),
+    });
+
+    return NextResponse.json(updated);
+  }
+
+  const nextStatus = parsed.data.status as "PAID" | "READY" | "DELIVERED" | "CANCELLED";
+
+  if (["READY", "DELIVERED"].includes(nextStatus) && order.directPaymentStatus !== "CONFIRMED") {
     return jsonError("Confirm payment received before moving this order forward.", 409);
   }
 
   const now = new Date();
   const updated = await prisma.$transaction(async (tx) => {
-    if (parsed.data.status === "PAID" && order.directPaymentStatus !== "CONFIRMED") {
+    if (nextStatus === "PAID" && order.directPaymentStatus !== "CONFIRMED") {
       for (const item of order.items) {
         if (!item.productId) continue;
         const product = await tx.product.findUnique({
@@ -54,16 +79,16 @@ export async function PATCH(
     return tx.marketplaceOrder.update({
       where: { id },
       data: {
-        status: parsed.data.status,
-        directPaymentStatus: parsed.data.status === "PAID"
+        status: nextStatus,
+        directPaymentStatus: nextStatus === "PAID"
           ? "CONFIRMED"
-          : parsed.data.status === "CANCELLED"
+          : nextStatus === "CANCELLED"
             ? "CANCELLED"
             : undefined,
         sellerPaymentNote: parsed.data.note || order.sellerPaymentNote,
-        paymentConfirmedAt: parsed.data.status === "PAID" ? now : undefined,
-        deliveredAt: parsed.data.status === "DELIVERED" ? now : undefined,
-        cancelledAt: parsed.data.status === "CANCELLED" ? now : undefined,
+        paymentConfirmedAt: nextStatus === "PAID" ? now : undefined,
+        deliveredAt: nextStatus === "DELIVERED" ? now : undefined,
+        cancelledAt: nextStatus === "CANCELLED" ? now : undefined,
       },
     });
   });
@@ -72,9 +97,41 @@ export async function PATCH(
     userId: order.buyerId,
     type: "SYSTEM",
     title: "Marketplace order updated",
-    body: `${order.store?.name || "A seller"} marked your order as ${parsed.data.status.toLowerCase().replace(/_/g, " ")}.`,
+    body: `${order.store?.name || "A seller"} marked your order as ${nextStatus.toLowerCase().replace(/_/g, " ")}.`,
     href: "/buyer/orders",
   });
 
   return NextResponse.json(updated);
+}
+
+export async function DELETE(
+  _request: Request,
+  context: { params: Promise<{ id: string }> },
+) {
+  const { session, error } = await requireApiSession(["SELLER", "ADMIN"]);
+  if (error) return error;
+
+  const { id } = await context.params;
+  const order = await prisma.marketplaceOrder.findFirst({
+    where: {
+      id,
+      ...(session.user.role === "ADMIN" ? {} : { sellerId: session.user.id }),
+    },
+    select: { id: true, status: true, buyerId: true, store: { select: { name: true } } },
+  });
+  if (!order) return jsonError("Marketplace order not found.", 404);
+  if (!["DELIVERED", "CANCELLED"].includes(order.status)) {
+    return jsonError("Only completed or cancelled orders can be deleted.", 409);
+  }
+
+  await prisma.marketplaceOrder.delete({ where: { id } });
+  await notifyUser({
+    userId: order.buyerId,
+    type: "SYSTEM",
+    title: "Marketplace order closed",
+    body: `${order.store?.name || "A seller"} closed a completed marketplace order record.`,
+    href: "/buyer/orders",
+  });
+
+  return NextResponse.json({ ok: true });
 }

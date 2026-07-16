@@ -36,6 +36,10 @@ export default async function SellerPayoutsPage() {
   const pendingRevenue = allOrders.filter((order) => ["AWAITING_PAYMENT", "SUBMITTED"].includes(order.payment)).reduce((sum, order) => sum + order.amount, 0);
   const cancelledRevenue = allOrders.filter((order) => order.status === "CANCELLED").reduce((sum, order) => sum + order.amount, 0);
   const platformSpend = payments.filter((payment) => payment.status === "SUCCESS").reduce((sum, payment) => sum + Number(payment.amount), 0);
+  const foodRevenue = foodOrders.filter((order) => order.status !== "CANCELLED").reduce((sum, order) => sum + Number(order.totalAmount), 0);
+  const marketplaceRevenue = marketplaceOrders.filter((order) => order.status !== "CANCELLED").reduce((sum, order) => sum + Number(order.totalAmount), 0);
+  const awaitingBuyerPayment = marketplaceOrders.filter((order) => order.sellerPaymentNote?.startsWith("PAYMENT_REQUESTED") && order.directPaymentStatus === "AWAITING_PAYMENT");
+  const paymentProofReviews = allOrders.filter((order) => order.payment === "SUBMITTED");
 
   return (
     <DashboardShell
@@ -50,6 +54,34 @@ export default async function SellerPayoutsPage() {
         <StatCard label="Pending payment" value={formatCurrency(pendingRevenue)} icon={CreditCard} helper="Awaiting proof or review" tone="yellow" />
         <StatCard label="Cancelled value" value={formatCurrency(cancelledRevenue)} icon={FileText} helper="Cancelled orders" tone="blue" />
         <StatCard label="Platform fees" value={formatCurrency(platformSpend)} icon={Landmark} helper="Ads/listing packages" tone="purple" />
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-3">
+        <section className="rounded-[8px] bg-cyan-700 p-4 text-white">
+          <p className="text-xs font-black uppercase tracking-[0.1em] text-cyan-100">Revenue by channel</p>
+          <div className="mt-4 grid gap-2 text-sm">
+            <div className="flex items-center justify-between gap-3 rounded-[8px] bg-white/10 px-3 py-2">
+              <span>Marketplace</span>
+              <strong>{formatCurrency(marketplaceRevenue)}</strong>
+            </div>
+            <div className="flex items-center justify-between gap-3 rounded-[8px] bg-white/10 px-3 py-2">
+              <span>Food orders</span>
+              <strong>{formatCurrency(foodRevenue)}</strong>
+            </div>
+          </div>
+        </section>
+        <section className="rounded-[8px] bg-pink-600 p-4 text-white">
+          <p className="text-xs font-black uppercase tracking-[0.1em] text-pink-100">Money to collect</p>
+          <p className="mt-3 text-2xl font-black">{awaitingBuyerPayment.length}</p>
+          <p className="mt-1 text-xs leading-5 text-pink-50">Buyers have been asked to pay but have not submitted proof yet.</p>
+          <ButtonLink href="/seller/orders" variant="secondary" className="mt-4">Follow up orders</ButtonLink>
+        </section>
+        <section className="rounded-[8px] bg-[var(--brand-dark)] p-4 text-white">
+          <p className="text-xs font-black uppercase tracking-[0.1em] text-blue-100">Payout readiness</p>
+          <p className="mt-3 text-sm font-black">{store?.momoNumber || store?.phone ? "Mobile Money details ready" : "Add Mobile Money details"}</p>
+          <p className="mt-1 text-xs leading-5 text-blue-100">Store finance details are used on buyer payment screens and receipts.</p>
+          <ButtonLink href="/seller/store/edit" variant="secondary" className="mt-4">Update store finance</ButtonLink>
+        </section>
       </div>
 
       <div className="mt-5 grid gap-4 xl:grid-cols-[1fr_0.75fr]">
@@ -103,6 +135,20 @@ export default async function SellerPayoutsPage() {
               <p><strong className="text-[var(--ink)]">MoMo:</strong> {store?.momoNumber || store?.phone || "Not set"}</p>
             </div>
             <ButtonLink href="/seller/store/edit" variant="secondary" className="mt-4">Edit store finance details</ButtonLink>
+          </section>
+
+          <section className="app-panel p-4 sm:p-5">
+            <h2 className="text-sm font-black text-[var(--ink)]">Payment proof review queue</h2>
+            <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Confirm payment only after matching the buyer reference or proof with your MoMo statement.</p>
+            <div className="mt-3 grid gap-2">
+              {paymentProofReviews.slice(0, 6).map((order) => (
+                <div key={`${order.kind}-proof-${order.id}`} className="rounded-[8px] bg-[var(--surface-muted)] p-3 text-xs">
+                  <p className="font-black text-[var(--ink)]">{order.kind} order #{order.id.slice(0, 8)}</p>
+                  <p className="mt-1 text-[var(--muted)]">{formatCurrency(order.amount)} submitted for seller confirmation.</p>
+                </div>
+              ))}
+              {!paymentProofReviews.length ? <p className="text-xs text-[var(--muted)]">No payment proof is waiting for review.</p> : null}
+            </div>
           </section>
 
           <section className="app-panel p-4 sm:p-5">

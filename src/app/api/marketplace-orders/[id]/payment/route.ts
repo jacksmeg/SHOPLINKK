@@ -25,6 +25,9 @@ export async function PATCH(
   if (["DELIVERED", "CANCELLED"].includes(order.status)) {
     return jsonError("This order can no longer receive payment updates.", 409);
   }
+  if (!order.sellerPaymentNote?.startsWith("PAYMENT_REQUESTED")) {
+    return jsonError("Wait for the seller to approve the order before paying.", 409);
+  }
 
   const updated = await prisma.marketplaceOrder.update({
     where: { id },

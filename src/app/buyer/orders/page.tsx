@@ -43,38 +43,57 @@ export default async function BuyerOrdersPage() {
       <section className="mt-5 app-panel p-4 sm:p-5">
         <h2 className="text-sm font-black text-[var(--ink)]">Marketplace direct MoMo orders</h2>
         <div className="mt-4 grid gap-3">
-          {marketplaceOrders.map((order) => (
-            <article key={order.id} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <p className="text-xs font-black text-[var(--ink)]">{order.store?.name || order.seller.name || "Seller"}</p>
-                  <p className="mt-1 text-[0.68rem] text-[var(--muted)]">{order.items.map((item) => `${item.quantity}x ${item.title}`).join(", ")}</p>
-                  <p className="mt-1 text-[0.68rem] text-[var(--muted)]">{compactDate(order.createdAt)} - {order.deliveryAddress}</p>
-                  <p className="mt-1 text-[0.68rem] text-[var(--muted)]">Pay to: {order.store?.momoNumber || order.store?.phone || order.seller.phone || "Seller will confirm"}</p>
-                </div>
-                <div className="text-right">
-                  <Badge tone={order.status === "DELIVERED" ? "green" : order.status === "CANCELLED" ? "red" : "gold"}>{titleCase(order.status)}</Badge>
-                  <div className="mt-1">
-                    <Badge tone={order.directPaymentStatus === "CONFIRMED" ? "green" : order.directPaymentStatus === "SUBMITTED" ? "blue" : "neutral"}>{titleCase(order.directPaymentStatus)}</Badge>
+          {marketplaceOrders.map((order) => {
+            const paymentRequested = order.sellerPaymentNote?.startsWith("PAYMENT_REQUESTED");
+            return (
+              <article key={order.id} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-black text-[var(--ink)]">{order.store?.name || order.seller.name || "Seller"}</p>
+                    <p className="mt-1 text-[0.68rem] text-[var(--muted)]">{order.items.map((item) => `${item.quantity}x ${item.title}`).join(", ")}</p>
+                    <p className="mt-1 text-[0.68rem] text-[var(--muted)]">{compactDate(order.createdAt)} - {order.deliveryAddress}</p>
+                    <p className="mt-1 text-[0.68rem] text-[var(--muted)]">
+                      Payment: {paymentRequested ? "Seller approved, payment details available" : "Waiting for seller approval"}
+                    </p>
                   </div>
-                  <p className="mt-2 text-xs font-black text-[var(--brand-dark)]">{formatCurrency(Number(order.totalAmount))}</p>
+                  <div className="text-right">
+                    <Badge tone={order.status === "DELIVERED" ? "green" : order.status === "CANCELLED" ? "red" : "gold"}>{titleCase(order.status)}</Badge>
+                    <div className="mt-1">
+                      <Badge tone={order.directPaymentStatus === "CONFIRMED" ? "green" : order.directPaymentStatus === "SUBMITTED" ? "blue" : "neutral"}>{titleCase(order.directPaymentStatus)}</Badge>
+                    </div>
+                    <p className="mt-2 text-xs font-black text-[var(--brand-dark)]">{formatCurrency(Number(order.totalAmount))}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="mt-3 grid gap-2 text-xs text-[var(--muted)] sm:grid-cols-2">
-                {order.paymentReference ? <p className="rounded-[8px] bg-[var(--brand-soft)] p-3 text-[var(--brand-dark)]">Payment reference: <strong>{order.paymentReference}</strong></p> : null}
-                {order.paymentProofUrl ? (
-                  <Link href={order.paymentProofUrl} target="_blank" rel="noreferrer" className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 font-black text-[var(--brand-dark)]">
-                    View payment proof
-                  </Link>
+                <div className="mt-3 grid gap-2 text-xs text-[var(--muted)] sm:grid-cols-2">
+                  {order.paymentReference ? <p className="rounded-[8px] bg-[var(--brand-soft)] p-3 text-[var(--brand-dark)]">Payment reference: <strong>{order.paymentReference}</strong></p> : null}
+                  {order.paymentProofUrl ? (
+                    <Link href={order.paymentProofUrl} target="_blank" rel="noreferrer" className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 font-black text-[var(--brand-dark)]">
+                      View payment proof
+                    </Link>
+                  ) : null}
+                </div>
+                {!paymentRequested && !["CONFIRMED", "CANCELLED"].includes(order.directPaymentStatus) ? (
+                  <div className="mt-3 rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 text-xs font-semibold leading-5 text-[var(--muted)]">
+                    Your order request has been sent. Please wait for the seller to approve it before making payment.
+                  </div>
                 ) : null}
-              </div>
-              {!["CONFIRMED", "CANCELLED"].includes(order.directPaymentStatus) ? (
-                <div className="mt-3">
-                  <DirectPaymentProofForm endpoint={`/api/marketplace-orders/${order.id}/payment`} title="Send product payment proof" />
-                </div>
-              ) : null}
-            </article>
-          ))}
+                {paymentRequested && !["CONFIRMED", "CANCELLED"].includes(order.directPaymentStatus) ? (
+                  <div className="mt-3">
+                    <DirectPaymentProofForm
+                      endpoint={`/api/marketplace-orders/${order.id}/payment`}
+                      title="Send product payment proof"
+                      sellerPaymentDetails={{
+                        storeName: order.store?.name || order.seller.name,
+                        momoNumber: order.store?.momoNumber,
+                        phone: order.store?.phone || order.seller.phone,
+                        amount: Number(order.totalAmount),
+                      }}
+                    />
+                  </div>
+                ) : null}
+              </article>
+            );
+          })}
           {!marketplaceOrders.length ? <p className="text-xs text-[var(--muted)]">Product and service orders will appear here after cart checkout.</p> : null}
         </div>
       </section>

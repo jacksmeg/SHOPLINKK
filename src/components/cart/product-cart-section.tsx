@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle2, LocateFixed, Minus, PackageCheck, Phone, Plus, ReceiptText, ShoppingBag, ShoppingCart, Trash2, UploadCloud } from "lucide-react";
+import { CheckCircle2, LocateFixed, Minus, PackageCheck, Phone, Plus, ReceiptText, ShoppingBag, ShoppingCart, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useState, useTransition } from "react";
-import { uploadImage } from "@/components/forms/upload-helper";
 import { Button, ButtonLink } from "@/components/ui/button";
 import {
   PRODUCT_CART_CHANGED_EVENT,
@@ -32,13 +31,9 @@ export function ProductCartSection({
   const [buyerPhone, setBuyerPhone] = useState(defaultPhone ?? "");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryNote, setDeliveryNote] = useState("");
-  const [paymentReference, setPaymentReference] = useState("");
-  const [paymentProofUrl, setPaymentProofUrl] = useState("");
-  const [buyerPaymentNote, setBuyerPaymentNote] = useState("");
-  const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
-  const [placedOrders, setPlacedOrders] = useState<{ id: string; storeName: string; momoNumber?: string | null }[]>([]);
+  const [placedOrders, setPlacedOrders] = useState<{ id: string; storeName: string }[]>([]);
   const [pending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -124,23 +119,6 @@ export function ProductCartSection({
     );
   }
 
-  async function uploadProof(file?: File | null) {
-    if (!file) return;
-    setMessage("");
-    setUploading(true);
-    try {
-      const url = await uploadImage(file, "payment-proof");
-      setPaymentProofUrl(url);
-      setMessage("Payment proof uploaded.");
-      setSuccess(true);
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Could not upload payment proof.");
-      setSuccess(false);
-    } finally {
-      setUploading(false);
-    }
-  }
-
   function submitOrder() {
     setMessage("");
     setSuccess(false);
@@ -167,9 +145,6 @@ export function ProductCartSection({
           buyerPhone,
           deliveryAddress,
           deliveryNote,
-          paymentReference,
-          paymentProofUrl,
-          buyerPaymentNote,
           items: items.map((item) => ({
             productId: item.productId,
             quantity: item.quantity,
@@ -188,10 +163,7 @@ export function ProductCartSection({
       );
       save(items.filter((item) => !productIds.has(item.productId)));
       setPlacedOrders(result?.orders ?? []);
-      setPaymentReference("");
-      setPaymentProofUrl("");
-      setBuyerPaymentNote("");
-      setMessage("Marketplace order created. Sellers will confirm payment from their dashboard.");
+      setMessage("Order request sent. The seller will review it and send locked payment details before you pay.");
       setSuccess(true);
     });
   }
@@ -201,8 +173,8 @@ export function ProductCartSection({
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--brand)]">Marketplace cart</p>
-          <h2 className="mt-1 text-lg font-black text-[var(--ink)]">Direct seller MoMo checkout</h2>
-          <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Pay sellers directly to their MoMo number, then submit the reference or proof here for confirmation.</p>
+          <h2 className="mt-1 text-lg font-black text-[var(--ink)]">Send order request</h2>
+          <p className="mt-1 text-xs leading-5 text-[var(--muted)]">The seller approves your request first. Payment details only unlock after the seller asks you to pay.</p>
         </div>
         <div className="rounded-[8px] bg-cyan-600 px-4 py-3 text-sm font-black text-white">
           {productCartCount(items)} item{productCartCount(items) === 1 ? "" : "s"} / {formatCurrency(total)}
@@ -231,7 +203,7 @@ export function ProductCartSection({
                       <p className="text-sm font-black text-[var(--ink)]">{group.storeName}</p>
                     )}
                     <p className="mt-2 text-xs font-semibold text-[var(--muted)]">
-                      MoMo/contact: <span className="text-[var(--ink)]">{group.momoNumber || group.sellerPhone || "Seller will confirm"}</span>
+                      Payment: <span className="text-[var(--ink)]">Locked until seller approves</span>
                     </p>
                   </div>
                   <p className="text-sm font-black text-[var(--brand-dark)]">
@@ -289,13 +261,9 @@ export function ProductCartSection({
                 </Button>
               </div>
               <textarea value={deliveryNote} onChange={(event) => setDeliveryNote(event.target.value)} rows={3} placeholder="Delivery note, landmark, or seller instruction" className="form-control resize-none px-3 py-2 text-xs" />
-              <input value={paymentReference} onChange={(event) => setPaymentReference(event.target.value)} placeholder="MoMo transaction ID/reference" className="form-control px-3 text-xs" />
-              <textarea value={buyerPaymentNote} onChange={(event) => setBuyerPaymentNote(event.target.value)} rows={3} placeholder="Optional payment note, e.g. paid from 054..." className="form-control resize-none px-3 py-2 text-xs" />
-              <label className="flex cursor-pointer items-center justify-center gap-2 rounded-[8px] border border-dashed border-[var(--line-strong)] bg-white px-3 py-3 text-xs font-bold text-[var(--brand-dark)]">
-                <UploadCloud size={16} />
-                {uploading ? "Uploading proof..." : paymentProofUrl ? "Proof uploaded. Choose another" : "Upload payment proof"}
-                <input type="file" accept="image/*" className="hidden" disabled={uploading} onChange={(event) => uploadProof(event.target.files?.[0])} />
-              </label>
+              <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 text-xs leading-5 text-[var(--muted)]">
+                Payment proof is not needed yet. After the seller approves, ShopLinkk will alert you and show the seller&apos;s locked Mobile Money details.
+              </div>
             </div>
             <div className="mt-4 rounded-[8px] bg-[var(--surface-muted)] p-3">
               <div className="flex items-center justify-between text-xs">
@@ -313,14 +281,14 @@ export function ProductCartSection({
               <div className="mt-3 grid gap-2">
                 {placedOrders.map((order) => (
                   <Link key={order.id} href="/buyer/orders" className="rounded-[8px] border border-[var(--line)] bg-white px-3 py-2 text-xs font-black text-[var(--brand-dark)] hover:border-[var(--brand)]">
-                    {order.storeName} order created {order.momoNumber ? `- MoMo ${order.momoNumber}` : ""}
+                    {order.storeName} order request sent
                   </Link>
                 ))}
               </div>
             ) : null}
-            <Button type="button" disabled={pending || uploading || !items.length} onClick={submitOrder} className="mt-4 w-full">
+            <Button type="button" disabled={pending || !items.length} onClick={submitOrder} className="mt-4 w-full">
               <ShoppingCart size={16} />
-              {pending ? "Creating order..." : "Confirm direct MoMo order"}
+              {pending ? "Sending request..." : "Send order request"}
             </Button>
           </aside>
         </div>

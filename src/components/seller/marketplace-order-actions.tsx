@@ -1,11 +1,19 @@
 "use client";
 
-import { CheckCircle2, PackageCheck, XCircle } from "lucide-react";
+import { CheckCircle2, CreditCard, PackageCheck, Trash2, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 
-export function MarketplaceOrderActions({ orderId }: { orderId: string }) {
+export function MarketplaceOrderActions({
+  orderId,
+  status,
+  paymentRequested,
+}: {
+  orderId: string;
+  status?: string;
+  paymentRequested?: boolean;
+}) {
   const router = useRouter();
   const [message, setMessage] = useState("");
   const [pending, startTransition] = useTransition();
@@ -27,8 +35,30 @@ export function MarketplaceOrderActions({ orderId }: { orderId: string }) {
     });
   }
 
+  function deleteOrder() {
+    if (!window.confirm("Delete this completed order record?")) return;
+    setMessage("");
+    startTransition(async () => {
+      const response = await fetch(`/api/seller/orders/${orderId}`, { method: "DELETE" });
+      const result = await response.json().catch(() => null);
+      if (!response.ok) {
+        setMessage(result?.message ?? "Could not delete order.");
+        return;
+      }
+      router.refresh();
+    });
+  }
+
+  const canDelete = status === "DELIVERED" || status === "CANCELLED";
+
   return (
     <div className="mt-3 flex flex-wrap items-center gap-2">
+      {!paymentRequested && status !== "CANCELLED" && status !== "DELIVERED" ? (
+        <Button type="button" disabled={pending} onClick={() => update("REQUEST_PAYMENT")} className="min-h-9 px-3 text-xs">
+          <CreditCard size={14} />
+          Request payment
+        </Button>
+      ) : null}
       <Button type="button" variant="secondary" disabled={pending} onClick={() => update("PAID")} className="min-h-9 px-3 text-xs">
         <CheckCircle2 size={14} />
         Payment received
@@ -44,6 +74,12 @@ export function MarketplaceOrderActions({ orderId }: { orderId: string }) {
         <XCircle size={14} />
         Cancel
       </Button>
+      {canDelete ? (
+        <Button type="button" variant="danger" disabled={pending} onClick={deleteOrder} className="min-h-9 px-3 text-xs">
+          <Trash2 size={14} />
+          Delete
+        </Button>
+      ) : null}
       {message ? <p className="text-xs font-semibold text-red-700">{message}</p> : null}
     </div>
   );

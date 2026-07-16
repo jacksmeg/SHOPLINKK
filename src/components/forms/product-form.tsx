@@ -73,6 +73,7 @@ export function ProductForm({
   const [videoUrl, setVideoUrl] = useState(product?.videoUrl ?? "");
   const [priceMode, setPriceMode] = useState(product?.priceMode ?? "FIXED");
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
   const [pending, startTransition] = useTransition();
 
   async function uploadFiles(files?: FileList | null) {
@@ -80,37 +81,65 @@ export function ProductForm({
     const remaining = maxImages - images.length;
     if (remaining <= 0) {
       setMessage(`A listing can have up to ${maxImages} images.`);
+      setIsError(true);
       return;
     }
     setMessage(`Uploading ${itemLabel} images...`);
+    setIsError(false);
     try {
       const selected = Array.from(files).slice(0, remaining);
       const uploaded = await Promise.all(selected.map((file) => uploadImage(file, "product")));
       setImages((current) => [...current, ...uploaded]);
       setMessage(files.length > selected.length ? `Images uploaded. Only the first ${maxImages} images can be added.` : "Images uploaded.");
+      setIsError(false);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Upload failed");
+      setIsError(true);
     }
   }
 
   async function uploadProductVideo(file?: File | null) {
     if (!file) return;
     setMessage(`Uploading ${itemLabel} video...`);
+    setIsError(false);
     try {
       const uploaded = await uploadVideo(file);
       setVideoUrl(uploaded);
       setMessage("Video uploaded.");
+      setIsError(false);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Video upload failed");
+      setIsError(true);
     }
   }
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const submitter = (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null;
     const listingStatus = submitter?.value === "DRAFT" ? "DRAFT" : "PENDING";
     setMessage("");
+    setIsError(false);
+
+    if (!form.reportValidity()) {
+      setMessage("Please complete the highlighted required fields before submitting.");
+      setIsError(true);
+      form.querySelector<HTMLElement>(":invalid")?.focus();
+      return;
+    }
+
+    if (!images.length) {
+      setMessage(`Upload at least one clear ${itemLabel} photo before submitting.`);
+      setIsError(true);
+      return;
+    }
+
+    if (priceMode === "FIXED" && !String(formData.get("price") ?? "").trim()) {
+      setMessage("Enter a price or choose Contact for price.");
+      setIsError(true);
+      return;
+    }
 
     startTransition(async () => {
       const packageId = String(formData.get("packageId") ?? "");
@@ -156,6 +185,7 @@ export function ProductForm({
       if (!response.ok) {
         const data = await response.json().catch(() => null);
         setMessage(data?.message ?? "Could not save product.");
+        setIsError(true);
         return;
       }
 
@@ -172,10 +202,12 @@ export function ProductForm({
           return;
         }
         setMessage(checkoutData?.message ?? "Listing saved, but payment checkout could not start.");
+        setIsError(true);
         return;
       }
 
       setMessage(listingStatus === "DRAFT" ? "Draft saved." : product?.id ? `${isService ? "Service" : "Product"} updated for admin approval.` : `${isService ? "Service" : "Product"} submitted for admin approval.`);
+      setIsError(false);
       router.push("/seller");
       router.refresh();
     });
@@ -517,7 +549,11 @@ export function ProductForm({
           ) : null}
         </aside>
       </div>
-      {message ? <p className="mt-4 rounded-[8px] bg-blue-50 p-3 text-sm font-semibold text-[var(--brand-dark)]">{message}</p> : null}
+      {message ? (
+        <p className={`mt-4 rounded-[8px] p-3 text-sm font-semibold ${isError ? "bg-red-50 text-red-700" : "bg-blue-50 text-[var(--brand-dark)]"}`}>
+          {message}
+        </p>
+      ) : null}
       <div className="mt-5 flex flex-wrap gap-3">
         <Button type="submit" name="intent" value="PENDING" disabled={pending}>
           <Send size={17} />

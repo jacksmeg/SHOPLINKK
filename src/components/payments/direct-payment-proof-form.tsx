@@ -5,13 +5,21 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { uploadImage } from "@/components/forms/upload-helper";
 import { Button } from "@/components/ui/button";
+import { formatCurrency } from "@/lib/utils";
 
 export function DirectPaymentProofForm({
   endpoint,
   title = "Submit MoMo payment proof",
+  sellerPaymentDetails,
 }: {
   endpoint: string;
   title?: string;
+  sellerPaymentDetails?: {
+    storeName?: string | null;
+    momoNumber?: string | null;
+    phone?: string | null;
+    amount?: number | string | null;
+  };
 }) {
   const router = useRouter();
   const [paymentReference, setPaymentReference] = useState("");
@@ -65,6 +73,28 @@ export function DirectPaymentProofForm({
   return (
     <div className="rounded-[8px] border border-[var(--line)] bg-white p-3">
       <h3 className="text-xs font-black text-[var(--ink)]">{title}</h3>
+      {sellerPaymentDetails ? (
+        <div className="mt-3 rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-3">
+          <p className="text-[0.68rem] font-black uppercase tracking-[0.08em] text-[var(--brand-dark)]">Locked seller payment details</p>
+          <div className="mt-2 grid gap-2 sm:grid-cols-2">
+            <label className="text-[0.68rem] font-bold text-[var(--muted)]">
+              Store
+              <input readOnly value={sellerPaymentDetails.storeName || "ShopLinkk seller"} className="form-control mt-1 w-full bg-white px-3 text-xs" />
+            </label>
+            <label className="text-[0.68rem] font-bold text-[var(--muted)]">
+              Mobile Money / phone
+              <input readOnly value={sellerPaymentDetails.momoNumber || sellerPaymentDetails.phone || "Seller will confirm"} className="form-control mt-1 w-full bg-white px-3 text-xs" />
+            </label>
+            {sellerPaymentDetails.amount !== null && sellerPaymentDetails.amount !== undefined ? (
+              <label className="text-[0.68rem] font-bold text-[var(--muted)] sm:col-span-2">
+                Amount to pay
+                <input readOnly value={formatCurrency(Number(sellerPaymentDetails.amount))} className="form-control mt-1 w-full bg-white px-3 text-xs" />
+              </label>
+            ) : null}
+          </div>
+          <p className="mt-2 text-[0.68rem] leading-5 text-[var(--muted)]">These details come from the seller store profile and cannot be changed by the buyer.</p>
+        </div>
+      ) : null}
       <div className="mt-3 grid gap-2">
         <input value={paymentReference} onChange={(event) => setPaymentReference(event.target.value)} placeholder="MoMo transaction ID/reference" className="form-control px-3 text-xs" />
         <textarea value={buyerPaymentNote} onChange={(event) => setBuyerPaymentNote(event.target.value)} rows={3} placeholder="Short note, e.g. paid from 054..." className="form-control resize-none px-3 py-2 text-xs" />

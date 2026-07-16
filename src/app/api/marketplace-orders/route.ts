@@ -36,7 +36,6 @@ export async function POST(request: Request) {
     return jsonError("One or more cart items are no longer available.", 409);
   }
 
-  const paymentSubmitted = Boolean(parsed.data.paymentReference || parsed.data.paymentProofUrl || parsed.data.buyerPaymentNote);
   const groups = new Map<string, {
     sellerId: string;
     storeId: string | null;
@@ -101,16 +100,16 @@ export async function POST(request: Request) {
           buyerId: session.user.id,
           sellerId: group.sellerId,
           storeId: group.storeId,
-          status: paymentSubmitted ? "PAYMENT_SUBMITTED" : "PENDING_PAYMENT",
-          directPaymentStatus: paymentSubmitted ? "SUBMITTED" : "AWAITING_PAYMENT",
+          status: "PENDING_PAYMENT",
+          directPaymentStatus: "AWAITING_PAYMENT",
           buyerName: parsed.data.buyerName || session.user.name,
           buyerPhone: parsed.data.buyerPhone || session.user.phone,
           deliveryAddress: parsed.data.deliveryAddress,
           deliveryNote: parsed.data.deliveryNote || null,
-          paymentReference: parsed.data.paymentReference || null,
-          paymentProofUrl: parsed.data.paymentProofUrl || null,
-          buyerPaymentNote: parsed.data.buyerPaymentNote || null,
-          paymentSubmittedAt: paymentSubmitted ? new Date() : null,
+          paymentReference: null,
+          paymentProofUrl: null,
+          buyerPaymentNote: null,
+          paymentSubmittedAt: null,
           totalAmount,
           items: {
             create: group.items.map((item) => ({
@@ -124,14 +123,13 @@ export async function POST(request: Request) {
             })),
           },
         },
-        include: { items: true, store: { select: { name: true, momoNumber: true, phone: true } } },
+        include: { items: true, store: { select: { name: true } } },
       });
       orders.push({
         id: order.id,
         sellerId: group.sellerId,
         storeName: group.storeName,
         totalAmount,
-        momoNumber: order.store?.momoNumber || order.store?.phone || null,
         productIds: group.items.map((item) => item.productId),
       });
     }
@@ -140,8 +138,8 @@ export async function POST(request: Request) {
 
   await Promise.all(createdOrders.map((order) => notifySellerOrderAlert({
     sellerId: order.sellerId,
-    title: paymentSubmitted ? "Marketplace payment submitted" : "New marketplace order",
-    body: `${session.user.name || "A buyer"} placed a direct MoMo order with ${order.storeName}.`,
+    title: "New marketplace order request",
+    body: `${session.user.name || "A buyer"} wants to order from ${order.storeName}. Review the order and request payment when you are ready.`,
     href: "/seller/orders",
     buyerName: session.user.name,
     storeName: order.storeName,

@@ -3,6 +3,7 @@ import { AlertTriangle, Banknote, ChefHat, ClipboardList, Clock, MapPin, Message
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { FoodOrderActions } from "@/components/seller/food-order-actions";
 import { LiveOrdersRefresh } from "@/components/seller/live-orders-refresh";
+import { OrderDeleteButton } from "@/components/seller/order-delete-button";
 import { MarketplaceOrderActions } from "@/components/seller/marketplace-order-actions";
 import { OrderReceiptButton, type ReceiptOrder } from "@/components/seller/order-receipt-button";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +25,7 @@ function orderTone(status: string) {
 
 export default async function SellerOrdersPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
-  const [store, foodOrders, marketplaceOrders, conversations, activeDeliveries] = await Promise.all([
+  const [store, foodOrders, marketplaceOrders, conversations, activeDeliveries, pendingProducts] = await Promise.all([
     prisma.store.findUnique({
       where: { ownerId: session.user.id },
       select: {
@@ -83,6 +84,15 @@ export default async function SellerOrdersPage() {
         status: { in: ["ACCEPTED", "HEADING_TO_SELLER", "ITEM_PICKED_UP", "ON_THE_WAY"] },
       },
     }),
+    prisma.product.findMany({
+      where: {
+        sellerId: session.user.id,
+        listingStatus: { in: ["PENDING", "REJECTED", "DRAFT"] },
+      },
+      include: { category: { select: { name: true } } },
+      orderBy: { updatedAt: "desc" },
+      take: 8,
+    }),
   ]);
 
   const openFoodOrders = foodOrders.filter((order) => !["DELIVERED", "CANCELLED"].includes(order.status));
@@ -94,6 +104,21 @@ export default async function SellerOrdersPage() {
   const revenue = foodOrders.filter((order) => order.status !== "CANCELLED").reduce((sum, order) => sum + Number(order.totalAmount), 0)
     + marketplaceOrders.filter((order) => order.status !== "CANCELLED").reduce((sum, order) => sum + Number(order.totalAmount), 0);
   const urgentCount = openFoodOrders.length + openMarketplaceOrders.length;
+  const customerContacts = Array.from(new Map(
+    [...marketplaceOrders, ...foodOrders].map((order) => {
+      const name = order.buyerName || order.buyer.name || "ShopLinkk buyer";
+      const phone = order.buyerPhone || order.buyer.phone || "";
+      const email = order.buyer.email || "";
+      const key = phone || email || name;
+      return [key, {
+        name,
+        phone,
+        email,
+        total: Number(order.totalAmount),
+        lastAt: order.createdAt,
+      }];
+    }),
+  ).values()).slice(0, 8);
 
   const marketplaceReceipt = (order: (typeof marketplaceOrders)[number]): ReceiptOrder => ({
     id: order.id,
@@ -164,6 +189,32 @@ export default async function SellerOrdersPage() {
         <StatCard label="Order value" value={formatCurrency(revenue)} icon={ReceiptText} helper="Non-cancelled total" tone="purple" />
       </div>
 
+      {pendingProducts.length ? (
+        <section className="mt-5 app-panel p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-black text-[var(--ink)]">Listings waiting for admin approval</h2>
+              <p className="mt-1 text-xs text-[var(--muted)]">You can still see drafts, pending listings, and rejected products before they go public.</p>
+            </div>
+            <ButtonLink href="/seller/products" variant="secondary">Open product management</ButtonLink>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {pendingProducts.map((product) => (
+              <Link key={product.id} href={`/seller/products/${product.id}/edit`} className="rounded-[8px] border border-[var(--line)] bg-white p-3 transition hover:border-[var(--brand)]">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-xs font-black text-[var(--ink)]">{product.title}</p>
+                    <p className="mt-1 text-[0.68rem] text-[var(--muted)]">{product.category.name} - {compactDate(product.updatedAt)}</p>
+                  </div>
+                  <Badge tone={product.listingStatus === "REJECTED" ? "red" : product.listingStatus === "DRAFT" ? "neutral" : "gold"}>{titleCase(product.listingStatus)}</Badge>
+                </div>
+                {product.rejectionReason ? <p className="mt-2 text-[0.68rem] leading-5 text-red-700">{product.rejectionReason}</p> : null}
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <div className="mt-5 grid gap-4 xl:grid-cols-[1.25fr_0.75fr]">
         <section className="app-panel p-4 sm:p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -177,8 +228,9 @@ export default async function SellerOrdersPage() {
           <div className="mt-4 grid gap-3">
             {marketplaceOrders.slice(0, 16).map((order) => {
               const buyerPhone = order.buyerPhone || order.buyer.phone;
+              const paymentRequested = order.sellerPaymentNote?.startsWith("PAYMENT_REQUESTED");
               return (
-                <article key={order.id} className="rounded-[8px] border border-[var(--line)] bg-white p-3 shadow-sm">
+                <article key={order.id} id={`order-${order.id}`} className="rounded-[8px] border border-[var(--line)] bg-white p-3 shadow-sm">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
@@ -187,6 +239,7 @@ export default async function SellerOrdersPage() {
                         <Badge tone={order.directPaymentStatus === "CONFIRMED" ? "green" : order.directPaymentStatus === "SUBMITTED" ? "blue" : "neutral"}>
                           {titleCase(order.directPaymentStatus)}
                         </Badge>
+                        {paymentRequested ? <Badge tone="blue">Payment requested</Badge> : <Badge tone="gold">Seller review</Badge>}
                       </div>
                       <p className="mt-1 text-xs text-[var(--muted)]">{order.items.map((item) => `${item.quantity}x ${item.title}`).join(", ")}</p>
                       <div className="mt-2 flex flex-wrap gap-2 text-[0.7rem] font-bold text-[var(--muted)]">
@@ -206,12 +259,15 @@ export default async function SellerOrdersPage() {
                         <MessageCircle size={14} />
                         Chat
                       </ButtonLink>
+                      <ButtonLink href={`/seller/orders/${order.id}`} variant="secondary" className="min-h-9 px-3 text-xs">
+                        View
+                      </ButtonLink>
                       <OrderReceiptButton order={marketplaceReceipt(order)} />
                     </div>
                   </div>
 
                   <div className="mt-3 grid gap-2 text-xs text-[var(--muted)] md:grid-cols-2">
-                    <p className="rounded-[8px] bg-[var(--surface-muted)] p-3">MoMo expected: <strong>{order.store?.momoNumber || order.store?.phone || "Set store MoMo"}</strong></p>
+                    <p className="rounded-[8px] bg-[var(--surface-muted)] p-3">Payment state: <strong>{paymentRequested ? `Requested to ${order.store?.momoNumber || order.store?.phone || "your store MoMo"}` : "Waiting for your payment request"}</strong></p>
                     <p className="rounded-[8px] bg-[var(--surface-muted)] p-3">Delivery note: <strong>{order.deliveryNote || "No note"}</strong></p>
                     {order.paymentReference ? <p className="rounded-[8px] bg-[var(--brand-soft)] p-3 text-[var(--brand-dark)]">Reference: <strong>{order.paymentReference}</strong></p> : null}
                     {order.buyerPaymentNote ? <p className="rounded-[8px] bg-[var(--brand-soft)] p-3 text-[var(--brand-dark)]">Buyer payment note: <strong>{order.buyerPaymentNote}</strong></p> : null}
@@ -221,7 +277,7 @@ export default async function SellerOrdersPage() {
                       </ButtonLink>
                     ) : null}
                   </div>
-                  <MarketplaceOrderActions orderId={order.id} />
+                  <MarketplaceOrderActions orderId={order.id} status={order.status} paymentRequested={paymentRequested} />
                 </article>
               );
             })}
@@ -239,6 +295,24 @@ export default async function SellerOrdersPage() {
               <Link href="/seller/orders" className="rounded-[8px] bg-[var(--brand-dark)] p-3 font-black text-white">{pendingPayments} payment confirmation{pendingPayments === 1 ? "" : "s"}</Link>
               <Link href="/seller/delivery" className="rounded-[8px] bg-cyan-700 p-3 font-black text-white">{activeDeliveries} active delivery run{activeDeliveries === 1 ? "" : "s"}</Link>
               <Link href="/seller/reports" className="rounded-[8px] bg-pink-600 p-3 font-black text-white">Open reports and export summary</Link>
+            </div>
+          </section>
+
+          <section className="app-panel p-4 sm:p-5">
+            <h2 className="text-sm font-black text-[var(--ink)]">Customer contacts</h2>
+            <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Keep good buyers close. Use these contacts for repeat shopping conversations inside ShopLinkk.</p>
+            <div className="mt-4 grid gap-2">
+              {customerContacts.map((customer) => (
+                <div key={`${customer.phone}-${customer.email}-${customer.name}`} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
+                  <p className="text-xs font-black text-[var(--ink)]">{customer.name}</p>
+                  <p className="mt-1 text-[0.68rem] text-[var(--muted)]">{customer.phone || customer.email || "No contact saved"} - last order {compactDate(customer.lastAt)}</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {customer.phone ? <ButtonLink href={`tel:${customer.phone}`} variant="secondary" className="min-h-8 px-2.5 text-[0.68rem]">Call</ButtonLink> : null}
+                    <ButtonLink href="/chat" variant="secondary" className="min-h-8 px-2.5 text-[0.68rem]">Chat again</ButtonLink>
+                  </div>
+                </div>
+              ))}
+              {!customerContacts.length ? <p className="text-xs text-[var(--muted)]">Customer contacts will appear after orders.</p> : null}
             </div>
           </section>
 
@@ -316,6 +390,9 @@ export default async function SellerOrdersPage() {
                   <FoodOrderActions orderId={order.id} />
                   <ButtonLink href={`/food-orders/${order.id}`} variant="secondary" className="min-h-9 px-3 text-xs">Track order</ButtonLink>
                   <ButtonLink href="/seller/delivery" variant="secondary" className="min-h-9 px-3 text-xs">Delivery board</ButtonLink>
+                  {["DELIVERED", "CANCELLED"].includes(order.status) ? (
+                    <OrderDeleteButton endpoint={`/api/seller/food/orders/${order.id}`} />
+                  ) : null}
                 </div>
               </article>
             );

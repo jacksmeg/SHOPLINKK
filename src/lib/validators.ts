@@ -141,21 +141,21 @@ export const storeSchema = z.object({
 export const productSchema = z.object({
   listingType: z.enum(["PRODUCT", "SERVICE"]).default("PRODUCT"),
   priceMode: z.enum(["FIXED", "CONTACT"]).default("FIXED"),
-  title: z.string().min(4),
-  description: z.string().min(20),
+  title: z.string().min(4, "Enter a clear title."),
+  description: z.string().min(20, "Add a helpful description of at least 20 characters."),
   brand: z.string().max(80).optional().or(z.literal("")),
   sku: z.string().max(80).optional().or(z.literal("")),
   tags: z.array(z.string().trim().min(1).max(40)).max(20).optional().default([]),
   weightKg: optionalFloatSchema.refine((value) => value === null || value === undefined || (value >= 0 && value <= 100000), "Weight is too high"),
   deliveryOptions: z.string().max(500).optional().or(z.literal("")),
-  categoryId: z.string().min(1),
+  categoryId: z.string().min(1, "Choose a category."),
   price: z.preprocess((value) => (value === "" || value === null || value === undefined ? 0 : value), z.coerce.number().min(0)),
   salePrice: optionalPriceSchema,
   saleStartsAt: optionalDateSchema,
   saleEndsAt: optionalDateSchema,
   quantity: z.coerce.number().int().min(0).max(999999).default(1),
   condition: z.enum(["NEW", "USED", "REFURBISHED"]).default("USED"),
-  location: z.string().min(2).default("Dunkwa-on-Offin"),
+  location: z.string().min(2, "Enter the town or location.").default("Dunkwa-on-Offin"),
   area: z.string().min(2, "Choose your area").max(80),
   pickupNote: z.string().max(240).optional().or(z.literal("")),
   stockStatus: z.enum(["AVAILABLE", "SOLD", "OUT_OF_STOCK"]).default("AVAILABLE"),
@@ -166,7 +166,7 @@ export const productSchema = z.object({
   videoUrl: mediaValue.optional().or(z.literal("")),
   seoTitle: z.string().max(80).optional().or(z.literal("")),
   seoDescription: z.string().max(160).optional().or(z.literal("")),
-  imageUrls: z.array(imageValue).min(1, "Add at least one product image").max(12),
+  imageUrls: z.array(imageValue).min(1, "Upload at least one clear photo.").max(12),
 }).refine((value) => value.priceMode === "CONTACT" || value.price > 0, {
   message: "Enter a price or choose Contact for price",
   path: ["price"],
@@ -368,7 +368,7 @@ export const marketplaceOrderSchema = z.object({
 });
 
 export const marketplaceOrderStatusSchema = z.object({
-  status: z.enum(["PAID", "READY", "DELIVERED", "CANCELLED"]),
+  status: z.enum(["REQUEST_PAYMENT", "PAID", "READY", "DELIVERED", "CANCELLED"]),
   note: z.string().max(500).optional().or(z.literal("")),
 });
 

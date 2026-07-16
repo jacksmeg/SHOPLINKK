@@ -51,3 +51,35 @@ export async function PATCH(
 
   return NextResponse.json(updated);
 }
+
+export async function DELETE(
+  _request: Request,
+  context: { params: Promise<{ id: string }> },
+) {
+  const { session, error } = await requireApiSession(["SELLER", "ADMIN"]);
+  if (error) return error;
+
+  const { id } = await context.params;
+  const order = await prisma.foodOrder.findFirst({
+    where: {
+      id,
+      store: session.user.role === "ADMIN" ? undefined : { ownerId: session.user.id },
+    },
+    include: { store: { select: { name: true } } },
+  });
+  if (!order) return jsonError("Food order not found.", 404);
+  if (!["DELIVERED", "CANCELLED"].includes(order.status)) {
+    return jsonError("Only delivered or cancelled food orders can be deleted.", 409);
+  }
+
+  await prisma.foodOrder.delete({ where: { id } });
+  await notifyUser({
+    userId: order.buyerId,
+    type: "SYSTEM",
+    title: "Food order closed",
+    body: `${order.store.name} closed a completed food order record.`,
+    href: "/buyer/orders",
+  });
+
+  return NextResponse.json({ ok: true });
+}

@@ -25,6 +25,7 @@
 /android/**/build/
 /android/*.aab
 /android/*.apk
+/android/*.idsig
 /android/*.keystore
 /android/*.jks
 /android/local.properties

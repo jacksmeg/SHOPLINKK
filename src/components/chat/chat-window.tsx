@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCheck, Paperclip, Send, ShieldAlert, X } from "lucide-react";
+import { CheckCheck, MessageSquareText, Paperclip, Send, ShieldAlert, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, useTransition, type FormEvent } from "react";
 import { uploadImage } from "@/components/forms/upload-helper";
 import { Button } from "@/components/ui/button";
@@ -60,6 +60,21 @@ declare global {
   }
 }
 
+const buyerQuickPrompts = [
+  {
+    label: "Is it available?",
+    body: "Hello, is this product still available?",
+  },
+  {
+    label: "Last price?",
+    body: "Hello, what is the last price for this product?",
+  },
+  {
+    label: "Make an offer",
+    body: "Hello, I want to make an offer for this product.",
+  },
+];
+
 function loadPusherClient() {
   if (window.Pusher) return Promise.resolve(window.Pusher);
 
@@ -97,6 +112,7 @@ export function ChatWindow({
   const [typingNames, setTypingNames] = useState<string[]>([]);
   const [pending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const typingTimerRef = useRef<number | null>(null);
   const typingActiveRef = useRef(false);
 
@@ -242,6 +258,11 @@ export function ChatWindow({
     }, 2500);
   }
 
+  function useQuickPrompt(value: string) {
+    updateBody(value);
+    window.setTimeout(() => inputRef.current?.focus(), 0);
+  }
+
   async function addAttachment(file?: File) {
     if (!file) return;
     if (attachments.length >= 4) {
@@ -285,6 +306,8 @@ export function ChatWindow({
       </div>
     );
   }
+
+  const isBuyer = data.conversation.buyer.id === currentUserId;
 
   return (
     <div className="uiverse-depth-card overflow-hidden rounded-[8px] border border-[var(--line)] bg-white shadow-lg">
@@ -364,6 +387,26 @@ export function ChatWindow({
             ))}
           </div>
         ) : null}
+        {isBuyer ? (
+          <div className="quick-chat-panel mb-3 rounded-[8px] border border-[var(--line)] bg-white p-2.5">
+            <div className="mb-2 flex items-center gap-2 text-[0.68rem] font-black uppercase tracking-[0.16em] text-[var(--brand-dark)]">
+              <MessageSquareText size={14} />
+              Quick buyer messages
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {buyerQuickPrompts.map((prompt) => (
+                <button
+                  key={prompt.label}
+                  type="button"
+                  onClick={() => useQuickPrompt(prompt.body)}
+                  className="quick-chat-chip rounded-full border border-[var(--line-strong)] bg-[var(--surface-muted)] px-3 py-2 text-xs font-black text-[var(--brand-dark)] transition"
+                >
+                  {prompt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : null}
         {notice ? <p className="mb-2 rounded-[7px] bg-[var(--brand-dark)] px-3 py-2 text-xs font-semibold text-white">{notice}</p> : null}
         <div className="grid grid-cols-[auto_1fr_auto] gap-2 rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-2">
           <label className="grid min-h-10 cursor-pointer place-items-center rounded-[7px] border border-[var(--line)] bg-white px-3 text-[var(--brand-dark)] transition hover:border-[var(--brand)]">
@@ -371,6 +414,7 @@ export function ChatWindow({
             <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" className="sr-only" onChange={(event) => addAttachment(event.target.files?.[0])} />
           </label>
           <input
+            ref={inputRef}
             value={body}
             onChange={(event) => updateBody(event.target.value)}
             placeholder="Type your message..."

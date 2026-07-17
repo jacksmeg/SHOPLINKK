@@ -116,7 +116,7 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
 
   return (
     <AuthPanel mode="login">
-      <div>
+      <div className="auth-form-motion">
         <div className="mb-5 flex justify-center lg:hidden">
           <AuthLogoMark compact />
         </div>
@@ -143,7 +143,7 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
         <form method="post" onSubmit={handleLogin} className="mt-5 grid gap-3.5">
           <label className="text-xs font-semibold text-[var(--ink)]">
             Username, email, or phone number
-            <span className="relative mt-2 block">
+            <span className="auth-input-shell relative mt-2 block">
               <UserRound className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
               <input
                 name="identifier"
@@ -163,7 +163,7 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
                 Forgot password?
               </Link>
             </span>
-            <span className="relative mt-2 block">
+            <span className="auth-input-shell relative mt-2 block">
               <LockKeyhole className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
               <input
                 name="password"
@@ -182,7 +182,7 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
               if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?callback=${encodeURIComponent(callbackUrl)}` });
             }}
             disabled={!googleEnabled}
-            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[7px] border border-[var(--line-strong)] bg-white px-5 text-xs font-semibold text-[var(--ink)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+            className="auth-google-button inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[7px] border border-[var(--line-strong)] bg-white px-5 text-xs font-semibold text-[var(--ink)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
           >
             <GoogleIcon />
             Continue with Google
@@ -194,7 +194,7 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
               {error}
             </p>
           ) : null}
-          <Button type="submit" disabled={pending} className="mt-1 w-full">
+          <Button type="submit" disabled={pending} className="auth-submit-button mt-1 w-full">
             {pending ? "Checking..." : "Sign in"}
             <ArrowRight size={16} />
           </Button>

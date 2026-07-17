@@ -5,7 +5,7 @@ import { getSession, signIn } from "next-auth/react";
 import { AlertCircle, ArrowRight, CheckCircle2, LockKeyhole, Mail, MapPin, Phone, ShoppingBag, Store, Truck, UserRound } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
-import { AuthPanel, GoogleIcon } from "@/components/auth/auth-panel";
+import { AuthLogoMark, AuthPanel, GoogleIcon } from "@/components/auth/auth-panel";
 import { TurnstileWidget } from "@/components/security/turnstile-widget";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -223,11 +223,14 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
 
   return (
     <AuthPanel mode="register">
-      <div>
+      <div className="auth-form-motion">
+        <div className="mb-5 flex justify-center lg:hidden">
+          <AuthLogoMark compact />
+        </div>
         <h1 className="text-xl font-black text-[var(--ink)]">Create account</h1>
         <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Choose how you want to join.</p>
 
-        <div className="mt-5 grid grid-cols-3 gap-1 rounded-[7px] border border-[var(--line)] bg-white p-1">
+        <div className="auth-choice-group mt-5 grid grid-cols-3 gap-1 rounded-[7px] border border-[var(--line)] bg-white p-1">
           {[
             { value: "BUYER" as const, label: "Buyer", icon: ShoppingBag },
             { value: "SELLER" as const, label: "Seller", icon: Store },
@@ -238,7 +241,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
               type="button"
               onClick={() => setRole(item.value)}
               className={cn(
-                "inline-flex min-h-9 items-center justify-center gap-2 rounded-[6px] text-xs font-semibold transition",
+                "auth-choice-button inline-flex min-h-9 items-center justify-center gap-2 rounded-[6px] text-xs font-semibold transition",
                 role === item.value ? "bg-[var(--brand-soft)] text-[var(--brand-dark)] ring-1 ring-blue-200" : "text-[var(--muted)]",
               )}
             >
@@ -250,7 +253,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
 
         <form method="post" onSubmit={handleRegister} className="mt-4 grid gap-3.5">
           {role === "SELLER" ? (
-            <div className="rounded-[8px] border border-[var(--line)] bg-white p-2">
+            <div className="auth-verify-card rounded-[8px] border border-[var(--line)] bg-white p-2">
               <p className="px-1 pb-2 text-xs font-black text-[var(--ink)]">What will you sell?</p>
               <div className="grid grid-cols-2 gap-1">
                 {[
@@ -262,7 +265,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
                     type="button"
                     onClick={() => setStoreKind(item.value)}
                     className={cn(
-                      "rounded-[7px] border p-3 text-left transition",
+                      "auth-choice-button rounded-[7px] border p-3 text-left transition",
                       storeKind === item.value
                         ? "border-[var(--brand)] bg-[var(--brand-soft)] text-[var(--brand-dark)]"
                         : "border-[var(--line)] text-[var(--muted)] hover:border-[var(--brand)]",
@@ -278,7 +281,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
 
           <label className="text-xs font-semibold text-[var(--ink)]">
             Full name
-            <span className="relative mt-2 block">
+            <span className="auth-input-shell relative mt-2 block">
               <UserRound className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
               <input name="name" autoComplete="name" required className="form-control w-full pl-10 pr-3 text-sm" />
             </span>
@@ -286,7 +289,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
 
           <label className="text-xs font-semibold text-[var(--ink)]">
             Username
-            <span className="relative mt-2 block">
+            <span className="auth-input-shell relative mt-2 block">
               <UserRound className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
               <input name="username" autoComplete="username" required minLength={3} pattern="[A-Za-z0-9_]{3,30}" placeholder="jackstudios" className="form-control w-full pl-10 pr-3 text-sm" />
             </span>
@@ -295,7 +298,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="text-xs font-semibold text-[var(--ink)]">
               Email
-              <span className="relative mt-2 block">
+              <span className="auth-input-shell relative mt-2 block">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
                 <input
                   name="email"
@@ -313,7 +316,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
             </label>
             <label className="text-xs font-semibold text-[var(--ink)]">
               Phone
-              <span className="relative mt-2 block">
+              <span className="auth-input-shell relative mt-2 block">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
                 <input
                   name="phone"
@@ -333,7 +336,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
             </label>
           </div>
 
-          <div className="grid gap-3 rounded-[8px] border border-[var(--line)] bg-white p-3 sm:grid-cols-2">
+          <div className="auth-verify-card grid gap-3 rounded-[8px] border border-[var(--line)] bg-white p-3 sm:grid-cols-2">
             <div>
               <div className="flex items-center justify-between gap-2">
                 <p className="text-xs font-black text-[var(--ink)]">Verify email</p>
@@ -369,14 +372,14 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="text-xs font-semibold text-[var(--ink)]">
               Password
-              <span className="relative mt-2 block">
+              <span className="auth-input-shell relative mt-2 block">
                 <LockKeyhole className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
                 <input name="password" type="password" autoComplete="new-password" required minLength={8} className="form-control w-full pl-10 pr-3 text-sm" />
               </span>
             </label>
             <label className="text-xs font-semibold text-[var(--ink)]">
               Confirm password
-              <span className="relative mt-2 block">
+              <span className="auth-input-shell relative mt-2 block">
                 <LockKeyhole className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
                 <input name="confirmPassword" type="password" autoComplete="new-password" required minLength={8} className="form-control w-full pl-10 pr-3 text-sm" />
               </span>
@@ -385,7 +388,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
 
           <label className="text-xs font-semibold text-[var(--ink)]">
             Location
-            <span className="relative mt-2 block">
+            <span className="auth-input-shell relative mt-2 block">
               <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
               <input name="location" defaultValue="Dunkwa-on-Offin" required className="form-control w-full pl-10 pr-3 text-sm" />
             </span>
@@ -403,7 +406,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
               if (googleEnabled) signIn("google", { callbackUrl: `/auth/complete?role=${role}&storeKind=${storeKind}` });
             }}
             disabled={!googleEnabled}
-            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[7px] border border-[var(--line-strong)] bg-white px-5 text-xs font-semibold text-[var(--ink)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+            className="auth-google-button inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[7px] border border-[var(--line-strong)] bg-white px-5 text-xs font-semibold text-[var(--ink)] transition hover:-translate-y-px hover:border-[var(--brand)] hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
           >
             <GoogleIcon />
             Continue with Google
@@ -422,7 +425,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
               {success}
             </p>
           ) : null}
-          <Button type="submit" disabled={pending || !emailProofToken || !phoneProofToken} className="mt-1 w-full">
+          <Button type="submit" disabled={pending || !emailProofToken || !phoneProofToken} className="auth-submit-button mt-1 w-full">
             {pending ? "Creating..." : "Create account"}
             <ArrowRight size={16} />
           </Button>

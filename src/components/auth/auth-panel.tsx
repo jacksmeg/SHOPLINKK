@@ -77,7 +77,7 @@ export function AuthLogoMark({ compact = false }: { compact?: boolean }) {
   const customLogo = brand.logoUrl !== fallbackLogo;
 
   return (
-    <div className="inline-flex items-center gap-2">
+    <div className="auth-logo-mark inline-flex items-center gap-2">
       <span className="grid size-10 place-items-center overflow-hidden rounded-[8px] bg-[var(--brand-soft)] shadow-sm ring-1 ring-blue-100">
         <Image
           src={brand.logoUrl}
@@ -111,7 +111,7 @@ export function AuthSidePanel({ mode }: { mode: AuthMode }) {
   const data = content[mode];
 
   return (
-    <aside className="relative hidden overflow-hidden border-b border-[var(--line)] bg-white p-5 sm:p-7 lg:block lg:border-b-0 lg:border-r lg:p-8 xl:p-10">
+    <aside className="auth-side-panel relative hidden overflow-hidden border-b border-[var(--line)] bg-white p-5 sm:p-7 lg:block lg:border-b-0 lg:border-r lg:p-8 xl:p-10">
       <div className="relative z-10 flex h-full flex-col">
         <AuthLogoMark />
         <div className="mt-7 max-w-[350px]">
@@ -121,7 +121,7 @@ export function AuthSidePanel({ mode }: { mode: AuthMode }) {
 
         <div className="mt-7 grid gap-3">
           {data.features.map((feature) => (
-            <div key={feature.title} className="flex gap-3">
+            <div key={feature.title} className="auth-feature-row flex gap-3">
               <span className="grid size-9 shrink-0 place-items-center rounded-[8px] border border-blue-100 bg-[var(--brand-soft)] text-[var(--brand)]">
                 <feature.icon size={17} strokeWidth={2.2} />
               </span>
@@ -134,7 +134,7 @@ export function AuthSidePanel({ mode }: { mode: AuthMode }) {
         </div>
 
         <div className="mt-8 hidden items-center justify-center lg:flex">
-          <div className="relative grid size-36 place-items-center rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] text-[var(--brand)]">
+          <div className="auth-visual-card relative grid size-36 place-items-center rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] text-[var(--brand)]">
             <Store size={74} strokeWidth={1.45} />
             <span className="absolute right-5 top-4 grid size-10 place-items-center rounded-full border border-blue-100 bg-white shadow-sm">
               <MapPin size={21} />
@@ -164,10 +164,10 @@ export function AuthPanel({
   mode: AuthMode;
 }) {
   return (
-    <div className="overflow-hidden rounded-[8px] border border-[var(--line)] bg-white shadow-xl">
+    <div className="auth-panel-shell overflow-hidden rounded-[8px] border border-[var(--line)] bg-white shadow-xl">
       <div className="grid min-h-0 lg:min-h-[520px] lg:grid-cols-[0.95fr_1.05fr]">
         <AuthSidePanel mode={mode} />
-        <section className="flex items-center p-4 sm:p-6 lg:p-10">
+        <section className="auth-form-side flex items-center p-4 sm:p-6 lg:p-10">
           <div className="mx-auto w-full max-w-[520px]">{children}</div>
         </section>
       </div>

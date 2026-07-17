@@ -20,6 +20,16 @@
 # production
 /build
 
+# Android / Play Store packaging
+/android/.gradle/
+/android/**/build/
+/android/*.aab
+/android/*.apk
+/android/*.keystore
+/android/*.jks
+/android/local.properties
+/android/gradle.properties.local
+
 # misc
 .DS_Store
 *.pem

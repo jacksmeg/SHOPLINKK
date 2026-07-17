@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.jackstudios.shoplinkk",
+      "sha256_cert_fingerprints": [
+        "50:CC:D7:7C:EB:42:7F:CB:48:D9:72:99:0A:06:96:02:7B:7D:E5:DC:C1:42:B3:C7:DF:33:87:BF:65:2B:71:52"
+      ]
+    }
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "packageId": "com.jackstudios.shoplinkk",
+  "host": "www.shoplinkk.com",
+  "name": "ShopLinkk",
+  "launcherName": "ShopLinkk",
+  "display": "standalone",
+  "themeColor": "#061a3a",
+  "themeColorDark": "#061a3a",
+  "navigationColor": "#061a3a",
+  "navigationColorDark": "#061a3a",
+  "navigationDividerColor": "#061a3a",
+  "navigationDividerColorDark": "#061a3a",
+  "backgroundColor": "#ffffff",
+  "enableNotifications": true,
+  "enableSiteSettingsShortcut": true,
+  "startUrl": "/",
+  "iconUrl": "https://www.shoplinkk.com/pwa/icon-512.png",
+  "maskableIconUrl": "https://www.shoplinkk.com/pwa/icon-maskable-512.png",
+  "monochromeIconUrl": "https://www.shoplinkk.com/pwa/badge-96.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "shoplinkk"
+  },
+  "appVersion": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://www.shoplinkk.com/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {
+    "locationDelegation": {
+      "enabled": true
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://www.shoplinkk.com/",
+  "minSdkVersion": 23,
+  "orientation": "portrait",
+  "fingerprints": [
+    {
+      "name": "ShopLinkk upload key",
+      "value": "50:CC:D7:7C:EB:42:7F:CB:48:D9:72:99:0A:06:96:02:7B:7D:E5:DC:C1:42:B3:C7:DF:33:87:BF:65:2B:71:52"
+    }
+  ],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "launchHandlerClientMode": "focus-existing",
+  "displayOverride": []
+}

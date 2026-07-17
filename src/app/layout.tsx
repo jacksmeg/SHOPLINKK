@@ -16,12 +16,12 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
-      { url: "/pwa/icon-48.png", sizes: "48x48", type: "image/png" },
-      { url: "/pwa/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/pwa/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/pwa/shoplinkk-logo-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/pwa/shoplinkk-logo-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/pwa/shoplinkk-logo-512.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: "/pwa/icon-192.png",
-    apple: "/pwa/icon-192.png",
+    shortcut: "/pwa/shoplinkk-logo-192.png",
+    apple: "/pwa/shoplinkk-logo-192.png",
   },
   appleWebApp: {
     capable: true,

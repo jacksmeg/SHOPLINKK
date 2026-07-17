@@ -14,9 +14,9 @@
   "enableNotifications": true,
   "enableSiteSettingsShortcut": true,
   "startUrl": "/",
-  "iconUrl": "https://www.shoplinkk.com/pwa/icon-512.png",
-  "maskableIconUrl": "https://www.shoplinkk.com/pwa/icon-maskable-512.png",
-  "monochromeIconUrl": "https://www.shoplinkk.com/pwa/badge-96.png",
+  "iconUrl": "https://www.shoplinkk.com/pwa/shoplinkk-logo-512.png",
+  "maskableIconUrl": "https://www.shoplinkk.com/pwa/shoplinkk-logo-maskable-512.png",
+  "monochromeIconUrl": "https://www.shoplinkk.com/pwa/shoplinkk-badge-96.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "./android.keystore",
@@ -44,7 +44,7 @@
   "fingerprints": [
     {
       "name": "ShopLinkk upload key",
-      "value": "50:CC:D7:7C:EB:42:7F:CB:48:D9:72:99:0A:06:96:02:7B:7D:E5:DC:C1:42:B3:C7:DF:33:87:BF:65:2B:71:52"
+      "value": "52:3D:43:78:B3:B6:97:08:43:72:44:C7:31:66:DB:E5:6B:CC:22:37:59:61:A5:88:10:2A:3F:87:52:1E:6E:7A"
     }
   ],
   "additionalTrustedOrigins": [],

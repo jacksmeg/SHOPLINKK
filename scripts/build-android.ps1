@@ -1,10 +1,10 @@
 $ErrorActionPreference = "Stop"
 
-$javaHome = "C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot"
+$javaHome = "C:\jdk17"
 $androidHome = Join-Path $env:LOCALAPPDATA "Android\Sdk"
 $secretDir = Join-Path ([Environment]::GetFolderPath("MyDocuments")) "ShopLinkk-PlayStore-Secrets"
-$secretFile = Join-Path $secretDir "UPLOAD_KEY_README.txt"
-$keyPath = Join-Path $secretDir "shoplinkk-upload-key.jks"
+$secretFile = Join-Path $secretDir "UPLOAD_KEY_V2_README.txt"
+$keyPath = Join-Path $secretDir "shoplinkk-upload-key-v2.p12"
 
 if (!(Test-Path $secretFile) -or !(Test-Path $keyPath)) {
   throw "ShopLinkk upload key not found. Ask Codex to prepare the Play Store upload key again."

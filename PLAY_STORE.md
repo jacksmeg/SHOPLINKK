@@ -10,6 +10,7 @@ ShopLinkk is prepared as a Trusted Web Activity Android app that opens the live 
 - Version name: `1.0.0`
 - Version code: `1`
 - Upload key: stored privately on this PC in `Documents/ShopLinkk-PlayStore-Secrets`
+- Upload key file: `shoplinkk-upload-key-v2.p12`
 
 ## Build The Upload File
 

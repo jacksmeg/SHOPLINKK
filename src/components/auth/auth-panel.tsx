@@ -1,23 +1,26 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   BadgeCheck,
   MapPin,
   ShieldCheck,
   ShoppingBag,
-  Store,
   UsersRound,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type AuthMode = "login" | "register";
 const fallbackLogo = "/brand/shoplinkk-default.svg";
 
 const content = {
   login: {
-    heading: "Your marketplace. Your community. Your growth.",
-    body: "ShopLinkk connects buyers and sellers across Ghana. Shop local, sell more, and grow together.",
+    heading: "Hello, Welcome",
+    body: "Don't have an account yet?",
+    actionHref: "/register",
+    actionLabel: "Create account",
     badge: "Trusted by thousands of Ghanaians",
     features: [
       {
@@ -38,8 +41,10 @@ const content = {
     ],
   },
   register: {
-    heading: "Join ShopLinkk today",
-    body: "Create your account and start buying or selling in your community.",
+    heading: "Welcome Back!",
+    body: "Already have an account?",
+    actionHref: "/login",
+    actionLabel: "Sign in",
     badge: "Dunkwa-on-Offin ready",
     features: [
       {
@@ -111,44 +116,38 @@ export function AuthSidePanel({ mode }: { mode: AuthMode }) {
   const data = content[mode];
 
   return (
-    <aside className="auth-side-panel relative hidden overflow-hidden border-b border-[var(--line)] bg-white p-5 sm:p-7 lg:block lg:border-b-0 lg:border-r lg:p-8 xl:p-10">
-      <div className="relative z-10 flex h-full flex-col">
-        <AuthLogoMark />
-        <div className="mt-7 max-w-[350px]">
-          <h2 className="text-lg font-black leading-6 text-[var(--ink)]">{data.heading}</h2>
-          <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{data.body}</p>
+    <aside className={cn("auth-side-panel relative hidden min-h-[520px] overflow-hidden p-7 text-white lg:flex lg:p-8 xl:p-10", mode === "login" ? "auth-side-panel-login" : "auth-side-panel-register")}>
+      <div className="relative z-10 flex h-full w-full flex-col items-center justify-center text-center">
+        <div className="auth-side-logo mb-7 rounded-[8px] bg-white/12 p-3 ring-1 ring-white/20">
+          <AuthLogoMark compact />
         </div>
 
-        <div className="mt-7 grid gap-3">
+        <div className="max-w-[310px]">
+          <h2 className="text-2xl font-black leading-8 text-white">{data.heading}</h2>
+          <p className="mt-2 text-xs font-semibold leading-5 text-white/82">{data.body}</p>
+          <Link href={data.actionHref} className="auth-panel-ghost-button mt-5 inline-flex min-h-10 min-w-36 items-center justify-center rounded-full border border-white/80 px-5 text-xs font-black text-white transition">
+            {data.actionLabel}
+          </Link>
+        </div>
+
+        <div className="mt-8 grid w-full max-w-[320px] grid-cols-3 gap-2">
           {data.features.map((feature) => (
-            <div key={feature.title} className="auth-feature-row flex gap-3">
-              <span className="grid size-9 shrink-0 place-items-center rounded-[8px] border border-blue-100 bg-[var(--brand-soft)] text-[var(--brand)]">
+            <div key={feature.title} className="auth-feature-row rounded-[8px] border border-white/16 bg-white/10 p-2 text-center backdrop-blur">
+              <span className="mx-auto grid size-8 place-items-center rounded-full bg-white/16 text-white">
                 <feature.icon size={17} strokeWidth={2.2} />
               </span>
-              <span>
-                <strong className="block text-xs font-black text-[var(--ink)]">{feature.title}</strong>
-                <span className="mt-0.5 block text-xs leading-5 text-[var(--muted)]">{feature.text}</span>
-              </span>
+              <strong className="mt-2 block text-[0.62rem] font-black leading-3 text-white">{feature.title}</strong>
             </div>
           ))}
         </div>
 
-        <div className="mt-8 hidden items-center justify-center lg:flex">
-          <div className="auth-visual-card relative grid size-36 place-items-center rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] text-[var(--brand)]">
-            <Store size={74} strokeWidth={1.45} />
-            <span className="absolute right-5 top-4 grid size-10 place-items-center rounded-full border border-blue-100 bg-white shadow-sm">
-              <MapPin size={21} />
-            </span>
-          </div>
-        </div>
-
-        <div className="mt-auto pt-7">
-          <div className="flex items-center justify-between gap-3 rounded-[8px] border border-[var(--line)] bg-white px-3 py-3 text-xs shadow-sm">
-            <span className="inline-flex items-center gap-2 font-bold text-[var(--ink)]">
-              <BadgeCheck size={17} className="text-[var(--gold)]" />
+        <div className="mt-7 w-full max-w-[320px]">
+          <div className="flex items-center justify-between gap-3 rounded-[8px] border border-white/16 bg-white/12 px-3 py-3 text-xs shadow-sm backdrop-blur">
+            <span className="inline-flex items-center gap-2 font-bold text-white">
+              <BadgeCheck size={17} className="text-[var(--tone-yellow)]" />
               {data.badge}
             </span>
-            <span className="rounded-full bg-[var(--brand-soft)] px-2 py-1 font-black text-[var(--brand-dark)]">10K+</span>
+            <span className="rounded-full bg-white px-2 py-1 font-black text-[var(--brand-dark)]">10K+</span>
           </div>
         </div>
       </div>
@@ -165,11 +164,12 @@ export function AuthPanel({
 }) {
   return (
     <div className="auth-panel-shell overflow-hidden rounded-[8px] border border-[var(--line)] bg-white shadow-xl">
-      <div className="grid min-h-0 lg:min-h-[520px] lg:grid-cols-[0.95fr_1.05fr]">
-        <AuthSidePanel mode={mode} />
+      <div className={cn("auth-split-grid grid min-h-0 lg:min-h-[520px] lg:grid-cols-2", mode === "register" && "auth-split-grid-register")}>
+        {mode === "login" ? <AuthSidePanel mode={mode} /> : null}
         <section className="auth-form-side flex items-center p-4 sm:p-6 lg:p-10">
           <div className="mx-auto w-full max-w-[520px]">{children}</div>
         </section>
+        {mode === "register" ? <AuthSidePanel mode={mode} /> : null}
       </div>
     </div>
   );

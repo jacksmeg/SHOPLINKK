@@ -35,6 +35,16 @@ const navItems = [
 ];
 const desktopNavItems = navItems.filter((item) => !["/safety", "/about", "/contact"].includes(item.href));
 
+type NotificationSummary = {
+  readAt: string | null;
+};
+
+type ConversationSummary = {
+  _count?: {
+    messages?: number;
+  };
+};
+
 function greeting(name?: string | null) {
   const hour = new Date().getHours();
   const label = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
@@ -42,11 +52,17 @@ function greeting(name?: string | null) {
   return firstName ? `${label}, ${firstName}` : label;
 }
 
+function badgeLabel(count: number, max = 99) {
+  return count > max ? `${max}+` : String(count);
+}
+
 export function NavBar() {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [messageCount, setMessageCount] = useState(0);
 
   useEffect(() => {
     function syncCart() {
@@ -62,6 +78,54 @@ export function NavBar() {
       window.removeEventListener("storage", syncCart);
     };
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function syncActivityCounts() {
+      if (status !== "authenticated") {
+        setNotificationCount(0);
+        setMessageCount(0);
+        return;
+      }
+
+      try {
+        const [notificationResponse, conversationResponse] = await Promise.all([
+          fetch("/api/notifications", { cache: "no-store" }),
+          fetch("/api/chat/conversations", { cache: "no-store" }),
+        ]);
+
+        const notifications = notificationResponse.ok
+          ? ((await notificationResponse.json().catch(() => [])) as NotificationSummary[])
+          : [];
+        const conversations = conversationResponse.ok
+          ? ((await conversationResponse.json().catch(() => [])) as ConversationSummary[])
+          : [];
+
+        if (cancelled) return;
+        setNotificationCount(notifications.filter((notification) => !notification.readAt).length);
+        setMessageCount(conversations.reduce((total, conversation) => total + (conversation._count?.messages ?? 0), 0));
+      } catch {
+        if (!cancelled) {
+          setNotificationCount(0);
+          setMessageCount(0);
+        }
+      }
+    }
+
+    syncActivityCounts();
+    const interval = window.setInterval(syncActivityCounts, 30000);
+    const onVisibilityChange = () => {
+      if (!document.hidden) syncActivityCounts();
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, [status, pathname]);
 
   const dashboardHref =
     session?.user.role === "ADMIN"
@@ -144,9 +208,19 @@ export function NavBar() {
               <>
                 <Link href="/notifications" className="nav-icon-button grid size-10 place-items-center rounded-[7px] text-[var(--muted)] transition hover:bg-[var(--brand-soft)] hover:text-[var(--brand)]" aria-label="Notifications">
                   <Bell size={17} />
+                  {notificationCount ? (
+                    <span className="nav-badge absolute -right-1 -top-1 grid min-w-4 place-items-center rounded-full px-1 text-[0.58rem] font-black leading-4">
+                      {badgeLabel(notificationCount)}
+                    </span>
+                  ) : null}
                 </Link>
                 <Link href="/chat" className="nav-icon-button grid size-10 place-items-center rounded-[7px] text-[var(--muted)] transition hover:bg-[var(--brand-soft)] hover:text-[var(--brand)]" aria-label="Chats">
                   <MessageCircle size={17} />
+                  {messageCount ? (
+                    <span className="nav-badge nav-badge-message absolute -right-1 -top-1 grid min-w-4 place-items-center rounded-full px-1 text-[0.58rem] font-black leading-4">
+                      {badgeLabel(messageCount)}
+                    </span>
+                  ) : null}
                 </Link>
                 <ButtonLink href={dashboardHref} variant="secondary">
                   {session.user.role === "ADMIN" ? <Shield size={16} /> : <LayoutDashboard size={16} />}
@@ -190,7 +264,14 @@ export function NavBar() {
               {status === "authenticated" ? (
                 <>
                   <Link href={dashboardHref} className="rounded-[7px] px-3 py-2.5 text-xs font-semibold text-[var(--muted)]" onClick={() => setOpen(false)}>Dashboard</Link>
-                  <Link href="/notifications" className="rounded-[7px] px-3 py-2.5 text-xs font-semibold text-[var(--muted)]" onClick={() => setOpen(false)}>Notifications</Link>
+                  <Link href="/notifications" className="relative rounded-[7px] px-3 py-2.5 text-xs font-semibold text-[var(--muted)]" onClick={() => setOpen(false)}>
+                    Notifications
+                    {notificationCount ? (
+                      <span className="nav-badge absolute right-2 top-1.5 grid min-w-4 place-items-center rounded-full px-1 text-[0.58rem] font-black leading-4">
+                        {badgeLabel(notificationCount)}
+                      </span>
+                    ) : null}
+                  </Link>
                   <button className="rounded-[7px] px-3 py-2.5 text-left text-xs font-semibold text-red-600" onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
                 </>
               ) : null}
@@ -203,6 +284,7 @@ export function NavBar() {
         <div className={cn("mx-auto grid max-w-lg", status === "authenticated" ? "grid-cols-6" : "grid-cols-5")}>
           {mobileItems.map((item) => {
             const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
+            const itemCount = item.href === "/cart" ? cartCount : item.href === "/chat" ? messageCount : 0;
             return (
               <Link
                 key={`${item.href}-${item.label}`}
@@ -215,9 +297,9 @@ export function NavBar() {
               >
                 <span className="relative">
                   <item.icon size={18} strokeWidth={active ? 2.4 : 1.8} />
-                  {item.href === "/cart" && cartCount ? (
-                    <span className="absolute -right-2 -top-2 grid min-w-4 place-items-center rounded-full bg-red-600 px-1 text-[0.58rem] font-black leading-4 text-white">
-                      {cartCount > 9 ? "9+" : cartCount}
+                  {itemCount ? (
+                    <span className={cn("absolute -right-2 -top-2 grid min-w-4 place-items-center rounded-full px-1 text-[0.58rem] font-black leading-4 text-white", item.href === "/chat" ? "nav-badge nav-badge-message" : "bg-red-600")}>
+                      {badgeLabel(itemCount, 9)}
                     </span>
                   ) : null}
                 </span>

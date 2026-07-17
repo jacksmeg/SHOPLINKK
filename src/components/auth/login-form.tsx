@@ -175,6 +175,16 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
             </span>
           </label>
           <TurnstileWidget key={turnstileReset} siteKey={turnstileSiteKey} onVerify={setTurnstileToken} />
+          {error ? (
+            <p className="flex items-start gap-2 rounded-[8px] bg-red-50 p-3 text-sm font-semibold text-red-700">
+              <AlertCircle className="mt-0.5 shrink-0" size={16} />
+              {error}
+            </p>
+          ) : null}
+          <Button type="submit" disabled={pending} className="auth-submit-button mt-1 w-full">
+            {pending ? "Checking..." : "Sign in"}
+            <ArrowRight size={16} />
+          </Button>
           <button
             type="button"
             onClick={() => {
@@ -188,16 +198,6 @@ export function LoginForm({ googleEnabled, turnstileSiteKey }: { googleEnabled: 
             Continue with Google
           </button>
           {!googleEnabled ? <p className="text-center text-xs text-[var(--muted)]">Google sign-in is not connected yet.</p> : null}
-          {error ? (
-            <p className="flex items-start gap-2 rounded-[8px] bg-red-50 p-3 text-sm font-semibold text-red-700">
-              <AlertCircle className="mt-0.5 shrink-0" size={16} />
-              {error}
-            </p>
-          ) : null}
-          <Button type="submit" disabled={pending} className="auth-submit-button mt-1 w-full">
-            {pending ? "Checking..." : "Sign in"}
-            <ArrowRight size={16} />
-          </Button>
         </form>
 
         <div className="mt-5 text-center text-xs">

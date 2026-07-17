@@ -22,6 +22,16 @@ export async function GET() {
       buyer: { select: { id: true, name: true, image: true } },
       seller: { select: { id: true, name: true, image: true } },
       messages: { take: 1, orderBy: { createdAt: "desc" } },
+      _count: {
+        select: {
+          messages: {
+            where: {
+              senderId: { not: session.user.id },
+              readAt: null,
+            },
+          },
+        },
+      },
     },
     orderBy: { updatedAt: "desc" },
   });

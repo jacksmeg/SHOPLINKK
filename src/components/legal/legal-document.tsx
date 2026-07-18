@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, FileCheck2, Scale } from "lucide-react";
+import { CalendarDays, Download, FileCheck2, Scale } from "lucide-react";
 import { LEGAL_EFFECTIVE_DATE, TERMS_VERSION } from "@/lib/legal";
 
 export type LegalSection = {
@@ -15,12 +15,16 @@ export function LegalDocument({
   introduction,
   sections,
   sources = [],
+  downloadHref,
+  downloadLabel = "Download policy",
 }: {
   eyebrow: string;
   title: string;
   introduction: string;
   sections: LegalSection[];
   sources?: { label: string; href: string }[];
+  downloadHref?: string;
+  downloadLabel?: string;
 }) {
   return (
     <div className="page-enter bg-white">
@@ -32,6 +36,11 @@ export function LegalDocument({
           <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[0.68rem] font-semibold text-[var(--muted)]">
             <span className="inline-flex items-center gap-1.5"><CalendarDays size={13} /> Effective {LEGAL_EFFECTIVE_DATE}</span>
             <span className="inline-flex items-center gap-1.5"><FileCheck2 size={13} /> Version {TERMS_VERSION}</span>
+            {downloadHref ? (
+              <Link href={downloadHref} className="inline-flex items-center gap-1.5 rounded-[7px] border border-[var(--line-strong)] bg-white px-2.5 py-1 text-[var(--brand-dark)] transition hover:border-[var(--brand)]" download>
+                <Download size={13} /> {downloadLabel}
+              </Link>
+            ) : null}
           </div>
         </div>
       </header>

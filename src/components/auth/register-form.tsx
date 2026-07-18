@@ -21,11 +21,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
   const [storeKind, setStoreKind] = useState<"GENERAL" | "FOOD">(requestedKind === "food" ? "FOOD" : "GENERAL");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [emailValue, setEmailValue] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
-  const [emailCode, setEmailCode] = useState("");
-  const [emailProofToken, setEmailProofToken] = useState("");
-  const [verifying, setVerifying] = useState<"email-send" | "email-check" | "">("");
   const [accepted, setAccepted] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileReset, setTurnstileReset] = useState(0);
@@ -62,11 +58,6 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
       return;
     }
 
-    if (!emailProofToken) {
-      setError("Verify your email before creating your account.");
-      return;
-    }
-
     startTransition(async () => {
       try {
         const response = await fetch("/api/auth/register", {
@@ -82,7 +73,6 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
             role,
             storeKind: role === "SELLER" ? storeKind : "GENERAL",
             termsAccepted: true,
-            emailProofToken,
             turnstileToken,
           }),
         });
@@ -128,50 +118,6 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
         setError("We could not reach ShopLinkk just now. Check your connection and try again.");
       }
     });
-  }
-
-  async function sendEmailCode() {
-    setError("");
-    setSuccess("");
-    setVerifying("email-send");
-    try {
-      const response = await fetch("/api/auth/preflight/email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: emailValue }),
-      });
-      const result = await response.json().catch(() => null);
-      if (!response.ok) {
-        setError(result?.message ?? "Could not send email code.");
-        return;
-      }
-      setEmailProofToken("");
-      setSuccess(result?.message ?? "Email code sent.");
-    } finally {
-      setVerifying("");
-    }
-  }
-
-  async function verifyEmailCode() {
-    setError("");
-    setSuccess("");
-    setVerifying("email-check");
-    try {
-      const response = await fetch("/api/auth/preflight/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "email", email: emailValue, code: emailCode }),
-      });
-      const result = await response.json().catch(() => null);
-      if (!response.ok) {
-        setError(result?.message ?? "Email code is not valid.");
-        return;
-      }
-      setEmailProofToken(result.proofToken ?? "");
-      setSuccess("Email verified.");
-    } finally {
-      setVerifying("");
-    }
   }
 
   return (
@@ -258,11 +204,6 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
                   type="email"
                   autoComplete="email"
                   required
-                  value={emailValue}
-                  onChange={(event) => {
-                    setEmailValue(event.target.value);
-                    setEmailProofToken("");
-                  }}
                   className="form-control w-full pl-10 pr-3 text-sm"
                 />
               </span>
@@ -288,24 +229,10 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
             </label>
           </div>
 
-          <div className="auth-verify-card grid gap-3 rounded-[8px] border border-[var(--line)] bg-white p-3">
-            <div>
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-xs font-black text-[var(--ink)]">Verify email</p>
-                {emailProofToken ? <span className="text-[0.68rem] font-black text-emerald-700">Verified</span> : null}
-              </div>
-              <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto]">
-                <input value={emailCode} onChange={(event) => setEmailCode(event.target.value)} inputMode="numeric" maxLength={6} placeholder="Email code" className="form-control px-3 text-xs" />
-                <Button type="button" variant="secondary" disabled={!emailValue || verifying === "email-send"} onClick={sendEmailCode} className="min-h-11">
-                  {verifying === "email-send" ? "Sending..." : "Send"}
-                </Button>
-              </div>
-              <Button type="button" disabled={!emailCode || verifying === "email-check"} onClick={verifyEmailCode} className="mt-2 w-full min-h-10">
-                {verifying === "email-check" ? "Checking..." : "Verify email"}
-              </Button>
-            </div>
-            <p className="text-xs leading-5 text-[var(--muted)]">
-              Phone OTP is not required during sign up. You can verify your phone later from Account Security.
+          <div className="auth-verify-card rounded-[8px] border border-[var(--line)] bg-white p-3">
+            <p className="text-xs font-black text-[var(--ink)]">Verification after signup</p>
+            <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
+              Email and phone verification are now handled inside Account Security after you enter your dashboard.
             </p>
           </div>
 
@@ -335,7 +262,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
           </label>
           <label className="flex cursor-pointer items-start gap-2.5 rounded-[7px] border border-[var(--line)] bg-[var(--surface-muted)] p-3 text-[0.68rem] leading-5 text-[var(--muted)]">
             <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} className="mt-0.5 size-4 shrink-0 accent-[var(--brand)]" />
-            <span>I agree to the <Link href="/terms" target="_blank" className="font-bold text-[var(--brand-dark)]">Terms</Link>, <Link href="/privacy" target="_blank" className="font-bold text-[var(--brand-dark)]">Privacy Policy</Link>, and <Link href="/license-agreement" target="_blank" className="font-bold text-[var(--brand-dark)]">License Agreement</Link>.</span>
+            <span>I agree to the <Link href="/terms" target="_blank" className="font-bold text-[var(--brand-dark)]">Terms</Link>, <Link href="/privacy" target="_blank" className="font-bold text-[var(--brand-dark)]">Privacy Policy</Link>, <Link href="/acceptable-use-policy" target="_blank" className="font-bold text-[var(--brand-dark)]">Acceptable Use Policy</Link>, and <Link href="/license-agreement" target="_blank" className="font-bold text-[var(--brand-dark)]">License Agreement</Link>.</span>
           </label>
           <TurnstileWidget key={turnstileReset} siteKey={turnstileSiteKey} onVerify={setTurnstileToken} />
           {error ? (
@@ -350,7 +277,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
               {success}
             </p>
           ) : null}
-          <Button type="submit" disabled={pending || !emailProofToken} className="auth-submit-button mt-1 w-full">
+          <Button type="submit" disabled={pending} className="auth-submit-button mt-1 w-full">
             {pending ? "Creating..." : "Create account"}
             <ArrowRight size={16} />
           </Button>

@@ -17,7 +17,7 @@ export async function PATCH(request: Request) {
   const { session, error } = await requireApiSession(["ADMIN"]); if (error) return error;
   const parsed = schema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return jsonError(parsed.error.issues[0]?.message ?? "Invalid platform settings");
-  if (parsed.data.requireEmailVerification && !(await getIntegrationConfig("RESEND")).enabled) return jsonError("Connect and enable Resend before requiring email verification");
+  if (parsed.data.requireEmailVerification && !(await getIntegrationConfig("RESEND")).enabled) return jsonError("Connect and enable Resend before enabling email verification reminders");
   if (parsed.data.requirePhoneVerification && !(await getIntegrationConfig("ARKESEL")).enabled) return jsonError("Connect and enable Arkesel OTP before requiring phone verification");
   const saved = await savePlatformConfig(parsed.data, session.user.id);
   await prisma.adminAuditLog.create({ data: { actorId: session.user.id, action: "PLATFORM_SETTINGS_UPDATED", targetType: "PlatformSetting", targetId: saved.id } });

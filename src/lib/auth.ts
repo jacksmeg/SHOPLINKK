@@ -8,7 +8,6 @@ import { prisma } from "@/lib/db";
 import { formatGhanaPhone } from "@/lib/ghana";
 import { getIntegrationConfig } from "@/lib/integration-settings";
 import { consumeLoginGuard } from "@/lib/login-guard";
-import { getPlatformConfig } from "@/lib/platform-settings";
 import { TERMS_VERSION } from "@/lib/legal";
 
 async function findUserForLogin(identifier: string) {
@@ -62,8 +61,7 @@ function createAuthOptions(google?: { clientId: string; clientSecret: string }):
 
         const user = await findUserForLogin(parsed.data.identifier);
 
-        const platform = await getPlatformConfig();
-        if (!user?.passwordHash || user.isBlocked || (platform.requireEmailVerification && !user.emailVerified)) {
+        if (!user?.passwordHash || user.isBlocked) {
           return null;
         }
 

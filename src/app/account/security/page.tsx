@@ -1,4 +1,4 @@
-import { AlertTriangle, Bell, Heart, MessageCircle, Search, Shield, ShoppingBag, UserRound } from "lucide-react";
+import { AlertTriangle, Bell, CheckCircle2, Heart, MessageCircle, Search, Shield, ShoppingBag, UserRound, XCircle } from "lucide-react";
 import { SecurityForms } from "@/components/account/security-forms";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { Badge } from "@/components/ui/badge";
@@ -7,7 +7,11 @@ import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-export default async function AccountSecurityPage() {
+type SearchParams = Record<string, string | string[] | undefined>;
+
+export default async function AccountSecurityPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const params = await searchParams;
+  const verifiedStatus = Array.isArray(params.verified) ? params.verified[0] : params.verified;
   const session = await requireUser();
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
@@ -55,6 +59,21 @@ export default async function AccountSecurityPage() {
       {user?.isBlocked ? (
         <div className="mb-5 rounded-[8px] border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-800">
           <strong className="inline-flex items-center gap-2"><AlertTriangle size={16} /> Account suspended:</strong> {user.suspensionReason || "Contact ShopLinkk support for details."}
+        </div>
+      ) : null}
+
+      {verifiedStatus === "success" ? (
+        <div className="mb-5 rounded-[8px] border border-blue-200 bg-blue-50 p-4 text-sm font-semibold leading-6 text-[var(--brand-dark)]">
+          <span className="inline-flex items-center gap-2"><CheckCircle2 size={16} /> Email verified successfully.</span>
+        </div>
+      ) : null}
+
+      {verifiedStatus === "expired" || verifiedStatus === "invalid" ? (
+        <div className="mb-5 rounded-[8px] border border-red-200 bg-red-50 p-4 text-sm font-semibold leading-6 text-red-800">
+          <span className="inline-flex items-center gap-2">
+            <XCircle size={16} />
+            {verifiedStatus === "expired" ? "That verification link has expired. Request a new one below." : "That verification link is not valid. Use the latest email from ShopLinkk."}
+          </span>
         </div>
       ) : null}
 

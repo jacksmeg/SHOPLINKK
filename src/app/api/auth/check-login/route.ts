@@ -4,7 +4,6 @@ import { prisma } from "@/lib/db";
 import { enforceRateLimit, jsonError } from "@/lib/api";
 import { formatGhanaPhone } from "@/lib/ghana";
 import { createLoginGuard } from "@/lib/login-guard";
-import { getPlatformConfig } from "@/lib/platform-settings";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 import { loginSchema } from "@/lib/validators";
 
@@ -45,14 +44,6 @@ export async function POST(request: Request) {
   if (user.isBlocked) {
     return NextResponse.json(
       { ok: false, message: user.suspensionReason ? `This account is blocked: ${user.suspensionReason}` : "This account has been blocked. Contact ShopLinkk support." },
-      { status: 403 },
-    );
-  }
-
-  const platform = await getPlatformConfig();
-  if (platform.requireEmailVerification && !user.emailVerified) {
-    return NextResponse.json(
-      { ok: false, message: "Your email is not verified yet. Open the verification link sent to your email." },
       { status: 403 },
     );
   }

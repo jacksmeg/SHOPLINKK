@@ -41,6 +41,7 @@ export function Footer() {
             <Link href="/safety">Safety tips</Link>
             <Link href="/terms">Terms</Link>
             <Link href="/privacy">Privacy</Link>
+            <Link href="/acceptable-use-policy">Acceptable use</Link>
             <Link href="/license-agreement">License agreement</Link>
             <Link href="/community-rules">Community rules</Link>
           </div>

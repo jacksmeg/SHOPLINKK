@@ -11,7 +11,7 @@ import { uploadImage } from "@/components/forms/upload-helper";
 const toggles: { key: keyof PlatformConfig; label: string; description: string }[] = [
   { key: "listingApproval", label: "Review listings before publishing", description: "New listings stay pending until an admin approves them." },
   { key: "allowRegistration", label: "Allow new registrations", description: "Turn this off temporarily if registration abuse is detected." },
-  { key: "requireEmailVerification", label: "Require verified email for password login", description: "Users must click the email verification link before signing in." },
+  { key: "requireEmailVerification", label: "Show email verification reminder", description: "Users now verify email from Account Security after registration. This setting does not block sign in." },
   { key: "requirePhoneVerification", label: "Require verified phone for trusted actions", description: "Use with Arkesel OTP when phone verification is ready." },
   { key: "maintenanceMode", label: "Maintenance mode", description: "Marks the platform as undergoing maintenance for deployment planning." },
 ];

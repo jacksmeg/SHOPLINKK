@@ -69,19 +69,6 @@ export async function POST(request: Request) {
     return jsonError("An account already exists with this email, username, or phone number", 409);
   }
 
-  const emailProof = await prisma.verificationToken.findUnique({
-    where: {
-      identifier_token: {
-        identifier: `signup-email-proof:${email}`,
-        token: parsed.data.emailProofToken,
-      },
-    },
-  });
-
-  if (!emailProof || emailProof.expires < new Date()) {
-    return jsonError("Verify your email before creating the account.", 428);
-  }
-
   const passwordHash = await bcrypt.hash(parsed.data.password, 12);
 
   const user = await prisma.user.create({
@@ -89,7 +76,6 @@ export async function POST(request: Request) {
       name: parsed.data.name,
       email,
       username,
-      emailVerified: new Date(),
       passwordHash,
       role: parsed.data.role,
       phone,
@@ -138,7 +124,7 @@ export async function POST(request: Request) {
   try {
     const emailContent = brandedEmail({
       title: "Welcome to ShopLinkk",
-      intro: "Your email is verified. Your ShopLinkk account is ready.",
+      intro: "Your ShopLinkk account is ready. You can verify your email and phone number from Account Security.",
       ctaLabel: "Open ShopLinkk",
       ctaUrl: appUrl("/login"),
     });
@@ -152,6 +138,6 @@ export async function POST(request: Request) {
     // The account is valid even if the welcome provider is temporarily unavailable.
   }
 
-  const loginGuard = platform.requireEmailVerification ? "" : await createLoginGuard(email);
-  return NextResponse.json({ id: user.id, role: user.role, requiresVerification: platform.requireEmailVerification, loginGuard }, { status: 201 });
+  const loginGuard = await createLoginGuard(email);
+  return NextResponse.json({ id: user.id, role: user.role, requiresVerification: false, loginGuard }, { status: 201 });
 }

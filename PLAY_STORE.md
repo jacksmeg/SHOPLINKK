@@ -7,8 +7,8 @@ ShopLinkk is prepared as a Trusted Web Activity Android app that opens the live 
 - App name: `ShopLinkk`
 - Android package name: `com.jackstudios.shoplinkk`
 - Launch URL: `https://www.shoplinkk.com/`
-- Version name: `1.0.0`
-- Version code: `1`
+- Version name: `1.0.1`
+- Version code: `2`
 - Upload key: stored privately on this PC in `Documents/ShopLinkk-PlayStore-Secrets`
 - Upload key file: `shoplinkk-upload-key-v2.p12`
 

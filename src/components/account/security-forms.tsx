@@ -10,9 +10,10 @@ type SecurityFormsProps = {
   phone?: string | null;
   emailVerified: boolean;
   phoneVerified: boolean;
+  hasPassword: boolean;
 };
 
-export function SecurityForms({ email, phone, emailVerified, phoneVerified }: SecurityFormsProps) {
+export function SecurityForms({ email, phone, emailVerified, phoneVerified, hasPassword }: SecurityFormsProps) {
   const router = useRouter();
   const [message, setMessage] = useState("");
   const [messageIsError, setMessageIsError] = useState(false);
@@ -48,9 +49,18 @@ export function SecurityForms({ email, phone, emailVerified, phoneVerified }: Se
   function changePassword(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const newPassword = String(formData.get("newPassword") ?? "");
+    const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
+    if (newPassword !== confirmPassword) {
+      setMessage("The new passwords do not match.");
+      setMessageIsError(true);
+      return;
+    }
+
     post("/api/account/change-password", {
-      currentPassword: formData.get("currentPassword"),
-      newPassword: formData.get("newPassword"),
+      currentPassword: hasPassword ? formData.get("currentPassword") : "",
+      newPassword,
     });
   }
 
@@ -137,12 +147,20 @@ export function SecurityForms({ email, phone, emailVerified, phoneVerified }: Se
       </section>
 
       <form method="post" onSubmit={changePassword} data-change-password-form="true" className="rounded-[8px] border border-[var(--line)] bg-white p-5 shadow-sm">
-        <h2 className="flex items-center gap-2 text-sm font-black text-[var(--ink)]"><KeyRound size={18} /> Change password</h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <input name="currentPassword" type="password" placeholder="Current password" required className="form-control w-full px-3 text-sm" />
-          <input name="newPassword" type="password" placeholder="New password" required className="form-control w-full px-3 text-sm" />
+        <h2 className="flex items-center gap-2 text-sm font-black text-[var(--ink)]">
+          <KeyRound size={18} /> {hasPassword ? "Change password" : "Create password"}
+        </h2>
+        <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
+          {hasPassword
+            ? "Update your password whenever you need to keep the account secure."
+            : "Your account was created with Google or another sign-in method. Add a password here if you also want email/phone login."}
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {hasPassword ? <input name="currentPassword" type="password" placeholder="Current password" required className="form-control w-full px-3 text-sm" /> : null}
+          <input name="newPassword" type="password" placeholder="New password" minLength={8} required className="form-control w-full px-3 text-sm" />
+          <input name="confirmPassword" type="password" placeholder="Confirm password" minLength={8} required className="form-control w-full px-3 text-sm" />
         </div>
-        <Button type="submit" disabled={pending} className="mt-4">Save password</Button>
+        <Button type="submit" disabled={pending} className="mt-4">{hasPassword ? "Save password" : "Create password"}</Button>
       </form>
 
       <form method="post" onSubmit={deleteRequest} className="rounded-[8px] border border-red-200 bg-white p-5 shadow-sm">

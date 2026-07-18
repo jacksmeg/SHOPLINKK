@@ -20,6 +20,7 @@ export default async function AccountSecurityPage({ searchParams }: { searchPara
       email: true,
       phone: true,
       phoneVerifiedAt: true,
+      passwordHash: true,
       isBlocked: true,
       suspensionReason: true,
       deleteRequestedAt: true,
@@ -82,6 +83,7 @@ export default async function AccountSecurityPage({ searchParams }: { searchPara
         phone={user?.phone}
         emailVerified={Boolean(user?.emailVerified)}
         phoneVerified={Boolean(user?.phoneVerifiedAt)}
+        hasPassword={Boolean(user?.passwordHash)}
       />
     </DashboardShell>
   );

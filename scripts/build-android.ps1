@@ -30,6 +30,10 @@ $env:Path = "$javaHome\bin;$androidHome\bin;$androidHome\platform-tools;$env:Pat
 Push-Location (Join-Path $PSScriptRoot "..\android")
 try {
   bubblewrap.cmd update --skipVersionUpgrade
+  $gradleFile = Join-Path (Get-Location) "app\build.gradle"
+  $gradleContent = Get-Content -LiteralPath $gradleFile -Raw
+  $gradleContent = $gradleContent -replace "targetSdkVersion\s+\d+", "targetSdkVersion 36"
+  Set-Content -LiteralPath $gradleFile -Value $gradleContent -NoNewline
   bubblewrap.cmd build --skipPwaValidation --signingKeyPath="$keyPath" --signingKeyAlias="shoplinkk"
 }
 finally {

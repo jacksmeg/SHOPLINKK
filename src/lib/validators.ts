@@ -64,17 +64,22 @@ export const loginSchema = z.object({
 });
 
 export const forgotPasswordSchema = z.object({
-  email: z.email("Enter a valid email address"),
+  identifier: z.string().trim().min(3, "Enter your email, username, or Ghana phone number"),
 });
 
 export const resetPasswordSchema = z.object({
-  email: z.email("Enter a valid email address"),
-  token: z.string().min(10),
+  email: z.email("Enter a valid email address").optional().or(z.literal("")),
+  token: z.string().min(10).optional().or(z.literal("")),
+  phone: ghanaPhoneSchema.optional().or(z.literal("")),
+  code: z.string().regex(/^[0-9]{6}$/, "Enter the 6-digit SMS code").optional().or(z.literal("")),
   password: z.string().min(8, "Use at least 8 characters"),
+}).refine((value) => Boolean(value.email && value.token) || Boolean(value.phone && value.code), {
+  message: "Use the email reset link or enter the SMS reset code",
+  path: ["token"],
 });
 
 export const changePasswordSchema = z.object({
-  currentPassword: z.string().min(1),
+  currentPassword: z.string().optional().or(z.literal("")),
   newPassword: z.string().min(8, "Use at least 8 characters"),
 });
 

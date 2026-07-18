@@ -17,7 +17,14 @@ export function ResetPasswordForm() {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const password = String(formData.get("password") ?? "");
+    const confirmPassword = String(formData.get("confirmPassword") ?? "");
     setMessage("");
+
+    if (password !== confirmPassword) {
+      setMessage("The new passwords do not match.");
+      return;
+    }
 
     startTransition(async () => {
       const response = await fetch("/api/auth/reset-password", {
@@ -26,7 +33,7 @@ export function ResetPasswordForm() {
         body: JSON.stringify({
           email,
           token,
-          password: formData.get("password"),
+          password,
         }),
       });
 
@@ -47,10 +54,17 @@ export function ResetPasswordForm() {
       <p className="mt-2 text-sm leading-6 text-[var(--muted)]">Choose a secure password.</p>
       <form method="post" onSubmit={submit} className="mt-6 grid gap-4">
         <label className="text-sm font-bold text-[var(--ink)]">
-          Password
+          New password
           <span className="relative mt-2 block">
             <LockKeyhole className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={18} />
             <input name="password" type="password" minLength={8} required className="min-h-12 w-full rounded-[8px] border border-[var(--line)] pl-10 pr-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
+          </span>
+        </label>
+        <label className="text-sm font-bold text-[var(--ink)]">
+          Confirm password
+          <span className="relative mt-2 block">
+            <LockKeyhole className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={18} />
+            <input name="confirmPassword" type="password" minLength={8} required className="min-h-12 w-full rounded-[8px] border border-[var(--line)] pl-10 pr-3 outline-none focus:border-[var(--brand)] focus:ring-4 focus:ring-blue-100" />
           </span>
         </label>
         <Button type="submit" disabled={pending} className="w-full">

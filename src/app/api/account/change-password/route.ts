@@ -21,13 +21,19 @@ export async function POST(request: Request) {
     select: { id: true, passwordHash: true },
   });
 
-  if (!user?.passwordHash) {
-    return jsonError("Password change is only available for email/password accounts");
+  if (!user) {
+    return jsonError("Account not found", 404);
   }
 
-  const valid = await bcrypt.compare(parsed.data.currentPassword, user.passwordHash);
-  if (!valid) {
-    return jsonError("Current password is incorrect", 403);
+  if (user.passwordHash) {
+    if (!parsed.data.currentPassword) {
+      return jsonError("Enter your current password", 400);
+    }
+
+    const valid = await bcrypt.compare(parsed.data.currentPassword, user.passwordHash);
+    if (!valid) {
+      return jsonError("Current password is incorrect", 403);
+    }
   }
 
   await prisma.user.update({
@@ -38,10 +44,15 @@ export async function POST(request: Request) {
   await notifyUser({
     userId: user.id,
     type: "SECURITY",
-    title: "Password changed",
-    body: "Your ShopLinkk password was changed successfully.",
+    title: user.passwordHash ? "Password changed" : "Password created",
+    body: user.passwordHash
+      ? "Your ShopLinkk password was changed successfully."
+      : "A password was added to your ShopLinkk account successfully.",
     href: "/account/security",
   });
 
-  return NextResponse.json({ ok: true, message: "Password changed successfully." });
+  return NextResponse.json({
+    ok: true,
+    message: user.passwordHash ? "Password changed successfully." : "Password created successfully.",
+  });
 }

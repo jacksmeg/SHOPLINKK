@@ -56,7 +56,6 @@ export const registerSchema = z.object({
   location: z.string().min(2).default("Dunkwa-on-Offin"),
   termsAccepted: acceptedTermsSchema,
   emailProofToken: z.string().min(10, "Verify your email first"),
-  phoneProofToken: z.string().min(10, "Verify your phone number first"),
 });
 
 export const loginSchema = z.object({

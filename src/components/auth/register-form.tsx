@@ -24,10 +24,8 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
   const [emailValue, setEmailValue] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
   const [emailCode, setEmailCode] = useState("");
-  const [phoneCode, setPhoneCode] = useState("");
   const [emailProofToken, setEmailProofToken] = useState("");
-  const [phoneProofToken, setPhoneProofToken] = useState("");
-  const [verifying, setVerifying] = useState<"email-send" | "email-check" | "phone-send" | "phone-check" | "">("");
+  const [verifying, setVerifying] = useState<"email-send" | "email-check" | "">("");
   const [accepted, setAccepted] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileReset, setTurnstileReset] = useState(0);
@@ -64,8 +62,8 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
       return;
     }
 
-    if (!emailProofToken || !phoneProofToken) {
-      setError("Verify both your email and phone number before creating your account.");
+    if (!emailProofToken) {
+      setError("Verify your email before creating your account.");
       return;
     }
 
@@ -85,7 +83,6 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
             storeKind: role === "SELLER" ? storeKind : "GENERAL",
             termsAccepted: true,
             emailProofToken,
-            phoneProofToken,
             turnstileToken,
           }),
         });
@@ -172,50 +169,6 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
       }
       setEmailProofToken(result.proofToken ?? "");
       setSuccess("Email verified.");
-    } finally {
-      setVerifying("");
-    }
-  }
-
-  async function sendPhoneCode() {
-    setError("");
-    setSuccess("");
-    setVerifying("phone-send");
-    try {
-      const response = await fetch("/api/auth/preflight/phone", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: phoneValue }),
-      });
-      const result = await response.json().catch(() => null);
-      if (!response.ok) {
-        setError(result?.message ?? "Could not send phone code.");
-        return;
-      }
-      setPhoneProofToken("");
-      setSuccess(result?.message ?? "Phone code sent.");
-    } finally {
-      setVerifying("");
-    }
-  }
-
-  async function verifyPhoneCode() {
-    setError("");
-    setSuccess("");
-    setVerifying("phone-check");
-    try {
-      const response = await fetch("/api/auth/preflight/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "phone", phone: phoneValue, code: phoneCode }),
-      });
-      const result = await response.json().catch(() => null);
-      if (!response.ok) {
-        setError(result?.message ?? "Phone code is not valid.");
-        return;
-      }
-      setPhoneProofToken(result.proofToken ?? "");
-      setSuccess("Phone verified.");
     } finally {
       setVerifying("");
     }
@@ -328,7 +281,6 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
                   value={phoneValue}
                   onChange={(event) => {
                     setPhoneValue(event.target.value);
-                    setPhoneProofToken("");
                   }}
                   className="form-control w-full pl-10 pr-3 text-sm"
                 />
@@ -336,7 +288,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
             </label>
           </div>
 
-          <div className="auth-verify-card grid gap-3 rounded-[8px] border border-[var(--line)] bg-white p-3 sm:grid-cols-2">
+          <div className="auth-verify-card grid gap-3 rounded-[8px] border border-[var(--line)] bg-white p-3">
             <div>
               <div className="flex items-center justify-between gap-2">
                 <p className="text-xs font-black text-[var(--ink)]">Verify email</p>
@@ -352,21 +304,9 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
                 {verifying === "email-check" ? "Checking..." : "Verify email"}
               </Button>
             </div>
-            <div>
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-xs font-black text-[var(--ink)]">Verify phone</p>
-                {phoneProofToken ? <span className="text-[0.68rem] font-black text-emerald-700">Verified</span> : null}
-              </div>
-              <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto]">
-                <input value={phoneCode} onChange={(event) => setPhoneCode(event.target.value)} inputMode="numeric" maxLength={6} placeholder="SMS code" className="form-control px-3 text-xs" />
-                <Button type="button" variant="secondary" disabled={!phoneValue || verifying === "phone-send"} onClick={sendPhoneCode} className="min-h-11">
-                  {verifying === "phone-send" ? "Sending..." : "Send"}
-                </Button>
-              </div>
-              <Button type="button" disabled={!phoneCode || verifying === "phone-check"} onClick={verifyPhoneCode} className="mt-2 w-full min-h-10">
-                {verifying === "phone-check" ? "Checking..." : "Verify phone"}
-              </Button>
-            </div>
+            <p className="text-xs leading-5 text-[var(--muted)]">
+              Phone OTP is not required during sign up. You can verify your phone later from Account Security.
+            </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
@@ -410,7 +350,7 @@ export function RegisterForm({ googleEnabled, turnstileSiteKey }: { googleEnable
               {success}
             </p>
           ) : null}
-          <Button type="submit" disabled={pending || !emailProofToken || !phoneProofToken} className="auth-submit-button mt-1 w-full">
+          <Button type="submit" disabled={pending || !emailProofToken} className="auth-submit-button mt-1 w-full">
             {pending ? "Creating..." : "Create account"}
             <ArrowRight size={16} />
           </Button>

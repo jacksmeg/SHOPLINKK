@@ -69,31 +69,17 @@ export async function POST(request: Request) {
     return jsonError("An account already exists with this email, username, or phone number", 409);
   }
 
-  const [emailProof, phoneProof] = await Promise.all([
-    prisma.verificationToken.findUnique({
-      where: {
-        identifier_token: {
-          identifier: `signup-email-proof:${email}`,
-          token: parsed.data.emailProofToken,
-        },
+  const emailProof = await prisma.verificationToken.findUnique({
+    where: {
+      identifier_token: {
+        identifier: `signup-email-proof:${email}`,
+        token: parsed.data.emailProofToken,
       },
-    }),
-    prisma.verificationToken.findUnique({
-      where: {
-        identifier_token: {
-          identifier: `signup-phone-proof:${phone}`,
-          token: parsed.data.phoneProofToken,
-        },
-      },
-    }),
-  ]);
+    },
+  });
 
   if (!emailProof || emailProof.expires < new Date()) {
     return jsonError("Verify your email before creating the account.", 428);
-  }
-
-  if (!phoneProof || phoneProof.expires < new Date()) {
-    return jsonError("Verify your phone number before creating the account.", 428);
   }
 
   const passwordHash = await bcrypt.hash(parsed.data.password, 12);
@@ -107,7 +93,6 @@ export async function POST(request: Request) {
       passwordHash,
       role: parsed.data.role,
       phone,
-      phoneVerifiedAt: new Date(),
       whatsapp: phone,
       location: parsed.data.location,
       termsAcceptedAt: new Date(),
@@ -153,7 +138,7 @@ export async function POST(request: Request) {
   try {
     const emailContent = brandedEmail({
       title: "Welcome to ShopLinkk",
-      intro: "Your email and phone number are verified. Your ShopLinkk account is ready.",
+      intro: "Your email is verified. Your ShopLinkk account is ready.",
       ctaLabel: "Open ShopLinkk",
       ctaUrl: appUrl("/login"),
     });

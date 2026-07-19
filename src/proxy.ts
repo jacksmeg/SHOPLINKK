@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
 
 export default withAuth(
-  function middleware(req) {
+  function proxy(req) {
     const requestId = req.headers.get("x-request-id") || crypto.randomUUID();
     const nonce = createNonce();
-    const csp = buildContentSecurityPolicy(nonce);
+    const csp = buildCsp(nonce);
     const requestHeaders = new Headers(req.headers);
     requestHeaders.set("x-nonce", nonce);
     requestHeaders.set("Content-Security-Policy", csp);
@@ -65,7 +65,7 @@ function createNonce() {
   return btoa(String.fromCharCode(...bytes));
 }
 
-function buildContentSecurityPolicy(nonce: string) {
+function buildCsp(nonce: string) {
   const production = process.env.NODE_ENV === "production";
   const scriptSources = [
     "'self'",

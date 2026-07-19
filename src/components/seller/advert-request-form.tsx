@@ -25,7 +25,7 @@ export function AdvertRequestForm({
   const [uploading, setUploading] = useState(false);
   const [pending, startTransition] = useTransition();
 
-  function useTemplate(templateId: string) {
+  function applyTemplate(templateId: string) {
     const template = advertTemplates.find((item) => item.id === templateId);
     if (!template) return;
     if (imageUrls.length >= 8 && !imageUrls.includes(template.previewUrl)) {
@@ -187,7 +187,7 @@ export function AdvertRequestForm({
             <button
               key={template.id}
               type="button"
-              onClick={() => useTemplate(template.id)}
+              onClick={() => applyTemplate(template.id)}
               className={`group overflow-hidden rounded-[8px] border bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg ${selectedTemplateId === template.id ? "border-red-600 ring-2 ring-yellow-300" : "border-orange-200"}`}
             >
               <span className="relative block aspect-[16/9] bg-red-700">

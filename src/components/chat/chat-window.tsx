@@ -258,7 +258,7 @@ export function ChatWindow({
     }, 2500);
   }
 
-  function useQuickPrompt(value: string) {
+  function applyQuickPrompt(value: string) {
     updateBody(value);
     window.setTimeout(() => inputRef.current?.focus(), 0);
   }
@@ -398,7 +398,7 @@ export function ChatWindow({
                 <button
                   key={prompt.label}
                   type="button"
-                  onClick={() => useQuickPrompt(prompt.body)}
+                  onClick={() => applyQuickPrompt(prompt.body)}
                   className="quick-chat-chip rounded-full border border-[var(--line-strong)] bg-[var(--surface-muted)] px-3 py-2 text-xs font-black text-[var(--brand-dark)] transition"
                 >
                   {prompt.label}

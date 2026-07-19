@@ -1,0 +1,62 @@
+name: ShopLinkk CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Verify app
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: shoplinkk
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d shoplinkk"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/shoplinkk?schema=public
+      NEXTAUTH_URL: http://localhost:3004
+      NEXT_PUBLIC_APP_URL: http://localhost:3004
+      NEXTAUTH_SECRET: ci-nextauth-secret-please-replace-in-production
+      INTEGRATION_ENCRYPTION_KEY: ci-integration-secret-please-replace-in-production
+      SHOPLINKK_ADMIN_EMAIL: admin@example.com
+      SHOPLINKK_ADMIN_PASSWORD: ci-admin-password-123456
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate database client
+        run: npm run db:generate
+
+      - name: Apply migrations
+        run: npm run db:deploy
+
+      - name: Check production environment shape
+        run: npm run check:prod
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build

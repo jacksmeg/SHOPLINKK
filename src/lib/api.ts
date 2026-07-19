@@ -8,6 +8,14 @@ export function jsonError(message: string, status = 400) {
   return NextResponse.json({ message }, { status });
 }
 
+function withRateLimitHeaders(response: NextResponse, result: ReturnType<typeof rateLimit>) {
+  response.headers.set("RateLimit-Limit", String(result.limit));
+  response.headers.set("RateLimit-Remaining", String(result.remaining));
+  response.headers.set("RateLimit-Reset", String(Math.ceil(result.resetAt / 1000)));
+  if (!result.allowed) response.headers.set("Retry-After", String(result.retryAfter));
+  return response;
+}
+
 export async function requireApiSession(roles?: Role[]) {
   const session = await getServerSession(await getAuthOptions());
 
@@ -32,7 +40,7 @@ export function enforceRateLimit(request: Request, scope: string, limit = 60, wi
   const result = rateLimit(requestKey(request, scope), limit, windowMs);
 
   if (!result.allowed) {
-    return jsonError("Too many requests. Please try again shortly.", 429);
+    return withRateLimitHeaders(jsonError("Too many requests. Please try again shortly.", 429), result);
   }
 
   return null;

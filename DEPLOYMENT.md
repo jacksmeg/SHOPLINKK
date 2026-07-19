@@ -164,3 +164,13 @@ localhost
 ```
 
 Then create one buyer account and one seller account with real emails, verify both, and test chat.
+
+## 8. Production Layers
+
+The app includes production security headers, CDN cache headers, readiness/liveness checks, structured logging hooks, backup/restore scripts, and GitHub Actions CI/CD workflows.
+
+Read the full runbook:
+
+```txt
+docs/production-layers.md
+```

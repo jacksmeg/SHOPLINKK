@@ -21,7 +21,8 @@
     "secret": "node -e \"console.log(require('crypto').randomBytes(32).toString('base64url'))\"",
     "push:keys": "node scripts/generate-vapid-keys.mjs",
     "check:prod": "tsx scripts/production-check.ts",
-    "backup:db": "powershell -ExecutionPolicy Bypass -File scripts/backup-postgres.ps1"
+    "backup:db": "powershell -ExecutionPolicy Bypass -File scripts/backup-postgres.ps1",
+    "restore:db": "powershell -ExecutionPolicy Bypass -File scripts/restore-postgres.ps1"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",

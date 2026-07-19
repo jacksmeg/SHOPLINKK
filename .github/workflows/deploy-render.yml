@@ -1,0 +1,25 @@
+name: Deploy to Render
+
+on:
+  workflow_run:
+    workflows: ["ShopLinkk CI"]
+    branches: [main]
+    types: [completed]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Trigger Render deploy
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    env:
+      RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+
+    steps:
+      - name: Trigger deploy hook
+        if: ${{ env.RENDER_DEPLOY_HOOK_URL != '' }}
+        run: curl -fsS -X POST "$RENDER_DEPLOY_HOOK_URL"
+
+      - name: Explain missing deploy hook
+        if: ${{ env.RENDER_DEPLOY_HOOK_URL == '' }}
+        run: echo "Add RENDER_DEPLOY_HOOK_URL in GitHub repository secrets to enable deploy hooks. Render auto-deploy can still deploy directly from main."

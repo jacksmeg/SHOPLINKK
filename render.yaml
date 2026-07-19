@@ -7,7 +7,7 @@ services:
     buildCommand: npm ci --include=dev && npm run db:generate && npm run build
     preDeployCommand: npm run db:deploy && npm run db:seed
     startCommand: npm run start
-    healthCheckPath: /api/health
+    healthCheckPath: /api/health/ready
     domains:
       - www.shoplinkk.com
     envVars:
@@ -25,9 +25,15 @@ services:
         generateValue: true
       - key: INTEGRATION_ENCRYPTION_KEY
         generateValue: true
+      - key: BACKUP_RETENTION_DAYS
+        value: "14"
       - key: SHOPLINKK_ADMIN_EMAIL
         sync: false
       - key: SHOPLINKK_ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_ALERT_EMAIL
+        sync: false
+      - key: LOG_WEBHOOK_URL
         sync: false
 
 databases:

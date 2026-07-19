@@ -7,6 +7,7 @@ This runbook explains the production layers around ShopLinkk and the provider se
 Code-level protection now includes:
 
 - Security headers in `next.config.ts`.
+- Nonce-based Content Security Policy from `middleware.ts`.
 - Strict HTTPS/HSTS in production.
 - Content Security Policy for Google OAuth, Cloudflare Turnstile, Paystack, Kora, Pusher, images, media, and app APIs.
 - Private route protection in `middleware.ts`.
@@ -14,6 +15,8 @@ Code-level protection now includes:
 - `x-robots-tag: noindex, nofollow` on admin and seller workspaces.
 - API rate-limit headers for sensitive API routes.
 - Monitoring logs scrub secrets before leaving the app.
+
+Production `script-src` does not use `unsafe-inline` or `unsafe-eval`. Page scripts receive a per-request nonce.
 
 Cloudflare settings to enable:
 

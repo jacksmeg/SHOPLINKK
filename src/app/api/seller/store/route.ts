@@ -26,10 +26,6 @@ export async function PATCH(request: Request) {
     return jsonError(parsed.error.issues[0]?.message ?? "Invalid store data");
   }
 
-  const existing = await prisma.store.findUnique({
-    where: { ownerId: session.user.id },
-  });
-
   const store = await prisma.store.upsert({
     where: { ownerId: session.user.id },
     update: parsed.data,
@@ -39,13 +35,6 @@ export async function PATCH(request: Request) {
       slug: uniqueSlug(slugify(parsed.data.name)),
     },
   });
-
-  if (existing && existing.name !== parsed.data.name) {
-    await prisma.store.update({
-      where: { id: store.id },
-      data: { slug: uniqueSlug(parsed.data.name) },
-    });
-  }
 
   return NextResponse.json(store);
 }

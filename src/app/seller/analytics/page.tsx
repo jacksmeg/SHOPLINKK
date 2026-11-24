@@ -3,38 +3,52 @@ import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { StatCard } from "@/components/ui/stat-card";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
-import { sellerLinks } from "@/lib/seller-navigation";
+import { sellerLinksForKind } from "@/lib/seller-access";
 import { formatCurrency } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 export default async function SellerAnalyticsPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
-  const [products, favorites, chats, followers, reviews, orders] = await Promise.all([
-    prisma.product.findMany({ where: { sellerId: session.user.id }, orderBy: { viewCount: "desc" }, take: 8 }),
-    prisma.favorite.count({ where: { product: { sellerId: session.user.id } } }),
-    prisma.conversation.count({ where: { sellerId: session.user.id } }),
-    prisma.storeFollower.count({ where: { store: { ownerId: session.user.id } } }),
-    prisma.review.findMany({ where: { sellerId: session.user.id } }),
-    prisma.foodOrder.findMany({ where: { store: { ownerId: session.user.id }, status: { not: "CANCELLED" } } }),
+  const sellerId = session.user.id;
+  const store = await prisma.store.findUnique({ where: { ownerId: sellerId }, select: { kind: true } });
+  const [products, favorites, chats, followers, rating, traffic, foodBuyers, marketplaceBuyers] = await Promise.all([
+    prisma.product.findMany({ where: { sellerId }, orderBy: { viewCount: "desc" }, take: 8 }),
+    prisma.favorite.count({ where: { product: { sellerId } } }),
+    prisma.conversation.count({ where: { sellerId } }),
+    prisma.storeFollower.count({ where: { store: { ownerId: sellerId } } }),
+    prisma.review.aggregate({ where: { sellerId }, _avg: { rating: true }, _count: true }),
+    prisma.storeTrafficDaily.aggregate({ where: { store: { ownerId: sellerId } }, _sum: { visits: true, whatsappClicks: true } }),
+    prisma.foodOrder.groupBy({
+      by: ["buyerId"], where: { store: { ownerId: sellerId }, status: "DELIVERED" },
+      _sum: { totalAmount: true }, _count: { _all: true },
+    }),
+    prisma.marketplaceOrder.groupBy({
+      by: ["buyerId"], where: { sellerId, status: "DELIVERED" },
+      _sum: { totalAmount: true }, _count: { _all: true },
+    }),
   ]);
 
-  const views = products.reduce((sum, product) => sum + product.viewCount, 0);
-  const revenue = orders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
-  const average = reviews.length ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : 0;
-  const conversion = views ? Math.round(((chats + orders.length) / views) * 100) : 0;
+  const buyerOrders = new Map<string, number>();
+  let revenue = 0;
+  for (const buyer of [...foodBuyers, ...marketplaceBuyers]) {
+    buyerOrders.set(buyer.buyerId, (buyerOrders.get(buyer.buyerId) ?? 0) + buyer._count._all);
+    revenue += Number(buyer._sum.totalAmount ?? 0);
+  }
+  const repeatCustomers = [...buyerOrders.values()].filter((count) => count >= 2).length;
+  const average = rating._avg.rating;
 
   return (
-    <DashboardShell eyebrow="Seller" title="Store analytics" description="Track visits, sales value, product interest, followers, reviews, and conversion rate." links={sellerLinks}>
+    <DashboardShell eyebrow="Seller" title="Store analytics" description="Track storefront visits, buyer interest, and completed sales." links={sellerLinksForKind(store?.kind)}>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Store visits" value={views} icon={Eye} helper="Product view total" tone="sea" />
-        <StatCard label="Revenue" value={formatCurrency(revenue)} icon={BarChart3} helper="Food order value" tone="pink" />
-        <StatCard label="Conversion rate" value={`${conversion}%`} icon={PackageCheck} helper="Chats + orders / views" tone="yellow" />
-        <StatCard label="Average rating" value={average ? average.toFixed(1) : "0.0"} icon={Star} helper={`${reviews.length} reviews`} tone="purple" />
+        <StatCard label="Store visits" value={traffic._sum.visits ?? 0} icon={Eye} helper="Recorded storefront opens" tone="sea" />
+        <StatCard label="Completed order value" value={formatCurrency(revenue)} icon={BarChart3} helper="Delivered orders before refunds" tone="pink" />
+        <StatCard label="WhatsApp clicks" value={traffic._sum.whatsappClicks ?? 0} icon={MessageCircle} helper="From the public storefront" tone="yellow" />
+        <StatCard label="Average rating" value={average ? average.toFixed(1) : "0.0"} icon={Star} helper={`${rating._count} reviews`} tone="purple" />
         <StatCard label="Favorites" value={favorites} icon={Heart} helper="Saved by buyers" tone="red" />
         <StatCard label="Messages" value={chats} icon={MessageCircle} helper="Buyer conversations" tone="blue" />
         <StatCard label="Followers" value={followers} icon={Users} helper="Store audience" tone="sea" />
-        <StatCard label="Repeat customers" value={orders.length} icon={PackageCheck} helper="Food orders placed" tone="pink" />
+        <StatCard label="Repeat customers" value={repeatCustomers} icon={PackageCheck} helper="Buyers with 2+ delivered orders" tone="pink" />
       </div>
       <section className="mt-5 app-panel p-4 sm:p-5">
         <h2 className="text-sm font-black text-[var(--ink)]">Top products</h2>

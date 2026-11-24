@@ -387,6 +387,7 @@ model VerificationToken {
 }
 
 model Store {
+  traffic              StoreTrafficDaily[]
   id                   String                   @id @default(cuid())
   ownerId              String                   @unique
   name                 String
@@ -1129,6 +1130,7 @@ model MarketplaceOrder {
   storeId             String?
   status              MarketplaceOrderStatus @default(PENDING_PAYMENT)
   directPaymentStatus DirectPaymentStatus    @default(AWAITING_PAYMENT)
+  stockReserved       Boolean                @default(false)
   buyerName           String?
   buyerPhone          String?
   deliveryAddress     String?
@@ -1153,6 +1155,47 @@ model MarketplaceOrder {
   @@index([sellerId, status])
   @@index([storeId, createdAt])
   @@index([directPaymentStatus, createdAt])
+}
+
+enum OrderReturnStatus {
+  REQUESTED
+  APPROVED
+  REJECTED
+  ESCALATED
+  REFUNDED
+  CLOSED
+}
+
+model OrderReturn {
+  id           String            @id @default(cuid())
+  orderKind    String
+  orderId      String
+  buyerId      String
+  sellerId     String
+  status       OrderReturnStatus @default(REQUESTED)
+  reason       String
+  sellerNote   String?
+  adminNote    String?
+  refundAmount Decimal?          @db.Decimal(12, 2)
+  refundReference String?
+  orderAmount  Decimal           @db.Decimal(12, 2)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@unique([orderKind, orderId])
+  @@index([sellerId, createdAt])
+  @@index([buyerId, createdAt])
+  @@index([status, createdAt])
+}
+
+model StoreTrafficDaily {
+  storeId        String
+  day            DateTime @db.Date
+  visits         Int      @default(0)
+  whatsappClicks Int      @default(0)
+  store          Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@id([storeId, day])
 }
 
 model MarketplaceOrderItem {

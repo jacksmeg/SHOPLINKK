@@ -375,3 +375,15 @@ export const DeliveryReportReason = {
 } as const
 
 export type DeliveryReportReason = (typeof DeliveryReportReason)[keyof typeof DeliveryReportReason]
+
+
+export const OrderReturnStatus = {
+  REQUESTED: 'REQUESTED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  ESCALATED: 'ESCALATED',
+  REFUNDED: 'REFUNDED',
+  CLOSED: 'CLOSED'
+} as const
+
+export type OrderReturnStatus = (typeof OrderReturnStatus)[keyof typeof OrderReturnStatus]

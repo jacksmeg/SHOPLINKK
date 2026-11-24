@@ -277,7 +277,7 @@ export default async function SellerOrdersPage() {
                       </ButtonLink>
                     ) : null}
                   </div>
-                  <MarketplaceOrderActions orderId={order.id} status={order.status} paymentRequested={paymentRequested} />
+                  <MarketplaceOrderActions orderId={order.id} status={order.status} paymentRequested={order.stockReserved} />
                 </article>
               );
             })}

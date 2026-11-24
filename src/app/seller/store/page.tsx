@@ -1,12 +1,13 @@
 import Image from "next/image";
-import Link from "next/link";
-import { BadgeCheck, Camera, Clock3, Globe2, MapPinned, Megaphone, MessageCircle, PackagePlus, Palette, Pencil, Phone, QrCode, Settings, Share2, ShieldCheck, Store, Truck, UserRound, Users } from "lucide-react";
+import { BadgeCheck, Camera, Clock3, Globe2, MapPinned, MessageCircle, PackagePlus, Palette, Pencil, Phone, QrCode, Settings, ShieldCheck, Store, Truck, Users } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { ShareActions } from "@/components/marketplace/share-actions";
 import { VerificationForm } from "@/components/seller/verification-form";
 import { StatCard } from "@/components/ui/stat-card";
 import { ButtonLink } from "@/components/ui/button";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
+import { appUrl } from "@/lib/email";
 import { sellerLinksForKind } from "@/lib/seller-access";
 import { formatCurrency, titleCase } from "@/lib/utils";
 
@@ -33,7 +34,8 @@ export default async function SellerStorePage() {
     prisma.review.findMany({ where: { sellerId: session.user.id }, orderBy: { createdAt: "desc" }, take: 5 }),
     prisma.foodOrder.count({ where: { store: { ownerId: session.user.id }, status: { in: ["PENDING_PAYMENT", "PAID", "PREPARING", "OUT_FOR_DELIVERY"] } } }),
   ]);
-  const publicStorePath = store ? `/stores/${store.slug}` : "/seller/store/edit";
+  const publicStorePath = store ? `/stores/${encodeURIComponent(store.slug)}` : null;
+  const publicStoreUrl = publicStorePath ? appUrl(publicStorePath) : null;
   const socialLinks =
     store?.socialLinks && typeof store.socialLinks === "object" && !Array.isArray(store.socialLinks)
       ? (store.socialLinks as { foodProfile?: FoodProfile })
@@ -74,8 +76,16 @@ export default async function SellerStorePage() {
                 <span><strong className="text-[var(--ink)]">Address:</strong> {store?.address || store?.area || "Not added"}</span>
               </div>
             </div>
-            <ButtonLink href="/seller/store/edit"><Pencil size={15} /> Edit store</ButtonLink>
+            <div className="flex flex-wrap gap-2">
+              {publicStorePath ? <ButtonLink href={publicStorePath} variant="secondary">View public store</ButtonLink> : null}
+              <ButtonLink href="/seller/store/edit"><Pencil size={15} /> Edit store</ButtonLink>
+            </div>
           </div>
+          {store && publicStoreUrl ? (
+            <div className="mt-4">
+              <ShareActions heading="Share your store" title={store.name} url={publicStoreUrl} />
+            </div>
+          ) : null}
         </div>
       </section>
 
@@ -96,7 +106,7 @@ export default async function SellerStorePage() {
               { icon: MapPinned, label: "Address and GPS area", value: store?.address || store?.area || "Not added" },
               { icon: Clock3, label: "Opening hours", value: store?.openingHours || "Not added" },
               { icon: Truck, label: "Delivery coverage", value: store?.area ? `${store.area}, ${store.location}` : "Add coverage area" },
-              { icon: Globe2, label: "Public URL", value: store ? `shoplinkk.com/store/${store.slug}` : "Create store first" },
+              { icon: Globe2, label: "Public URL", value: publicStoreUrl ?? "Create store first" },
               { icon: Palette, label: "Theme and banner", value: store?.coverUrl || store?.logoUrl ? "Brand photos added" : "Add logo and cover" },
             ].map((item) => (
               <div key={item.label} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
@@ -162,12 +172,7 @@ export default async function SellerStorePage() {
         </section>
       ) : null}
 
-      <div className="mt-5 grid gap-4 lg:grid-cols-3">
-        <Link href={publicStorePath} className="app-panel app-panel-interactive p-4 sm:p-5">
-          <Share2 className="text-[var(--brand)]" size={20} />
-          <h2 className="mt-3 text-sm font-black text-[var(--ink)]">Store SEO and sharing</h2>
-          <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Open the public store, copy the link, and share to WhatsApp, Facebook, or X.</p>
-        </Link>
+      <div className="mt-5 grid gap-4 lg:grid-cols-2">
         <div className="app-panel p-4 sm:p-5">
           <QrCode className="text-[var(--brand)]" size={20} />
           <h2 className="mt-3 text-sm font-black text-[var(--ink)]">QR code</h2>

@@ -12,7 +12,7 @@ import { CompareButton } from "@/components/marketplace/compare-button";
 import { FavoriteButton } from "@/components/marketplace/favorite-button";
 import { ProductImageGallery } from "@/components/marketplace/product-image-gallery";
 import { ProductRail } from "@/components/marketplace/product-rail";
-import { ProductShareActions } from "@/components/marketplace/product-share-actions";
+import { ShareActions } from "@/components/marketplace/share-actions";
 import { FlashSaleCountdown } from "@/components/marketplace/flash-sale-countdown";
 import { PriceAlertButton } from "@/components/marketplace/price-alert-button";
 import { ReportButton } from "@/components/marketplace/report-button";
@@ -217,7 +217,7 @@ export default async function ProductDetailPage({
           ) : null}
 
           <div className="mt-3">
-            <ProductShareActions title={product.title} url={productUrl} />
+            <ShareActions heading="Share this listing" title={product.title} url={productUrl} />
           </div>
 
           <div className="mt-5 rounded-[8px] bg-[var(--brand-soft)] p-3.5">

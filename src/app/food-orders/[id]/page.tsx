@@ -6,6 +6,8 @@ import { ButtonLink } from "@/components/ui/button";
 import { AutoRefresh } from "@/components/ui/auto-refresh";
 import { CancelFoodOrderButton } from "@/components/food/cancel-food-order-button";
 import { DirectPaymentProofForm } from "@/components/payments/direct-payment-proof-form";
+import { OrderReturnCard } from "@/components/orders/order-return-card";
+import { OrderReturnForm } from "@/components/orders/order-return-form";
 import { requireUser } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
 import { formatGhanaPhone } from "@/lib/ghana";
@@ -39,6 +41,11 @@ export default async function FoodOrderTrackerPage({ params }: { params: Promise
 
   if (!order) notFound();
 
+  const isBuyer = session.user.id === order.buyerId;
+  const returnRequest = isBuyer ? await prisma.orderReturn.findUnique({
+    where: { orderKind_orderId: { orderKind: "food", orderId: order.id } },
+  }) : null;
+
   const delivery = order.deliveries[0];
   const deliveryRequest = order.deliveryRequests[0];
   const sellerPhone = order.store.whatsapp || order.store.phone;
@@ -63,6 +70,10 @@ export default async function FoodOrderTrackerPage({ params }: { params: Promise
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
         <section className="grid gap-4">
+          {returnRequest ? <OrderReturnCard entry={returnRequest} audience="buyer" /> : null}
+          {isBuyer && !returnRequest && (order.status === "DELIVERED" || (order.status === "CANCELLED" && order.paymentConfirmedAt)) ? (
+            <div className="app-panel p-4"><OrderReturnForm target={{ kind: "food", orderId: order.id }} /></div>
+          ) : null}
           <article className="app-panel p-4 sm:p-5">
             <div className="flex items-center gap-2">
               <ChefHat className="text-[var(--brand)]" size={18} />

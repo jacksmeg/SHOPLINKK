@@ -243,6 +243,16 @@ export type FoodOrder = Prisma.FoodOrderModel
  */
 export type MarketplaceOrder = Prisma.MarketplaceOrderModel
 /**
+ * Model OrderReturn
+ *
+ */
+export type OrderReturn = Prisma.OrderReturnModel
+/**
+ * Model StoreTrafficDaily
+ *
+ */
+export type StoreTrafficDaily = Prisma.StoreTrafficDailyModel
+/**
  * Model MarketplaceOrderItem
  * 
  */

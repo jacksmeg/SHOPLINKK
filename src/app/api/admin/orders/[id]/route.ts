@@ -12,7 +12,13 @@ export async function DELETE(request: Request, context: { params: Promise<{ id: 
   if (type === "marketplace") {
     const order = await prisma.marketplaceOrder.findUnique({ where: { id }, select: { id: true } });
     if (!order) return jsonError("Marketplace order not found.", 404);
-    await prisma.marketplaceOrder.delete({ where: { id } });
+    const deleted = await prisma.marketplaceOrder.deleteMany({
+      where: {
+        id,
+        OR: [{ stockReserved: false }, { status: { in: ["DELIVERED", "CANCELLED"] } }],
+      },
+    });
+    if (!deleted.count) return jsonError("Cancel or complete this order before deleting it.", 409);
     return NextResponse.json({ ok: true, deleted: true });
   }
 

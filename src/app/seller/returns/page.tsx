@@ -1,5 +1,6 @@
 import { AlertTriangle, CheckCircle2, MessageCircle, RotateCcw, Truck } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { OrderReturnCard } from "@/components/orders/order-return-card";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { StatCard } from "@/components/ui/stat-card";
@@ -12,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 export default async function SellerReturnsPage() {
   const session = await requireRole(["SELLER", "ADMIN"]);
-  const [store, cancelledMarketplace, cancelledFood, reports, deliveryReports] = await Promise.all([
+  const [store, cancelledMarketplace, cancelledFood, reports, deliveryReports, returns] = await Promise.all([
     prisma.store.findUnique({ where: { ownerId: session.user.id }, select: { kind: true, name: true } }),
     prisma.marketplaceOrder.findMany({
       where: { sellerId: session.user.id, status: "CANCELLED" },
@@ -38,6 +39,7 @@ export default async function SellerReturnsPage() {
       orderBy: { createdAt: "desc" },
       take: 30,
     }),
+    prisma.orderReturn.findMany({ where: { sellerId: session.user.id }, orderBy: { createdAt: "desc" } }),
   ]);
 
   const cancelledValue = cancelledMarketplace.reduce((sum, order) => sum + Number(order.totalAmount), 0)
@@ -51,6 +53,11 @@ export default async function SellerReturnsPage() {
       description="Review cancelled orders, buyer complaints, delivery issues, and actions needed to protect your store reputation."
       links={sellerLinksForKind(store?.kind)}
     >
+      <section className="app-panel mb-5 p-4 sm:p-5">
+        <h2 className="text-sm font-black">Buyer return and refund requests</h2>
+        {returns.map((entry) => <OrderReturnCard key={entry.id} entry={entry} audience="seller" />)}
+        {!returns.length ? <p className="mt-2 text-xs text-[var(--muted)]">No requests yet.</p> : null}
+      </section>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Cancelled orders" value={cancelledMarketplace.length + cancelledFood.length} icon={RotateCcw} helper="Product, service, and food" tone="sea" />
         <StatCard label="Cancelled value" value={formatCurrency(cancelledValue)} icon={AlertTriangle} helper="Needs reconciliation" tone="pink" />

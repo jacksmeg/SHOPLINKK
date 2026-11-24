@@ -22,15 +22,15 @@ export async function PATCH(
     include: { store: { select: { name: true } }, seller: { select: { id: true } } },
   });
   if (!order) return jsonError("Marketplace order not found.", 404);
-  if (["DELIVERED", "CANCELLED"].includes(order.status)) {
+  if (!["PENDING_PAYMENT", "PAYMENT_SUBMITTED"].includes(order.status)) {
     return jsonError("This order can no longer receive payment updates.", 409);
   }
-  if (!order.sellerPaymentNote?.startsWith("PAYMENT_REQUESTED")) {
+  if (!order.stockReserved && order.status !== "PAYMENT_SUBMITTED") {
     return jsonError("Wait for the seller to approve the order before paying.", 409);
   }
 
-  const updated = await prisma.marketplaceOrder.update({
-    where: { id },
+  const [updated] = await prisma.marketplaceOrder.updateManyAndReturn({
+    where: { id, status: order.status, updatedAt: order.updatedAt },
     data: {
       directPaymentStatus: "SUBMITTED",
       status: order.status === "PENDING_PAYMENT" ? "PAYMENT_SUBMITTED" : order.status,
@@ -40,6 +40,7 @@ export async function PATCH(
       paymentSubmittedAt: new Date(),
     },
   });
+  if (!updated) return jsonError("The order changed. Refresh and try again.", 409);
 
   await notifyUser({
     userId: order.seller.id,

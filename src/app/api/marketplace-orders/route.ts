@@ -36,6 +36,13 @@ export async function POST(request: Request) {
     return jsonError("One or more cart items are no longer available.", 409);
   }
 
+  const holds = await prisma.marketplaceOrderItem.groupBy({
+    by: ["productId"],
+    where: { productId: { in: products.map((product) => product.id) }, order: { stockReserved: true } },
+    _sum: { quantity: true },
+  });
+  const reserved = new Map(holds.map((hold) => [hold.productId, hold._sum.quantity ?? 0]));
+
   const groups = new Map<string, {
     sellerId: string;
     storeId: string | null;
@@ -60,8 +67,9 @@ export async function POST(request: Request) {
       return jsonError(`${product.title} is contact-for-price. Chat with the seller instead.`);
     }
     const quantity = requestedItems.get(product.id) ?? 1;
-    if (product.listingType === "PRODUCT" && quantity > product.quantity) {
-      return jsonError(`Only ${product.quantity} unit(s) of ${product.title} are available.`);
+    const available = Math.max(0, product.quantity - (reserved.get(product.id) ?? 0));
+    if (product.listingType === "PRODUCT" && quantity > available) {
+      return jsonError(`Only ${available} unit(s) of ${product.title} are available.`, 409);
     }
 
     const normalizedProduct = {

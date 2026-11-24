@@ -1,21 +1,44 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChefHat, Clock, MapPin, MessageCircle, Phone, ShieldCheck, Star, Store, Users } from "lucide-react";
+import type { Metadata } from "next";
+import { cache } from "react";
+import { ChefHat, Clock, MapPin, Phone, ShieldCheck, Star, Store, Users } from "lucide-react";
 import { ProductCard } from "@/components/marketplace/product-card";
 import { BlockUserButton } from "@/components/marketplace/block-user-button";
 import { FollowStoreButton } from "@/components/marketplace/follow-store-button";
 import { FoodCard } from "@/components/marketplace/food-card";
 import { ReportButton } from "@/components/marketplace/report-button";
+import { StoreTraffic } from "@/components/marketplace/store-traffic";
 import { ReviewForm } from "@/components/marketplace/review-form";
 import { Badge } from "@/components/ui/badge";
-import { ButtonLink } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { getCurrentSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
+import { appUrl } from "@/lib/email";
 import { whatsappLink } from "@/lib/ghana";
 import { getStoreBySlug } from "@/lib/marketplace";
 import { compactDate, tradingAge } from "@/lib/utils";
+
+const getStore = cache(getStoreBySlug);
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const store = await getStore(slug);
+  if (!store) return { title: "Store not found" };
+
+  const title = store.seoTitle || store.name;
+  const description = store.seoDescription || store.description?.slice(0, 155) || `Visit ${store.name} in ${store.location} on ShopLinkk.`;
+  const image = store.coverUrl || store.logoUrl || "/pwa/shoplinkk-logo-512.png";
+  const url = appUrl(`/stores/${encodeURIComponent(store.slug)}`);
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { type: "website", url, title, description, images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
+  };
+}
 
 export default async function StorePage({
   params,
@@ -23,7 +46,7 @@ export default async function StorePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const store = await getStoreBySlug(slug);
+  const store = await getStore(slug);
 
   if (!store) {
     notFound();
@@ -95,12 +118,7 @@ export default async function StorePage({
                   canFollow={Boolean(session?.user?.id)}
                 />
               ) : null}
-              {whatsappHref ? (
-                <ButtonLink href={whatsappHref} target="_blank" rel="noreferrer" variant="secondary">
-                  <MessageCircle size={16} />
-                  WhatsApp
-                </ButtonLink>
-              ) : null}
+              <StoreTraffic storeId={store.id} whatsappHref={whatsappHref} isOwner={isStoreOwner} />
               <ReportButton reportedUserId={store.owner.id} />
               <BlockUserButton userId={store.owner.id} />
             </div>

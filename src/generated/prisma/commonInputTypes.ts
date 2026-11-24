@@ -905,6 +905,23 @@ export type EnumMarketplaceOrderStatusWithAggregatesFilter<$PrismaModel = never>
   _max?: Prisma.NestedEnumMarketplaceOrderStatusFilter<$PrismaModel>
 }
 
+export type EnumOrderReturnStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.OrderReturnStatus | Prisma.EnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.OrderReturnStatus[] | Prisma.ListEnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OrderReturnStatus[] | Prisma.ListEnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOrderReturnStatusFilter<$PrismaModel> | $Enums.OrderReturnStatus
+}
+
+export type EnumOrderReturnStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.OrderReturnStatus | Prisma.EnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.OrderReturnStatus[] | Prisma.ListEnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OrderReturnStatus[] | Prisma.ListEnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOrderReturnStatusWithAggregatesFilter<$PrismaModel> | $Enums.OrderReturnStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumOrderReturnStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumOrderReturnStatusFilter<$PrismaModel>
+}
+
 export type EnumRiderVerificationStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.RiderVerificationStatus | Prisma.EnumRiderVerificationStatusFieldRefInput<$PrismaModel>
   in?: $Enums.RiderVerificationStatus[] | Prisma.ListEnumRiderVerificationStatusFieldRefInput<$PrismaModel>
@@ -1833,6 +1850,23 @@ export type NestedEnumMarketplaceOrderStatusWithAggregatesFilter<$PrismaModel = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumMarketplaceOrderStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumMarketplaceOrderStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumOrderReturnStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.OrderReturnStatus | Prisma.EnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.OrderReturnStatus[] | Prisma.ListEnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OrderReturnStatus[] | Prisma.ListEnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOrderReturnStatusFilter<$PrismaModel> | $Enums.OrderReturnStatus
+}
+
+export type NestedEnumOrderReturnStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.OrderReturnStatus | Prisma.EnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.OrderReturnStatus[] | Prisma.ListEnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OrderReturnStatus[] | Prisma.ListEnumOrderReturnStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOrderReturnStatusWithAggregatesFilter<$PrismaModel> | $Enums.OrderReturnStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumOrderReturnStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumOrderReturnStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumRiderVerificationStatusFilter<$PrismaModel = never> = {

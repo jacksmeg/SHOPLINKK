@@ -4,43 +4,65 @@ import { Check, Copy, MessageCircle, Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
 
-export function ProductShareActions({
+export function ShareActions({
+  heading,
   title,
   url,
 }: {
+  heading: string;
   title: string;
   url: string;
 }) {
-  const [copied, setCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "manual">("idle");
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(`${title} on ShopLinkk`);
 
   useEffect(() => {
-    if (!copied) return;
-    const timeout = window.setTimeout(() => setCopied(false), 5000);
+    if (copyStatus !== "copied") return;
+    const timeout = window.setTimeout(() => setCopyStatus("idle"), 5000);
     return () => window.clearTimeout(timeout);
-  }, [copied]);
+  }, [copyStatus]);
 
   async function shareNative() {
     if (navigator.share) {
-      await navigator.share({ title, text: `Check ${title} on ShopLinkk`, url }).catch(() => null);
-      return;
+      try {
+        await navigator.share({ title, text: `Check ${title} on ShopLinkk`, url });
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      }
     }
 
     await copyLink();
   }
 
   async function copyLink() {
-    await navigator.clipboard?.writeText(url).catch(() => null);
-    setCopied(true);
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopyStatus("copied");
+    } catch {
+      setCopyStatus("manual");
+    }
   }
 
   return (
     <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-muted)] p-3">
       <div className="flex items-center justify-between gap-3">
-        <p className="text-xs font-black text-[var(--ink)]">Share this listing</p>
-        {copied ? <span className="inline-flex items-center gap-1 text-[0.68rem] font-bold text-[var(--brand-dark)]"><Check size={13} /> Copied</span> : null}
+        <h2 className="text-sm font-black text-[var(--ink)]">{heading}</h2>
+        <span role="status" className="inline-flex items-center gap-1 text-xs font-bold text-[var(--brand-dark)]">
+          {copyStatus === "copied" ? <><Check size={13} /> Link copied</> : null}
+          {copyStatus === "manual" ? "Copy the link below" : null}
+        </span>
       </div>
+      {copyStatus === "manual" ? (
+        <input
+          aria-label="Link to copy"
+          className="mt-2 w-full rounded-[7px] border border-[var(--line)] bg-white px-3 py-2 text-xs text-[var(--ink)]"
+          value={url}
+          readOnly
+          onFocus={(event) => event.currentTarget.select()}
+        />
+      ) : null}
       <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
         <Button type="button" variant="primary" onClick={shareNative} className="w-full">
           <Share2 size={15} />
@@ -48,7 +70,7 @@ export function ProductShareActions({
         </Button>
         <Button type="button" variant="secondary" onClick={copyLink} className="w-full">
           <Copy size={15} />
-          Copy
+          Copy link
         </Button>
         <ButtonLink href={`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`} target="_blank" rel="noreferrer" variant="secondary" className="w-full">
           <MessageCircle size={15} />

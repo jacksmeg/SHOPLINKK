@@ -41,6 +41,7 @@ export type MarketplaceOrderMinAggregateOutputType = {
   storeId: string | null
   status: $Enums.MarketplaceOrderStatus | null
   directPaymentStatus: $Enums.DirectPaymentStatus | null
+  stockReserved: boolean | null
   buyerName: string | null
   buyerPhone: string | null
   deliveryAddress: string | null
@@ -65,6 +66,7 @@ export type MarketplaceOrderMaxAggregateOutputType = {
   storeId: string | null
   status: $Enums.MarketplaceOrderStatus | null
   directPaymentStatus: $Enums.DirectPaymentStatus | null
+  stockReserved: boolean | null
   buyerName: string | null
   buyerPhone: string | null
   deliveryAddress: string | null
@@ -89,6 +91,7 @@ export type MarketplaceOrderCountAggregateOutputType = {
   storeId: number
   status: number
   directPaymentStatus: number
+  stockReserved: number
   buyerName: number
   buyerPhone: number
   deliveryAddress: number
@@ -123,6 +126,7 @@ export type MarketplaceOrderMinAggregateInputType = {
   storeId?: true
   status?: true
   directPaymentStatus?: true
+  stockReserved?: true
   buyerName?: true
   buyerPhone?: true
   deliveryAddress?: true
@@ -147,6 +151,7 @@ export type MarketplaceOrderMaxAggregateInputType = {
   storeId?: true
   status?: true
   directPaymentStatus?: true
+  stockReserved?: true
   buyerName?: true
   buyerPhone?: true
   deliveryAddress?: true
@@ -171,6 +176,7 @@ export type MarketplaceOrderCountAggregateInputType = {
   storeId?: true
   status?: true
   directPaymentStatus?: true
+  stockReserved?: true
   buyerName?: true
   buyerPhone?: true
   deliveryAddress?: true
@@ -282,6 +288,7 @@ export type MarketplaceOrderGroupByOutputType = {
   storeId: string | null
   status: $Enums.MarketplaceOrderStatus
   directPaymentStatus: $Enums.DirectPaymentStatus
+  stockReserved: boolean
   buyerName: string | null
   buyerPhone: string | null
   deliveryAddress: string | null
@@ -329,6 +336,7 @@ export type MarketplaceOrderWhereInput = {
   storeId?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
   status?: Prisma.EnumMarketplaceOrderStatusFilter<"MarketplaceOrder"> | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFilter<"MarketplaceOrder"> | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFilter<"MarketplaceOrder"> | boolean
   buyerName?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
   buyerPhone?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
   deliveryAddress?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
@@ -357,6 +365,7 @@ export type MarketplaceOrderOrderByWithRelationInput = {
   storeId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   directPaymentStatus?: Prisma.SortOrder
+  stockReserved?: Prisma.SortOrder
   buyerName?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryAddress?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -388,6 +397,7 @@ export type MarketplaceOrderWhereUniqueInput = Prisma.AtLeast<{
   storeId?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
   status?: Prisma.EnumMarketplaceOrderStatusFilter<"MarketplaceOrder"> | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFilter<"MarketplaceOrder"> | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFilter<"MarketplaceOrder"> | boolean
   buyerName?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
   buyerPhone?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
   deliveryAddress?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
@@ -416,6 +426,7 @@ export type MarketplaceOrderOrderByWithAggregationInput = {
   storeId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   directPaymentStatus?: Prisma.SortOrder
+  stockReserved?: Prisma.SortOrder
   buyerName?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryAddress?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -448,6 +459,7 @@ export type MarketplaceOrderScalarWhereWithAggregatesInput = {
   storeId?: Prisma.StringNullableWithAggregatesFilter<"MarketplaceOrder"> | string | null
   status?: Prisma.EnumMarketplaceOrderStatusWithAggregatesFilter<"MarketplaceOrder"> | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusWithAggregatesFilter<"MarketplaceOrder"> | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolWithAggregatesFilter<"MarketplaceOrder"> | boolean
   buyerName?: Prisma.StringNullableWithAggregatesFilter<"MarketplaceOrder"> | string | null
   buyerPhone?: Prisma.StringNullableWithAggregatesFilter<"MarketplaceOrder"> | string | null
   deliveryAddress?: Prisma.StringNullableWithAggregatesFilter<"MarketplaceOrder"> | string | null
@@ -469,6 +481,7 @@ export type MarketplaceOrderCreateInput = {
   id?: string
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -497,6 +510,7 @@ export type MarketplaceOrderUncheckedCreateInput = {
   storeId?: string | null
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -519,6 +533,7 @@ export type MarketplaceOrderUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -547,6 +562,7 @@ export type MarketplaceOrderUncheckedUpdateInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -572,6 +588,7 @@ export type MarketplaceOrderCreateManyInput = {
   storeId?: string | null
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -593,6 +610,7 @@ export type MarketplaceOrderUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -617,6 +635,7 @@ export type MarketplaceOrderUncheckedUpdateManyInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -651,6 +670,7 @@ export type MarketplaceOrderCountOrderByAggregateInput = {
   storeId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   directPaymentStatus?: Prisma.SortOrder
+  stockReserved?: Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerPhone?: Prisma.SortOrder
   deliveryAddress?: Prisma.SortOrder
@@ -679,6 +699,7 @@ export type MarketplaceOrderMaxOrderByAggregateInput = {
   storeId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   directPaymentStatus?: Prisma.SortOrder
+  stockReserved?: Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerPhone?: Prisma.SortOrder
   deliveryAddress?: Prisma.SortOrder
@@ -703,6 +724,7 @@ export type MarketplaceOrderMinOrderByAggregateInput = {
   storeId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   directPaymentStatus?: Prisma.SortOrder
+  stockReserved?: Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerPhone?: Prisma.SortOrder
   deliveryAddress?: Prisma.SortOrder
@@ -877,6 +899,7 @@ export type MarketplaceOrderCreateWithoutBuyerInput = {
   id?: string
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -903,6 +926,7 @@ export type MarketplaceOrderUncheckedCreateWithoutBuyerInput = {
   storeId?: string | null
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -935,6 +959,7 @@ export type MarketplaceOrderCreateWithoutSellerInput = {
   id?: string
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -961,6 +986,7 @@ export type MarketplaceOrderUncheckedCreateWithoutSellerInput = {
   storeId?: string | null
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -1015,6 +1041,7 @@ export type MarketplaceOrderScalarWhereInput = {
   storeId?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
   status?: Prisma.EnumMarketplaceOrderStatusFilter<"MarketplaceOrder"> | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFilter<"MarketplaceOrder"> | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFilter<"MarketplaceOrder"> | boolean
   buyerName?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
   buyerPhone?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
   deliveryAddress?: Prisma.StringNullableFilter<"MarketplaceOrder"> | string | null
@@ -1052,6 +1079,7 @@ export type MarketplaceOrderCreateWithoutStoreInput = {
   id?: string
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -1078,6 +1106,7 @@ export type MarketplaceOrderUncheckedCreateWithoutStoreInput = {
   sellerId: string
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -1126,6 +1155,7 @@ export type MarketplaceOrderCreateWithoutItemsInput = {
   id?: string
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -1153,6 +1183,7 @@ export type MarketplaceOrderUncheckedCreateWithoutItemsInput = {
   storeId?: string | null
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -1190,6 +1221,7 @@ export type MarketplaceOrderUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1217,6 +1249,7 @@ export type MarketplaceOrderUncheckedUpdateWithoutItemsInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1240,6 +1273,7 @@ export type MarketplaceOrderCreateManyBuyerInput = {
   storeId?: string | null
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -1263,6 +1297,7 @@ export type MarketplaceOrderCreateManySellerInput = {
   storeId?: string | null
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -1284,6 +1319,7 @@ export type MarketplaceOrderUpdateWithoutBuyerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1310,6 +1346,7 @@ export type MarketplaceOrderUncheckedUpdateWithoutBuyerInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1334,6 +1371,7 @@ export type MarketplaceOrderUncheckedUpdateManyWithoutBuyerInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1355,6 +1393,7 @@ export type MarketplaceOrderUpdateWithoutSellerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1381,6 +1420,7 @@ export type MarketplaceOrderUncheckedUpdateWithoutSellerInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1405,6 +1445,7 @@ export type MarketplaceOrderUncheckedUpdateManyWithoutSellerInput = {
   storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1428,6 +1469,7 @@ export type MarketplaceOrderCreateManyStoreInput = {
   sellerId: string
   status?: $Enums.MarketplaceOrderStatus
   directPaymentStatus?: $Enums.DirectPaymentStatus
+  stockReserved?: boolean
   buyerName?: string | null
   buyerPhone?: string | null
   deliveryAddress?: string | null
@@ -1449,6 +1491,7 @@ export type MarketplaceOrderUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1475,6 +1518,7 @@ export type MarketplaceOrderUncheckedUpdateWithoutStoreInput = {
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1499,6 +1543,7 @@ export type MarketplaceOrderUncheckedUpdateManyWithoutStoreInput = {
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketplaceOrderStatusFieldUpdateOperationsInput | $Enums.MarketplaceOrderStatus
   directPaymentStatus?: Prisma.EnumDirectPaymentStatusFieldUpdateOperationsInput | $Enums.DirectPaymentStatus
+  stockReserved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buyerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1554,6 +1599,7 @@ export type MarketplaceOrderSelect<ExtArgs extends runtime.Types.Extensions.Inte
   storeId?: boolean
   status?: boolean
   directPaymentStatus?: boolean
+  stockReserved?: boolean
   buyerName?: boolean
   buyerPhone?: boolean
   deliveryAddress?: boolean
@@ -1583,6 +1629,7 @@ export type MarketplaceOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   storeId?: boolean
   status?: boolean
   directPaymentStatus?: boolean
+  stockReserved?: boolean
   buyerName?: boolean
   buyerPhone?: boolean
   deliveryAddress?: boolean
@@ -1610,6 +1657,7 @@ export type MarketplaceOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   storeId?: boolean
   status?: boolean
   directPaymentStatus?: boolean
+  stockReserved?: boolean
   buyerName?: boolean
   buyerPhone?: boolean
   deliveryAddress?: boolean
@@ -1637,6 +1685,7 @@ export type MarketplaceOrderSelectScalar = {
   storeId?: boolean
   status?: boolean
   directPaymentStatus?: boolean
+  stockReserved?: boolean
   buyerName?: boolean
   buyerPhone?: boolean
   deliveryAddress?: boolean
@@ -1654,7 +1703,7 @@ export type MarketplaceOrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type MarketplaceOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buyerId" | "sellerId" | "storeId" | "status" | "directPaymentStatus" | "buyerName" | "buyerPhone" | "deliveryAddress" | "deliveryNote" | "paymentReference" | "paymentProofUrl" | "buyerPaymentNote" | "sellerPaymentNote" | "paymentSubmittedAt" | "paymentConfirmedAt" | "deliveredAt" | "cancelledAt" | "totalAmount" | "createdAt" | "updatedAt", ExtArgs["result"]["marketplaceOrder"]>
+export type MarketplaceOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buyerId" | "sellerId" | "storeId" | "status" | "directPaymentStatus" | "stockReserved" | "buyerName" | "buyerPhone" | "deliveryAddress" | "deliveryNote" | "paymentReference" | "paymentProofUrl" | "buyerPaymentNote" | "sellerPaymentNote" | "paymentSubmittedAt" | "paymentConfirmedAt" | "deliveredAt" | "cancelledAt" | "totalAmount" | "createdAt" | "updatedAt", ExtArgs["result"]["marketplaceOrder"]>
 export type MarketplaceOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1688,6 +1737,7 @@ export type $MarketplaceOrderPayload<ExtArgs extends runtime.Types.Extensions.In
     storeId: string | null
     status: $Enums.MarketplaceOrderStatus
     directPaymentStatus: $Enums.DirectPaymentStatus
+    stockReserved: boolean
     buyerName: string | null
     buyerPhone: string | null
     deliveryAddress: string | null
@@ -2136,6 +2186,7 @@ export interface MarketplaceOrderFieldRefs {
   readonly storeId: Prisma.FieldRef<"MarketplaceOrder", 'String'>
   readonly status: Prisma.FieldRef<"MarketplaceOrder", 'MarketplaceOrderStatus'>
   readonly directPaymentStatus: Prisma.FieldRef<"MarketplaceOrder", 'DirectPaymentStatus'>
+  readonly stockReserved: Prisma.FieldRef<"MarketplaceOrder", 'Boolean'>
   readonly buyerName: Prisma.FieldRef<"MarketplaceOrder", 'String'>
   readonly buyerPhone: Prisma.FieldRef<"MarketplaceOrder", 'String'>
   readonly deliveryAddress: Prisma.FieldRef<"MarketplaceOrder", 'String'>

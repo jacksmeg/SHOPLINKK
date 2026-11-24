@@ -136,7 +136,7 @@ export default async function SellerOrderDetailPage({ params }: { params: Promis
             </div>
           </div>
 
-          <MarketplaceOrderActions orderId={order.id} status={order.status} paymentRequested={paymentRequested} />
+          <MarketplaceOrderActions orderId={order.id} status={order.status} paymentRequested={order.stockReserved} />
         </section>
 
         <aside className="grid gap-4 self-start">

@@ -429,6 +429,8 @@ export const ModelName = {
   FoodMenuOption: 'FoodMenuOption',
   FoodOrder: 'FoodOrder',
   MarketplaceOrder: 'MarketplaceOrder',
+  OrderReturn: 'OrderReturn',
+  StoreTrafficDaily: 'StoreTrafficDaily',
   MarketplaceOrderItem: 'MarketplaceOrderItem',
   RiderProfile: 'RiderProfile',
   DeliveryRequest: 'DeliveryRequest',
@@ -452,7 +454,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "store" | "storeFollower" | "category" | "foodCategory" | "product" | "productImage" | "favoriteFolder" | "favorite" | "conversation" | "message" | "chatAttachment" | "report" | "blockedUser" | "sellerVerification" | "review" | "notification" | "pushSubscription" | "trustedDevice" | "savedSearch" | "comparedProduct" | "priceAlert" | "productPriceHistory" | "chatTypingStatus" | "town" | "townArea" | "productBoostRequest" | "advertImage" | "billingPackage" | "paymentTransaction" | "recentlyViewed" | "productView" | "adminNote" | "adminAuditLog" | "accountDeletionRequest" | "integrationSetting" | "platformSetting" | "foodMenuItem" | "foodMenuImage" | "foodMenuOption" | "foodOrder" | "marketplaceOrder" | "marketplaceOrderItem" | "riderProfile" | "deliveryRequest" | "delivery" | "riderLocationPing" | "riderRating" | "deliveryReport" | "foodOrderItem"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "store" | "storeFollower" | "category" | "foodCategory" | "product" | "productImage" | "favoriteFolder" | "favorite" | "conversation" | "message" | "chatAttachment" | "report" | "blockedUser" | "sellerVerification" | "review" | "notification" | "pushSubscription" | "trustedDevice" | "savedSearch" | "comparedProduct" | "priceAlert" | "productPriceHistory" | "chatTypingStatus" | "town" | "townArea" | "productBoostRequest" | "advertImage" | "billingPackage" | "paymentTransaction" | "recentlyViewed" | "productView" | "adminNote" | "adminAuditLog" | "accountDeletionRequest" | "integrationSetting" | "platformSetting" | "foodMenuItem" | "foodMenuImage" | "foodMenuOption" | "foodOrder" | "marketplaceOrder" | "orderReturn" | "storeTrafficDaily" | "marketplaceOrderItem" | "riderProfile" | "deliveryRequest" | "delivery" | "riderLocationPing" | "riderRating" | "deliveryReport" | "foodOrderItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3786,6 +3788,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OrderReturn: {
+      payload: Prisma.$OrderReturnPayload<ExtArgs>
+      fields: Prisma.OrderReturnFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OrderReturnFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OrderReturnFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload>
+        }
+        findFirst: {
+          args: Prisma.OrderReturnFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OrderReturnFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload>
+        }
+        findMany: {
+          args: Prisma.OrderReturnFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload>[]
+        }
+        create: {
+          args: Prisma.OrderReturnCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload>
+        }
+        createMany: {
+          args: Prisma.OrderReturnCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OrderReturnCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload>[]
+        }
+        delete: {
+          args: Prisma.OrderReturnDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload>
+        }
+        update: {
+          args: Prisma.OrderReturnUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload>
+        }
+        deleteMany: {
+          args: Prisma.OrderReturnDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OrderReturnUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OrderReturnUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload>[]
+        }
+        upsert: {
+          args: Prisma.OrderReturnUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderReturnPayload>
+        }
+        aggregate: {
+          args: Prisma.OrderReturnAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrderReturn>
+        }
+        groupBy: {
+          args: Prisma.OrderReturnGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrderReturnGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OrderReturnCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrderReturnCountAggregateOutputType> | number
+        }
+      }
+    }
+    StoreTrafficDaily: {
+      payload: Prisma.$StoreTrafficDailyPayload<ExtArgs>
+      fields: Prisma.StoreTrafficDailyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StoreTrafficDailyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StoreTrafficDailyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload>
+        }
+        findFirst: {
+          args: Prisma.StoreTrafficDailyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StoreTrafficDailyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload>
+        }
+        findMany: {
+          args: Prisma.StoreTrafficDailyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload>[]
+        }
+        create: {
+          args: Prisma.StoreTrafficDailyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload>
+        }
+        createMany: {
+          args: Prisma.StoreTrafficDailyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StoreTrafficDailyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload>[]
+        }
+        delete: {
+          args: Prisma.StoreTrafficDailyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload>
+        }
+        update: {
+          args: Prisma.StoreTrafficDailyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload>
+        }
+        deleteMany: {
+          args: Prisma.StoreTrafficDailyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StoreTrafficDailyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StoreTrafficDailyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload>[]
+        }
+        upsert: {
+          args: Prisma.StoreTrafficDailyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoreTrafficDailyPayload>
+        }
+        aggregate: {
+          args: Prisma.StoreTrafficDailyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStoreTrafficDaily>
+        }
+        groupBy: {
+          args: Prisma.StoreTrafficDailyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StoreTrafficDailyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StoreTrafficDailyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StoreTrafficDailyCountAggregateOutputType> | number
+        }
+      }
+    }
     MarketplaceOrderItem: {
       payload: Prisma.$MarketplaceOrderItemPayload<ExtArgs>
       fields: Prisma.MarketplaceOrderItemFieldRefs
@@ -5143,6 +5293,7 @@ export const MarketplaceOrderScalarFieldEnum = {
   storeId: 'storeId',
   status: 'status',
   directPaymentStatus: 'directPaymentStatus',
+  stockReserved: 'stockReserved',
   buyerName: 'buyerName',
   buyerPhone: 'buyerPhone',
   deliveryAddress: 'deliveryAddress',
@@ -5161,6 +5312,36 @@ export const MarketplaceOrderScalarFieldEnum = {
 } as const
 
 export type MarketplaceOrderScalarFieldEnum = (typeof MarketplaceOrderScalarFieldEnum)[keyof typeof MarketplaceOrderScalarFieldEnum]
+
+
+export const OrderReturnScalarFieldEnum = {
+  id: 'id',
+  orderKind: 'orderKind',
+  orderId: 'orderId',
+  buyerId: 'buyerId',
+  sellerId: 'sellerId',
+  status: 'status',
+  reason: 'reason',
+  sellerNote: 'sellerNote',
+  adminNote: 'adminNote',
+  refundAmount: 'refundAmount',
+  refundReference: 'refundReference',
+  orderAmount: 'orderAmount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OrderReturnScalarFieldEnum = (typeof OrderReturnScalarFieldEnum)[keyof typeof OrderReturnScalarFieldEnum]
+
+
+export const StoreTrafficDailyScalarFieldEnum = {
+  storeId: 'storeId',
+  day: 'day',
+  visits: 'visits',
+  whatsappClicks: 'whatsappClicks'
+} as const
+
+export type StoreTrafficDailyScalarFieldEnum = (typeof StoreTrafficDailyScalarFieldEnum)[keyof typeof StoreTrafficDailyScalarFieldEnum]
 
 
 export const MarketplaceOrderItemScalarFieldEnum = {
@@ -5868,6 +6049,20 @@ export type ListEnumMarketplaceOrderStatusFieldRefInput<$PrismaModel> = FieldRef
 
 
 /**
+ * Reference to a field of type 'OrderReturnStatus'
+ */
+export type EnumOrderReturnStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderReturnStatus'>
+
+
+
+/**
+ * Reference to a field of type 'OrderReturnStatus[]'
+ */
+export type ListEnumOrderReturnStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderReturnStatus[]'>
+
+
+
+/**
  * Reference to a field of type 'RiderVerificationStatus'
  */
 export type EnumRiderVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiderVerificationStatus'>
@@ -6105,6 +6300,8 @@ export type GlobalOmitConfig = {
   foodMenuOption?: Prisma.FoodMenuOptionOmit
   foodOrder?: Prisma.FoodOrderOmit
   marketplaceOrder?: Prisma.MarketplaceOrderOmit
+  orderReturn?: Prisma.OrderReturnOmit
+  storeTrafficDaily?: Prisma.StoreTrafficDailyOmit
   marketplaceOrderItem?: Prisma.MarketplaceOrderItemOmit
   riderProfile?: Prisma.RiderProfileOmit
   deliveryRequest?: Prisma.DeliveryRequestOmit

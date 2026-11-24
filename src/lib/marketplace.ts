@@ -98,6 +98,8 @@ export type PublicStore = {
   openingHours?: string | null;
   logoUrl?: string | null;
   coverUrl?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
   isVerified: boolean;
   verificationStatus?: string;
   trustScore?: number;

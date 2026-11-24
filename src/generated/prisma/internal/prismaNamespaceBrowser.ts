@@ -96,6 +96,8 @@ export const ModelName = {
   FoodMenuOption: 'FoodMenuOption',
   FoodOrder: 'FoodOrder',
   MarketplaceOrder: 'MarketplaceOrder',
+  OrderReturn: 'OrderReturn',
+  StoreTrafficDaily: 'StoreTrafficDaily',
   MarketplaceOrderItem: 'MarketplaceOrderItem',
   RiderProfile: 'RiderProfile',
   DeliveryRequest: 'DeliveryRequest',
@@ -848,6 +850,7 @@ export const MarketplaceOrderScalarFieldEnum = {
   storeId: 'storeId',
   status: 'status',
   directPaymentStatus: 'directPaymentStatus',
+  stockReserved: 'stockReserved',
   buyerName: 'buyerName',
   buyerPhone: 'buyerPhone',
   deliveryAddress: 'deliveryAddress',
@@ -866,6 +869,36 @@ export const MarketplaceOrderScalarFieldEnum = {
 } as const
 
 export type MarketplaceOrderScalarFieldEnum = (typeof MarketplaceOrderScalarFieldEnum)[keyof typeof MarketplaceOrderScalarFieldEnum]
+
+
+export const OrderReturnScalarFieldEnum = {
+  id: 'id',
+  orderKind: 'orderKind',
+  orderId: 'orderId',
+  buyerId: 'buyerId',
+  sellerId: 'sellerId',
+  status: 'status',
+  reason: 'reason',
+  sellerNote: 'sellerNote',
+  adminNote: 'adminNote',
+  refundAmount: 'refundAmount',
+  refundReference: 'refundReference',
+  orderAmount: 'orderAmount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OrderReturnScalarFieldEnum = (typeof OrderReturnScalarFieldEnum)[keyof typeof OrderReturnScalarFieldEnum]
+
+
+export const StoreTrafficDailyScalarFieldEnum = {
+  storeId: 'storeId',
+  day: 'day',
+  visits: 'visits',
+  whatsappClicks: 'whatsappClicks'
+} as const
+
+export type StoreTrafficDailyScalarFieldEnum = (typeof StoreTrafficDailyScalarFieldEnum)[keyof typeof StoreTrafficDailyScalarFieldEnum]
 
 
 export const MarketplaceOrderItemScalarFieldEnum = {

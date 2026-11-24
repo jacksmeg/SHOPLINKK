@@ -1,9 +1,11 @@
 import { ArrowLeft, ChefHat, ClipboardList, CreditCard, Megaphone, Settings, ShoppingBasket, Store, Truck } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { StoreForm } from "@/components/forms/store-form";
+import { ShareActions } from "@/components/marketplace/share-actions";
 import { ButtonLink } from "@/components/ui/button";
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/db";
+import { appUrl } from "@/lib/email";
 import { sellerFoodLinks } from "@/lib/seller-food-navigation";
 
 export const dynamic = "force-dynamic";
@@ -50,6 +52,12 @@ export default async function FoodStoreSetupPage() {
           </div>
         ))}
       </div>
+
+      {store ? (
+        <div className="mb-5">
+          <ShareActions heading="Share your store" title={store.name} url={appUrl(`/stores/${encodeURIComponent(store.slug)}`)} />
+        </div>
+      ) : null}
 
       <StoreForm store={store} preferredKind="FOOD" />
 

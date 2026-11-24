@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ChefHat, ClipboardList, MessageCircle, PackageCheck, Truck } from "lucide-react";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { OrderReturnCard } from "@/components/orders/order-return-card";
+import { OrderReturnForm } from "@/components/orders/order-return-form";
 import { DirectPaymentProofForm } from "@/components/payments/direct-payment-proof-form";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
@@ -13,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 export default async function BuyerOrdersPage() {
   const session = await requireUser();
-  const [foodOrders, marketplaceOrders, deliveries, chats] = await Promise.all([
+  const [foodOrders, marketplaceOrders, deliveries, chats, returns] = await Promise.all([
     prisma.foodOrder.findMany({ where: { buyerId: session.user.id }, include: { store: true, items: true, deliveries: { take: 1, orderBy: { createdAt: "desc" } } }, orderBy: { createdAt: "desc" }, take: 80 }),
     prisma.marketplaceOrder.findMany({
       where: { buyerId: session.user.id },
@@ -23,7 +25,11 @@ export default async function BuyerOrdersPage() {
     }),
     prisma.delivery.findMany({ where: { buyerId: session.user.id }, include: { rider: { include: { user: true } } }, orderBy: { createdAt: "desc" }, take: 40 }),
     prisma.conversation.count({ where: { buyerId: session.user.id } }),
+    prisma.orderReturn.findMany({ where: { buyerId: session.user.id }, orderBy: { createdAt: "desc" } }),
   ]);
+  const marketplaceReturns = new Map(returns.filter((entry) => entry.orderKind === "marketplace").map((entry) => [entry.orderId, entry]));
+  const visibleOrderIds = new Set(marketplaceOrders.map((order) => order.id));
+  const separateReturns = returns.filter((entry) => entry.orderKind === "food" || !visibleOrderIds.has(entry.orderId));
   const pending = foodOrders.filter((order) => ["PENDING_PAYMENT", "PAID"].includes(order.status)).length
     + marketplaceOrders.filter((order) => ["PENDING_PAYMENT", "PAYMENT_SUBMITTED"].includes(order.status)).length;
   const preparing = foodOrders.filter((order) => order.status === "PREPARING").length;
@@ -44,7 +50,8 @@ export default async function BuyerOrdersPage() {
         <h2 className="text-sm font-black text-[var(--ink)]">Marketplace direct MoMo orders</h2>
         <div className="mt-4 grid gap-3">
           {marketplaceOrders.map((order) => {
-            const paymentRequested = order.sellerPaymentNote?.startsWith("PAYMENT_REQUESTED");
+            const returnRequest = marketplaceReturns.get(order.id);
+            const paymentRequested = order.stockReserved || order.status === "PAYMENT_SUBMITTED";
             return (
               <article key={order.id} className="rounded-[8px] border border-[var(--line)] bg-white p-3">
                 <div className="flex flex-wrap items-start justify-between gap-3">
@@ -91,6 +98,10 @@ export default async function BuyerOrdersPage() {
                     />
                   </div>
                 ) : null}
+                {returnRequest ? <OrderReturnCard entry={returnRequest} audience="buyer" /> : null}
+                {!returnRequest && (order.status === "DELIVERED" || (order.status === "CANCELLED" && order.paymentConfirmedAt)) ? (
+                  <OrderReturnForm target={{ kind: "marketplace", orderId: order.id }} />
+                ) : null}
               </article>
             );
           })}
@@ -118,6 +129,12 @@ export default async function BuyerOrdersPage() {
           {!foodOrders.length ? <p className="text-xs text-[var(--muted)]">Food and delivery orders will appear here.</p> : null}
         </div>
       </section>
+      {separateReturns.length ? (
+        <section className="mt-5 app-panel p-4 sm:p-5">
+          <h2 className="text-sm font-black">Other return requests</h2>
+          {separateReturns.map((entry) => <OrderReturnCard key={entry.id} entry={entry} audience="buyer" />)}
+        </section>
+      ) : null}
     </DashboardShell>
   );
 }

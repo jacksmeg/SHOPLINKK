@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChefHat, ClipboardList, CreditCard, Truck } from "lucide-react";
 import { AdminDeleteButton } from "@/components/admin/admin-delete-button";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { OrderReturnCard } from "@/components/orders/order-return-card";
 import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/ui/stat-card";
 import { adminLinks } from "@/lib/admin-navigation";
@@ -13,15 +14,28 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminOrdersPage() {
   await requireRole(["ADMIN"]);
-  const [foodOrders, marketplaceOrders, deliveries, payments] = await Promise.all([
+  const [foodOrders, marketplaceOrders, deliveries, payments, escalatedReturns, resolvedReturns] = await Promise.all([
     prisma.foodOrder.findMany({ include: { store: true, buyer: true, items: true }, orderBy: { createdAt: "desc" }, take: 80 }),
     prisma.marketplaceOrder.findMany({ include: { store: true, buyer: true, seller: true, items: true }, orderBy: { createdAt: "desc" }, take: 80 }),
     prisma.delivery.count(),
     prisma.paymentTransaction.findMany({ orderBy: { createdAt: "desc" }, take: 20 }),
+    prisma.orderReturn.findMany({ where: { status: "ESCALATED" }, orderBy: { updatedAt: "asc" } }),
+    prisma.orderReturn.findMany({ where: { status: { in: ["REFUNDED", "CLOSED"] } }, orderBy: { updatedAt: "desc" }, take: 20 }),
   ]);
   const total = foodOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0) + marketplaceOrders.reduce((sum, order) => sum + Number(order.totalAmount), 0);
   return (
     <DashboardShell eyebrow="Admin" title="Order management" description="View marketplace orders, food orders, delivery orders, billing records, and rider assignments." links={adminLinks}>
+      <section className="app-panel mb-5 p-4 sm:p-5">
+        <h2 className="text-sm font-black">Escalated returns</h2>
+        {escalatedReturns.map((entry) => <OrderReturnCard key={entry.id} entry={entry} audience="admin" />)}
+        {!escalatedReturns.length ? <p className="mt-2 text-xs text-[var(--muted)]">No returns awaiting review.</p> : null}
+        {resolvedReturns.length ? (
+          <details className="mt-4">
+            <summary className="cursor-pointer text-xs font-bold">Recent refund and closure records</summary>
+            {resolvedReturns.map((entry) => <OrderReturnCard key={entry.id} entry={entry} audience="admin" />)}
+          </details>
+        ) : null}
+      </section>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Food orders" value={foodOrders.length} icon={ChefHat} helper="Restaurant orders" tone="sea" />
         <StatCard label="Delivery orders" value={deliveries} icon={Truck} helper="Rider delivery records" tone="pink" />

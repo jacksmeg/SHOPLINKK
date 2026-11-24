@@ -504,6 +504,7 @@ export type StoreWhereInput = {
   ratingCount?: Prisma.IntFilter<"Store"> | number
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
+  traffic?: Prisma.StoreTrafficDailyListRelationFilter
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   products?: Prisma.ProductListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
@@ -555,6 +556,7 @@ export type StoreOrderByWithRelationInput = {
   ratingCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  traffic?: Prisma.StoreTrafficDailyOrderByRelationAggregateInput
   owner?: Prisma.UserOrderByWithRelationInput
   products?: Prisma.ProductOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
@@ -609,6 +611,7 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   ratingCount?: Prisma.IntFilter<"Store"> | number
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
+  traffic?: Prisma.StoreTrafficDailyListRelationFilter
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   products?: Prisma.ProductListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
@@ -751,6 +754,7 @@ export type StoreCreateInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyCreateNestedManyWithoutStoreInput
   owner: Prisma.UserCreateNestedOneWithoutStoreInput
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
@@ -802,6 +806,7 @@ export type StoreUncheckedCreateInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedCreateNestedManyWithoutStoreInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
@@ -851,6 +856,7 @@ export type StoreUpdateInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUpdateManyWithoutStoreNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
@@ -902,6 +908,7 @@ export type StoreUncheckedUpdateInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedUpdateManyWithoutStoreNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
@@ -1359,6 +1366,20 @@ export type StoreUpdateOneWithoutMarketplaceOrdersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutMarketplaceOrdersInput, Prisma.StoreUpdateWithoutMarketplaceOrdersInput>, Prisma.StoreUncheckedUpdateWithoutMarketplaceOrdersInput>
 }
 
+export type StoreCreateNestedOneWithoutTrafficInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutTrafficInput, Prisma.StoreUncheckedCreateWithoutTrafficInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutTrafficInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneRequiredWithoutTrafficNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutTrafficInput, Prisma.StoreUncheckedCreateWithoutTrafficInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutTrafficInput
+  upsert?: Prisma.StoreUpsertWithoutTrafficInput
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutTrafficInput, Prisma.StoreUpdateWithoutTrafficInput>, Prisma.StoreUncheckedUpdateWithoutTrafficInput>
+}
+
 export type StoreCreateNestedOneWithoutDeliveryRequestsInput = {
   create?: Prisma.XOR<Prisma.StoreCreateWithoutDeliveryRequestsInput, Prisma.StoreUncheckedCreateWithoutDeliveryRequestsInput>
   connectOrCreate?: Prisma.StoreCreateOrConnectWithoutDeliveryRequestsInput
@@ -1414,6 +1435,7 @@ export type StoreCreateWithoutOwnerInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyCreateNestedManyWithoutStoreInput
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationCreateNestedManyWithoutStoreInput
@@ -1463,6 +1485,7 @@ export type StoreUncheckedCreateWithoutOwnerInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedCreateNestedManyWithoutStoreInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
@@ -1528,6 +1551,7 @@ export type StoreUpdateWithoutOwnerInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUpdateManyWithoutStoreNestedInput
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUpdateManyWithoutStoreNestedInput
@@ -1577,6 +1601,7 @@ export type StoreUncheckedUpdateWithoutOwnerInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedUpdateManyWithoutStoreNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
@@ -1626,6 +1651,7 @@ export type StoreCreateWithoutFollowersInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyCreateNestedManyWithoutStoreInput
   owner: Prisma.UserCreateNestedOneWithoutStoreInput
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
@@ -1676,6 +1702,7 @@ export type StoreUncheckedCreateWithoutFollowersInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedCreateNestedManyWithoutStoreInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
@@ -1740,6 +1767,7 @@ export type StoreUpdateWithoutFollowersInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUpdateManyWithoutStoreNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
@@ -1790,6 +1818,7 @@ export type StoreUncheckedUpdateWithoutFollowersInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedUpdateManyWithoutStoreNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
@@ -1838,6 +1867,7 @@ export type StoreCreateWithoutProductsInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyCreateNestedManyWithoutStoreInput
   owner: Prisma.UserCreateNestedOneWithoutStoreInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationCreateNestedManyWithoutStoreInput
@@ -1888,6 +1918,7 @@ export type StoreUncheckedCreateWithoutProductsInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
@@ -1952,6 +1983,7 @@ export type StoreUpdateWithoutProductsInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUpdateManyWithoutStoreNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUpdateManyWithoutStoreNestedInput
@@ -2002,6 +2034,7 @@ export type StoreUncheckedUpdateWithoutProductsInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
@@ -2050,6 +2083,7 @@ export type StoreCreateWithoutVerificationRequestsInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyCreateNestedManyWithoutStoreInput
   owner: Prisma.UserCreateNestedOneWithoutStoreInput
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
@@ -2100,6 +2134,7 @@ export type StoreUncheckedCreateWithoutVerificationRequestsInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedCreateNestedManyWithoutStoreInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
@@ -2164,6 +2199,7 @@ export type StoreUpdateWithoutVerificationRequestsInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUpdateManyWithoutStoreNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
@@ -2214,6 +2250,7 @@ export type StoreUncheckedUpdateWithoutVerificationRequestsInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedUpdateManyWithoutStoreNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
@@ -2262,6 +2299,7 @@ export type StoreCreateWithoutReviewsInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyCreateNestedManyWithoutStoreInput
   owner: Prisma.UserCreateNestedOneWithoutStoreInput
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationCreateNestedManyWithoutStoreInput
@@ -2312,6 +2350,7 @@ export type StoreUncheckedCreateWithoutReviewsInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedCreateNestedManyWithoutStoreInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
@@ -2376,6 +2415,7 @@ export type StoreUpdateWithoutReviewsInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUpdateManyWithoutStoreNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUpdateManyWithoutStoreNestedInput
@@ -2426,6 +2466,7 @@ export type StoreUncheckedUpdateWithoutReviewsInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedUpdateManyWithoutStoreNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
@@ -2474,6 +2515,7 @@ export type StoreCreateWithoutFoodMenuItemsInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyCreateNestedManyWithoutStoreInput
   owner: Prisma.UserCreateNestedOneWithoutStoreInput
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
@@ -2524,6 +2566,7 @@ export type StoreUncheckedCreateWithoutFoodMenuItemsInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedCreateNestedManyWithoutStoreInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
@@ -2588,6 +2631,7 @@ export type StoreUpdateWithoutFoodMenuItemsInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUpdateManyWithoutStoreNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
@@ -2638,6 +2682,7 @@ export type StoreUncheckedUpdateWithoutFoodMenuItemsInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedUpdateManyWithoutStoreNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
@@ -2686,6 +2731,7 @@ export type StoreCreateWithoutFoodOrdersInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyCreateNestedManyWithoutStoreInput
   owner: Prisma.UserCreateNestedOneWithoutStoreInput
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
@@ -2736,6 +2782,7 @@ export type StoreUncheckedCreateWithoutFoodOrdersInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedCreateNestedManyWithoutStoreInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
@@ -2800,6 +2847,7 @@ export type StoreUpdateWithoutFoodOrdersInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUpdateManyWithoutStoreNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
@@ -2850,6 +2898,7 @@ export type StoreUncheckedUpdateWithoutFoodOrdersInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedUpdateManyWithoutStoreNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
@@ -2898,6 +2947,7 @@ export type StoreCreateWithoutMarketplaceOrdersInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyCreateNestedManyWithoutStoreInput
   owner: Prisma.UserCreateNestedOneWithoutStoreInput
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
@@ -2948,6 +2998,7 @@ export type StoreUncheckedCreateWithoutMarketplaceOrdersInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedCreateNestedManyWithoutStoreInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
@@ -3012,6 +3063,7 @@ export type StoreUpdateWithoutMarketplaceOrdersInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUpdateManyWithoutStoreNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
@@ -3062,11 +3114,228 @@ export type StoreUncheckedUpdateWithoutMarketplaceOrdersInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedUpdateManyWithoutStoreNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
   foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
   foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutStoreNestedInput
+  followers?: Prisma.StoreFollowerUncheckedUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreCreateWithoutTrafficInput = {
+  id?: string
+  name: string
+  slug: string
+  kind?: $Enums.StoreKind
+  description?: string | null
+  email?: string | null
+  phone?: string | null
+  whatsapp?: string | null
+  momoNumber?: string | null
+  location?: string
+  area?: string | null
+  address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
+  openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
+  logoUrl?: string | null
+  coverUrl?: string | null
+  isVerified?: boolean
+  verificationStatus?: $Enums.SellerVerificationStatus
+  responseRate?: number
+  trustScore?: number
+  ratingAverage?: number
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutStoreInput
+  products?: Prisma.ProductCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
+  verificationRequests?: Prisma.SellerVerificationCreateNestedManyWithoutStoreInput
+  foodMenuItems?: Prisma.FoodMenuItemCreateNestedManyWithoutStoreInput
+  foodOrders?: Prisma.FoodOrderCreateNestedManyWithoutStoreInput
+  marketplaceOrders?: Prisma.MarketplaceOrderCreateNestedManyWithoutStoreInput
+  followers?: Prisma.StoreFollowerCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutTrafficInput = {
+  id?: string
+  ownerId: string
+  name: string
+  slug: string
+  kind?: $Enums.StoreKind
+  description?: string | null
+  email?: string | null
+  phone?: string | null
+  whatsapp?: string | null
+  momoNumber?: string | null
+  location?: string
+  area?: string | null
+  address?: string | null
+  gpsLatitude?: number | null
+  gpsLongitude?: number | null
+  openingHours?: string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: string | null
+  announcementBanner?: string | null
+  accentColor?: string | null
+  storeTheme?: string | null
+  acceptOrders?: boolean
+  vacationMode?: boolean
+  deliveryAvailable?: boolean
+  pickupAvailable?: boolean
+  chatEnabled?: boolean
+  callsEnabled?: boolean
+  seoTitle?: string | null
+  seoDescription?: string | null
+  logoUrl?: string | null
+  coverUrl?: string | null
+  isVerified?: boolean
+  verificationStatus?: $Enums.SellerVerificationStatus
+  responseRate?: number
+  trustScore?: number
+  ratingAverage?: number
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
+  verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
+  foodMenuItems?: Prisma.FoodMenuItemUncheckedCreateNestedManyWithoutStoreInput
+  foodOrders?: Prisma.FoodOrderUncheckedCreateNestedManyWithoutStoreInput
+  marketplaceOrders?: Prisma.MarketplaceOrderUncheckedCreateNestedManyWithoutStoreInput
+  followers?: Prisma.StoreFollowerUncheckedCreateNestedManyWithoutStoreInput
+  deliveryRequests?: Prisma.DeliveryRequestUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutTrafficInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutTrafficInput, Prisma.StoreUncheckedCreateWithoutTrafficInput>
+}
+
+export type StoreUpsertWithoutTrafficInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutTrafficInput, Prisma.StoreUncheckedUpdateWithoutTrafficInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutTrafficInput, Prisma.StoreUncheckedCreateWithoutTrafficInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutTrafficInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutTrafficInput, Prisma.StoreUncheckedUpdateWithoutTrafficInput>
+}
+
+export type StoreUpdateWithoutTrafficInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationStatus?: Prisma.EnumSellerVerificationStatusFieldUpdateOperationsInput | $Enums.SellerVerificationStatus
+  responseRate?: Prisma.IntFieldUpdateOperationsInput | number
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
+  products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
+  verificationRequests?: Prisma.SellerVerificationUpdateManyWithoutStoreNestedInput
+  foodMenuItems?: Prisma.FoodMenuItemUpdateManyWithoutStoreNestedInput
+  foodOrders?: Prisma.FoodOrderUpdateManyWithoutStoreNestedInput
+  marketplaceOrders?: Prisma.MarketplaceOrderUpdateManyWithoutStoreNestedInput
+  followers?: Prisma.StoreFollowerUpdateManyWithoutStoreNestedInput
+  deliveryRequests?: Prisma.DeliveryRequestUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutTrafficInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.EnumStoreKindFieldUpdateOperationsInput | $Enums.StoreKind
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  momoNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  area?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpsLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpsLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  deliveryCoverage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeTheme?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptOrders?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vacationMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deliveryAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pickupAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  chatEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  callsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationStatus?: Prisma.EnumSellerVerificationStatusFieldUpdateOperationsInput | $Enums.SellerVerificationStatus
+  responseRate?: Prisma.IntFieldUpdateOperationsInput | number
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingAverage?: Prisma.FloatFieldUpdateOperationsInput | number
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
+  verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
+  foodMenuItems?: Prisma.FoodMenuItemUncheckedUpdateManyWithoutStoreNestedInput
+  foodOrders?: Prisma.FoodOrderUncheckedUpdateManyWithoutStoreNestedInput
+  marketplaceOrders?: Prisma.MarketplaceOrderUncheckedUpdateManyWithoutStoreNestedInput
   followers?: Prisma.StoreFollowerUncheckedUpdateManyWithoutStoreNestedInput
   deliveryRequests?: Prisma.DeliveryRequestUncheckedUpdateManyWithoutStoreNestedInput
 }
@@ -3110,6 +3379,7 @@ export type StoreCreateWithoutDeliveryRequestsInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyCreateNestedManyWithoutStoreInput
   owner: Prisma.UserCreateNestedOneWithoutStoreInput
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
@@ -3160,6 +3430,7 @@ export type StoreUncheckedCreateWithoutDeliveryRequestsInput = {
   ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedCreateNestedManyWithoutStoreInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
   verificationRequests?: Prisma.SellerVerificationUncheckedCreateNestedManyWithoutStoreInput
@@ -3224,6 +3495,7 @@ export type StoreUpdateWithoutDeliveryRequestsInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUpdateManyWithoutStoreNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
@@ -3274,6 +3546,7 @@ export type StoreUncheckedUpdateWithoutDeliveryRequestsInput = {
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traffic?: Prisma.StoreTrafficDailyUncheckedUpdateManyWithoutStoreNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
   verificationRequests?: Prisma.SellerVerificationUncheckedUpdateManyWithoutStoreNestedInput
@@ -3289,6 +3562,7 @@ export type StoreUncheckedUpdateWithoutDeliveryRequestsInput = {
  */
 
 export type StoreCountOutputType = {
+  traffic: number
   products: number
   reviews: number
   verificationRequests: number
@@ -3300,6 +3574,7 @@ export type StoreCountOutputType = {
 }
 
 export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  traffic?: boolean | StoreCountOutputTypeCountTrafficArgs
   products?: boolean | StoreCountOutputTypeCountProductsArgs
   reviews?: boolean | StoreCountOutputTypeCountReviewsArgs
   verificationRequests?: boolean | StoreCountOutputTypeCountVerificationRequestsArgs
@@ -3318,6 +3593,13 @@ export type StoreCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
    * Select specific fields to fetch from the StoreCountOutputType
    */
   select?: Prisma.StoreCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountTrafficArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StoreTrafficDailyWhereInput
 }
 
 /**
@@ -3417,6 +3699,7 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   ratingCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  traffic?: boolean | Prisma.Store$trafficArgs<ExtArgs>
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   products?: boolean | Prisma.Store$productsArgs<ExtArgs>
   reviews?: boolean | Prisma.Store$reviewsArgs<ExtArgs>
@@ -3559,6 +3842,7 @@ export type StoreSelectScalar = {
 
 export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "name" | "slug" | "kind" | "description" | "email" | "phone" | "whatsapp" | "momoNumber" | "location" | "area" | "address" | "gpsLatitude" | "gpsLongitude" | "openingHours" | "socialLinks" | "deliveryCoverage" | "announcementBanner" | "accentColor" | "storeTheme" | "acceptOrders" | "vacationMode" | "deliveryAvailable" | "pickupAvailable" | "chatEnabled" | "callsEnabled" | "seoTitle" | "seoDescription" | "logoUrl" | "coverUrl" | "isVerified" | "verificationStatus" | "responseRate" | "trustScore" | "ratingAverage" | "ratingCount" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
 export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  traffic?: boolean | Prisma.Store$trafficArgs<ExtArgs>
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   products?: boolean | Prisma.Store$productsArgs<ExtArgs>
   reviews?: boolean | Prisma.Store$reviewsArgs<ExtArgs>
@@ -3580,6 +3864,7 @@ export type StoreIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Store"
   objects: {
+    traffic: Prisma.$StoreTrafficDailyPayload<ExtArgs>[]
     owner: Prisma.$UserPayload<ExtArgs>
     products: Prisma.$ProductPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
@@ -4024,6 +4309,7 @@ readonly fields: StoreFieldRefs;
  */
 export interface Prisma__StoreClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  traffic<T extends Prisma.Store$trafficArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$trafficArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoreTrafficDailyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   products<T extends Prisma.Store$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Store$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4499,6 +4785,30 @@ export type StoreDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Stores to delete.
    */
   limit?: number
+}
+
+/**
+ * Store.traffic
+ */
+export type Store$trafficArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoreTrafficDaily
+   */
+  select?: Prisma.StoreTrafficDailySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StoreTrafficDaily
+   */
+  omit?: Prisma.StoreTrafficDailyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoreTrafficDailyInclude<ExtArgs> | null
+  where?: Prisma.StoreTrafficDailyWhereInput
+  orderBy?: Prisma.StoreTrafficDailyOrderByWithRelationInput | Prisma.StoreTrafficDailyOrderByWithRelationInput[]
+  cursor?: Prisma.StoreTrafficDailyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StoreTrafficDailyScalarFieldEnum | Prisma.StoreTrafficDailyScalarFieldEnum[]
 }
 
 /**
